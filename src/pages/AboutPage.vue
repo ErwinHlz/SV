@@ -10,6 +10,24 @@
       style="width: 100%">
     </div>
   </section>
+  <section class="widgetShell">
+    <h2>letzte und nächste spiele</h2>
+    <div
+      class="fussballde_widget"
+      data-id="3bddcced-1dbc-4f7b-baf1-ed4126600967"
+      data-type="team-matches"
+      style="width: 100%">
+    </div>
+  </section>
+  <section class="widgetShell">
+    <h2>Spielberichte</h2>
+    <div
+      class="fussballde_widget"
+      data-id="add4de41-6c00-4bcc-b8a4-fbfe9ba93ff0"
+      data-type="news"
+      style="width: 100%">
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -22,6 +40,5 @@ import HeroComponent from "../components/HeroComponent.vue";
   margin: 0 auto;
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid #ddd;
 }
 </style>
