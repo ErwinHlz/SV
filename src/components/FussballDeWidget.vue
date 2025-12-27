@@ -1,29 +1,12 @@
-<template>
-  <div :id="containerId"></div>
-</template>
+<script
+  type="text/javascript"
+  src="https://www.fussball.de/widgets.js"></script>
 
-<script setup>
-import { onMounted, nextTick } from "vue";
-
-const props = defineProps({
-  widgetKey: { type: String, required: true }, // kommt aus dem Widget-Center
-  containerId: { type: String, required: true }, // eindeutig pro Widget
-});
-
-function renderWidget() {
-  const api = window.fussballdeWidgetAPI;
-  if (!api) {
-    console.warn(
-      "fussballdeWidgetAPI ist nicht geladen. Script-Tag in index.html prüfen."
-    );
-    return;
-  }
-  // Widget rendern
-  new api().showWidget(props.containerId, props.widgetKey);
-}
-
-onMounted(async () => {
-  await nextTick(); // sicherstellen, dass der div im DOM ist
-  renderWidget();
-});
-</script>
+<template
+  ><div
+    class="fussballde_widget"
+    data-id="6bdd5140-b8f6-4e0f-b8df-b098fee30e6e"
+    data-type="table"
+    style="width: 100%">
+  </div
+></template>

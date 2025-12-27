@@ -6,14 +6,14 @@ import AboutPage from "../pages/AboutPage.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/", name: "home", component: HomePage },
-    { path: "/home", redirect: "/" },
+    { path: "/SV/", name: "home", component: HomePage },
+    { path: "/SV/home", redirect: "/" },
     {
-      path: "/about",
+      path: "/SV/about",
       name: "about",
       component: AboutPage,
     },
-    { path: "/contact", name: "contact", component: Contact },
+    { path: "/SV/contact", name: "contact", component: Contact },
     { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
   linkActiveClass: "is-active",
