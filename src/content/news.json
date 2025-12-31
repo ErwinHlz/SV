@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Erster Heimsieg der Saison",
+    "excerpt": "Das Team startet mit einem 3:1 in die neue Saison und sammelt frueh wichtige Punkte.",
+    "content": "Vor rund 350 Zuschauern drehte das Team das Spiel nach der Pause. Zwei schnelle Treffer und eine kompakte Defensive machten den Unterschied. Trainer und Mannschaft bedanken sich fuer die starke Unterstuetzung von den Ringen.",
+    "date": "2025-07-08",
+    "image": "newsImage",
+    "imageAlt": "Symbol fuer Vereinsnews"
+  },
+  {
+    "id": 2,
+    "title": "Trainingslager steht fest",
+    "excerpt": "Im Winter geht es wieder in die Eifel. Termine und Ablauf folgen in den naechsten Wochen.",
+    "content": "Die Planung laeuft auf Hochtouren, Schwerpunkte liegen auf Athletik und Spielaufbau. Details zu Anreise, Rahmenprogramm und Unterbringung folgen ueber den Newsletter.",
+    "date": "2026-02-02",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termine"
+  },
+  {
+    "id": 3,
+    "title": "Nachwuchs gewinnt Derby",
+    "excerpt": "Die U19 zeigt eine starke Leistung und bleibt in der Tabelle weiter auf Kurs.",
+    "content": "Mit viel Intensitaet und klarer Spielidee setzte sich der Nachwuchs deutlich durch. Der Fokus liegt nun auf der naechsten Partie gegen den Tabellenzweiten.",
+    "date": "2026-01-27",
+    "image": "ergebnisseImage",
+    "imageAlt": "Symbol fuer Ergebnisse"
+  },
+  {
+    "id": 4,
+    "title": "Sponsorenabend im Vereinsheim",
+    "excerpt": "Wir sagen Danke: Ein Abend mit Partnern und Helfern des Vereins.",
+    "content": "Bei einem gemeinsamen Abend im Vereinsheim haben wir uns bei allen Partnern fuer die Unterstuetzung bedankt. Neben einem Rueckblick auf die Hinrunde gab es einen Ausblick auf die kommenden Projekte.",
+    "date": "2026-01-30",
+    "image": "newsImage",
+    "imageAlt": "Symbol fuer Vereinsnews"
+  },
+  {
+    "id": 5,
+    "title": "Kunstrasenpflege abgeschlossen",
+    "excerpt": "Der Platz ist wieder bereit fuer den Trainingsbetrieb.",
+    "content": "In den letzten Tagen wurden das Granulat aufgearbeitet und die Linien erneuert. Bitte achtet weiterhin auf sauberes Schuhwerk und nutzt die Reinigungsstation am Eingang.",
+    "date": "2025-01-12",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termine"
+  },
+  {
+    "id": 6,
+    "title": "Wintercup in St. Wendel",
+    "excerpt": "Die Erste startet mit starken Auftritten ins neue Jahr.",
+    "content": "Beim Hallenturnier in St. Wendel zeigte die Mannschaft eine gute Form und sammelte wertvolle Spielpraxis. Besonderes Highlight war das Halbfinale gegen den Landesligisten.",
+    "date": "2024-12-28",
+    "image": "ergebnisseImage",
+    "imageAlt": "Symbol fuer Ergebnisse"
+  }
+]

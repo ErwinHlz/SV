@@ -1,6 +1,5 @@
 <template>
   <div> About</div>
-  <HeroComponent />
   <section class="widgetShell">
     <h2>Aktuelle Tabelle</h2>
     <div

@@ -51,11 +51,7 @@ const items = [
 <style scoped>
 .heroRow {
   display: flex;
-  padding: 1rem;
-  height: clamp(320px, 52vh, 560px);
-  width: 80%;
-  justify-self: center;
-  transform: translateY(5dvh);
+  height: clamp(320px, 52dvh, 560px);
 }
 
 /* jedes Tile ist ein Link */
@@ -71,7 +67,8 @@ const items = [
   background-size: cover;
   background-position: center;
   clip-path: polygon(60px 0, 100% 0, 100% 100%, 0 100%);
-  margin: -60px;
+  margin-left: -60px;
+  margin-right: -60px;
 
   /* “smooth” hover */
   transition: flex 300ms ease, transform 300ms ease, filter 300ms ease;
@@ -81,6 +78,10 @@ const items = [
 .panel:first-child {
   clip-path: none;
   margin-left: 0;
+}
+
+.panel:last-child {
+  margin-right: 0;
 }
 
 /* wenn man über die ganze Reihe hovert, dimme leicht alle Panels */
@@ -117,7 +118,7 @@ const items = [
   position: absolute;
   left: 18px;
   right: 18px;
-  bottom: 18px;
+  bottom: 20px;
   z-index: 1;
 }
 

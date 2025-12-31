@@ -1,7 +1,3 @@
-<script
-  type="text/javascript"
-  src="https://www.fussball.de/widgets.js"></script>
-
 <template
   ><div
     class="fussballde_widget"

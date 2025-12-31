@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "Heimspiel gegen SV Wellesweiler",
+    "excerpt": "Erstes Heimspiel im Fruehjahr. Kommt vorbei und unterstuetzt das Team.",
+    "date": "2025-02-16",
+    "time": "15:00",
+    "location": "Sportplatz Ottweiler",
+    "content": "Anpfiff ist um 15:00 Uhr, Einlass ab 13:30 Uhr. Es gibt Verpflegung am Vereinsheim und ausreichend Parkplaetze in der Naehe.",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termin"
+  },
+  {
+    "id": 2,
+    "title": "U13 Jugendturnier",
+    "excerpt": "Ganztagesturnier mit Teams aus der Region und Rahmenprogramm fuer Familien.",
+    "date": "2025-02-22",
+    "time": "10:00",
+    "location": "Kunstrasen Steinbach",
+    "content": "Turnierstart ist um 10:00 Uhr. Neben dem Spielbetrieb gibt es eine Tombola und ein kleines Kinderprogramm.",
+    "image": "newsImage",
+    "imageAlt": "Symbol fuer Jugendturnier"
+  },
+  {
+    "id": 3,
+    "title": "Mitgliederversammlung",
+    "excerpt": "Jahresrueckblick, Ausblick und offene Fragerunde fuer alle Mitglieder.",
+    "date": "2025-03-05",
+    "time": "19:00",
+    "location": "Clubhaus Ottweiler",
+    "content": "Bitte kommt moeglichst fruehzeitig. Antraege koennen bis eine Woche vorher beim Vorstand eingereicht werden.",
+    "image": "ergebnisseImage",
+    "imageAlt": "Symbol fuer Versammlung"
+  },
+  {
+    "id": 4,
+    "title": "Auswaertsspiel beim FC Neunkirchen",
+    "excerpt": "Flutlichtspiel unter der Woche, Anstoss am Abend.",
+    "date": "2025-03-12",
+    "time": "19:30",
+    "location": "Sportanlage Neunkirchen",
+    "content": "Treffpunkt fuer Mitfahrer ist um 18:00 Uhr am Vereinsheim. Bitte fruehzeitig melden, wenn du einen Platz im Bus brauchst.",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Auswaertsspiel"
+  },
+  {
+    "id": 5,
+    "title": "Heimspiel gegen SG Bexbach",
+    "excerpt": "Wichtige Punkte im Kampf um die oberen Tabellenplaetze.",
+    "date": "2025-03-23",
+    "time": "15:00",
+    "location": "Sportplatz Ottweiler",
+    "content": "Einlass ab 13:30 Uhr. Es gibt Verpflegung und einen kleinen Verkaufsstand am Eingang.",
+    "image": "newsImage",
+    "imageAlt": "Symbol fuer Heimspiel"
+  },
+  {
+    "id": 6,
+    "title": "Saisonabschlussfest",
+    "excerpt": "Gemeinsamer Ausklang mit allen Teams, Fans und Helfern.",
+    "date": "2025-04-06",
+    "time": "17:00",
+    "location": "Vereinsheim Ottweiler",
+    "content": "Geplant sind Essen, Musik und ein kleines Dankesprogramm fuer alle Ehrenamtlichen.",
+    "image": "ergebnisseImage",
+    "imageAlt": "Symbol fuer Saisonabschluss"
+  }
+]
