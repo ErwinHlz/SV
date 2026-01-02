@@ -8,12 +8,6 @@
     </div>
   </section>
 
-  <div
-    class="fussballde_widget"
-    data-id="acdd744c-fe54-436a-a405-1a43a2b3c12b"
-    data-type="table"
-    style="width: 100%"></div>
-
   <section class="teams-section" aria-label="Jugendmannschaften">
     <header class="teams-header">
       <h2 class="teams-title">{{ teamsSection.title }}</h2>
@@ -246,22 +240,60 @@ const phoneHref = contact.phone
   : "";
 const emailHref = contact.email ? `mailto:${contact.email}` : "";
 
-const refreshWidgets = () => {
-  const widgetInit =
-    (window as any).fussballdeWidgets ||
-    (window as any).fussballdeWidget ||
-    (window as any).fussballDeWidgets;
+const runWidgetInit = () => {
+  const candidates = [
+    (window as any).fussballdeWidgets,
+    (window as any).fussballDeWidgets,
+    (window as any).fussballdeWidget,
+    (window as any).fussballDeWidget,
+  ];
+  const methods = ["init", "load", "render", "refresh", "reload"];
 
-  if (typeof widgetInit === "function") {
-    widgetInit();
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    if (typeof candidate === "function") {
+      candidate();
+      return true;
+    }
+    for (const method of methods) {
+      if (typeof candidate[method] === "function") {
+        candidate[method]();
+        return true;
+      }
+    }
   }
+  return false;
+};
+
+const refreshWidgets = async () => {
+  if (runWidgetInit()) return;
+
+  const existingScript = document.querySelector(
+    'script[src*="fussball.de/widgets.js"]'
+  ) as HTMLScriptElement | null;
+  const parent = existingScript?.parentNode;
+
+  if (!existingScript || !parent) {
+    return;
+  }
+
+  const src = existingScript.getAttribute("src") ?? existingScript.src;
+  parent.removeChild(existingScript);
+
+  const nextScript = document.createElement("script");
+  nextScript.src = src || "https://www.fussball.de/widgets.js";
+  nextScript.async = true;
+  nextScript.onload = () => {
+    runWidgetInit();
+  };
+  parent.appendChild(nextScript);
 };
 
 const openWidget = async (teamId: string) => {
   activeTeamId.value = teamId;
   await nextTick();
   if (activeTeam.value?.hasWidget) {
-    refreshWidgets();
+    await refreshWidgets();
   }
 };
 
