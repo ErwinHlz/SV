@@ -62,7 +62,7 @@
       "description": "Positionsspiel, schnelles Umschalten und Technik unter Druck.",
       "widget": {
         "title": "Spielplan & Ergebnisse",
-        "id": "",
+        "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe",
         "type": "team-matches"
       },
       "image": "youthHero",
@@ -76,7 +76,7 @@
       "description": "Spielaufbau, Pressing und athletische Entwicklung.",
       "widget": {
         "title": "Spielplan & Ergebnisse",
-        "id": "",
+        "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2",
         "type": "team-matches"
       },
       "image": "youthHero",
@@ -90,7 +90,7 @@
       "description": "Leistung, Verantwortung und Uebergang in den Aktivenbereich.",
       "widget": {
         "title": "Spielplan & Ergebnisse",
-        "id": "",
+        "id": "db8a345c-91e9-47ef-8197-1a6922273d73",
         "type": "team-matches"
       },
       "image": "youthHero",
