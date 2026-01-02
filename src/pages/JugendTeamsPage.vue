@@ -74,11 +74,6 @@
         <p v-else class="widget-placeholder">
           Widget-ID fehlt fuer dieses Team.
         </p>
-        <div
-          class="fussballde_widget flex justify-self-center"
-          data-id="acdd744c-fe54-436a-a405-1a43a2b3c12b"
-          data-type="table"
-          style="width: 30%"></div>
       </div>
     </div>
   </div>
@@ -509,9 +504,9 @@ const getInitials = (value?: string) =>
 
 .widget-modal {
   position: relative;
-  top: 5dvh;
-  width: 80dvw;
-  height: 80dvh;
+  width: min(1100px, 100%);
+  height: auto;
+  max-height: 95dvh;
   background-color: #f7f1e3;
   background-image: repeating-linear-gradient(
       90deg,
@@ -530,7 +525,7 @@ const getInitials = (value?: string) =>
     linear-gradient(135deg, #ffd89d 0%, #d8bb90 55%, #e6d8c3 100%);
   border: 1px solid rgba(11, 31, 77, 0.2);
   border-radius: 20px;
-  overflow: hidden;
+  overflow: auto;
   display: grid;
   gap: clamp(12px, 2vw, 20px);
   color: #1f2a44;
@@ -593,10 +588,10 @@ const getInitials = (value?: string) =>
 }
 
 .widget-frame {
-  width: 75dvw;
-  height: var(--sv-fupa-height);
+  width: min(var(--sv-fupa-width), 100%);
+  height: auto;
   border-radius: 16px;
-  overflow: scroll;
+  overflow: visible;
   background: #faf7ef;
   border: 1px solid rgba(11, 31, 77, 0.15);
   margin: 0 auto;
@@ -604,7 +599,6 @@ const getInitials = (value?: string) =>
 
 .widget-frame .fussballde_widget {
   width: 100%;
-  height: 100%;
 }
 
 .widget-placeholder {
