@@ -72,7 +72,7 @@
           data-type="table"
           style="width: 100%"></div>
         <p v-else class="widget-placeholder">
-          Widget-ID fehlt fuer dieses Team.
+          Für dieses Team gibt es noch keine Fussball.de Daten
         </p>
       </div>
     </div>
@@ -503,7 +503,8 @@ const getInitials = (value?: string) =>
 }
 
 .widget-modal {
-  position: relative;
+  position: absolute;
+  top: 15dvh;
   width: min(1100px, 100%);
   height: auto;
   max-height: 95dvh;
