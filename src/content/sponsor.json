@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Sponsor Alpha",
+    "url": "https://example.com/sponsor-alpha",
+    "image": "sponsorAlpha",
+    "imageAlt": "Logo Sponsor Alpha"
+  },
+  {
+    "id": 2,
+    "name": "Sponsor Beta",
+    "url": "https://example.com/sponsor-beta",
+    "image": "sponsorBeta",
+    "imageAlt": "Logo Sponsor Beta"
+  },
+  {
+    "id": 3,
+    "name": "Sponsor Gamma",
+    "url": "https://example.com/sponsor-gamma",
+    "image": "sponsorGamma",
+    "imageAlt": "Logo Sponsor Gamma"
+  },
+  {
+    "id": 4,
+    "name": "Sponsor Delta",
+    "url": "https://example.com/sponsor-delta",
+    "image": "sponsorDelta",
+    "imageAlt": "Logo Sponsor Delta"
+  },
+  {
+    "id": 5,
+    "name": "Sponsor Epsilon",
+    "url": "https://example.com/sponsor-epsilon",
+    "image": "sponsorEpsilon",
+    "imageAlt": "Logo Sponsor Epsilon"
+  },
+  {
+    "id": 6,
+    "name": "Sponsor Zeta",
+    "url": "https://example.com/sponsor-zeta",
+    "image": "sponsorZeta",
+    "imageAlt": "Logo Sponsor Zeta"
+  }
+]

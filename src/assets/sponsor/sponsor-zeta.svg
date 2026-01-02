@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-labelledby="title">
+  <title>Sponsor Zeta</title>
+  <rect width="600" height="360" rx="28" fill="#f4d047" />
+  <path d="M0 270L600 60L600 140L0 340Z" fill="#022b79" opacity="0.18" />
+  <path d="M0 210L600 0L600 60L0 270Z" fill="#022b79" opacity="0.12" />
+  <text x="300" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#022b79">
+    Sponsor Zeta
+  </text>
+</svg>

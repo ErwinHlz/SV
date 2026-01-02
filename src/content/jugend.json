@@ -1,0 +1,157 @@
+{
+  "hero": {
+    "title": "Jugendmannschaften",
+    "lead": "Unsere Nachwuchsteams stehen fuer Spass am Fussball, Teamgeist und eine nachhaltige Ausbildung."
+  },
+  "intro": {
+    "title": "Jugend im Fokus",
+    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir foerdern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Freude."
+  },
+  "teamsSection": {
+    "title": "Unsere Jugendteams",
+    "lead": "Von den Kleinsten bis zur A-Jugend: jede Mannschaft hat ihren eigenen Charakter und klare Schwerpunkte."
+  },
+  "teams": [
+    {
+      "id": "bambini",
+      "name": "Bambini (U7)",
+      "ageGroup": "Jahrgaenge 2018/2019",
+      "league": "Spielrunde / Funino",
+      "description": "Spielerisch den Ball entdecken, bewegen und erste Teamspiele erleben.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "Bambini im Training"
+    },
+    {
+      "id": "u9",
+      "name": "F-Jugend (U9)",
+      "ageGroup": "Jahrgaenge 2016/2017",
+      "league": "Kreisspielfest",
+      "description": "Grundlagen festigen, Dribblings ueben und mutig ins 1-gegen-1 gehen.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "F-Jugend im Training"
+    },
+    {
+      "id": "u11",
+      "name": "E-Jugend (U11)",
+      "ageGroup": "Jahrgaenge 2014/2015",
+      "league": "Kreisliga",
+      "description": "Passspiel, Koordination und erste taktische Aufgaben.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "E-Jugend beim Training"
+    },
+    {
+      "id": "u13",
+      "name": "D-Jugend (U13)",
+      "ageGroup": "Jahrgaenge 2012/2013",
+      "league": "Kreisliga",
+      "description": "Positionsspiel, schnelles Umschalten und Technik unter Druck.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "D-Jugend in Aktion"
+    },
+    {
+      "id": "u15",
+      "name": "C-Jugend (U15)",
+      "ageGroup": "Jahrgaenge 2010/2011",
+      "league": "Bezirksliga",
+      "description": "Spielaufbau, Pressing und athletische Entwicklung.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "C-Jugend im Spiel"
+    },
+    {
+      "id": "u19",
+      "name": "A-Jugend (U19)",
+      "ageGroup": "Jahrgaenge 2007/2008",
+      "league": "Verbandsliga",
+      "description": "Leistung, Verantwortung und Uebergang in den Aktivenbereich.",
+      "widget": {
+        "title": "Spielplan & Ergebnisse",
+        "id": "",
+        "type": "team-matches"
+      },
+      "image": "youthHero",
+      "imageAlt": "A-Jugend Mannschaft"
+    }
+  ],
+  "coachSection": {
+    "title": "Trainerteam Jugend",
+    "lead": "Unsere Trainer begleiten die Teams mit klaren Konzepten und viel Herzblut.",
+    "members": [
+      {
+        "id": "coach-bambini",
+        "name": "Trainerteam Bambini",
+        "role": "Bambini (U7)",
+        "focus": "Bewegung, Motorik, Freude am Spiel"
+      },
+      {
+        "id": "coach-u9",
+        "name": "Trainerteam F-Jugend",
+        "role": "F-Jugend (U9)",
+        "focus": "Grundtechniken, Dribbling, Mut"
+      },
+      {
+        "id": "coach-u11",
+        "name": "Trainerteam E-Jugend",
+        "role": "E-Jugend (U11)",
+        "focus": "Passspiel, Koordination, Teamaufgaben"
+      },
+      {
+        "id": "coach-u13",
+        "name": "Trainerteam D-Jugend",
+        "role": "D-Jugend (U13)",
+        "focus": "Taktik, Positionsspiel, Athletik"
+      },
+      {
+        "id": "coach-u15",
+        "name": "Trainerteam C-Jugend",
+        "role": "C-Jugend (U15)",
+        "focus": "Spielaufbau, Pressing, Mentalitaet"
+      },
+      {
+        "id": "coach-u19",
+        "name": "Trainerteam A-Jugend",
+        "role": "A-Jugend (U19)",
+        "focus": "Leistung, Verantwortung, Uebergang"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Kontakt Jugendleitung",
+    "lead": "Interesse am Probetraining oder Fragen zu einem Team? Melde dich gerne.",
+    "name": "Jugendleitung FSG",
+    "role": "Koordination Jugend",
+    "phone": "0170 1234567",
+    "email": "jugend@fsg-ottweiler-steinbach.de",
+    "note": "Probetraining jederzeit nach Absprache moeglich.",
+    "labels": {
+      "name": "Name",
+      "role": "Funktion",
+      "phone": "Telefon",
+      "email": "E-Mail"
+    }
+  }
+}

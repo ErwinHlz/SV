@@ -38,7 +38,7 @@ import TermineSection from "../components/TermineSection.vue";
 }
 
 .spiele {
-  overflow: scroll;
+  overflow-x: scroll;
   width: 80dvw;
   height: 15dvh;
 }

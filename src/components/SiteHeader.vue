@@ -11,7 +11,7 @@
         <li v-for="item in items" :key="item.label" class="nav-item">
           <!-- Normaler Link -->
           <RouterLink
-            v-if="item.to"
+            v-if="item.to && !item.children?.length"
             :to="item.to"
             class="link"
             active-class="active">
@@ -19,9 +19,22 @@
           </RouterLink>
 
           <!-- Dropdown -->
-          <div v-else class="dropdown">
-            <button
+          <div v-else-if="item.children?.length" class="dropdown">
+            <RouterLink
+              v-if="item.to"
+              :to="item.to"
               class="dropdown-btn"
+              :class="{ active: isItemActive(item) }"
+              @mouseenter="showDropdown(item.label)"
+              @mouseleave="scheduleCloseDropdown"
+              @click="open = null">
+              {{ item.label }}
+            </RouterLink>
+            <button
+              v-else
+              type="button"
+              class="dropdown-btn"
+              :class="{ active: isItemActive(item) }"
               @mouseenter="showDropdown(item.label)"
               @mouseleave="scheduleCloseDropdown">
               {{ item.label }}
@@ -34,15 +47,40 @@
               @mouseleave="scheduleCloseDropdown">
               <li class="dropdown-title">{{ item.label }}</li>
               <li class="dropdown-items">
-                <RouterLink
-                  v-for="child in item.children"
-                  :key="child.label"
-                  :to="child.to!"
-                  class="dropdown-link"
-                  active-class="active"
-                  @click="open = null">
-                  {{ child.label }}
-                </RouterLink>
+                <template v-for="child in item.children" :key="child.label">
+                  <div v-if="child.children?.length" class="dropdown-group">
+                    <RouterLink
+                      v-if="child.to"
+                      :to="child.to"
+                      class="dropdown-group-title dropdown-link"
+                      active-class="active"
+                      @click="open = null">
+                      {{ child.label }}
+                    </RouterLink>
+                    <span v-else class="dropdown-group-title">
+                      {{ child.label }}
+                    </span>
+                    <div class="dropdown-group-links">
+                      <RouterLink
+                        v-for="grandChild in child.children"
+                        :key="grandChild.label"
+                        :to="grandChild.to!"
+                        class="dropdown-link"
+                        active-class="active"
+                        @click="open = null">
+                        {{ grandChild.label }}
+                      </RouterLink>
+                    </div>
+                  </div>
+                  <RouterLink
+                    v-else
+                    :to="child.to!"
+                    class="dropdown-link"
+                    active-class="active"
+                    @click="open = null">
+                    {{ child.label }}
+                  </RouterLink>
+                </template>
               </li>
             </ul>
           </div>
@@ -115,7 +153,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import background from "@/assets/header/background.png";
+import { useRoute } from "vue-router";
 import logo from "@/assets/sv_logo.svg";
 
 const isMenuOpen = ref(false);
@@ -131,8 +169,31 @@ const closeMenu = () => {
 import { NAV, type NavItem } from "@/utils/nav";
 
 const items = NAV as NavItem[];
+const route = useRoute();
 const open = ref<string | null>(null);
 let dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+const normalizePath = (path: string) => {
+  const trimmed = path.replace(/\/+$/, "");
+  return trimmed.length > 0 ? trimmed : "/";
+};
+
+const isPathActive = (to?: string) => {
+  if (!to) return false;
+  const current = normalizePath(route.path);
+  const target = normalizePath(to);
+  return current === target;
+};
+
+const isItemActive = (item: NavItem): boolean => {
+  if (isPathActive(item.to)) {
+    return true;
+  }
+  if (!item.children?.length) {
+    return false;
+  }
+  return item.children.some((child) => isItemActive(child));
+};
 
 const showDropdown = (label: string) => {
   if (dropdownCloseTimer) {
@@ -227,6 +288,11 @@ const scheduleCloseDropdown = () => {
   background-size: 100% 3px;
 }
 
+.dropdown-btn.active {
+  color: var(--sv-secondary-color);
+  background-size: 100% 3px;
+}
+
 .dropdown {
   position: relative;
 }
@@ -270,7 +336,8 @@ const scheduleCloseDropdown = () => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: clamp(16px, 3vw, 36px);
+  flex-wrap: wrap;
+  gap: clamp(16px, 2.5vw, 36px);
   border-top: 2px solid white;
   border-bottom: 2px solid white;
   padding: 2dvh;
@@ -279,6 +346,29 @@ const scheduleCloseDropdown = () => {
   opacity: 0;
   animation: dropdown-text-in 0.2s ease forwards;
   animation-delay: 0.7s;
+}
+
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: clamp(140px, 12vw, 220px);
+  align-items: center;
+  text-align: center;
+}
+
+.dropdown-group-title {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(12px, 1.1vw, 16px);
+  font-weight: 700;
+  color: var(--sv-secondary-color);
+}
+
+.dropdown-group-links {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
 }
 
 @keyframes dropdown-bg-in {
@@ -302,11 +392,16 @@ const scheduleCloseDropdown = () => {
 .dropdown-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--sv-text-color);
-  font-size: 1dvw;
+  font-size: clamp(11px, 1vw, 14px);
   justify-self: center;
+}
+
+.dropdown-group-title.dropdown-link {
+  color: var(--sv-secondary-color);
 }
 
 .dropdown-link:hover,
