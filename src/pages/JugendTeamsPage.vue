@@ -507,7 +507,7 @@ const getInitials = (value?: string) =>
   top: 15dvh;
   width: min(1100px, 100%);
   height: auto;
-  max-height: 95dvh;
+  max-height: 70dvh;
   background-color: #f7f1e3;
   background-image: repeating-linear-gradient(
       90deg,
@@ -592,7 +592,7 @@ const getInitials = (value?: string) =>
   width: min(var(--sv-fupa-width), 100%);
   height: auto;
   border-radius: 16px;
-  overflow: visible;
+  overflow: scroll;
   background: #faf7ef;
   border: 1px solid rgba(11, 31, 77, 0.15);
   margin: 0 auto;
