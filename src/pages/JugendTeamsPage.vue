@@ -554,10 +554,17 @@ const getInitials = (value?: string) =>
 }
 
 .widget-frame {
+  width: min(var(--sv-fupa-width), 100%);
+  height: var(--sv-fupa-height);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #faf7ef;
+  border: 1px solid rgba(11, 31, 77, 0.15);
+  margin: 0 auto;
 }
 
 .widget-frame .fussballde_widget {
-  width: 80%;
+  width: 100%;
   height: 100%;
 }
 
