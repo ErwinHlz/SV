@@ -8,6 +8,12 @@
     </div>
   </section>
 
+  <div
+    class="fussballde_widget"
+    data-id="acdd744c-fe54-436a-a405-1a43a2b3c12b"
+    data-type="table"
+    style="width: 100%"></div>
+
   <section class="teams-section" aria-label="Jugendmannschaften">
     <header class="teams-header">
       <h2 class="teams-title">{{ teamsSection.title }}</h2>
