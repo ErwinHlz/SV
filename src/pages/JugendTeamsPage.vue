@@ -509,8 +509,9 @@ const getInitials = (value?: string) =>
 
 .widget-modal {
   position: relative;
-  width: min(1100px, 100%);
-  max-height: 90dvh;
+  top: 5dvh;
+  width: 80dvw;
+  height: 80dvh;
   background-color: #f7f1e3;
   background-image: repeating-linear-gradient(
       90deg,
@@ -592,10 +593,10 @@ const getInitials = (value?: string) =>
 }
 
 .widget-frame {
-  width: min(var(--sv-fupa-width), 100%);
+  width: 75dvw;
   height: var(--sv-fupa-height);
   border-radius: 16px;
-  overflow: hidden;
+  overflow: scroll;
   background: #faf7ef;
   border: 1px solid rgba(11, 31, 77, 0.15);
   margin: 0 auto;
