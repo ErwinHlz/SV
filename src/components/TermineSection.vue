@@ -196,7 +196,7 @@ const closeTermin = () => {
 
 .termine-image-frame {
   width: 100%;
-  height: clamp(160px, 18vw, 210px);
+  height: 60%;
   position: relative;
   overflow: hidden;
   background: rgba(2, 43, 121, 0.12);

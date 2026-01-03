@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "title": "Unser Stadion",
+    "lead": "Der Sportplatz Ottweiler ist unsere Heimat fuer Spieltage, Training und Vereinsleben."
+  },
+  "intro": {
+    "title": "Sportplatz Ottweiler",
+    "text": "Mitten im Ort gelegen bietet unser Stadion kurze Wege, klare Sicht aufs Spielfeld und eine familiaere Atmosphaere. Hier treffen sich Fans, Teams und Helfer am Spieltag.",
+    "note": "Adresse: Im Alten Weiher, 66564 Ottweiler"
+  },
+  "facts": {
+    "title": "Auf einen Blick",
+    "items": [
+      {
+        "label": "Adresse",
+        "value": "Im Alten Weiher, 66564 Ottweiler",
+        "link": "https://www.google.com/maps/search/?api=1&query=Im%20Alten%20Weiher,%2066564%20Ottweiler"
+      },
+      {
+        "label": "Heimat",
+        "value": "FSG Ottweiler-Steinbach"
+      },
+      {
+        "label": "Belag",
+        "value": "Rasenplatz mit Flutlicht"
+      },
+      {
+        "label": "Parken",
+        "value": "Parkplaetze direkt am Sportplatz"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Stadion Impressionen",
+    "items": [
+      {
+        "id": "stadion-1",
+        "image": "stadionHero",
+        "imageAlt": "Blick auf den Sportplatz",
+        "caption": "Blick auf den Rasen und die Seitenlinie."
+      },
+      {
+        "id": "stadion-2",
+        "image": "stadionHero",
+        "imageAlt": "Tribuenenbereich am Sportplatz",
+        "caption": "Steh- und Sitzplaetze am Spielfeldrand."
+      },
+      {
+        "id": "stadion-3",
+        "image": "stadionHero",
+        "imageAlt": "Vereinsheim am Stadion",
+        "caption": "Vereinsheim mit Bewirtung an Spieltagen."
+      },
+      {
+        "id": "stadion-4",
+        "image": "stadionHero",
+        "imageAlt": "Flutlichtanlage am Sportplatz",
+        "caption": "Training und Spiele unter Flutlicht."
+      }
+    ]
+  },
+  "map": {
+    "title": "Anfahrt & Parken",
+    "embedUrl": "https://www.google.com/maps?q=Im%20Alten%20Weiher,%2066564%20Ottweiler&output=embed",
+    "linkLabel": "In Google Maps oeffnen",
+    "linkUrl": "https://www.google.com/maps/search/?api=1&query=Im%20Alten%20Weiher,%2066564%20Ottweiler"
+  },
+  "people": {
+    "title": "Unser Team am Stadion",
+    "items": [
+      {
+        "id": "greenkeeper",
+        "name": "Johannes",
+        "role": "Greenkeeper",
+        "image": "stadionHero",
+        "imageAlt": "Greenkeeper am Sportplatz"
+      },
+      {
+        "id": "wirtin",
+        "name": "Anne",
+        "role": "Wirtin",
+        "image": "stadionHero",
+        "imageAlt": "Wirtin im Vereinsheim"
+      },
+      {
+        "id": "jochen",
+        "name": "Jochen Kranz",
+        "role": "Allrounder",
+        "image": "stadionHero",
+        "imageAlt": "Wirtin im Vereinsheim"
+      }
+    ]
+  }
+}

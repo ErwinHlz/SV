@@ -5,19 +5,31 @@
   },
   "intro": {
     "title": "Jugend im Fokus",
-    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir foerdern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Freude."
+    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir foerdern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spass."
   },
   "teamsSection": {
     "title": "Unsere Jugendteams",
     "lead": "Von den Kleinsten bis zur A-Jugend: jede Mannschaft hat ihren eigenen Charakter und klare Schwerpunkte."
   },
+  "trainingLocation": {
+    "name": "Sportplatz Ottweiler",
+    "address": "Im Alten Weiher, 66564 Ottweiler",
+    "mapsUrl": "https://maps.app.goo.gl/3seUPN6Vy1aXfFoE7"
+  },
   "teams": [
     {
-      "id": "bambini",
-      "name": "Bambini (U7)",
+      "id": "u7",
+      "name": "G-Jugend (U7)",
       "ageGroup": "Jahrgaenge 2018/2019",
-      "league": "Spielrunde / Funino",
-      "description": "Spielerisch den Ball entdecken, bewegen und erste Teamspiele erleben.",
+      "league": "Kreisturnier",
+      "description": "Unsere juengsten im Verein entdecken den Ball spielerisch und sammeln erste Team-Erfahrungen.",
+      "training": [
+        {
+          "day": "Mittwoch",
+          "time": "16:30-17:30",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
         "title": "Spielplan & Ergebnisse",
         "id": "",
@@ -30,12 +42,23 @@
       "id": "u9",
       "name": "F-Jugend (U9)",
       "ageGroup": "Jahrgaenge 2016/2017",
-      "league": "Kreisspielfest",
-      "description": "Grundlagen festigen, Dribblings ueben und mutig ins 1-gegen-1 gehen.",
+      "league": "Kreisturnier",
+      "description": "Hier wachsen die Kinder in die Fussballfamilie hinein und lernen mutiges Dribbling sowie fairen Wettbewerb.",
+      "training": [
+        {
+          "day": "Dienstag",
+          "time": "17:00-18:30",
+          "location": "Sportplatz Ottweiler"
+        },
+        {
+          "day": "Donnerstag",
+          "time": "17:00-18:30",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "",
-        "type": "team-matches"
+        "title": "Tabelle",
+        "id": ""
       },
       "image": "youthHero",
       "imageAlt": "F-Jugend im Training"
@@ -45,11 +68,22 @@
       "name": "E-Jugend (U11)",
       "ageGroup": "Jahrgaenge 2014/2015",
       "league": "Kreisliga",
-      "description": "Passspiel, Koordination und erste taktische Aufgaben.",
+      "description": "Unsere E-Jugend vertieft Technik und Teamplay und sammelt erste taktische Erfahrungen.",
+      "training": [
+        {
+          "day": "Montag",
+          "time": "17:30-19:00",
+          "location": "Sportplatz Ottweiler"
+        },
+        {
+          "day": "Mittwoch",
+          "time": "17:30-19:00",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b",
-        "type": "team-matches"
+        "title": "Tabelle",
+        "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b"
       },
       "image": "youthHero",
       "imageAlt": "E-Jugend beim Training"
@@ -59,11 +93,22 @@
       "name": "D-Jugend (U13)",
       "ageGroup": "Jahrgaenge 2012/2013",
       "league": "Kreisliga",
-      "description": "Positionsspiel, schnelles Umschalten und Technik unter Druck.",
+      "description": "In der D-Jugend geht es um Positionsspiel, Tempo und Entscheidungen unter Druck.",
+      "training": [
+        {
+          "day": "Dienstag",
+          "time": "18:00-19:30",
+          "location": "Sportplatz Ottweiler"
+        },
+        {
+          "day": "Freitag",
+          "time": "18:00-19:30",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe",
-        "type": "team-matches"
+        "title": "Tabelle",
+        "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe"
       },
       "image": "youthHero",
       "imageAlt": "D-Jugend in Aktion"
@@ -72,12 +117,23 @@
       "id": "u15",
       "name": "C-Jugend (U15)",
       "ageGroup": "Jahrgaenge 2010/2011",
-      "league": "Bezirksliga",
-      "description": "Spielaufbau, Pressing und athletische Entwicklung.",
+      "league": "Kreisliga",
+      "description": "Unsere C-Jugend arbeitet an Spielaufbau, Pressing und der athletischen Entwicklung.",
+      "training": [
+        {
+          "day": "Montag",
+          "time": "18:30-20:00",
+          "location": "Sportplatz Ottweiler"
+        },
+        {
+          "day": "Donnerstag",
+          "time": "18:30-20:00",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2",
-        "type": "team-matches"
+        "title": "Tabelle",
+        "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2"
       },
       "image": "youthHero",
       "imageAlt": "C-Jugend im Spiel"
@@ -86,12 +142,23 @@
       "id": "u19",
       "name": "A-Jugend (U19)",
       "ageGroup": "Jahrgaenge 2007/2008",
-      "league": "Verbandsliga",
-      "description": "Leistung, Verantwortung und Uebergang in den Aktivenbereich.",
+      "league": "Kreisliga",
+      "description": "In der A-Jugend stehen Leistung, Verantwortung und der Uebergang in den Aktivenbereich im Fokus.",
+      "training": [
+        {
+          "day": "Dienstag",
+          "time": "19:00-20:30",
+          "location": "Sportplatz Ottweiler"
+        },
+        {
+          "day": "Donnerstag",
+          "time": "19:00-20:30",
+          "location": "Sportplatz Ottweiler"
+        }
+      ],
       "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "db8a345c-91e9-47ef-8197-1a6922273d73",
-        "type": "team-matches"
+        "title": "Tabelle",
+        "id": "db8a345c-91e9-47ef-8197-1a6922273d73"
       },
       "image": "youthHero",
       "imageAlt": "A-Jugend Mannschaft"
@@ -99,43 +166,98 @@
   ],
   "coachSection": {
     "title": "Trainerteam Jugend",
-    "lead": "Unsere Trainer begleiten die Teams mit klaren Konzepten und viel Herzblut.",
+    "lead": "",
     "members": [
       {
-        "id": "coach-bambini",
-        "name": "Trainerteam Bambini",
-        "role": "Bambini (U7)",
-        "focus": "Bewegung, Motorik, Freude am Spiel"
+        "id": "coach-giuseppe",
+        "name": "Giuseppe Sardo",
+        "role": "G-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam E-Jugend"
       },
       {
-        "id": "coach-u9",
-        "name": "Trainerteam F-Jugend",
-        "role": "F-Jugend (U9)",
-        "focus": "Grundtechniken, Dribbling, Mut"
+        "id": "coach-angelo",
+        "name": "Angelo di Giovanni",
+        "role": "G-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam D-Jugend"
       },
       {
-        "id": "coach-u11",
-        "name": "Trainerteam E-Jugend",
-        "role": "E-Jugend (U11)",
-        "focus": "Passspiel, Koordination, Teamaufgaben"
+        "id": "coach-jochen",
+        "name": "Jochen Schneider",
+        "role": "F-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainer Jochen"
       },
       {
-        "id": "coach-u13",
-        "name": "Trainerteam D-Jugend",
-        "role": "D-Jugend (U13)",
-        "focus": "Taktik, Positionsspiel, Athletik"
+        "id": "coach-zedan",
+        "name": "Zedan Acer",
+        "role": "F-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam Zedan"
       },
       {
-        "id": "coach-u15",
-        "name": "Trainerteam C-Jugend",
-        "role": "C-Jugend (U15)",
-        "focus": "Spielaufbau, Pressing, Mentalitaet"
+        "id": "coach-hollemeyer",
+        "name": "Benjamin Hollemeyer",
+        "role": "E-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam C-Jugend"
       },
       {
-        "id": "coach-u19",
-        "name": "Trainerteam A-Jugend",
-        "role": "A-Jugend (U19)",
-        "focus": "Leistung, Verantwortung, Uebergang"
+        "id": "coach-erwin",
+        "name": "Erwin Holzhauser",
+        "role": "E-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-steven",
+        "name": "Steven Bubel",
+        "role": "E-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-Levin",
+        "name": "Levin Alles",
+        "role": "D-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-sergej",
+        "name": "Sergej Schrefer",
+        "role": "D-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-michael",
+        "name": "Michael Klomann",
+        "role": "D-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-eugen",
+        "name": "Eugen Felberg",
+        "role": "C-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-waldi",
+        "name": "Waltraud \"Waldi\" Gleich",
+        "role": "C-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
+      },
+      {
+        "id": "coach-thorste",
+        "name": "Thorsten Würtz",
+        "role": "A-Jugend",
+        "image": "youthHero",
+        "imageAlt": "Trainerteam A-Jugend"
       }
     ]
   },

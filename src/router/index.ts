@@ -13,11 +13,25 @@ import TeamTwoKader from "@/pages/TeamTwoKader.vue";
 import TeamTwoSpielplan from "@/pages/TeamTwoSpielplan.vue";
 import TeamTwoTabelle from "@/pages/TeamTwoTabelle.vue";
 import JugendTeamsPage from "@/pages/JugendTeamsPage.vue";
+import StadionPage from "@/pages/StadionPage.vue";
+import VereinPage from "@/pages/VereinPage.vue";
 import SponsorPage from "@/pages/SponsorPage.vue";
 import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: "smooth",
+      };
+    }
+    return { top: 0 };
+  },
   routes: [
     { path: "/", name: "home", component: HomePage },
     { path: "/home", redirect: "/" },
@@ -67,6 +81,8 @@ const router = createRouter({
       name: "team-jugend",
       component: JugendTeamsPage,
     },
+    { path: "/stadion", name: "stadion", component: StadionPage },
+    { path: "/verein", name: "verein", component: VereinPage },
     { path: "/sponsor", name: "sponsoren", component: SponsorPage },
     {
       path: "/sponsor/werden",

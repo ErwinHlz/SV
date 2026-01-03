@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "title": "Unser Verein",
+    "lead": "Die wichtigsten Ansprechpartnerinnen und Ansprechpartner der FSG Ottweiler-Steinbach."
+  },
+  "intro": {
+    "title": "Vorstand und Organisation",
+    "text": "Unser Verein lebt vom Einsatz vieler Ehrenamtlicher. Hier findest du die zentralen Personen und Zustaendigkeiten."
+  },
+  "people": {
+    "title": "Vereinsleitung",
+    "items": [
+      {
+        "id": "vorstand-1",
+        "name": "Max Mustermann",
+        "role": "1. Vorsitzender",
+        "image": "vereinHero",
+        "imageAlt": "1. Vorsitzender"
+      },
+      {
+        "id": "vorstand-2",
+        "name": "Erika Mustermann",
+        "role": "2. Vorsitzende",
+        "image": "vereinHero",
+        "imageAlt": "2. Vorsitzende"
+      },
+      {
+        "id": "kasse",
+        "name": "Julia Beispiel",
+        "role": "Kassenwartin",
+        "image": "vereinHero",
+        "imageAlt": "Kassenwartin"
+      },
+      {
+        "id": "schriftfuehrer",
+        "name": "Tim Beispiel",
+        "role": "Schriftfuehrer",
+        "image": "vereinHero",
+        "imageAlt": "Schriftfuehrer"
+      },
+      {
+        "id": "sportlicher-leiter",
+        "name": "Sven Muster",
+        "role": "Sportlicher Leiter",
+        "image": "vereinHero",
+        "imageAlt": "Sportlicher Leiter"
+      },
+      {
+        "id": "jugendleitung",
+        "name": "Lea Muster",
+        "role": "Jugendleitung",
+        "image": "vereinHero",
+        "imageAlt": "Jugendleitung"
+      }
+    ]
+  }
+}

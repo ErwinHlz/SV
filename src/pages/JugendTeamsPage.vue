@@ -8,7 +8,10 @@
     </div>
   </section>
 
-  <section class="teams-section" aria-label="Jugendmannschaften">
+  <section
+    id="jugendteams"
+    class="teams-section"
+    aria-label="Jugendmannschaften">
     <header class="teams-header">
       <h2 class="teams-title">{{ teamsSection.title }}</h2>
       <p class="teams-lead">{{ teamsSection.lead }}</p>
@@ -29,6 +32,29 @@
             <span class="team-league">{{ team.league }}</span>
           </div>
           <p class="team-description">{{ team.description }}</p>
+          <div v-if="team.training?.length" class="team-training">
+            <p class="team-training-label">Training</p>
+            <ul class="team-training-list">
+              <li
+                v-for="slot in team.training"
+                :key="`${team.id}-${slot.day}-${slot.time}-${slot.location}`"
+                class="team-training-item">
+                <span class="team-training-day">{{ slot.day }}</span>
+                <span class="team-training-time">{{ slot.time }}</span>
+                <a
+                  v-if="mapsHref"
+                  class="team-training-location"
+                  :href="mapsHref"
+                  target="_blank"
+                  rel="noopener">
+                  {{ slot.location }}
+                </a>
+                <span v-else class="team-training-location">
+                  {{ slot.location }}
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="team-media">
           <img :src="team.image" :alt="team.imageAlt" loading="lazy" />
@@ -72,30 +98,33 @@
           data-type="table"
           style="width: 100%"></div>
         <p v-else class="widget-placeholder">
-          Für dieses Team gibt es noch keine Fussball.de Daten
+          Fuer dieses Team gibt es noch keine Fussball.de Daten
         </p>
       </div>
     </div>
   </div>
 
-  <section class="coach-section" aria-label="Trainerteam">
+  <section id="jugendtrainer" class="coach-section" aria-label="Trainerteam">
     <header class="coach-header">
       <h2 class="coach-title">{{ coachSection.title }}</h2>
       <p class="coach-lead">{{ coachSection.lead }}</p>
     </header>
     <div class="coach-grid">
-      <article
-        v-for="member in coachSection.members"
-        :key="member.id"
-        class="coach-card">
-        <div class="coach-identity">
-          <div class="coach-avatar">{{ getInitials(member.name) }}</div>
-          <div>
-            <p class="coach-name">{{ member.name }}</p>
-            <p class="coach-role">{{ member.role }}</p>
-          </div>
+      <article v-for="member in coachCards" :key="member.id" class="coach-card">
+        <div class="coach-photo">
+          <img
+            v-if="member.image"
+            :src="member.image"
+            :alt="member.imageAlt"
+            loading="lazy" />
+          <span v-else class="coach-photo-fallback">
+            {{ getInitials(member.name) }}
+          </span>
         </div>
-        <p class="coach-focus">{{ member.focus }}</p>
+        <div class="coach-caption">
+          <p class="coach-name">{{ member.name }}</p>
+          <p class="coach-role">{{ member.role }}</p>
+        </div>
       </article>
     </div>
   </section>
@@ -145,6 +174,18 @@ type YouthTeamWidget = {
   title?: string;
 };
 
+type YouthTraining = {
+  day: string;
+  time: string;
+  location: string;
+};
+
+type TrainingLocation = {
+  name: string;
+  address: string;
+  mapsUrl: string;
+};
+
 type YouthTeam = {
   id: string;
   name: string;
@@ -154,13 +195,15 @@ type YouthTeam = {
   image: string;
   imageAlt: string;
   widget?: YouthTeamWidget;
+  training?: YouthTraining[];
 };
 
 type CoachMember = {
   id: string;
   name: string;
   role: string;
-  focus: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 type YouthContent = {
@@ -176,6 +219,7 @@ type YouthContent = {
     title: string;
     lead: string;
   };
+  trainingLocation?: TrainingLocation;
   teams: YouthTeam[];
   coachSection: {
     title: string;
@@ -206,6 +250,10 @@ const teamImageMap: Record<string, string> = {
   youthHero,
 };
 
+const coachImageMap: Record<string, string> = {
+  youthHero,
+};
+
 type YouthTeamCard = YouthTeam & {
   widgetId: string;
   widgetType: string;
@@ -224,6 +272,26 @@ const teamCards: YouthTeamCard[] = youthContent.teams.map((team) => {
     hasWidget: widgetId.length > 0,
   };
 });
+
+type CoachCard = CoachMember & {
+  image?: string;
+  imageAlt: string;
+};
+
+const coachCards: CoachCard[] = coachSection.members.map((member) => ({
+  ...member,
+  image: member.image ? coachImageMap[member.image] ?? member.image : undefined,
+  imageAlt: member.imageAlt ?? member.name,
+}));
+
+const trainingLocation = youthContent.trainingLocation;
+const mapsHref =
+  trainingLocation?.mapsUrl ??
+  (trainingLocation?.address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        trainingLocation.address
+      )}`
+    : "");
 
 const activeTeamId = ref<string | null>(null);
 const activeTeam = computed(
@@ -336,12 +404,12 @@ const getInitials = (value?: string) =>
 
 .intro-text {
   margin: 0;
-  max-width: 70ch;
   opacity: 0.9;
 }
 
 .teams-section {
   margin-bottom: clamp(40px, 8vw, 96px);
+  scroll-margin-top: calc(var(--sv-header-height) + 16px);
 }
 
 .teams-header {
@@ -358,7 +426,6 @@ const getInitials = (value?: string) =>
 
 .teams-lead {
   margin: 0;
-  max-width: 70ch;
   opacity: 0.9;
 }
 
@@ -448,6 +515,53 @@ const getInitials = (value?: string) =>
 .team-description {
   margin: 0;
   opacity: 0.9;
+}
+
+.team-training {
+  display: grid;
+  padding: 6px;
+  gap: 6px;
+  font-size: 0.9rem;
+  border: 1px solid var(--sv-secondary-color);
+  border-radius: 10px;
+}
+
+.team-training-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.team-training-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.team-training-item {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) minmax(88px, auto) 1fr;
+  gap: 8px;
+}
+
+.team-training-day {
+  font-weight: 600;
+}
+
+.team-training-location {
+  opacity: 0.85;
+  color: inherit;
+  text-decoration: none;
+}
+
+.team-training-location:hover,
+.team-training-location:focus-visible {
+  color: var(--sv-secondary-color);
+  text-decoration: underline;
 }
 
 .team-widget-button {
@@ -611,6 +725,7 @@ const getInitials = (value?: string) =>
 
 .coach-section {
   margin-bottom: clamp(40px, 8vw, 96px);
+  scroll-margin-top: calc(var(--sv-header-height) + 16px);
 }
 
 .coach-header {
@@ -633,55 +748,62 @@ const getInitials = (value?: string) =>
 
 .coach-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: clamp(16px, 2.5vw, 32px);
 }
 
 .coach-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  padding: clamp(16px, 2.4vw, 24px);
+  background: #f7f1e3;
+  color: #1f2a44;
+  border: 1px solid rgba(11, 31, 77, 0.2);
+  border-radius: 6px;
+  padding: 12px;
   display: grid;
-  gap: 12px;
-  min-height: 160px;
+  gap: 10px;
+  box-shadow: 0 14px 28px rgba(11, 31, 77, 0.18);
 }
 
-.coach-identity {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  align-items: center;
-}
-
-.coach-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
+.coach-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #d7d2c6;
   display: grid;
   place-items: center;
-  background: rgba(244, 208, 71, 0.15);
-  color: var(--sv-secondary-color);
+}
+
+.coach-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.coach-photo-fallback {
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  color: rgba(31, 42, 68, 0.7);
+}
+
+.coach-caption {
+  padding: 2px 4px 4px;
+  text-align: center;
 }
 
 .coach-name {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .coach-role {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.coach-focus {
-  margin: 0;
-  opacity: 0.85;
+  font-size: 10px;
+  color: rgba(31, 42, 68, 0.65);
 }
 
 .youth-contact {
@@ -766,13 +888,12 @@ const getInitials = (value?: string) =>
     clip-path: none;
   }
 
-  .widget-modal {
-    max-height: 92dvh;
+  .team-training-item {
+    grid-template-columns: 1fr;
   }
 
-  .coach-identity {
-    grid-template-columns: 1fr;
-    align-items: flex-start;
+  .widget-modal {
+    max-height: 92dvh;
   }
 
   .contact-item {

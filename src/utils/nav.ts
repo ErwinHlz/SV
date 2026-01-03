@@ -6,6 +6,7 @@ export type NavItem = {
 
 export const NAV: NavItem[] = [
   { label: "Home", to: "/" },
+  { label: "Verein", to: "/verein" },
   {
     label: "Teams",
     to: "/teams/one/kader",
@@ -31,9 +32,14 @@ export const NAV: NavItem[] = [
       {
         label: "Jugendmannschaften",
         to: "/teams/jugend",
+        children: [
+          { label: "Jugendteams", to: "/teams/jugend#jugendteams" },
+          { label: "Jugendtrainer", to: "/teams/jugend#jugendtrainer" },
+        ],
       },
     ],
   },
+  { label: "Stadion", to: "/stadion" },
   {
     label: "Aktuelles",
     to: "/news",

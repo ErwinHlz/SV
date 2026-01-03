@@ -29,22 +29,13 @@
 body {
   min-height: 100dvh;
   background-color: var(--sv-bg-base);
-  background-image:
-    repeating-linear-gradient(
+  background-image: repeating-linear-gradient(
       135deg,
       var(--sv-bg-grid) 0 1px,
       transparent 1px 10px
     ),
-    radial-gradient(
-      60% 60% at 12% 18%,
-      var(--sv-bg-glow) 0%,
-      transparent 62%
-    ),
-    radial-gradient(
-      45% 45% at 85% 12%,
-      var(--sv-bg-blue) 0%,
-      transparent 55%
-    ),
+    radial-gradient(60% 60% at 12% 18%, var(--sv-bg-glow) 0%, transparent 62%),
+    radial-gradient(45% 45% at 85% 12%, var(--sv-bg-blue) 0%, transparent 55%),
     radial-gradient(
       40% 40% at 78% 82%,
       var(--sv-bg-glow-soft) 0%,

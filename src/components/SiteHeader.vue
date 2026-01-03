@@ -133,6 +133,8 @@
         <RouterLink to="/" @click="closeMenu">Home</RouterLink>
         <RouterLink to="/about" @click="closeMenu">About</RouterLink>
         <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
+        <RouterLink to="/verein" @click="closeMenu">Verein</RouterLink>
+        <RouterLink to="/stadion" @click="closeMenu">Stadion</RouterLink>
         <RouterLink to="/news" @click="closeMenu">News</RouterLink>
         <RouterLink to="/termine" @click="closeMenu">Termine</RouterLink>
         <a href="https://www.instagram.com/sv_ottweiler1919/">
