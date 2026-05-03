@@ -148,12 +148,12 @@ const sortByDateTimeDesc = <T extends { date: string; time?: string }>(
     return right - left;
   });
 
-const pickSpielberichtImage = (seed: string) => {
+const pickSpielberichtImage = (seed: string): string => {
   let hash = 0;
   for (let i = 0; i < seed.length; i += 1) {
     hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
   }
-  return spielberichtImages[hash % spielberichtImages.length];
+  return spielberichtImages[hash % spielberichtImages.length] ?? spielberichtImageOne;
 };
 
 const getInstagramPostTitle = (caption: string, fallback: string) => {
