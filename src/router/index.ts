@@ -24,7 +24,7 @@ import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     }

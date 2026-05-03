@@ -21,6 +21,34 @@ const spielberichtImages = [
   spielberichtImageThree,
 ];
 
+type InstagramMediaSource = {
+  id: string;
+  typ?: string;
+  media_type?: string;
+  media_product_type?: string;
+  media_url?: string;
+  thumbnail_url?: string;
+  bild?: string;
+  permalink?: string;
+  timestamp?: string;
+};
+
+type InstagramPostSource = {
+  id: string;
+  username: string;
+  typ?: string;
+  media_type?: string;
+  media_product_type?: string;
+  datum: string;
+  timestamp: string;
+  caption: string;
+  kurztext?: string;
+  bild: string;
+  media_url?: string;
+  permalink: string;
+  medien?: InstagramMediaSource[];
+};
+
 export type NewsEntry = {
   id: number | string;
   title: string;
@@ -158,10 +186,8 @@ const mapInstagramMediaType = (
     ? "video"
     : "image";
 
-const getInstagramMediaItems = (
-  post: (typeof rawInstagramPosts.posts)[number],
-): NewsMediaItem[] => {
-  const mediaItems = post.medien?.length
+const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
+  const mediaItems: InstagramMediaSource[] = post.medien?.length
     ? post.medien
     : [
         {
@@ -174,82 +200,83 @@ const getInstagramMediaItems = (
         },
       ];
 
-  return mediaItems
-    .map((media) => {
-      const mediaType = mapInstagramMediaType(media.media_type, media.typ);
-      const src = media.media_url || media.bild || media.thumbnail_url;
-      const poster = media.thumbnail_url || media.bild || media.media_url;
+  const items: NewsMediaItem[] = [];
 
-      if (!src) {
-        return null;
-      }
+  mediaItems.forEach((media) => {
+    const mediaType = mapInstagramMediaType(media.media_type, media.typ);
+    const src = media.media_url || media.bild || media.thumbnail_url;
+    const poster = media.thumbnail_url || media.bild || media.media_url;
 
-      return {
-        id: String(media.id),
-        type: mediaType,
-        src,
-        poster: mediaType === "video" ? poster : undefined,
-        alt: `Instagram-Beitrag von @${post.username}`,
-        permalink: media.permalink || post.permalink,
-      };
-    })
-    .filter((media): media is NewsMediaItem => media !== null);
+    if (!src) {
+      return;
+    }
+
+    items.push({
+      id: String(media.id),
+      type: mediaType,
+      src,
+      poster: mediaType === "video" ? poster : undefined,
+      alt: `Instagram-Beitrag von @${post.username}`,
+      permalink: media.permalink || post.permalink,
+    });
+  });
+
+  return items;
 };
 
-export const getNewsItems = (): NewsEntry[] =>
-  withUniqueSlugs(
-    withResolvedAssets(
-      sortByDateTimeDesc([
-        ...rawNews,
-        ...rawInstagramPosts.posts.map((post) => ({
-          id: `instagram-${post.id}`,
-          title: getInstagramPostTitle(
-            post.caption,
-            `Instagram-Post von @${post.username}`,
-          ),
-          excerpt: getInstagramPostExcerpt(post.caption),
-          content: post.caption,
-          date: post.datum,
-          time: getLocalTimeFromTimestamp(post.timestamp),
-          image: post.media_url || post.bild,
-          imageAlt: `Instagram-Beitrag von @${post.username}`,
-          source: "Instagram",
-          externalUrl: post.permalink,
-          media: getInstagramMediaItems(post),
-        })),
-      ]),
-    ),
-  );
+const instagramPosts = rawInstagramPosts.posts as InstagramPostSource[];
+
+export const getNewsItems = (): NewsEntry[] => {
+  const mappedNews: Array<Omit<NewsEntry, "slug"> & { time?: string }> = [
+    ...rawNews,
+    ...instagramPosts.map((post) => ({
+      id: `instagram-${post.id}`,
+      title: getInstagramPostTitle(
+        post.caption,
+        `Instagram-Post von @${post.username}`,
+      ),
+      excerpt: getInstagramPostExcerpt(post.caption),
+      content: post.caption,
+      date: post.datum,
+      time: getLocalTimeFromTimestamp(post.timestamp),
+      image: post.media_url || post.bild,
+      imageAlt: `Instagram-Beitrag von @${post.username}`,
+      source: "Instagram",
+      externalUrl: post.permalink,
+      media: getInstagramMediaItems(post),
+    })),
+  ];
+
+  return withUniqueSlugs(withResolvedAssets(sortByDateTimeDesc(mappedNews)));
+};
 
 export const getTerminItems = (): TerminEntry[] =>
   withUniqueSlugs(withResolvedAssets(sortByDateTimeDesc(rawTermine)));
 
-export const getSpielberichtItems = (): SpielberichtEntry[] =>
-  withUniqueSlugs(
-    withResolvedAssets(
-      sortByDateTimeDesc(
-        rawSpielberichte.reports.map((report) => ({
-          id: report.id,
-          title: report.titel,
-          excerpt: report.kurztext,
-          content: report.text,
-          date: report.datum,
-          time: report.uhrzeit,
-          image: pickSpielberichtImage(report.id),
-          imageAlt: `${report.spiel.heimmannschaft} gegen ${report.spiel.gastmannschaft}`,
-          competition: report.wettbewerb,
-          location: report.spiel.ort,
-          result: report.spiel.ergebnis,
-          halfTime: report.spiel.halbzeit,
-          homeTeam: report.spiel.heimmannschaft,
-          awayTeam: report.spiel.gastmannschaft,
-          sourceUrl: report.url,
-          matchUrl: report.spiel_url,
-          author: report.autor,
-        })),
-      ),
-    ),
-  );
+export const getSpielberichtItems = (): SpielberichtEntry[] => {
+  const mappedReports: SpielberichtEntry[] = rawSpielberichte.reports.map((report) => ({
+    id: report.id,
+    title: report.titel,
+    excerpt: report.kurztext,
+    content: report.text,
+    date: report.datum,
+    time: report.uhrzeit,
+    image: pickSpielberichtImage(report.id),
+    imageAlt: `${report.spiel.heimmannschaft} gegen ${report.spiel.gastmannschaft}`,
+    competition: report.wettbewerb,
+    location: report.spiel.ort,
+    result: report.spiel.ergebnis,
+    halfTime: report.spiel.halbzeit,
+    homeTeam: report.spiel.heimmannschaft,
+    awayTeam: report.spiel.gastmannschaft,
+    sourceUrl: report.url,
+    matchUrl: report.spiel_url,
+    author: report.autor,
+    slug: "",
+  }));
+
+  return withUniqueSlugs(withResolvedAssets(sortByDateTimeDesc(mappedReports)));
+};
 
 export const findNewsBySlug = (slug: string) =>
   getNewsItems().find((item) => item.slug === slug);
