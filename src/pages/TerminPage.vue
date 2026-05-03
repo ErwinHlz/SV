@@ -36,6 +36,29 @@
           <span class="termine-location">{{ item.location }}</span>
           <span v-if="item.source" class="termine-source">{{ item.source }}</span>
         </div>
+        <div
+          v-if="item.homeTeam && item.awayTeam"
+          class="termine-matchup">
+          <div class="termine-team">
+            <img
+              v-if="item.homeLogo"
+              class="termine-team-logo"
+              :src="item.homeLogo"
+              :alt="`${item.homeTeam} Logo`"
+              loading="lazy" />
+            <span class="termine-team-name">{{ item.homeTeam }}</span>
+          </div>
+          <span class="termine-matchup-separator">vs</span>
+          <div class="termine-team termine-team--away">
+            <img
+              v-if="item.awayLogo"
+              class="termine-team-logo"
+              :src="item.awayLogo"
+              :alt="`${item.awayTeam} Logo`"
+              loading="lazy" />
+            <span class="termine-team-name">{{ item.awayTeam }}</span>
+          </div>
+        </div>
         <h3 class="termine-card-title">{{ item.title }}</h3>
         <p class="termine-card-excerpt">{{ item.excerpt }}</p>
       </div>
@@ -76,8 +99,8 @@ const getCardHeight = (item: { id: number | string; title?: string }) => {
 .termine-card {
   display: inline-flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
@@ -168,6 +191,45 @@ const getCardHeight = (item: { id: number | string; title?: string }) => {
   margin: 0;
   font-size: clamp(18px, 1.7vw, 24px);
   line-height: 1.25;
+}
+
+.termine-matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.termine-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.termine-team--away {
+  justify-content: flex-end;
+}
+
+.termine-team-logo {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  object-fit: contain;
+}
+
+.termine-team-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.termine-matchup-separator {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sv-secondary-color);
 }
 
 .termine-card-excerpt {

@@ -46,6 +46,45 @@ function normalizeResult(result) {
   return result.replace(/\s+/g, "");
 }
 
+function extractVenue(bodyText) {
+  const lines = bodyText
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const stadiumIndex = lines.findIndex((line) => /^stadion$/i.test(line));
+
+  if (stadiumIndex === -1) {
+    return "";
+  }
+
+  const venueParts = [];
+
+  for (let i = stadiumIndex + 1; i < lines.length; i += 1) {
+    const line = lines[i];
+
+    if (
+      /^auf karte anzeigen$/i.test(line) ||
+      /^schiedsrichter/i.test(line) ||
+      /^zuschauer/i.test(line) ||
+      /^wettbewerb/i.test(line) ||
+      /^spieltag/i.test(line) ||
+      /^uhr$/i.test(line) ||
+      /^anstoß/i.test(line)
+    ) {
+      break;
+    }
+
+    venueParts.push(line);
+
+    if (venueParts.length >= 2) {
+      break;
+    }
+  }
+
+  return venueParts.join(", ");
+}
+
 function toISODateGerman(dateStr) {
   // 03.05.2026 -> 2026-05-03
   const [dd, mm, yyyy] = dateStr.split(".");
@@ -270,10 +309,6 @@ async function readMatch(page, matchUrl) {
     datum = toISODateGerman(absoluteDateMatch[1]);
   }
 
-  const stadiumMatch = bodyText.match(
-    /Stadion\s+(.+?)(?:\n|Auf Karte anzeigen)/,
-  );
-
   const lines = bodyText
     .split("\n")
     .map((line) => line.trim())
@@ -287,10 +322,10 @@ async function readMatch(page, matchUrl) {
     ergebnis: normalizeResult(result),
     bild_heim: logoFor(home),
     bild_gast: logoFor(away),
-    ort: stadiumMatch ? stadiumMatch[1].trim() : "",
+    ort: extractVenue(bodyText),
     datum,
     uhrzeit: kickoffTimeMatch ? kickoffTimeMatch[1] : "",
-    url: matchUrl,
+    match_url: matchUrl,
   };
 }
 
@@ -359,12 +394,6 @@ async function main() {
   );
 
   const output = pickGamesByWeek(matches);
-
-  for (const key of ["last", "live", "next"]) {
-    if (output[key]) {
-      delete output[key].url;
-    }
-  }
 
   await fs.writeFile(
     CONFIG.outputFile,

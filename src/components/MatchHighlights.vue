@@ -1,10 +1,17 @@
 <template>
   <section class="match-strip" aria-label="Spiel-Highlights">
-    <article
+    <component
       v-for="match in cards"
       :key="match.key"
+      :is="match.linkUrl ? 'a' : 'article'"
       class="match-card"
-      :class="`match-card--${match.key}`">
+      :class="[
+        `match-card--${match.key}`,
+        { 'match-card--link': Boolean(match.linkUrl) },
+      ]"
+      :href="match.linkUrl"
+      :target="match.linkUrl ? '_blank' : undefined"
+      :rel="match.linkUrl ? 'noreferrer' : undefined">
       <p class="match-label">{{ match.label }}</p>
 
       <div class="match-main">
@@ -36,12 +43,13 @@
           {{ formatDate(match.datum) }} | {{ match.uhrzeit }} | {{ match.ort }}
         </p>
       </div>
-    </article>
+    </component>
   </section>
 </template>
 
 <script setup lang="ts">
 import rawMatchHighlights from "@/content/match-highlights.json";
+import { getClubLogo } from "@/utils/contentEntries";
 import { formatDate } from "@/utils/date";
 
 type MatchEntry = {
@@ -53,6 +61,7 @@ type MatchEntry = {
   ort: string;
   datum: string;
   uhrzeit: string;
+  match_url?: string;
 };
 
 type MatchHighlightsContent = {
@@ -64,9 +73,42 @@ type MatchHighlightsContent = {
 const matchHighlights = rawMatchHighlights as MatchHighlightsContent;
 
 const cards = [
-  { key: "last", label: "Letztes", ...matchHighlights.last },
-  { key: "live", label: "Aktuell", ...matchHighlights.live },
-  { key: "next", label: "Naechstes", ...matchHighlights.next },
+  {
+    key: "last",
+    label: "Letztes",
+    ...matchHighlights.last,
+    bild_heim:
+      getClubLogo(matchHighlights.last.heimmannschaft) ??
+      matchHighlights.last.bild_heim,
+    bild_gast:
+      getClubLogo(matchHighlights.last.gastmannschaft) ??
+      matchHighlights.last.bild_gast,
+    linkUrl: matchHighlights.last.match_url,
+  },
+  {
+    key: "live",
+    label: "Aktuell",
+    ...matchHighlights.live,
+    bild_heim:
+      getClubLogo(matchHighlights.live.heimmannschaft) ??
+      matchHighlights.live.bild_heim,
+    bild_gast:
+      getClubLogo(matchHighlights.live.gastmannschaft) ??
+      matchHighlights.live.bild_gast,
+    linkUrl: matchHighlights.live.match_url,
+  },
+  {
+    key: "next",
+    label: "Nächstes",
+    ...matchHighlights.next,
+    bild_heim:
+      getClubLogo(matchHighlights.next.heimmannschaft) ??
+      matchHighlights.next.bild_heim,
+    bild_gast:
+      getClubLogo(matchHighlights.next.gastmannschaft) ??
+      matchHighlights.next.bild_gast,
+    linkUrl: matchHighlights.next.match_url,
+  },
 ];
 </script>
 
@@ -76,7 +118,6 @@ const cards = [
   height: clamp(72px, 8dvh, 96px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
   flex: 0 0 auto;
 }
 
@@ -84,14 +125,38 @@ const cards = [
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 4px;
   min-width: 0;
   padding: 8px 12px;
-  border-radius: 18px;
+  background: var(--sv-card-bg);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(2, 16, 46, 0.72);
+  background-color: rgb(20, 20, 20);
+
   overflow: hidden;
   height: 15dvh;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.match-card--link {
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.match-card--link:hover,
+.match-card--link:focus-visible {
+  scale: 1.05;
+  border-color: rgba(244, 208, 71, 0.65);
+  box-shadow: 0 16px 28px rgba(2, 43, 121, 0.24);
+}
+
+.match-card--link:focus-visible {
+  outline: 2px solid var(--sv-secondary-color);
+  outline-offset: 3px;
 }
 
 .match-card--live {
@@ -102,7 +167,7 @@ const cards = [
       rgba(244, 208, 71, 0.18),
       transparent 35%
     ),
-    rgba(2, 16, 46, 0.84);
+    rgb(2, 16, 46);
 }
 
 .match-label {
@@ -118,15 +183,17 @@ const cards = [
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
   flex: 1 1 auto;
 }
 
 .team {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
   min-width: 0;
 }
 
@@ -135,22 +202,21 @@ const cards = [
 }
 
 .team-logo {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
   object-fit: contain;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
 }
 
 .team-name {
   margin: 0;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.15;
-  white-space: nowrap;
+  text-align: center;
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-wrap: balance;
 }
 
 .match-center {
@@ -216,6 +282,12 @@ const cards = [
   .team,
   .team--away {
     justify-content: center;
+  }
+
+  .team-logo {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
   }
 
   .match-center {

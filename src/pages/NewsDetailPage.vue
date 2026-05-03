@@ -286,8 +286,8 @@ watch(
   margin: 0 auto;
   padding: clamp(24px, 3vw, 32px);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
 }
 
 .news-detail-meta p {
@@ -303,8 +303,8 @@ watch(
   margin: 0 auto clamp(48px, 8vw, 96px);
   padding: clamp(28px, 4vw, 48px);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg-soft);
+  border: 1px solid var(--sv-card-border);
 }
 
 .entry-not-found-title {

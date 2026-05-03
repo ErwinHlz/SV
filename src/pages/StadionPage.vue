@@ -1,52 +1,9 @@
 <template>
   <PageHero :image="stadionHero" :title="hero.title" :lead="hero.lead" />
 
-  <section class="stadion-intro" aria-label="Stadion Intro">
-    <div class="intro-card">
-      <h2 class="intro-title">{{ intro.title }}</h2>
-      <p class="intro-text">{{ intro.text }}</p>
-      <p v-if="intro.note" class="intro-note">{{ intro.note }}</p>
-    </div>
-  </section>
-
-  <section class="stadion-facts" aria-label="Stadion Infos">
-    <header class="facts-header">
-      <h2 class="facts-title">{{ facts.title }}</h2>
-    </header>
-    <div class="facts-grid">
-      <article v-for="item in facts.items" :key="item.label" class="fact">
-        <p class="fact-label">{{ item.label }}</p>
-        <p class="fact-value">
-          <a v-if="item.link" :href="item.link" target="_blank" rel="noopener">
-            {{ item.value }}
-          </a>
-          <span v-else>{{ item.value }}</span>
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <section class="stadion-gallery" aria-label="Stadion Bilder">
-    <header class="gallery-header">
-      <h2 class="gallery-title">{{ gallery.title }}</h2>
-      <div class="slideshow-controls">
-        <button
-          type="button"
-          class="slideshow-btn"
-          :disabled="galleryItems.length < 2"
-          aria-label="Vorheriges Bild"
-          @click="prevSlide">
-          Zurueck
-        </button>
-        <button
-          type="button"
-          class="slideshow-btn"
-          :disabled="galleryItems.length < 2"
-          aria-label="Naechstes Bild"
-          @click="nextSlide">
-          Weiter
-        </button>
-      </div>
+  <section class="stadion-section" aria-label="Stadion Impressionen">
+    <header class="section-header">
+      <h2 class="section-title">{{ gallery.title }}</h2>
     </header>
     <div
       class="slideshow"
@@ -67,28 +24,43 @@
             <img :src="item.image" :alt="item.imageAlt" loading="lazy" />
           </figure>
         </template>
-        <p v-else class="slideshow-empty">Keine Bilder vorhanden.</p>
+        <p v-else class="map-placeholder">Keine Bilder vorhanden.</p>
       </div>
-      <p v-if="activeCaption" class="slideshow-caption" aria-live="polite">
-        {{ activeCaption }}
-      </p>
-      <div class="slideshow-dots" aria-label="Diashow Navigation">
+      <div class="slideshow-controls">
         <button
-          v-for="(item, index) in galleryItems"
-          :key="item.id"
           type="button"
-          class="slideshow-dot"
-          :class="{ 'is-active': index === activeSlide }"
-          :aria-label="`Bild ${index + 1}`"
+          class="slideshow-btn"
           :disabled="galleryItems.length < 2"
-          @click="setSlide(index)"></button>
+          aria-label="Vorheriges Bild"
+          @click="prevSlide">
+          <span class="chevron"><ChevronLeft :size="22" :stroke-width="2.2" aria-hidden="true" /></span>
+        </button>
+        <div class="slideshow-dots" aria-label="Diashow Navigation">
+          <button
+            v-for="(item, index) in galleryItems"
+            :key="item.id"
+            type="button"
+            class="slideshow-dot"
+            :class="{ 'is-active': index === activeSlide }"
+            :aria-label="`Bild ${index + 1}`"
+            :disabled="galleryItems.length < 2"
+            @click="setSlide(index)"></button>
+        </div>
+        <button
+          type="button"
+          class="slideshow-btn"
+          :disabled="galleryItems.length < 2"
+          aria-label="Naechstes Bild"
+          @click="nextSlide">
+          <span class="chevron"><ChevronRight :size="22" :stroke-width="2.2" aria-hidden="true" /></span>
+        </button>
       </div>
     </div>
   </section>
 
-  <section class="stadion-map" aria-label="Anfahrt und Parken">
-    <header class="map-header">
-      <h2 class="map-title">{{ map.title }}</h2>
+  <section class="stadion-section" aria-label="Anfahrt">
+    <header class="section-header">
+      <h2 class="section-title">{{ map.title }}</h2>
     </header>
     <div class="map-frame">
       <iframe
@@ -101,18 +73,19 @@
       <p v-else class="map-placeholder">Keine Karte hinterlegt.</p>
     </div>
     <a
-      v-if="map.linkUrl"
-      class="map-cta"
-      :href="map.linkUrl"
+      v-if="addressLink"
+      class="address-link"
+      :href="addressLink"
       target="_blank"
       rel="noopener">
-      {{ map.linkLabel }}
+      <MapPinned :size="18" :stroke-width="2.2" aria-hidden="true" />
+      <span>{{ addressLabel }}</span>
     </a>
   </section>
 
-  <section class="stadion-people" aria-label="Team am Stadion">
-    <header class="people-header">
-      <h2 class="people-title">{{ people.title }}</h2>
+  <section class="stadion-section" aria-label="Team am Stadion">
+    <header class="section-header">
+      <h2 class="section-title">{{ people.title }}</h2>
     </header>
     <div class="people-grid">
       <article
@@ -139,7 +112,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { ChevronLeft, ChevronRight, MapPinned } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
 import stadionHero from "@/assets/header/background.png";
 import rawStadion from "@/content/stadion.json";
@@ -172,20 +146,10 @@ type StadionPerson = {
   imageAlt?: string;
 };
 
-type StadionPeople = {
-  title: string;
-  items: StadionPerson[];
-};
-
 type StadionContent = {
   hero: {
     title: string;
     lead: string;
-  };
-  intro: {
-    title: string;
-    text: string;
-    note?: string;
   };
   facts: {
     title: string;
@@ -196,11 +160,14 @@ type StadionContent = {
     items: StadionGalleryItem[];
   };
   map: StadionMap;
-  people: StadionPeople;
+  people: {
+    title: string;
+    items: StadionPerson[];
+  };
 };
 
 const stadionContent = rawStadion as StadionContent;
-const { hero, intro, facts, gallery, map, people } = stadionContent;
+const { hero, facts, gallery, map, people } = stadionContent;
 
 const imageMap: Record<string, string> = {
   stadionHero,
@@ -215,6 +182,10 @@ const galleryItems = gallery.items.map((item, index) => ({
 const activeSlide = ref(0);
 const slideCount = galleryItems.length;
 let slideshowTimer: ReturnType<typeof setInterval> | null = null;
+
+const addressFact = facts.items.find((item) => item.label === "Adresse");
+const addressLabel = addressFact?.value ?? "Adresse in Google Maps oeffnen";
+const addressLink = addressFact?.link ?? map.linkUrl;
 
 const clampIndex = (index: number) => {
   if (slideCount === 0) return 0;
@@ -258,10 +229,6 @@ const setSlide = (index: number) => {
   restartTimer();
 };
 
-const activeCaption = computed(
-  () => galleryItems[activeSlide.value]?.caption ?? ""
-);
-
 onMounted(() => {
   startTimer();
 });
@@ -286,106 +253,12 @@ const getInitials = (value?: string) =>
 </script>
 
 <style scoped>
-.stadion-intro,
-.stadion-facts,
-.stadion-gallery,
-.stadion-map,
-.stadion-people {
-  width: 80dvw;
-  margin: 0 auto;
+.stadion-section {
+  width: min(1120px, calc(100dvw - 48px));
+  margin: 0 auto clamp(40px, 7vw, 88px);
 }
 
-.stadion-intro {
-  margin-bottom: clamp(32px, 6vw, 64px);
-}
-
-.intro-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  padding: clamp(20px, 3vw, 36px);
-  display: grid;
-  gap: 12px;
-  box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
-}
-
-.intro-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
-}
-
-.intro-text {
-  margin: 0;
-  max-width: 70ch;
-  opacity: 0.9;
-}
-
-.intro-note {
-  margin: 0;
-  color: var(--sv-secondary-color);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.stadion-facts {
-  margin-bottom: clamp(40px, 8vw, 96px);
-}
-
-.facts-header {
-  margin-bottom: clamp(16px, 2.5vw, 28px);
-}
-
-.facts-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
-}
-
-.facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(16px, 2.5vw, 32px);
-}
-
-.fact {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
-  padding: clamp(16px, 2.4vw, 24px);
-  display: grid;
-  gap: 8px;
-}
-
-.fact-label {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.fact-value {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.fact-value a {
-  color: var(--sv-secondary-color);
-  text-decoration: none;
-}
-
-.fact-value a:hover,
-.fact-value a:focus-visible {
-  text-decoration: underline;
-}
-
-.stadion-gallery {
-  margin-bottom: clamp(40px, 8vw, 96px);
-}
-
-.gallery-header {
+.section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -394,45 +267,41 @@ const getInitials = (value?: string) =>
   margin-bottom: clamp(16px, 2.5vw, 28px);
 }
 
-.gallery-title {
+.section-title {
   margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
+  font-size: clamp(24px, 3vw, 36px);
   letter-spacing: 0.02em;
 }
 
 .slideshow-controls {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
 }
 
 .slideshow-btn {
-  border-radius: 999px;
-  padding: 8px 18px;
-  background: rgba(2, 43, 121, 0.6);
-  color: var(--sv-secondary-color);
-  border: 1px solid rgba(244, 208, 71, 0.45);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 0;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
-    color 0.25s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .slideshow-btn:hover,
 .slideshow-btn:focus-visible {
-  background: var(--sv-secondary-color);
-  color: var(--sv-primary-color);
-  box-shadow: 0 10px 22px rgba(2, 43, 121, 0.22);
-  transform: translateY(-1px);
+  color: var(--sv-secondary-color);
+  transform: scale(1.08);
 }
 
 .slideshow-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.35;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
 }
 
 .slideshow {
@@ -444,10 +313,10 @@ const getInitials = (value?: string) =>
   position: relative;
   width: 100%;
   height: clamp(600px, 80vw, 700px);
-  border-radius: 18px;
+  border-radius: 22px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
 }
 
@@ -473,24 +342,11 @@ const getInitials = (value?: string) =>
   display: block;
 }
 
-.slideshow-empty {
-  margin: 0;
-  padding: 24px;
-  text-align: center;
-  opacity: 0.8;
-}
-
-.slideshow-caption {
-  margin: 0;
-  padding: 0 2px;
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-
 .slideshow-dots {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .slideshow-dot {
@@ -512,27 +368,19 @@ const getInitials = (value?: string) =>
   cursor: not-allowed;
 }
 
-.stadion-map {
-  margin-bottom: clamp(40px, 8vw, 96px);
-}
-
-.map-header {
-  margin-bottom: clamp(16px, 2.5vw, 28px);
-}
-
-.map-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .map-frame {
   width: 100%;
-  height: clamp(320px, 60vh, 520px);
-  border-radius: 20px;
+  height: clamp(320px, 58vh, 520px);
+  border-radius: 22px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
 }
 
@@ -550,45 +398,19 @@ const getInitials = (value?: string) =>
   opacity: 0.8;
 }
 
-.map-cta {
-  margin-top: 16px;
-  justify-self: start;
+.address-link {
+  margin-top: 18px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  border-radius: 999px;
-  background: var(--sv-secondary-color);
-  color: var(--sv-primary-color);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 2px solid transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
-    color 0.25s ease;
-}
-
-.map-cta:hover,
-.map-cta:focus-visible {
-  background: transparent;
+  gap: 10px;
   color: var(--sv-secondary-color);
-  border-color: var(--sv-secondary-color);
-  box-shadow: 0 12px 26px rgba(2, 43, 121, 0.18);
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.stadion-people {
-  margin-bottom: clamp(48px, 8vw, 96px);
-}
-
-.people-header {
-  margin-bottom: clamp(16px, 2.5vw, 28px);
-}
-
-.people-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
+.address-link:hover,
+.address-link:focus-visible {
+  text-decoration: underline;
 }
 
 .people-grid {
@@ -598,7 +420,6 @@ const getInitials = (value?: string) =>
 }
 
 .people-card {
-  width: 20dvw;
   background: #f7f1e3;
   color: #1f2a44;
   border: 1px solid rgba(11, 31, 77, 0.2);
@@ -652,9 +473,13 @@ const getInitials = (value?: string) =>
   color: rgba(31, 42, 68, 0.65);
 }
 
-@media (max-width: 720px) {
-  .facts-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 900px) {
+  .stadion-section {
+    width: calc(100dvw - 24px);
+  }
+
+  .slideshow-stage {
+    height: clamp(320px, 58vw, 460px);
   }
 }
 </style>

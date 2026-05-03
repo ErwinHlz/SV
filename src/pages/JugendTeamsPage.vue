@@ -387,8 +387,8 @@ const getInitials = (value?: string) =>
 }
 
 .intro-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   border-radius: 24px;
   padding: clamp(20px, 3vw, 36px);
   display: grid;
@@ -436,8 +436,8 @@ const getInitials = (value?: string) =>
 }
 
 .team-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg-soft);
+  border: 1px solid var(--sv-card-border);
   border-radius: 22px;
   overflow: hidden;
   display: grid;

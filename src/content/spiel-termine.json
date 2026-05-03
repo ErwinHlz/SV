@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Auswärtsspiel gegen Heusweiler II",
+    "excerpt": "Auswärtsspiel der FSG Ottweiler-Steinbach II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-05-10",
+    "time": "13:15",
+    "location": "Auswärts bei Heusweiler II",
+    "content": "Anpfiff ist um 13:15 Uhr. Die FSG Ottweiler-Steinbach II spielt auswärts bei Heusweiler II in Auswärts bei Heusweiler II.",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termin",
+    "externalUrl": "https://www.fupa.net/match/vfb-heusweiler-m2-fsg-ottweiler-steinbach-m2-260510",
+    "mapsUrl": ""
+  },
+  {
+    "id": 2,
+    "title": "Heimspiel gegen Heiligenwald",
+    "excerpt": "Heimspiel der FSG Ottweiler-Steinbach II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-05-17",
+    "time": "15:00",
+    "location": "Sportplatz Ottweiler",
+    "content": "Anpfiff ist um 15:00 Uhr. Kommt vorbei und unterstützt die FSG Ottweiler-Steinbach II am Sportplatz Ottweiler.",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termin",
+    "externalUrl": "https://www.fupa.net/match/fsg-ottweiler-steinbach-m2-sc-heiligenwald-m1-260517",
+    "mapsUrl": ""
+  },
+  {
+    "id": 3,
+    "title": "Heimspiel gegen Bubach-C.",
+    "excerpt": "Heimspiel der FSG Ottweiler-Steinbach II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-05-24",
+    "time": "15:00",
+    "location": "Sportplatz Ottweiler",
+    "content": "Anpfiff ist um 15:00 Uhr. Kommt vorbei und unterstützt die FSG Ottweiler-Steinbach II am Sportplatz Ottweiler.",
+    "image": "termineImage",
+    "imageAlt": "Symbol fuer Termin",
+    "externalUrl": "https://www.fupa.net/match/fsg-ottweiler-steinbach-m2-sv-bubach-calmesweiler-m1-260524",
+    "mapsUrl": ""
+  }
+]

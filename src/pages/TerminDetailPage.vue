@@ -15,6 +15,29 @@
         </a>
       </p>
     </article>
+    <article
+      v-if="terminItem.homeTeam && terminItem.awayTeam"
+      class="termin-detail-matchup">
+      <div class="termin-detail-team">
+        <img
+          v-if="terminItem.homeLogo"
+          class="termin-detail-logo"
+          :src="terminItem.homeLogo"
+          :alt="`${terminItem.homeTeam} Logo`"
+          loading="lazy" />
+        <span class="termin-detail-team-name">{{ terminItem.homeTeam }}</span>
+      </div>
+      <span class="termin-detail-separator">vs</span>
+      <div class="termin-detail-team termin-detail-team--away">
+        <img
+          v-if="terminItem.awayLogo"
+          class="termin-detail-logo"
+          :src="terminItem.awayLogo"
+          :alt="`${terminItem.awayTeam} Logo`"
+          loading="lazy" />
+        <span class="termin-detail-team-name">{{ terminItem.awayTeam }}</span>
+      </div>
+    </article>
     <EntryDetailContent
       :excerpt="terminItem.excerpt"
       :content="terminItem.content" />
@@ -54,8 +77,8 @@ const terminItem = computed(() =>
   margin: 0 auto;
   padding: clamp(24px, 3vw, 32px);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
 }
 
 .termin-detail-meta p {
@@ -66,13 +89,58 @@ const terminItem = computed(() =>
   margin-top: 12px;
 }
 
+.termin-detail-matchup {
+  width: min(920px, calc(100dvw - 48px));
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 28px;
+  background: var(--sv-card-bg-soft);
+  border: 1px solid var(--sv-card-border);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+
+.termin-detail-team {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.termin-detail-team--away {
+  justify-content: flex-end;
+}
+
+.termin-detail-logo {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  object-fit: contain;
+}
+
+.termin-detail-team-name {
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.termin-detail-separator {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sv-secondary-color);
+}
+
 .entry-not-found {
   width: min(1120px, calc(100dvw - 48px));
   margin: 0 auto clamp(48px, 8vw, 96px);
   padding: clamp(28px, 4vw, 48px);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg-soft);
+  border: 1px solid var(--sv-card-border);
 }
 
 .entry-not-found-title {
@@ -87,8 +155,22 @@ const terminItem = computed(() =>
 
 @media (max-width: 900px) {
   .termin-detail-meta,
+  .termin-detail-matchup,
   .entry-not-found {
     width: calc(100dvw - 24px);
+  }
+}
+
+@media (max-width: 700px) {
+  .termin-detail-matchup {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .termin-detail-team,
+  .termin-detail-team--away {
+    justify-content: center;
   }
 }
 

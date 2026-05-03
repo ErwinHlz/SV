@@ -91,7 +91,7 @@ const items = [
   font-size: clamp(11px, 1.6vw, 14px);
   color: var(--sv-text-color);
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--sv-card-bg-soft);
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.2s ease, color 0.25s ease, background 0.25s ease,
     box-shadow 0.25s ease, border-color 0.25s ease;

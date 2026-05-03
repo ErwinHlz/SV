@@ -6,7 +6,9 @@
         Neuste News
       </h2>
       <div class="news-cta-wrap flex items-center pt-20">
-        <RouterLink to="/news" class="news-cta">ALLE NEWS</RouterLink>
+        <RouterLink to="/news" class="news-cta" aria-label="Alle News">
+          <Newspaper :size="22" :stroke-width="2.2" aria-hidden="true" />
+        </RouterLink>
       </div>
     </div>
     <article
@@ -48,6 +50,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { Newspaper } from "@lucide/vue";
 import { formatDate } from "@/utils/date";
 import { getNewsItems } from "@/utils/contentEntries";
 
@@ -73,16 +76,18 @@ const newsItems = computed(() => getNewsItems());
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 28px;
+  width: 52px;
+  height: 52px;
+  padding: 0;
   border-radius: 999px;
   background: var(--sv-secondary-color);
   color: var(--sv-primary-color);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-decoration: none;
   border: 2px solid transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
     color 0.25s ease;
 }
 
@@ -101,11 +106,16 @@ const newsItems = computed(() => getNewsItems());
   grid-template-areas: "text image";
   align-items: center;
   gap: clamp(16px, 3vw, 36px);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.89);
+  color: black;
+  border: 1px solid var(--sv-card-border);
   min-height: clamp(180px, 22vh, 260px);
   overflow: hidden;
   width: 100dvw;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .news-item--reverse {
@@ -128,6 +138,7 @@ const newsItems = computed(() => getNewsItems());
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  transition: color 0.35s ease;
 }
 
 .news-item:nth-child(even) .news-text {
@@ -137,9 +148,26 @@ const newsItems = computed(() => getNewsItems());
   border-bottom-left-radius: 0;
 }
 
-.news-text:hover {
-  background-color: #f4d147b7;
+.news-item:hover,
+.news-item:focus-within {
+  background-color: var(--sv-secondary-color);
+  border-color: rgba(244, 208, 71, 0.72);
+}
+
+.news-item:hover .news-text,
+.news-item:focus-within .news-text {
   color: var(--sv-primary-color);
+}
+
+.news-item:hover .news-image,
+.news-item:focus-within .news-image {
+  transform: scale(1.2);
+}
+
+.news-item:hover .news-image-overlay,
+.news-item:focus-within .news-image-overlay {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .news-image-frame {
@@ -174,7 +202,9 @@ const newsItems = computed(() => getNewsItems());
   background: rgba(2, 43, 121, 0.35);
   opacity: 0;
   transform: scale(0.98);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   pointer-events: none;
 }
 
@@ -184,16 +214,6 @@ const newsItems = computed(() => getNewsItems());
   stroke: var(--sv-secondary-color);
   stroke-width: 2.5;
   fill: none;
-}
-
-.news-image-frame:hover .news-image {
-  transform: scale(1.2);
-  filter: grayscale(1);
-}
-
-.news-image-frame:hover .news-image-overlay {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .news-item:nth-child(even) .news-image-frame {

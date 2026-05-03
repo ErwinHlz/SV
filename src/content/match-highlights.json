@@ -7,7 +7,8 @@
     "bild_gast": "/team-logos/saubach-2.png",
     "ort": "Stadion Im Alten Weiher",
     "datum": "2026-04-26",
-    "uhrzeit": "15:00"
+    "uhrzeit": "15:00",
+    "match_url": "https://www.fupa.net/match/fsg-ottweiler-steinbach-m2-sg-saubach-m2-260426"
   },
   "live": {
     "heimmannschaft": "Alsweiler",
@@ -17,7 +18,8 @@
     "bild_gast": "/team-logos/fsg-ottweiler-steinbach.png",
     "ort": "Auf der Lehn",
     "datum": "2026-05-03",
-    "uhrzeit": "15:00"
+    "uhrzeit": "15:00",
+    "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-fsg-ottweiler-steinbach-m2-260503"
   },
   "next": {
     "heimmannschaft": "Heusweiler II",
@@ -27,6 +29,7 @@
     "bild_gast": "/team-logos/fsg-ottweiler-steinbach.png",
     "ort": "Arena am Wittum",
     "datum": "2026-05-10",
-    "uhrzeit": "13:15"
+    "uhrzeit": "13:15",
+    "match_url": "https://www.fupa.net/match/vfb-heusweiler-m2-fsg-ottweiler-steinbach-m2-260510"
   }
 }

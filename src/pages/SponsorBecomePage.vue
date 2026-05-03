@@ -49,8 +49,8 @@ import sponsorHero from "@/assets/header/background.png";
 }
 
 .sponsor-info-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   border-radius: 20px;
   padding: clamp(18px, 2.5vw, 28px);
   color: var(--sv-text-color);

@@ -75,8 +75,8 @@ const getCardHeight = (item: { id: number | string; title?: string }) => {
 .news-card {
   display: inline-flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;

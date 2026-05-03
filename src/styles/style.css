@@ -18,36 +18,32 @@
   --sv-header-height: 10dvh;
   --sv-fupa-width: min(1100px, 92vw);
   --sv-fupa-height: clamp(260px, 60vh, 720px);
-  --sv-bg-base: #02112b;
+  --sv-bg-base: #000611;
   --sv-bg-deep: #010a1c;
   --sv-bg-header-black: #000000;
   --sv-bg-header-blue: #022b79;
   --sv-bg-glow: rgba(244, 208, 71, 0.08);
   --sv-bg-glow-soft: rgba(244, 208, 71, 0.03);
   --sv-bg-blue: rgba(2, 43, 121, 0.24);
+  --sv-card-bg: rgba(7, 18, 44, 0.78);
+  --sv-card-bg-soft: rgba(7, 18, 44, 0.66);
+  --sv-card-border: rgba(255, 255, 255, 0.16);
 }
 
 body {
   min-height: 100dvh;
   background-color: var(--sv-bg-base);
   background-image:
-    radial-gradient(60% 60% at 12% 18%, var(--sv-bg-glow) 0%, transparent 62%),
-    radial-gradient(45% 45% at 85% 12%, var(--sv-bg-blue) 0%, transparent 55%),
-    radial-gradient(
-      40% 40% at 78% 82%,
-      var(--sv-bg-glow-soft) 0%,
-      transparent 60%
-    ),
     linear-gradient(
       130deg,
       var(--sv-bg-header-black) 0%,
-      var(--sv-bg-header-blue) 200%
+      var(--sv-bg-header-blue) 300%
     ),
     linear-gradient(
       180deg,
       var(--sv-bg-deep) 0%,
-      var(--sv-bg-base) 50%,
-      var(--sv-bg-deep) 100%
+      var(--sv-bg-base) 0%,
+      var(--sv-bg-deep) 160%
     );
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
 }

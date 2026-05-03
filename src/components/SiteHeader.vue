@@ -28,7 +28,11 @@
               @mouseenter="showDropdown(item.label)"
               @mouseleave="scheduleCloseDropdown"
               @click="open = null">
-              {{ item.label }}
+              <span>{{ item.label }}</span>
+              <span class="dropdown-chevron" aria-hidden="true">
+                <ChevronUp v-if="open === item.label" :size="16" :stroke-width="2.2" />
+                <ChevronDown v-else :size="16" :stroke-width="2.2" />
+              </span>
             </RouterLink>
             <button
               v-else
@@ -37,7 +41,11 @@
               :class="{ active: isItemActive(item) }"
               @mouseenter="showDropdown(item.label)"
               @mouseleave="scheduleCloseDropdown">
-              {{ item.label }}
+              <span>{{ item.label }}</span>
+              <span class="dropdown-chevron" aria-hidden="true">
+                <ChevronUp v-if="open === item.label" :size="16" :stroke-width="2.2" />
+                <ChevronDown v-else :size="16" :stroke-width="2.2" />
+              </span>
             </button>
 
             <ul
@@ -129,18 +137,75 @@
       id="mobile-nav"
       class="mobile-nav md:hidden absolute left-0 top-full w-full z-20"
       v-if="isMenuOpen">
-      <ul class="flex flex-col items-center gap-2 py-4">
-        <RouterLink to="/" @click="closeMenu">Home</RouterLink>
-        <RouterLink to="/about" @click="closeMenu">About</RouterLink>
-        <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
-        <RouterLink to="/verein" @click="closeMenu">Verein</RouterLink>
-        <RouterLink to="/stadion" @click="closeMenu">Stadion</RouterLink>
-        <RouterLink to="/news" @click="closeMenu">News</RouterLink>
-        <RouterLink to="/termine" @click="closeMenu">Termine</RouterLink>
-        <RouterLink to="/spielberichte" @click="closeMenu">
-          Spielberichte
-        </RouterLink>
-        <a href="https://www.instagram.com/sv_ottweiler1919/">
+      <ul class="mobile-nav-list">
+        <li
+          v-for="item in items"
+          :key="`mobile-${item.label}`"
+          class="mobile-nav-item">
+          <RouterLink
+            v-if="item.to && !item.children?.length"
+            :to="item.to"
+            class="mobile-nav-link"
+            @click="closeMenu">
+            {{ item.label }}
+          </RouterLink>
+
+          <div v-else-if="item.children?.length" class="mobile-nav-group">
+            <button
+              type="button"
+              class="mobile-nav-toggle"
+              :class="{ active: isItemActive(item) }"
+              @click="toggleMobileSection(item.label)">
+              <span>{{ item.label }}</span>
+              <span class="mobile-nav-toggle-icon" aria-hidden="true">
+                <ChevronUp
+                  v-if="openMobileSection === item.label"
+                  :size="18"
+                  :stroke-width="2.2" />
+                <ChevronDown v-else :size="18" :stroke-width="2.2" />
+              </span>
+            </button>
+
+            <div
+              v-if="openMobileSection === item.label"
+              class="mobile-nav-children">
+              <template
+                v-for="child in item.children"
+                :key="`mobile-child-${child.label}`">
+                <div v-if="child.children?.length" class="mobile-nav-subgroup">
+                  <RouterLink
+                    v-if="child.to"
+                    :to="child.to"
+                    class="mobile-nav-sublabel"
+                    @click="closeMenu">
+                    {{ child.label }}
+                  </RouterLink>
+                  <span v-else class="mobile-nav-sublabel">
+                    {{ child.label }}
+                  </span>
+                  <RouterLink
+                    v-for="grandChild in child.children"
+                    :key="`mobile-grandchild-${grandChild.label}`"
+                    :to="grandChild.to!"
+                    class="mobile-nav-sublink"
+                    @click="closeMenu">
+                    {{ grandChild.label }}
+                  </RouterLink>
+                </div>
+
+                <RouterLink
+                  v-else
+                  :to="child.to!"
+                  class="mobile-nav-sublink"
+                  @click="closeMenu">
+                  {{ child.label }}
+                </RouterLink>
+              </template>
+            </div>
+          </div>
+        </li>
+        <li class="mobile-nav-item mobile-nav-item--social">
+          <a href="https://www.instagram.com/sv_ottweiler1919/">
           <svg
             role="img"
             viewBox="0 0 24 24"
@@ -151,6 +216,7 @@
               d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" />
           </svg>
         </a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -159,6 +225,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { ChevronDown, ChevronUp } from "@lucide/vue";
 import logo from "@/assets/sv_logo.svg";
 
 const isMenuOpen = ref(false);
@@ -169,6 +236,7 @@ const toggleMenu = () => {
 
 const closeMenu = () => {
   isMenuOpen.value = false;
+  openMobileSection.value = null;
 };
 
 import { NAV, type NavItem } from "@/utils/nav";
@@ -176,6 +244,7 @@ import { NAV, type NavItem } from "@/utils/nav";
 const items = NAV as NavItem[];
 const route = useRoute();
 const open = ref<string | null>(null);
+const openMobileSection = ref<string | null>(null);
 let dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
 const normalizePath = (path: string) => {
@@ -216,6 +285,10 @@ const scheduleCloseDropdown = () => {
     open.value = null;
     dropdownCloseTimer = null;
   }, 110);
+};
+
+const toggleMobileSection = (label: string) => {
+  openMobileSection.value = openMobileSection.value === label ? null : label;
 };
 </script>
 
@@ -263,6 +336,7 @@ const scheduleCloseDropdown = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
   min-width: 5rem;
   height: 3rem;
   padding: 0 0.75rem;
@@ -308,6 +382,13 @@ const scheduleCloseDropdown = () => {
   position: relative;
 }
 
+.dropdown-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
 .dropdown-menu {
   position: fixed;
   top: var(--sv-header-height);
@@ -322,14 +403,28 @@ const scheduleCloseDropdown = () => {
   justify-content: center;
   gap: clamp(24px, 4vw, 64px);
   list-style: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
     linear-gradient(90deg, #000000 0%, #022b79 100%),
     linear-gradient(0deg, #022b79 0%, #02122e 100%);
-  background-position: 0 0;
-  background-size: 100% 0%;
-  animation: dropdown-bg-in 0.36s ease forwards;
-  z-index: -1;
   background-blend-mode: overlay;
+  transform-origin: top center;
+  transform: scaleY(0.08);
+  opacity: 0;
+  animation: dropdown-surface-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.dropdown-menu > * {
+  position: relative;
+  z-index: 1;
 }
 
 .dropdown-title {
@@ -342,8 +437,8 @@ const scheduleCloseDropdown = () => {
   position: relative;
   margin-left: 0dvw;
   opacity: 0;
-  animation: dropdown-text-in 0.18s ease forwards;
-  animation-delay: 0.16s;
+  animation: dropdown-text-in 0.22s ease forwards;
+  animation-delay: 0.2s;
 }
 
 .dropdown-items {
@@ -358,8 +453,8 @@ const scheduleCloseDropdown = () => {
   padding-right: 5dvw;
   padding-left: 5dvw;
   opacity: 0;
-  animation: dropdown-text-in 0.18s ease forwards;
-  animation-delay: 0.16s;
+  animation: dropdown-text-in 0.22s ease forwards;
+  animation-delay: 0.2s;
 }
 
 .dropdown-group {
@@ -385,12 +480,14 @@ const scheduleCloseDropdown = () => {
   justify-items: center;
 }
 
-@keyframes dropdown-bg-in {
+@keyframes dropdown-surface-in {
   from {
-    background-size: 100% 0%;
+    transform: scaleY(0.08);
+    opacity: 0;
   }
   to {
-    background-size: 100% 100%;
+    transform: scaleY(1);
+    opacity: 1;
   }
 }
 
@@ -425,23 +522,124 @@ const scheduleCloseDropdown = () => {
 
 /* Mobile Navigation Styles */
 .mobile-nav {
-  background: #022b79;
-  opacity: 0.9;
-  height: 80dvh;
+  background:
+    linear-gradient(180deg, #022b79 0%, #02122e 100%),
+    linear-gradient(90deg, #000000 0%, #022b79 60%);
+  background-blend-mode: overlay;
+  min-height: calc(100dvh - var(--sv-header-height));
   border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 18px 12px 28px;
+  overflow-y: auto;
 }
 
-.mobile-nav a {
-  display: block;
+.mobile-nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.mobile-nav-item {
+  display: grid;
+  gap: 8px;
+}
+
+.mobile-nav-link,
+.mobile-nav-toggle,
+.mobile-nav-sublabel,
+.mobile-nav-sublink {
+  display: flex;
   width: 100%;
-  padding: 0.75rem 0;
-  font-weight: 500;
-  text-align: center;
+  text-decoration: none;
   color: var(--sv-text-color);
+  border-radius: 16px;
 }
 
-.mobile-nav a:hover,
-.mobile-nav a.is-exact-active {
+.mobile-nav-link,
+.mobile-nav-toggle {
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--sv-card-bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-nav-toggle {
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.is-exact-active,
+.mobile-nav-toggle:hover,
+.mobile-nav-toggle.active {
+  color: var(--sv-secondary-color);
+  border-color: rgba(244, 208, 71, 0.35);
+}
+
+.mobile-nav-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-nav-children {
+  display: grid;
+  gap: 10px;
+  padding: 4px 0 0 12px;
+}
+
+.mobile-nav-subgroup {
+  display: grid;
+  gap: 8px;
+}
+
+.mobile-nav-sublabel {
+  align-items: center;
+  padding: 10px 14px 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sv-secondary-color);
+}
+
+.mobile-nav-sublink {
+  align-items: center;
+  padding: 12px 14px;
+  font-size: 14px;
+  background: var(--sv-card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mobile-nav-sublink:hover,
+.mobile-nav-sublink.is-exact-active {
+  color: var(--sv-secondary-color);
+  border-color: rgba(244, 208, 71, 0.3);
+}
+
+.mobile-nav-item--social {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.mobile-nav-item--social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: var(--sv-card-bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-nav-item--social a:hover {
   color: var(--sv-secondary-color);
 }
 

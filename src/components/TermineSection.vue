@@ -6,7 +6,9 @@
         Aktuelle Termine
       </h2>
       <div class="news-cta-wrap flex items-center pt-[5dvh]">
-        <RouterLink to="/termine" class="news-cta">Mehr Termine</RouterLink>
+        <RouterLink to="/termine" class="news-cta" aria-label="Alle Termine">
+          <CalendarDays :size="22" :stroke-width="2.2" aria-hidden="true" />
+        </RouterLink>
       </div>
     </div>
 
@@ -41,6 +43,27 @@
             <span class="termine-time">{{ item.time }}</span>
             <span class="termine-location">{{ item.location }}</span>
           </div>
+          <div v-if="item.homeTeam && item.awayTeam" class="termine-matchup">
+            <div class="termine-team">
+              <img
+                v-if="item.homeLogo"
+                class="termine-team-logo"
+                :src="item.homeLogo"
+                :alt="`${item.homeTeam} Logo`"
+                loading="lazy" />
+              <span class="termine-team-name">{{ item.homeTeam }}</span>
+            </div>
+            <span class="termine-matchup-separator">vs</span>
+            <div class="termine-team termine-team--away">
+              <img
+                v-if="item.awayLogo"
+                class="termine-team-logo"
+                :src="item.awayLogo"
+                :alt="`${item.awayTeam} Logo`"
+                loading="lazy" />
+              <span class="termine-team-name">{{ item.awayTeam }}</span>
+            </div>
+          </div>
           <h3 class="termine-title">{{ item.title }}</h3>
           <p class="termine-excerpt">{{ item.excerpt }}</p>
         </div>
@@ -63,6 +86,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { CalendarDays } from "@lucide/vue";
 import termineBanner from "@/assets/header/background.png";
 import { formatDate } from "@/utils/date";
 import { getTerminItems } from "@/utils/contentEntries";
@@ -100,15 +124,18 @@ const termineItems = computed(() => getTerminItems());
 .termine-card {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--sv-card-bg);
+  border: 1px solid var(--sv-card-border);
   border-radius: 20px;
   overflow: hidden;
   height: 100%;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .termine-card:hover {
@@ -135,7 +162,9 @@ const termineItems = computed(() => getTerminItems());
   height: 100%;
   object-fit: cover;
   transform: scale(1);
-  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  transition:
+    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.4s ease;
   will-change: transform;
 }
 
@@ -148,7 +177,9 @@ const termineItems = computed(() => getTerminItems());
   background: rgba(2, 43, 121, 0.35);
   opacity: 0;
   transform: scale(0.98);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   pointer-events: none;
 }
 
@@ -197,6 +228,45 @@ const termineItems = computed(() => getTerminItems());
   line-height: 1.25;
 }
 
+.termine-matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.termine-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.termine-team--away {
+  justify-content: flex-end;
+}
+
+.termine-team-logo {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  object-fit: contain;
+}
+
+.termine-team-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.termine-matchup-separator {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sv-secondary-color);
+}
+
 .termine-excerpt {
   margin: 0;
   opacity: 0.85;
@@ -206,16 +276,18 @@ const termineItems = computed(() => getTerminItems());
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 28px;
+  width: 52px;
+  height: 52px;
+  padding: 0;
   border-radius: 999px;
   background: var(--sv-secondary-color);
   color: var(--sv-primary-color);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-decoration: none;
   border: 2px solid transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
     color 0.25s ease;
 }
 
