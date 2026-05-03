@@ -20,20 +20,17 @@
   --sv-fupa-height: clamp(260px, 60vh, 720px);
   --sv-bg-base: #02112b;
   --sv-bg-deep: #010a1c;
-  --sv-bg-grid: rgba(255, 255, 255, 0.05);
-  --sv-bg-glow: rgba(244, 208, 71, 0.18);
-  --sv-bg-glow-soft: rgba(244, 208, 71, 0.08);
-  --sv-bg-blue: rgba(2, 43, 121, 0.55);
+  --sv-bg-header-black: #000000;
+  --sv-bg-header-blue: #022b79;
+  --sv-bg-glow: rgba(244, 208, 71, 0.08);
+  --sv-bg-glow-soft: rgba(244, 208, 71, 0.03);
+  --sv-bg-blue: rgba(2, 43, 121, 0.24);
 }
 
 body {
   min-height: 100dvh;
   background-color: var(--sv-bg-base);
-  background-image: repeating-linear-gradient(
-      135deg,
-      var(--sv-bg-grid) 0 1px,
-      transparent 1px 10px
-    ),
+  background-image:
     radial-gradient(60% 60% at 12% 18%, var(--sv-bg-glow) 0%, transparent 62%),
     radial-gradient(45% 45% at 85% 12%, var(--sv-bg-blue) 0%, transparent 55%),
     radial-gradient(
@@ -42,12 +39,17 @@ body {
       transparent 60%
     ),
     linear-gradient(
+      130deg,
+      var(--sv-bg-header-black) 0%,
+      var(--sv-bg-header-blue) 200%
+    ),
+    linear-gradient(
       180deg,
       var(--sv-bg-deep) 0%,
       var(--sv-bg-base) 50%,
       var(--sv-bg-deep) 100%
     );
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
 }
 
 #app {
@@ -65,7 +67,9 @@ h1 {
 
 .app-content {
   padding-top: var(--sv-header-height);
-  height: 100dvh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   scroll-snap-type: y proximity;
 }

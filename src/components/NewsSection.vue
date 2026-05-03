@@ -13,18 +13,19 @@
       v-for="(item, index) in newsItems.slice(0, 3)"
       :key="item.id"
       class="news-item"
-      :class="{ 'news-item--reverse': index % 2 === 1 }"
-      role="button"
-      tabindex="0"
-      aria-haspopup="dialog">
-      <div class="news-text" @click="openNews(item)">
+      :class="{ 'news-item--reverse': index % 2 === 1 }">
+      <RouterLink
+        class="news-text"
+        :to="{ name: 'news-detail', params: { slug: item.slug } }">
         <time class="news-date" :datetime="item.date">
           {{ formatDate(item.date) }}
         </time>
         <h3 class="news-item-title">{{ item.title }}</h3>
         <p class="news-excerpt">{{ item.excerpt }}</p>
-      </div>
-      <div class="news-image-frame" @click="openNews(item)">
+      </RouterLink>
+      <RouterLink
+        class="news-image-frame"
+        :to="{ name: 'news-detail', params: { slug: item.slug } }">
         <img
           class="news-image"
           :src="item.image"
@@ -40,82 +41,17 @@
             <path d="M24 16v16M16 24h16" />
           </svg>
         </div>
-      </div>
+      </RouterLink>
     </article>
-
-    <div v-if="activeNews" class="news-overlay" @click.self="closeNews">
-      <div
-        class="news-modal"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="`news-modal-title-${activeNews.id}`">
-        <button
-          class="news-close"
-          type="button"
-          aria-label="Popup schliessen"
-          @click="closeNews">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-        <div class="news-modal-media">
-          <img
-            class="news-modal-image"
-            :src="activeNews.image"
-            :alt="activeNews.imageAlt"
-            loading="lazy" />
-        </div>
-        <div class="news-modal-body">
-          <time class="news-date" :datetime="activeNews.date">
-            {{ formatDate(activeNews.date) }}
-          </time>
-          <h3
-            class="news-modal-title"
-            :id="`news-modal-title-${activeNews.id}`">
-            {{ activeNews.title }}
-          </h3>
-          <p class="news-modal-lead">{{ activeNews.excerpt }}</p>
-          <p v-if="activeNews.content" class="news-modal-text">
-            {{ activeNews.content }}
-          </p>
-        </div>
-      </div>
-    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import newsImage from "@/assets/home/news.svg";
-import termineImage from "@/assets/home/termine.svg";
-import ergebnisseImage from "@/assets/home/ergebnisse.svg";
-import rawNews from "@/content/news.json";
+import { computed } from "vue";
 import { formatDate } from "@/utils/date";
+import { getNewsItems } from "@/utils/contentEntries";
 
-const imageMap: Record<string, string> = {
-  newsImage,
-  termineImage,
-  ergebnisseImage,
-};
-
-const newsItems = computed(() =>
-  [...rawNews]
-    .sort((a, b) => b.date.localeCompare(a.date)) // YYYY-MM-DD
-    .map((item) => ({
-      ...item,
-      image: imageMap[item.image] ?? item.image,
-    }))
-);
-
-const activeNews = ref();
-
-const openNews = (item: any) => {
-  activeNews.value = item;
-};
-
-const closeNews = () => {
-  activeNews.value = null;
-};
+const newsItems = computed(() => getNewsItems());
 </script>
 
 <style scoped>
@@ -123,10 +59,8 @@ const closeNews = () => {
   min-height: calc(100dvh - var(--sv-header-height));
   display: flex;
   align-items: center;
-
   position: relative;
   scroll-margin-top: var(--sv-header-height);
-
   scroll-snap-align: start;
   scroll-snap-stop: normal;
 }
@@ -192,13 +126,15 @@ const closeNews = () => {
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .news-item:nth-child(even) .news-text {
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .news-text:hover {
@@ -216,6 +152,7 @@ const closeNews = () => {
   background: rgba(255, 255, 255, 0.08);
   clip-path: polygon(0 100%, 0 0, 85% 0, 100% 100%);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .news-image {
@@ -263,142 +200,11 @@ const closeNews = () => {
   clip-path: polygon(0 100%, 15% 0, 100% 0, 100% 100%);
 }
 
-.news-item:focus-visible {
-  outline: 2px solid var(--sv-secondary-color);
-  outline-offset: 3px;
-}
-
-.news-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.news-modal {
-  position: relative;
-  width: 90dvw;
-  height: 85dvh;
-  background-color: #f7f1e3;
-  background-image: repeating-linear-gradient(
-      90deg,
-      rgba(17, 24, 39, 0.03),
-      rgba(17, 24, 39, 0.03) 1px,
-      transparent 1px,
-      transparent 7px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(17, 24, 39, 0.04),
-      rgba(17, 24, 39, 0.04) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    linear-gradient(135deg, #ffd89d 0%, #d8bb90 55%, #e6d8c3 100%);
-  border: 1px solid rgba(11, 31, 77, 0.2);
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  color: #1f2a44;
-  font-family: "Georgia", "Times New Roman", serif;
-  letter-spacing: 0.01em;
-  box-shadow: 0 24px 60px rgba(11, 31, 77, 0.22);
-  padding: clamp(16px, 2.5vw, 28px);
-  gap: clamp(12px, 2vw, 20px);
-}
-
-.news-close {
-  position: absolute;
-  z-index: 11;
-  top: 12px;
-  right: 12px;
-  border: 1px solid var(--sv-primary-color);
-  background: transparent;
-  color: var(--sv-primary-color);
-  width: 50px;
-  height: 50px;
-  border-radius: 25%;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
-.news-close svg {
-  width: 50px;
-  height: 50px;
-  stroke: currentColor;
-  stroke-width: 1.2;
-  fill: none;
-}
-
-.news-close:hover {
-  background: var(--sv-primary-color);
-  color: var(--sv-secondary-color);
-}
-
-.news-modal-media {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #faf7ef;
-  box-shadow: 0 10px 28px rgba(11, 31, 77, 0.16);
-}
-
-.news-modal-image {
-  width: 100%;
-  height: clamp(220px, 36vh, 360px);
-  object-fit: cover;
-  display: block;
-  filter: saturate(0.85) contrast(1.05);
-}
-
-.news-modal-body {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  padding: clamp(16px, 3vw, 28px);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-}
-
-.news-modal-title {
-  margin: 0;
-  font-size: clamp(26px, 3vw, 38px);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.news-modal-lead {
-  margin: 0;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.news-modal-text {
-  margin: 0;
-  opacity: 0.9;
-  white-space: pre-line;
-  line-height: 1.6;
-  text-align: justify;
-  column-count: 2;
-  column-gap: clamp(20px, 4vw, 36px);
-  column-rule: 1px solid rgba(11, 31, 77, 0.15);
-}
-
 .news-date {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.7;
-}
-
-.news-modal .news-date {
-  opacity: 0.75;
 }
 
 .news-item-title {
@@ -417,6 +223,15 @@ const closeNews = () => {
     justify-content: flex-start;
   }
 
+  .section--news > .flex {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
   .news-item,
   .news-item--reverse {
     grid-template-columns: minmax(0, 1fr);
@@ -427,10 +242,21 @@ const closeNews = () => {
 
   .news-image-frame {
     height: clamp(180px, 40vw, 240px);
+    clip-path: none;
   }
 
-  .news-modal-text {
-    column-count: 1;
+  .news-text,
+  .news-item:nth-child(even) .news-text {
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .news-item,
+  .news-item--reverse {
+    width: calc(100dvw - 24px);
+    margin: 0 auto;
+    border-radius: 18px;
   }
 }
 </style>

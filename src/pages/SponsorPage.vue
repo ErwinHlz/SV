@@ -148,4 +148,27 @@ const sponsors = computed(() =>
   font-weight: 700;
   color: var(--sv-secondary-color);
 }
+
+@media (max-width: 720px) {
+  .sponsor-grid,
+  .sponsor-cta-wrap {
+    width: calc(100dvw - 24px);
+  }
+
+  .sponsor-grid {
+    padding-left: 0;
+    padding-right: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .sponsor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-cta {
+    width: 100%;
+  }
+}
 </style>

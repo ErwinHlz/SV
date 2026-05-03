@@ -1,9 +1,13 @@
 <template>
-  <section class="page-hero" :style="{ backgroundImage: `url(${image})` }">
-    <div class="page-hero-content">
+  <section
+    class="page-hero"
+    :class="{ compact }"
+    :style="{ backgroundImage: `url(${image})` }">
+    <div class="page-hero-content" :data-compact="compact ? 'true' : 'false'">
       <p class="page-hero-kicker">{{ kicker }}</p>
       <h1 class="page-hero-title">{{ title }}</h1>
       <p class="page-hero-lead">{{ lead }}</p>
+      <slot />
     </div>
   </section>
 </template>
@@ -15,17 +19,19 @@ withDefaults(
     title: string;
     lead: string;
     kicker?: string;
+    compact?: boolean;
   }>(),
   {
     kicker: "FSG Ottweiler-Steinbach",
-  }
+    compact: false,
+  },
 );
 </script>
 
 <style scoped>
 .page-hero {
   position: relative;
-  min-height: clamp(240px, 40vh, 420px);
+  min-height: clamp(280px, 20vh, 500px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -38,6 +44,10 @@ withDefaults(
   margin-bottom: 5dvh;
 }
 
+.page-hero.compact {
+  min-height: clamp(210px, 30vh, 320px);
+}
+
 .page-hero::before {
   content: "";
   position: absolute;
@@ -48,6 +58,7 @@ withDefaults(
     rgba(2, 43, 121, 0.78) 70%,
     rgba(2, 43, 121, 0.92) 100%
   );
+  box-shadow: inset 0 -20px 30px rgba(0, 0, 0, 0.719);
 }
 
 .page-hero-content {
@@ -69,14 +80,20 @@ withDefaults(
 
 .page-hero-title {
   margin: 0;
-  font-size: clamp(30px, 5vw, 58px);
+  font-size: clamp(24px, 4.2vw, 58px);
   font-weight: 800;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .page-hero-lead {
   margin: 0;
   max-width: 60ch;
   opacity: 0.9;
+}
+
+.page-hero-content :deep(.page-hero-extra) {
+  margin-top: 18px;
 }
 </style>

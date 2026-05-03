@@ -1,0 +1,32 @@
+{
+  "last": {
+    "heimmannschaft": "FSG Ottweiler-Steinbach II",
+    "gastmannschaft": "Saubach II",
+    "ergebnis": "4:2",
+    "bild_heim": "/team-logos/fsg-ottweiler-steinbach.png",
+    "bild_gast": "/team-logos/saubach-2.png",
+    "ort": "Stadion Im Alten Weiher",
+    "datum": "2026-04-26",
+    "uhrzeit": "15:00"
+  },
+  "live": {
+    "heimmannschaft": "Alsweiler",
+    "gastmannschaft": "FSG Ottweiler-Steinbach II",
+    "ergebnis": "3:2",
+    "bild_heim": "/team-logos/alsweiler.png",
+    "bild_gast": "/team-logos/fsg-ottweiler-steinbach.png",
+    "ort": "Auf der Lehn",
+    "datum": "2026-05-03",
+    "uhrzeit": "15:00"
+  },
+  "next": {
+    "heimmannschaft": "Heusweiler II",
+    "gastmannschaft": "FSG Ottweiler-Steinbach II",
+    "ergebnis": "-:-",
+    "bild_heim": "/team-logos/heusweiler-2.png",
+    "bild_gast": "/team-logos/fsg-ottweiler-steinbach.png",
+    "ort": "Arena am Wittum",
+    "datum": "2026-05-10",
+    "uhrzeit": "13:15"
+  }
+}

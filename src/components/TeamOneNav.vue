@@ -134,8 +134,21 @@ const items = [
 }
 
 @media (max-width: 520px) {
+  .team-nav {
+    margin: -2dvh auto 3dvh;
+    padding: 0 12px;
+  }
+
   .team-nav-shell {
-    border-radius: 24px;
+    width: calc(100dvw - 24px);
+    border-radius: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .team-nav-link {
+    padding: 14px 16px;
+    letter-spacing: 0.1em;
+    font-size: 12px;
   }
 }
 </style>

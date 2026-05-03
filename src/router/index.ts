@@ -3,9 +3,13 @@ import HomePage from "../pages/HomePage.vue";
 import Contact from "../pages/ContactPage.vue";
 import AboutPage from "../pages/AboutPage.vue";
 import NewsPage from "../pages/NewsPage.vue";
+import NewsDetailPage from "../pages/NewsDetailPage.vue";
+import SpielberichtePage from "../pages/SpielberichtePage.vue";
+import SpielberichtDetailPage from "../pages/SpielberichtDetailPage.vue";
 import DatenschutzPage from "../pages/DatenschutzPage.vue";
 import ImpressumPage from "../pages/ImpressumPage.vue";
 import TerminPage from "../pages/TerminPage.vue";
+import TerminDetailPage from "../pages/TerminDetailPage.vue";
 import TeamOneKader from "@/pages/TeamOneKader.vue";
 import TeamOneSpielplan from "@/pages/TeamOneSpielplan.vue";
 import TeamOneTabelle from "@/pages/TeamOneTabelle.vue";
@@ -42,7 +46,23 @@ const router = createRouter({
     },
     { path: "/contact", name: "contact", component: Contact },
     { path: "/news", name: "news", component: NewsPage },
+    { path: "/news/:slug", name: "news-detail", component: NewsDetailPage },
+    {
+      path: "/spielberichte",
+      name: "spielberichte",
+      component: SpielberichtePage,
+    },
+    {
+      path: "/spielberichte/:slug",
+      name: "spielbericht-detail",
+      component: SpielberichtDetailPage,
+    },
     { path: "/termine", name: "termine", component: TerminPage },
+    {
+      path: "/termine/:slug",
+      name: "termine-detail",
+      component: TerminDetailPage,
+    },
     { path: "/datenschutz", name: "datenschutz", component: DatenschutzPage },
     { path: "/impressum", name: "impressum", component: ImpressumPage },
     {

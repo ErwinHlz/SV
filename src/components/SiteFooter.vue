@@ -76,20 +76,21 @@
 }
 
 .footer-social a {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--sv-text-color);
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
 }
 
 .footer-social a:hover {
   background: var(--sv-secondary-color);
   color: var(--sv-primary-color);
-  transform: translateY(-2px);
 }
 
 .footer-social svg {

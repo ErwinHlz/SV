@@ -25,10 +25,19 @@ import newsHero from "@/assets/header/background.png";
   justify-self: center;
   width: 80dvw;
   max-width: 80dvw;
+  background: transparent !important;
 }
 
 .fupa-widget:nth-child(odd) {
   width: 80dvw !important;
   max-width: 80dvw !important;
+}
+
+@media (max-width: 900px) {
+  .fupa-widget,
+  .fupa-widget:nth-child(odd) {
+    width: calc(100dvw - 24px) !important;
+    max-width: calc(100dvw - 24px) !important;
+  }
 }
 </style>

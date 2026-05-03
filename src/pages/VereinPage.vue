@@ -192,4 +192,11 @@ const getInitials = (value?: string) =>
   font-size: 10px;
   color: rgba(31, 42, 68, 0.65);
 }
+
+@media (max-width: 720px) {
+  .verein-intro,
+  .verein-people {
+    width: calc(100dvw - 24px);
+  }
+}
 </style>

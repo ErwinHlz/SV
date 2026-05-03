@@ -16,34 +16,39 @@
 </template>
 
 <script setup>
+import newsImage from "@/assets/news/stock_news_1.png";
+import spielberichteImage from "@/assets/spielberichte/stock_spielberichte_2.jpg";
+import kaderImage from "@/assets/Kader/1440x810.webp";
+import sponsorImage from "@/assets/home/mitglied-werden.svg";
+
 const items = [
   {
     id: 1,
-    to: "/fakten",
-    img: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=1600",
-    kicker: "SPANNENDE FAKTEN",
-    title: "25 beeindruckende Statistiken\nrund um den FC Bayern 2025",
+    to: "/news",
+    img: newsImage,
+    kicker: "AKTUELLES",
+    title: "News aus dem Verein\nund rund um die Teams",
   },
   {
     id: 2,
-    to: "/campus-story",
-    img: "https://images.unsplash.com/photo-1520975682031-ae2db8a9d4d1?w=1600",
-    kicker: "FC BAYERN TV PLUS",
-    title: "Campus Story",
+    to: "/spielberichte",
+    img: spielberichteImage,
+    kicker: "SPIELTAG",
+    title: "Aktuelle Spielberichte\nauf einen Blick",
   },
   {
     id: 3,
-    to: "/store",
-    img: "https://images.unsplash.com/photo-1520975958225-00a1f6a8b3ea?w=1600",
-    kicker: "ONLINE STORE",
-    title: "SALE",
+    to: "/teams/one/kader",
+    img: kaderImage,
+    kicker: "MANNSCHAFT",
+    title: "Zum Kader\nder 1. Mannschaft",
   },
   {
     id: 4,
-    to: "/weihnachtsgruss",
-    img: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=1600",
-    kicker: "WEIHNACHTSGRUSS",
-    title: "Frohe Weihnacht",
+    to: "/sponsor/werden",
+    img: sponsorImage,
+    kicker: "PARTNERSCHAFT",
+    title: "Sponsor werden\nund den Verein staerken",
   },
 ];
 </script>
@@ -51,7 +56,7 @@ const items = [
 <style scoped>
 .heroRow {
   display: flex;
-  height: clamp(320px, 52dvh, 560px);
+  height: 50dvh;
 }
 
 /* jedes Tile ist ein Link */
@@ -71,7 +76,10 @@ const items = [
   margin-right: -60px;
 
   /* “smooth” hover */
-  transition: flex 300ms ease, transform 300ms ease, filter 300ms ease;
+  transition:
+    flex 300ms ease,
+    transform 300ms ease,
+    filter 300ms ease;
   filter: saturate(1) brightness(0.95);
 }
 
@@ -99,7 +107,8 @@ const items = [
 .shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.65) 0%,
       rgba(0, 0, 0, 0.2) 60%,
@@ -146,14 +155,27 @@ const items = [
 /* Responsive: auf kleineren Screens lieber untereinander/scrollbar */
 @media (max-width: 900px) {
   .heroRow {
-    overflow-x: auto;
-    height: 360px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    height: auto;
+    overflow: visible;
   }
   .panel {
-    flex: 0 0 80%;
+    flex: none;
+    min-width: 0;
+    min-height: 180px;
+    clip-path: none;
+    margin: 0;
   }
   .panel:hover {
-    flex: 0 0 88%;
+    flex: none;
+  }
+
+  .content {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
   }
 }
 </style>

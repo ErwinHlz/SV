@@ -102,4 +102,22 @@ import sponsorHero from "@/assets/header/background.png";
   border-color: var(--sv-secondary-color);
   box-shadow: 0 12px 26px rgba(2, 43, 121, 0.18);
 }
+
+@media (max-width: 720px) {
+  .sponsor-info {
+    width: calc(100dvw - 24px);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .sponsor-info {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-contact {
+    width: 100%;
+  }
+}
 </style>

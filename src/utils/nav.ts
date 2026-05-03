@@ -46,6 +46,7 @@ export const NAV: NavItem[] = [
     children: [
       { label: "News", to: "/news" },
       { label: "Termine", to: "/termine" },
+      { label: "Spielberichte", to: "/spielberichte" },
     ],
   },
   { label: "Sponsoren", to: "/sponsor" },

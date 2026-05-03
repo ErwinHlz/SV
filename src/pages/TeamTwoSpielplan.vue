@@ -31,4 +31,12 @@ import newsHero from "@/assets/header/background.png";
   width: 80dvw !important;
   max-width: 80dvw !important;
 }
+
+@media (max-width: 900px) {
+  .fupa-widget,
+  .fupa-widget:nth-child(odd) {
+    width: calc(100dvw - 24px) !important;
+    max-width: calc(100dvw - 24px) !important;
+  }
+}
 </style>

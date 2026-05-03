@@ -6,7 +6,15 @@ import SiteFooter from "./components/SiteFooter.vue";
 <template>
   <SiteHeader />
   <main class="app-content">
-    <RouterView />
+    <div class="app-page">
+      <RouterView />
+    </div>
     <SiteFooter />
   </main>
 </template>
+
+<style scoped>
+.app-page {
+  flex: 1 0 auto;
+}
+</style>

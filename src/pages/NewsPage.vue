@@ -4,16 +4,11 @@
     title="News"
     lead="Aktuelle Meldungen rund um den Verein, die Teams und Events." />
   <section class="news-grid" aria-label="Alle News">
-    <article
+    <RouterLink
       v-for="item in newsItems"
       :key="item.id"
       class="news-card"
-      role="button"
-      tabindex="0"
-      aria-haspopup="dialog"
-      @click="openNews(item)"
-      @keydown.enter.prevent="openNews(item)"
-      @keydown.space.prevent="openNews(item)">
+      :to="{ name: 'news-detail', params: { slug: item.slug } }">
       <div
         class="news-card-media"
         :style="{ height: `${getCardHeight(item)}px` }">
@@ -34,79 +29,27 @@
         </div>
       </div>
       <div class="news-card-body">
-        <time class="news-date" :datetime="item.date">
-          {{ formatDate(item.date) }}
-        </time>
+        <div class="news-meta">
+          <time class="news-date" :datetime="item.date">
+            {{ formatDate(item.date) }}
+          </time>
+          <span v-if="item.source" class="news-source">{{ item.source }}</span>
+        </div>
         <h3 class="news-card-title">{{ item.title }}</h3>
         <p class="news-card-excerpt">{{ item.excerpt }}</p>
       </div>
-    </article>
+    </RouterLink>
   </section>
-
-  <div v-if="activeNews" class="news-overlay" @click.self="closeNews">
-    <div
-      class="news-modal"
-      role="dialog"
-      aria-modal="true"
-      :aria-labelledby="`news-modal-title-${activeNews.id}`">
-      <button
-        class="news-close"
-        type="button"
-        aria-label="Popup schliessen"
-        @click="closeNews">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
-      </button>
-      <div class="news-modal-media">
-        <img
-          class="news-modal-image"
-          :src="activeNews.image"
-          :alt="activeNews.imageAlt"
-          loading="lazy" />
-      </div>
-      <div class="news-modal-body">
-        <time class="news-date" :datetime="activeNews.date">
-          {{ formatDate(activeNews.date) }}
-        </time>
-        <h3 class="news-modal-title" :id="`news-modal-title-${activeNews.id}`">
-          {{ activeNews.title }}
-        </h3>
-        <p class="news-modal-lead">{{ activeNews.excerpt }}</p>
-        <p v-if="activeNews.content" class="news-modal-text">
-          {{ activeNews.content }}
-        </p>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import PageHero from "@/components/PageHero.vue";
-import newsHero from "@/assets/header/background.png";
-import { computed, ref } from "vue";
-import newsImage from "@/assets/home/news.svg";
-import termineImage from "@/assets/home/termine.svg";
-import ergebnisseImage from "@/assets/home/ergebnisse.svg";
-import rawNews from "@/content/news.json";
+import newsHero from "@/assets/news/stock_news_1.png";
 import { formatDate } from "@/utils/date";
+import { getNewsItems } from "@/utils/contentEntries";
 
-const imageMap: Record<string, string> = {
-  newsImage,
-  termineImage,
-  ergebnisseImage,
-};
-
-const newsItems = computed(() =>
-  [...rawNews]
-    .sort((a, b) => b.date.localeCompare(a.date)) // YYYY-MM-DD
-    .map((item) => ({
-      ...item,
-      image: imageMap[item.image] ?? item.image,
-    }))
-);
-
-const activeNews = ref();
+const newsItems = computed(() => getNewsItems());
 
 const cardHeights = [200, 250, 300];
 
@@ -117,14 +60,6 @@ const getCardHeight = (item: { id: number | string; title?: string }) => {
     hash = (hash * 31 + key.charCodeAt(i)) % 2147483647;
   }
   return cardHeights[hash % cardHeights.length];
-};
-
-const openNews = (item: any) => {
-  activeNews.value = item;
-};
-
-const closeNews = () => {
-  activeNews.value = null;
 };
 </script>
 
@@ -145,6 +80,8 @@ const closeNews = () => {
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
   width: 100%;
   margin: 0 0 clamp(16px, 2.5vw, 32px);
   break-inside: avoid;
@@ -216,11 +153,25 @@ const closeNews = () => {
   padding: clamp(14px, 2vw, 22px);
 }
 
+.news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+}
+
 .news-date {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.7;
+}
+
+.news-source {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sv-secondary-color);
 }
 
 .news-card-title {
@@ -232,135 +183,6 @@ const closeNews = () => {
 .news-card-excerpt {
   margin: 0;
   opacity: 0.85;
-}
-
-.news-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(16px, 4vw, 48px);
-  background: rgba(2, 43, 121, 0.45);
-  backdrop-filter: blur(3px);
-}
-
-.news-modal {
-  position: relative;
-  width: min(980px, 100%);
-  max-height: 90dvh;
-  background-color: #f7f1e3;
-  background-image: repeating-linear-gradient(
-      90deg,
-      rgba(17, 24, 39, 0.03),
-      rgba(17, 24, 39, 0.03) 1px,
-      transparent 1px,
-      transparent 7px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(17, 24, 39, 0.04),
-      rgba(17, 24, 39, 0.04) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    linear-gradient(135deg, #ffd89d 0%, #d8bb90 55%, #e6d8c3 100%);
-  border: 1px solid rgba(11, 31, 77, 0.2);
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  color: #1f2a44;
-  font-family: "Georgia", "Times New Roman", serif;
-  letter-spacing: 0.01em;
-  box-shadow: 0 24px 60px rgba(11, 31, 77, 0.22);
-  padding: clamp(16px, 2.5vw, 28px);
-  gap: clamp(12px, 2vw, 20px);
-}
-
-.news-close {
-  position: absolute;
-  z-index: 11;
-  top: 12px;
-  right: 12px;
-  border: 1px solid var(--sv-primary-color);
-  background: transparent;
-  color: var(--sv-primary-color);
-  width: 50px;
-  height: 50px;
-  border-radius: 25%;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
-.news-close svg {
-  width: 50px;
-  height: 50px;
-  stroke: currentColor;
-  stroke-width: 1.2;
-  fill: none;
-}
-
-.news-close:hover {
-  background: var(--sv-primary-color);
-  color: var(--sv-secondary-color);
-}
-
-.news-modal-media {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #faf7ef;
-  box-shadow: 0 10px 28px rgba(11, 31, 77, 0.16);
-}
-
-.news-modal-image {
-  width: 100%;
-  height: clamp(220px, 36vh, 360px);
-  object-fit: cover;
-  display: block;
-  filter: saturate(0.85) contrast(1.05);
-}
-
-.news-modal-body {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  padding: clamp(16px, 3vw, 28px);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-}
-
-.news-modal-title {
-  margin: 0;
-  font-size: clamp(26px, 3vw, 38px);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.news-modal-lead {
-  margin: 0;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.news-modal-text {
-  margin: 0;
-  opacity: 0.9;
-  white-space: pre-line;
-  line-height: 1.6;
-  text-align: justify;
-  column-count: 2;
-  column-gap: clamp(20px, 4vw, 36px);
-  column-rule: 1px solid rgba(11, 31, 77, 0.15);
-}
-
-.news-modal .news-date {
-  opacity: 0.75;
 }
 
 @media (max-width: 1100px) {
@@ -376,10 +198,6 @@ const closeNews = () => {
 
   .news-card-media {
     height: clamp(180px, 45vw, 240px);
-  }
-
-  .news-modal-text {
-    column-count: 1;
   }
 }
 </style>

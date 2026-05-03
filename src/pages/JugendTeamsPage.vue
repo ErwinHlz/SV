@@ -875,6 +875,17 @@ const getInitials = (value?: string) =>
 }
 
 @media (max-width: 720px) {
+  .youth-intro,
+  .teams-section,
+  .coach-section,
+  .youth-contact {
+    width: calc(100dvw - 24px);
+  }
+
+  .teams-grid {
+    grid-template-columns: 1fr;
+  }
+
   .team-header {
     flex-direction: column;
     align-items: flex-start;
@@ -893,6 +904,8 @@ const getInitials = (value?: string) =>
   }
 
   .widget-modal {
+    top: 8dvh;
+    width: calc(100dvw - 24px);
     max-height: 92dvh;
   }
 

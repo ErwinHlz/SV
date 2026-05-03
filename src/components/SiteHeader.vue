@@ -87,7 +87,7 @@
         </li>
       </ul>
     </nav>
-    <div class="absolute right-5 top-5 hidden md:inline-flex gap-4"
+    <div class="social-links-desktop hidden md:flex"
       ><a href="https://www.instagram.com/sv_ottweiler1919/">
         <svg
           role="img"
@@ -137,6 +137,9 @@
         <RouterLink to="/stadion" @click="closeMenu">Stadion</RouterLink>
         <RouterLink to="/news" @click="closeMenu">News</RouterLink>
         <RouterLink to="/termine" @click="closeMenu">Termine</RouterLink>
+        <RouterLink to="/spielberichte" @click="closeMenu">
+          Spielberichte
+        </RouterLink>
         <a href="https://www.instagram.com/sv_ottweiler1919/">
           <svg
             role="img"
@@ -212,18 +215,22 @@ const scheduleCloseDropdown = () => {
   dropdownCloseTimer = setTimeout(() => {
     open.value = null;
     dropdownCloseTimer = null;
-  }, 150);
+  }, 110);
 };
 </script>
 
 <style scoped>
 /* Header Container Styles */
 .header-container {
-  background: #022b79;
+  background:
+    linear-gradient(180deg, #022b79 0%, #02122e 100%),
+    linear-gradient(90deg, #000000 0%, #022b79 60%);
+  background-blend-mode: overlay;
   width: 100dvw;
   height: 10dvh;
   z-index: 100;
   position: fixed;
+  box-shadow: inset 0px -10px 30px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 1280px) {
@@ -276,7 +283,9 @@ const scheduleCloseDropdown = () => {
   background-position: 0 100%;
   background-size: 0 3px;
   background-repeat: no-repeat;
-  transition: color 0.5s ease, background-size 0.7s ease;
+  transition:
+    color 0.22s ease,
+    background-size 0.3s ease;
 }
 
 .link:hover,
@@ -313,12 +322,14 @@ const scheduleCloseDropdown = () => {
   justify-content: center;
   gap: clamp(24px, 4vw, 64px);
   list-style: none;
-  background: linear-gradient(var(--sv-primary-color), var(--sv-primary-color))
-    no-repeat;
+  background:
+    linear-gradient(90deg, #000000 0%, #022b79 100%),
+    linear-gradient(0deg, #022b79 0%, #02122e 100%);
   background-position: 0 0;
   background-size: 100% 0%;
-  animation: dropdown-bg-in 1s ease forwards;
+  animation: dropdown-bg-in 0.36s ease forwards;
   z-index: -1;
+  background-blend-mode: overlay;
 }
 
 .dropdown-title {
@@ -329,9 +340,10 @@ const scheduleCloseDropdown = () => {
   color: var(--sv-secondary-color);
   font-size: 3dvw;
   position: relative;
+  margin-left: 0dvw;
   opacity: 0;
-  animation: dropdown-text-in 0.2s ease forwards;
-  animation-delay: 0.7s;
+  animation: dropdown-text-in 0.18s ease forwards;
+  animation-delay: 0.16s;
 }
 
 .dropdown-items {
@@ -343,11 +355,11 @@ const scheduleCloseDropdown = () => {
   border-top: 2px solid white;
   border-bottom: 2px solid white;
   padding: 2dvh;
-  padding-right: 10dvw;
-  padding-left: 10dvw;
+  padding-right: 5dvw;
+  padding-left: 5dvw;
   opacity: 0;
-  animation: dropdown-text-in 0.2s ease forwards;
-  animation-delay: 0.7s;
+  animation: dropdown-text-in 0.18s ease forwards;
+  animation-delay: 0.16s;
 }
 
 .dropdown-group {
@@ -447,7 +459,9 @@ const scheduleCloseDropdown = () => {
   width: 24px;
   height: 2px;
   background: var(--sv-text-color);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .hamburger.is-open .hamburger-line:nth-of-type(1) {
@@ -469,7 +483,9 @@ const scheduleCloseDropdown = () => {
   transform: translateY(25%);
   width: 7dvw;
   height: 7dvw;
-  transition: filter 0.5s ease, scale 0.5s ease;
+  transition:
+    filter 0.5s ease,
+    scale 0.5s ease;
 }
 
 .logo:hover {
@@ -506,7 +522,56 @@ const scheduleCloseDropdown = () => {
   transition: all 0.3s ease;
 }
 
+.social-links-desktop {
+  position: fixed;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.social-links-desktop a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 68px;
+  height: 44px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: rgba(2, 43, 121, 0.82);
+  color: var(--sv-secondary-color);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  padding-left: 12px;
+  transform: translate(24px, -500%);
+  transition:
+    transform 0.28s ease,
+    background-color 0.16s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease;
+  position: relative;
+}
+
+.social-links-desktop a:hover {
+  transform: translate(0, -500%);
+  background: var(--sv-secondary-color);
+  color: var(--sv-primary-color);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+.social-links-desktop .socials {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
 @media (max-width: 767px) {
+  .social-links-desktop {
+    display: none;
+  }
+
   .socials {
     display: none;
   }
