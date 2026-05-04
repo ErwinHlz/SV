@@ -1,6 +1,7 @@
 <template>
   <PageHero
     v-if="newsItem"
+    class="news-detail-hero"
     :image="newsDetailHero"
     :title="newsItem.title"
     :lead="formatDate(newsItem.date)"
@@ -14,7 +15,7 @@
         :aria-label="
           newsMedia.length > 1 ? 'Medien zur News' : 'Medium zur News'
         ">
-        <div v-if="newsMedia.length > 1" class="news-inline-carousel">
+        <div v-if="newsMedia.length > 1" class="news-inline-carousel news-inline-carousel--desktop">
           <img
             v-if="activeMedia?.type === 'image'"
             class="news-inline-image"
@@ -59,6 +60,48 @@
               Instagram <span class="external-link-icon"><ExternalLink /></span>
             </a>
           </div>
+        </div>
+        <div
+          v-if="newsMedia.length > 1"
+          ref="mobileSwipeContainer"
+          class="news-inline-swipe news-inline-swipe--mobile"
+          @scroll.passive="updateActiveMediaFromScroll">
+          <div
+            v-for="(media, index) in newsMedia"
+            :key="media.id"
+            :ref="(el) => setMobileSwipeSlideRef(el, index)"
+            class="news-inline-swipe-slide"
+            :class="{ 'is-active': activeMediaIndex === index }">
+            <img
+              v-if="media.type === 'image'"
+              class="news-inline-image"
+              :src="media.src"
+              :alt="media.alt" />
+            <video
+              v-else
+              class="news-inline-video"
+              :poster="media.poster"
+              controls
+              playsinline
+              preload="metadata">
+              <source :src="media.src" />
+            </video>
+            <a
+              v-if="media.permalink"
+              :href="media.permalink"
+              target="_blank"
+              rel="noreferrer"
+              class="news-inline-link news-inline-link--mobile">
+              Instagram <span class="external-link-icon"><ExternalLink /></span>
+            </a>
+          </div>
+        </div>
+        <div
+          v-if="newsMedia.length > 1"
+          class="news-inline-mobile-status">
+          <span class="news-inline-status">
+            {{ activeMediaIndex + 1 }} / {{ newsMedia.length }}
+          </span>
         </div>
         <div v-else>
           <img
@@ -118,6 +161,8 @@ const newsItem = computed(() =>
   findNewsBySlug(String(route.params.slug ?? "")),
 );
 const activeMediaIndex = ref(0);
+const mobileSwipeContainer = ref<HTMLElement | null>(null);
+const mobileSwipeSlides = ref<HTMLElement[]>([]);
 const newsMedia = computed<NewsMediaItem[]>(() => {
   if (newsItem.value?.media?.length) {
     return newsItem.value.media;
@@ -159,10 +204,49 @@ const showNextMedia = () => {
     (activeMediaIndex.value + 1) % newsMedia.value.length;
 };
 
+const setMobileSwipeSlideRef = (
+  element: Element | object | null,
+  index: number,
+) => {
+  if (!(element instanceof HTMLElement)) {
+    return;
+  }
+
+  mobileSwipeSlides.value[index] = element;
+};
+
+const updateActiveMediaFromScroll = () => {
+  const container = mobileSwipeContainer.value;
+  if (!container || !mobileSwipeSlides.value.length) {
+    return;
+  }
+
+  const containerCenter = container.scrollLeft + container.clientWidth / 2;
+  let nextIndex = 0;
+  let smallestDistance = Number.POSITIVE_INFINITY;
+
+  mobileSwipeSlides.value.forEach((slide, index) => {
+    if (!slide) {
+      return;
+    }
+
+    const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+    const distance = Math.abs(containerCenter - slideCenter);
+
+    if (distance < smallestDistance) {
+      smallestDistance = distance;
+      nextIndex = index;
+    }
+  });
+
+  activeMediaIndex.value = nextIndex;
+};
+
 watch(
   () => newsItem.value?.id,
   () => {
     activeMediaIndex.value = 0;
+    mobileSwipeSlides.value = [];
   },
 );
 </script>
@@ -190,6 +274,10 @@ watch(
 
 .news-inline-carousel {
   position: relative;
+}
+
+.news-inline-swipe {
+  display: none;
 }
 
 .news-inline-controls {
@@ -319,6 +407,10 @@ watch(
   font-weight: 700;
 }
 
+.news-inline-link--mobile {
+  margin-top: 10px;
+}
+
 .chevron {
   display: inline-flex;
   align-items: center;
@@ -342,6 +434,85 @@ watch(
     float: none;
     width: 100%;
     margin: 0 0 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .news-detail-hero {
+    display: none;
+  }
+
+  .news-detail-layout {
+    margin-top: 18px;
+  }
+
+  .news-detail-body,
+  .news-detail-meta,
+  .entry-not-found {
+    width: 100dvw;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+  }
+
+  .news-detail-body {
+    margin-bottom: 28px;
+    font-size: 16px;
+    line-height: 1.75;
+    padding: 0 14px;
+  }
+
+  .news-detail-meta {
+    padding: 18px 14px 24px;
+  }
+
+  .news-inline-carousel--desktop {
+    display: none;
+  }
+
+  .news-inline-swipe {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding: 0 18px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .news-inline-swipe::-webkit-scrollbar {
+    display: none;
+  }
+
+  .news-inline-swipe-slide {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    opacity: 0.38;
+    filter: grayscale(0.55) brightness(0.7);
+    transform: scale(0.94);
+    transition:
+      opacity 0.2s ease,
+      filter 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .news-inline-swipe-slide.is-active {
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+  }
+
+  .news-inline-mobile-status {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .news-inline-image,
+  .news-inline-video {
+    border-radius: 16px;
   }
 }
 </style>
