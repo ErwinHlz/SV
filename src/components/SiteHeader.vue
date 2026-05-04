@@ -681,6 +681,7 @@
 		list-style: none;
 		display: grid;
 		gap: 10px;
+		height: 100%;
 	}
 
 	.mobile-nav-item {
@@ -763,11 +764,11 @@
 	.mobile-nav-item--social {
 		display: flex;
 		justify-content: center;
-		position: absolute;
-		bottom: 1dvh;
+		align-self: flex-end;
+		position: relative;
 		left: 50dvw;
 		transform: translate(-50%, 0);
-		padding-top: 10px;
+		padding-bottom: 2dvh;
 	}
 
 	.mobile-nav-item--social a {
