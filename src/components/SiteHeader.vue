@@ -276,10 +276,10 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
-	import { useRoute } from "vue-router";
-	import { ChevronDown, ChevronUp } from "@lucide/vue";
-	import logo from "@/assets/sv_logo.svg";
+import { onBeforeUnmount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { ChevronDown, ChevronUp } from "@lucide/vue";
+import logo from "@/assets/sv_logo.svg";
 
 	const isMenuOpen = ref(false);
 
@@ -340,9 +340,26 @@
 		}, 110);
 	};
 
-	const toggleMobileSection = (label: string) => {
-		openMobileSection.value = openMobileSection.value === label ? null : label;
-	};
+const toggleMobileSection = (label: string) => {
+  openMobileSection.value = openMobileSection.value === label ? null : label;
+};
+
+const setBackgroundScrollLocked = (locked: boolean) => {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  document.body.style.overflow = locked ? "hidden" : "";
+  document.documentElement.style.overflow = locked ? "hidden" : "";
+};
+
+watch(isMenuOpen, (open) => {
+  setBackgroundScrollLocked(open);
+});
+
+onBeforeUnmount(() => {
+  setBackgroundScrollLocked(false);
+});
 </script>
 
 <style scoped>

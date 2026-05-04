@@ -1,85 +1,102 @@
 <template>
-  <PageHero
-    :image="termineHero"
-    title="Termine"
-    lead="Alle Spiele, Events und Vereinsaktivitaeten auf einen Blick." />
-  <section class="termine-grid" aria-label="Alle Termine">
-    <RouterLink
-      v-for="(item, index) in termineItems"
-      :key="item.id"
-      class="termine-card"
-      :to="{ name: 'termine-detail', params: { slug: item.slug } }"
-      :style="getTerminCardStyle(item, index)">
-      <span class="termine-card-pin" aria-hidden="true">
-        <Pin :size="26" :stroke-width="2.1" />
-      </span>
-      <div class="termine-card-sheet">
-        <div class="termine-card-media">
-          <img
-            class="termine-card-image"
-            :src="item.image"
-            :alt="item.imageAlt"
-            loading="lazy" />
-          <div class="termine-card-overlay" aria-hidden="true">
-            <svg
-              class="termine-card-icon"
-              viewBox="0 0 48 48"
-              focusable="false"
-              aria-hidden="true">
-              <rect x="12" y="14" width="24" height="20" rx="3" />
-              <path d="M16 12v6M32 12v6M16 22h16" />
-            </svg>
-          </div>
-        </div>
-        <div class="termine-card-body">
-          <div class="termine-meta">
-            <time class="termine-date" :datetime="item.date">
-              {{ formatDate(item.date) }}
-            </time>
-            <span class="termine-time">{{ item.time }}</span>
-            <span class="termine-location">{{ item.location }}</span>
-            <span v-if="item.source" class="termine-source">{{ item.source }}</span>
-          </div>
-          <div
-            v-if="item.homeTeam && item.awayTeam"
-            class="termine-matchup">
-            <div class="termine-team">
+  <div ref="terminePageFlow" class="termine-page-flow">
+    <PageHero
+      class="termine-page-hero"
+      :image="termineHero"
+      title="Termine"
+      lead="Alle Spiele, Events und Vereinsaktivitaeten auf einen Blick.">
+      <p class="termine-mobile-scroll-hint">Nach unten scrollen</p>
+    </PageHero>
+    <section class="termine-grid" aria-label="Alle Termine">
+      <article
+        v-for="(item, index) in termineItems"
+        :key="item.id"
+        class="termine-card"
+        :style="getTerminCardStyle(item, index)">
+        <span class="termine-card-pin" aria-hidden="true">
+          <Pin :size="26" :stroke-width="2.1" />
+        </span>
+        <RouterLink
+          class="termine-card-sheet-link"
+          :to="{ name: 'termine-detail', params: { slug: item.slug } }"
+          :aria-label="`Zum Termin ${item.title}`">
+          <div class="termine-card-sheet">
+            <div class="termine-card-media">
               <img
-                v-if="item.homeLogo"
-                class="termine-team-logo"
-                :src="item.homeLogo"
-                :alt="`${item.homeTeam} Logo`"
+                class="termine-card-image"
+                :src="item.image"
+                :alt="item.imageAlt"
                 loading="lazy" />
-              <span class="termine-team-name">{{ item.homeTeam }}</span>
+              <div class="termine-card-overlay" aria-hidden="true">
+                <svg
+                  class="termine-card-icon"
+                  viewBox="0 0 48 48"
+                  focusable="false"
+                  aria-hidden="true">
+                  <rect x="12" y="14" width="24" height="20" rx="3" />
+                  <path d="M16 12v6M32 12v6M16 22h16" />
+                </svg>
+              </div>
             </div>
-            <span class="termine-matchup-separator">vs</span>
-            <div class="termine-team termine-team--away">
-              <img
-                v-if="item.awayLogo"
-                class="termine-team-logo"
-                :src="item.awayLogo"
-                :alt="`${item.awayTeam} Logo`"
-                loading="lazy" />
-              <span class="termine-team-name">{{ item.awayTeam }}</span>
+            <div class="termine-card-body">
+              <div class="termine-meta">
+                <time class="termine-date" :datetime="item.date">
+                  {{ formatDate(item.date) }}
+                </time>
+                <span class="termine-time">{{ item.time }}</span>
+                <span class="termine-location">{{ item.location }}</span>
+                <span v-if="item.source" class="termine-source">{{ item.source }}</span>
+              </div>
+              <div
+                v-if="item.homeTeam && item.awayTeam"
+                class="termine-matchup">
+                <div class="termine-team">
+                  <img
+                    v-if="item.homeLogo"
+                    class="termine-team-logo"
+                    :src="item.homeLogo"
+                    :alt="`${item.homeTeam} Logo`"
+                    loading="lazy" />
+                  <span class="termine-team-name">{{ item.homeTeam }}</span>
+                </div>
+                <span class="termine-matchup-separator">vs</span>
+                <div class="termine-team termine-team--away">
+                  <img
+                    v-if="item.awayLogo"
+                    class="termine-team-logo"
+                    :src="item.awayLogo"
+                    :alt="`${item.awayTeam} Logo`"
+                    loading="lazy" />
+                  <span class="termine-team-name">{{ item.awayTeam }}</span>
+                </div>
+              </div>
+              <h3 class="termine-card-title">{{ item.title }}</h3>
+              <p class="termine-card-excerpt">{{ item.excerpt }}</p>
             </div>
           </div>
-          <h3 class="termine-card-title">{{ item.title }}</h3>
-          <p class="termine-card-excerpt">{{ item.excerpt }}</p>
-        </div>
-      </div>
-    </RouterLink>
-  </section>
+        </RouterLink>
+        <RouterLink
+          class="termine-mobile-detail"
+          :to="{ name: 'termine-detail', params: { slug: item.slug } }"
+          :aria-label="`Termin ${item.title} im Detail ansehen`">
+          <ExternalLink :size="22" :stroke-width="2.2" />
+        </RouterLink>
+      </article>
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Pin } from "@lucide/vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { ExternalLink, Pin } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
 import termineHero from "@/assets/header/background.png";
 import { formatDate } from "@/utils/date";
 import { getTerminItems, type TerminEntry } from "@/utils/contentEntries";
 
 const termineItems = computed(() => getTerminItems());
+const terminePageFlow = ref<HTMLElement | null>(null);
+const termineScrollStorageKey = "sv-termine-scroll-position";
 
 const getRandomTilt = (seedSource: string, index: number) => {
   const seed = `${seedSource}-${index}`;
@@ -96,9 +113,81 @@ const getRandomTilt = (seedSource: string, index: number) => {
 const getTerminCardStyle = (item: TerminEntry, index: number) => ({
   "--pin-tilt": getRandomTilt(`${item.id}-${item.title}`, index),
 });
+
+const isMobileTermineLayout = () =>
+  typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches;
+
+const readTerminScrollPosition = () => {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  if (isMobileTermineLayout()) {
+    return terminePageFlow.value?.scrollTop ?? 0;
+  }
+
+  return window.scrollY;
+};
+
+const persistTerminScrollPosition = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.sessionStorage.setItem(
+    termineScrollStorageKey,
+    String(readTerminScrollPosition()),
+  );
+};
+
+const restoreTerminScrollPosition = async () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const storedValue = window.sessionStorage.getItem(termineScrollStorageKey);
+  if (!storedValue) {
+    return;
+  }
+
+  const nextScrollTop = Number(storedValue);
+  if (!Number.isFinite(nextScrollTop)) {
+    return;
+  }
+
+  await nextTick();
+  window.requestAnimationFrame(() => {
+    if (isMobileTermineLayout() && terminePageFlow.value) {
+      terminePageFlow.value.scrollTo({ top: nextScrollTop, behavior: "auto" });
+      return;
+    }
+
+    window.scrollTo({ top: nextScrollTop, behavior: "auto" });
+  });
+};
+
+onMounted(() => {
+  restoreTerminScrollPosition();
+  terminePageFlow.value?.addEventListener("scroll", persistTerminScrollPosition, {
+    passive: true,
+  });
+  window.addEventListener("scroll", persistTerminScrollPosition, {
+    passive: true,
+  });
+});
+
+onBeforeUnmount(() => {
+  persistTerminScrollPosition();
+  terminePageFlow.value?.removeEventListener("scroll", persistTerminScrollPosition);
+  window.removeEventListener("scroll", persistTerminScrollPosition);
+});
 </script>
 
 <style scoped>
+.termine-page-flow {
+  display: contents;
+}
+
 .termine-grid {
   width: 80dvw;
   margin: 0 auto;
@@ -108,6 +197,10 @@ const getTerminCardStyle = (item: TerminEntry, index: number) => ({
   gap: clamp(10px, 1.4vw, 16px);
   align-items: start;
   overflow: visible;
+}
+
+.termine-mobile-scroll-hint {
+  display: none;
 }
 
 .termine-card {
@@ -135,6 +228,13 @@ const getTerminCardStyle = (item: TerminEntry, index: number) => ({
 .termine-card:hover {
   transform: translateY(calc(var(--termine-card-offset) - 6px));
   z-index: 10;
+}
+
+.termine-card-sheet-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
 }
 
 .termine-card:focus-visible {
@@ -172,12 +272,18 @@ const getTerminCardStyle = (item: TerminEntry, index: number) => ({
   transform-origin: top center;
   transform: rotate(var(--pin-tilt));
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  pointer-events: auto;
 }
 
 .termine-card:hover .termine-card-sheet {
   transform: rotate(calc(var(--pin-tilt) * -1));
   border-color: rgba(244, 208, 71, 0.7);
   box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
+}
+
+.termine-mobile-detail {
+  display: none;
+  pointer-events: auto;
 }
 
 .termine-card-media {
@@ -370,34 +476,157 @@ const getTerminCardStyle = (item: TerminEntry, index: number) => ({
 }
 
 @media (max-width: 700px) {
+  .termine-page-flow {
+    display: block;
+    height: calc(100dvh + var(--sv-header-height));
+    margin-top: calc(var(--sv-header-height) * -1);
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+  }
+
+  .termine-page-hero {
+    min-height: 100dvh;
+    margin-bottom: 0;
+    padding: 0 14px 22px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .termine-page-hero :deep(.page-hero-content) {
+    min-height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .termine-page-hero :deep(.page-hero-lead) {
+    max-width: 28ch;
+  }
+
+  .termine-mobile-scroll-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sv-secondary-color);
+    opacity: 0.9;
+  }
+
+  .termine-mobile-scroll-hint::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+  }
+
   .termine-grid {
+    width: 100dvw;
     grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0;
+    margin: 0;
   }
 
   .termine-card {
-    min-height: auto;
+    min-height: 100dvh;
     --termine-card-offset: 0px;
     --termine-card-overlap: 0px;
     --termine-card-overlap-x: 0px;
     width: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    align-items: stretch;
     transform: none;
   }
 
   .termine-card:hover {
-    transform: translateY(-6px);
+    transform: none;
+  }
+
+  .termine-card-pin {
+    display: none;
+  }
+
+  .termine-card-sheet-link {
+    flex: 1;
   }
 
   .termine-card-sheet {
-    min-height: auto;
+    min-height: 100dvh;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
     transform: none;
   }
 
   .termine-card:hover .termine-card-sheet {
     transform: none;
+    border-color: var(--sv-card-border);
+    box-shadow: none;
   }
 
   .termine-card-media {
-    height: clamp(200px, 45vw, 240px);
+    height: 44dvh;
+    border-radius: 0;
+  }
+
+  .termine-card-body {
+    gap: 10px;
+    padding: 16px 14px 22px;
+    padding-top: 18px;
+  }
+
+  .termine-card-title {
+    font-size: clamp(24px, 7vw, 34px);
+    -webkit-line-clamp: 3;
+  }
+
+  .termine-card-excerpt {
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-line-clamp: 6;
+  }
+
+  .termine-mobile-detail {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--sv-secondary-color);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    transform: none;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+    z-index: 12;
+  }
+
+  .termine-mobile-detail :deep(svg) {
+    flex: 0 0 auto;
+  }
+
+  .termine-card:hover .termine-card-image {
+    transform: none;
+    filter: none;
+  }
+
+  .termine-card:hover .termine-card-overlay {
+    opacity: 0;
+    transform: scale(0.98);
   }
 }
 </style>

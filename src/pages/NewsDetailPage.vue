@@ -137,6 +137,13 @@
         </a>
       </p>
     </article>
+    <button
+      type="button"
+      class="news-detail-back"
+      aria-label="Zurueck"
+      @click="goBack">
+      <ArrowLeft :size="18" :stroke-width="2.4" />
+    </button>
   </section>
   <section v-else class="entry-not-found">
     <h1 class="entry-not-found-title">News nicht gefunden</h1>
@@ -148,14 +155,15 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
 import newsDetailHero from "@/assets/news/stock_news_2.png";
 import { findNewsBySlug, type NewsMediaItem } from "@/utils/contentEntries";
 import { formatDate } from "@/utils/date";
-import { ChevronLeft, ChevronRight, ExternalLink } from "@lucide/vue";
+import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink } from "@lucide/vue";
 
 const route = useRoute();
+const router = useRouter();
 
 const newsItem = computed(() =>
   findNewsBySlug(String(route.params.slug ?? "")),
@@ -184,6 +192,15 @@ const newsMedia = computed<NewsMediaItem[]>(() => {
 const activeMedia = computed(
   () => newsMedia.value[activeMediaIndex.value] ?? null,
 );
+
+const goBack = () => {
+  if (typeof window !== "undefined" && window.history.length > 1) {
+    router.back();
+    return;
+  }
+
+  router.push({ name: "news" });
+};
 
 const showPreviousMedia = () => {
   if (!newsMedia.value.length) {
@@ -256,6 +273,27 @@ watch(
   display: grid;
   gap: 24px;
   margin-bottom: clamp(48px, 8vw, 96px);
+}
+
+.news-detail-back {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(244, 208, 71, 0.35);
+  border-radius: 999px;
+  background: rgba(7, 18, 44, 0.92);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
+  color: var(--sv-secondary-color);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 30;
 }
 
 .news-detail-body {
@@ -460,6 +498,13 @@ watch(
     font-size: 16px;
     line-height: 1.75;
     padding: 0 14px;
+  }
+
+  .news-detail-back {
+    right: 12px;
+    bottom: 12px;
+    width: 42px;
+    height: 42px;
   }
 
   .news-detail-meta {

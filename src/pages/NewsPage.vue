@@ -1,5 +1,5 @@
 <template>
-	<div class="news-page-flow">
+	<div ref="newsPageFlow" class="news-page-flow">
 		<PageHero
 			class="news-page-hero"
 			:image="newsHero"
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
+	import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 	import { ExternalLink, Pin } from "@lucide/vue";
 	import PageHero from "@/components/PageHero.vue";
 	import newsHero from "@/assets/news/stock_news_1.png";
@@ -78,6 +78,8 @@
 	import { getNewsItems, type NewsEntry } from "@/utils/contentEntries";
 
 	const newsItems = computed(() => getNewsItems());
+	const newsPageFlow = ref<HTMLElement | null>(null);
+	const newsScrollStorageKey = "sv-news-scroll-position";
 
 	const getRandomTilt = (seedSource: string, index: number) => {
 		const seed = `${seedSource}-${index}`;
@@ -93,6 +95,74 @@
 
 	const getNewsCardStyle = (item: NewsEntry, index: number) => ({
 		"--pin-tilt": getRandomTilt(`${item.id}-${item.title}`, index),
+	});
+
+	const isMobileNewsLayout = () =>
+		typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches;
+
+	const readNewsScrollPosition = () => {
+		if (typeof window === "undefined") {
+			return 0;
+		}
+
+		if (isMobileNewsLayout()) {
+			return newsPageFlow.value?.scrollTop ?? 0;
+		}
+
+		return window.scrollY;
+	};
+
+	const persistNewsScrollPosition = () => {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+		window.sessionStorage.setItem(
+			newsScrollStorageKey,
+			String(readNewsScrollPosition()),
+		);
+	};
+
+	const restoreNewsScrollPosition = async () => {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+		const storedValue = window.sessionStorage.getItem(newsScrollStorageKey);
+		if (!storedValue) {
+			return;
+		}
+
+		const nextScrollTop = Number(storedValue);
+		if (!Number.isFinite(nextScrollTop)) {
+			return;
+		}
+
+		await nextTick();
+		window.requestAnimationFrame(() => {
+			if (isMobileNewsLayout() && newsPageFlow.value) {
+				newsPageFlow.value.scrollTo({ top: nextScrollTop, behavior: "auto" });
+				return;
+			}
+
+			window.scrollTo({ top: nextScrollTop, behavior: "auto" });
+		});
+	};
+
+	onMounted(() => {
+		restoreNewsScrollPosition();
+		newsPageFlow.value?.addEventListener("scroll", persistNewsScrollPosition, {
+			passive: true,
+		});
+		window.addEventListener("scroll", persistNewsScrollPosition, {
+			passive: true,
+		});
+	});
+
+	onBeforeUnmount(() => {
+		persistNewsScrollPosition();
+		newsPageFlow.value?.removeEventListener("scroll", persistNewsScrollPosition);
+		window.removeEventListener("scroll", persistNewsScrollPosition);
 	});
 </script>
 
@@ -146,6 +216,7 @@
 		display: block;
 		color: inherit;
 		text-decoration: none;
+		pointer-events: none;
 	}
 
 	.news-card:focus-visible {
@@ -186,6 +257,7 @@
 			transform 0.3s ease,
 			box-shadow 0.3s ease,
 			border-color 0.3s ease;
+		pointer-events: auto;
 	}
 
 	.news-card:hover .news-card-sheet {
@@ -196,6 +268,7 @@
 
 	.news-mobile-detail {
 		display: none;
+		pointer-events: auto;
 	}
 
 	.news-card-media {
@@ -484,9 +557,9 @@
 		}
 
 		.news-mobile-detail {
-			position: fixed;
-			right: 20px;
-			bottom: 20px;
+			position: absolute;
+			right: 8px;
+			bottom: 8px;
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
