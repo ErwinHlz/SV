@@ -11,7 +11,8 @@
       ]"
       :href="match.linkUrl"
       :target="match.linkUrl ? '_blank' : undefined"
-      :rel="match.linkUrl ? 'noreferrer' : undefined">
+      :rel="match.linkUrl ? 'noreferrer' : undefined"
+      @click="onMatchClick">
       <p class="match-label">{{ match.label }}</p>
 
       <div class="match-main">
@@ -110,6 +111,12 @@ const cards = [
     linkUrl: matchHighlights.next.match_url,
   },
 ];
+
+const onMatchClick = (event: MouseEvent) => {
+  if (typeof window !== "undefined" && window.innerWidth <= 640) {
+    event.preventDefault();
+  }
+};
 </script>
 
 <style scoped>
@@ -128,7 +135,6 @@ const cards = [
   min-width: 0;
   padding: 8px 12px;
   background: var(--sv-card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.12);
   background-color: rgb(20, 20, 20);
 
   overflow: hidden;
@@ -150,8 +156,6 @@ const cards = [
 .match-card--link:hover,
 .match-card--link:focus-visible {
   scale: 1.05;
-  border-color: rgba(244, 208, 71, 0.65);
-  box-shadow: 0 16px 28px rgba(2, 43, 121, 0.24);
 }
 
 .match-card--link:focus-visible {
@@ -172,11 +176,12 @@ const cards = [
 
 .match-label {
   margin: 0;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--sv-secondary-color);
+  text-align: center;
 }
 
 .match-main {
@@ -202,15 +207,15 @@ const cards = [
 }
 
 .team-logo {
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
   object-fit: contain;
 }
 
 .team-name {
   margin: 0;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.15;
   text-align: center;
@@ -228,7 +233,7 @@ const cards = [
 
 .match-score {
   margin: 0;
-  font-size: 28px;
+  font-size: 34px;
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: 0.02em;
@@ -242,7 +247,7 @@ const cards = [
 
 .match-meta {
   margin: 0;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.15;
   text-align: center;
   opacity: 0.8;
@@ -272,26 +277,8 @@ const cards = [
   .match-card {
     min-height: 0;
     height: auto;
-  }
-
-  .match-main {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .team,
-  .team--away {
-    justify-content: center;
-  }
-
-  .team-logo {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
-  }
-
-  .match-center {
-    min-width: 0;
+    border: 0;
+    box-shadow: none;
   }
 }
 </style>

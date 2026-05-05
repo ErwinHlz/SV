@@ -37,7 +37,7 @@ const router = createRouter({
     return { top: 0 };
   },
   routes: [
-    { path: "/", name: "home", component: HomePage },
+    { path: "/", name: "home", component: HomePage, meta: { snap: true } },
     { path: "/home", redirect: "/" },
     {
       path: "/about",
@@ -45,7 +45,7 @@ const router = createRouter({
       component: AboutPage,
     },
     { path: "/contact", name: "contact", component: Contact },
-    { path: "/news", name: "news", component: NewsPage },
+    { path: "/news", name: "news", component: NewsPage, meta: { snap: true } },
     { path: "/news/:slug", name: "news-detail", component: NewsDetailPage },
     {
       path: "/spielberichte",
@@ -57,7 +57,12 @@ const router = createRouter({
       name: "spielbericht-detail",
       component: SpielberichtDetailPage,
     },
-    { path: "/termine", name: "termine", component: TerminPage },
+    {
+      path: "/termine",
+      name: "termine",
+      component: TerminPage,
+      meta: { snap: true },
+    },
     {
       path: "/termine/:slug",
       name: "termine-detail",

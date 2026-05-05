@@ -157,16 +157,19 @@ const items = [
   .heroRow {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
-    height: auto;
-    overflow: visible;
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
   }
   .panel {
     flex: none;
     min-width: 0;
-    min-height: 180px;
+    min-height: 0;
     clip-path: none;
     margin: 0;
+    border-radius: 0;
+    background-position: center;
   }
   .panel:hover {
     flex: none;
@@ -176,6 +179,27 @@ const items = [
     left: 16px;
     right: 16px;
     bottom: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroRow {
+    gap: 0;
+  }
+
+  .panel {
+    border-radius: 0;
+  }
+
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .title {
+    margin-top: 6px;
+    font-size: clamp(18px, 5.6vw, 24px);
+    line-height: 1.08;
   }
 }
 </style>

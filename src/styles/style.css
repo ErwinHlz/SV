@@ -52,6 +52,17 @@ body {
   min-height: 100dvh;
 }
 
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -62,12 +73,13 @@ h1 {
 }
 
 .app-content {
-  padding-top: var(--sv-header-height);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
+}
+
+.app-page {
+  flex: 1 0 auto;
 }
 
 @media (max-width: 1280px) {
@@ -86,5 +98,11 @@ h1 {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-content {
+    padding-top: var(--sv-header-height);
   }
 }
