@@ -584,10 +584,10 @@
 		width: min(100%, 46rem);
 		margin-left: auto;
 		display: grid;
-		grid-template-columns: repeat(6, minmax(0, 1fr));
-		grid-auto-rows: minmax(10.5rem, auto);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+
 		gap: 1.1rem;
-		align-items: stretch;
+		align-items: center;
 	}
 
 	.intro-info-card {
@@ -599,6 +599,9 @@
 		padding: 1.35rem;
 		border-radius: 1.8rem;
 		overflow: hidden;
+		background: rgba(255, 255, 255, 0.09);
+		border: 1px solid rgba(255, 255, 255, 0.16);
+		box-shadow: 0 1.4rem 4rem rgba(0, 0, 0, 0.22);
 		backdrop-filter: blur(18px);
 	}
 
@@ -638,8 +641,9 @@
 
 	.intro-info-value,
 	.intro-info-note {
-		display: flex;
-		justify-content: center;
+		opacity: 1;
+		transform: none;
+		display: block;
 	}
 
 	.intro-info-card.is-visible .intro-info-value,
@@ -1051,13 +1055,22 @@
 		.youth-intro-panel {
 			min-height: 100svh;
 			padding: 2rem 0;
-			align-items: flex-start;
+			align-items: center;
 		}
 
 		.youth-intro-panel--cards {
 			min-height: 100svh;
-			padding: 2rem 0 2.5rem;
-			align-items: center;
+			padding: 0;
+			background: linear-gradient(
+				to bottom,
+				#102716 0,
+				#183920 5%,
+				#e8eee6 40%,
+				#fbfaf6 60%,
+				#fbfaf6 100%
+			);
+			color: #111;
+			box-shadow: inset #102716 0px 1px 30px 1px;
 		}
 
 		.intro-inner {
@@ -1074,13 +1087,15 @@
 		}
 
 		.intro-info-grid {
-			width: calc(100% - 2rem);
+			width: min(calc(100% - 2rem), 25rem);
 			margin-inline: auto;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			grid-auto-rows: minmax(10.75rem, auto);
-			gap: 0.75rem;
+			grid-auto-rows: minmax(10.1rem, 1fr);
+			gap: 0.7rem;
 			margin-top: 0;
-			padding: 0.25rem 0;
+			padding: 4.2rem 0 2rem;
+			align-content: center;
+			justify-content: center;
 		}
 
 		.intro-info-card:nth-child(1),
@@ -1092,32 +1107,42 @@
 
 		.intro-info-card {
 			min-height: 10.1rem;
+			display: grid;
+			grid-template-rows: auto 1fr auto;
+			align-content: start;
 			border-radius: 1.25rem;
-			padding: 1rem;
+			padding: 0.9rem 0.9rem 0.95rem;
+			background: linear-gradient(180deg, #ffffff 0%, #f3f0e7 100%);
+			border: 1px solid rgba(16, 39, 22, 0.08);
+			box-shadow: 0 1rem 2.5rem rgba(16, 39, 22, 0.12);
+			backdrop-filter: none;
 		}
 
 		.intro-info-label {
-			top: 0.9rem;
-			left: 1rem;
-			font-size: 0.68rem;
+			position: static;
+			margin-bottom: 0.65rem;
+			color: #2f7d46;
+			font-size: 0.62rem;
+			letter-spacing: 0.14em;
 		}
 
 		.intro-info-empty {
-			left: 1rem;
-			right: 1rem;
-			bottom: 3.85rem;
-			height: 0.9rem;
+			display: none;
 		}
 
 		.intro-info-value {
-			font-size: 1.08rem;
-			line-height: 1.12;
+			align-self: center;
+			font-size: 1.1rem;
+			line-height: 1.08;
+			letter-spacing: -0.04em;
+			color: #111;
 		}
 
 		.intro-info-note {
-			margin-top: 0.45rem;
-			font-size: 0.82rem;
-			line-height: 1.4;
+			margin-top: 0.55rem;
+			color: rgba(17, 17, 17, 0.62);
+			font-size: 0.76rem;
+			line-height: 1.3;
 		}
 
 		.section-inner {

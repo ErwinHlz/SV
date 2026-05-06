@@ -1,5 +1,32 @@
 <template>
-  <PageHero :image="stadionHero" :title="hero.title" :lead="hero.lead" />
+  <PageHero
+    class="stadion-page-hero"
+    :image="stadionHero"
+    :title="hero.title"
+    :lead="hero.lead" />
+
+  <section class="stadion-mobile-intro" aria-label="Stadion Uebersicht">
+    <div class="stadion-mobile-intro-copy">
+      <p class="stadion-mobile-kicker">Sportplatz Ottweiler</p>
+      <h2 class="stadion-mobile-title">{{ intro.title }}</h2>
+      <p class="stadion-mobile-text">{{ intro.text }}</p>
+      <p class="stadion-mobile-note">{{ intro.note }}</p>
+    </div>
+
+    <header class="stadion-mobile-section-header">
+      <h2 class="section-title">{{ facts.title }}</h2>
+    </header>
+
+    <div class="stadion-facts-grid">
+      <article
+        v-for="fact in facts.items"
+        :key="fact.label"
+        class="stadion-fact-card">
+        <span class="stadion-fact-label">{{ fact.label }}</span>
+        <strong class="stadion-fact-value">{{ fact.value }}</strong>
+      </article>
+    </div>
+  </section>
 
   <section class="stadion-section" aria-label="Stadion Impressionen">
     <header class="section-header">
@@ -83,32 +110,6 @@
     </a>
   </section>
 
-  <section class="stadion-section" aria-label="Team am Stadion">
-    <header class="section-header">
-      <h2 class="section-title">{{ people.title }}</h2>
-    </header>
-    <div class="people-grid">
-      <article
-        v-for="person in personCards"
-        :key="person.id"
-        class="people-card">
-        <div class="people-photo">
-          <img
-            v-if="person.image"
-            :src="person.image"
-            :alt="person.imageAlt"
-            loading="lazy" />
-          <span v-else class="people-photo-fallback">
-            {{ getInitials(person.name) }}
-          </span>
-        </div>
-        <div class="people-caption">
-          <p class="people-name">{{ person.name }}</p>
-          <p class="people-role">{{ person.role }}</p>
-        </div>
-      </article>
-    </div>
-  </section>
 </template>
 
 <script setup lang="ts">
@@ -138,18 +139,15 @@ type StadionGalleryItem = {
   caption?: string;
 };
 
-type StadionPerson = {
-  id: string;
-  name: string;
-  role: string;
-  image?: string;
-  imageAlt?: string;
-};
-
 type StadionContent = {
   hero: {
     title: string;
     lead: string;
+  };
+  intro: {
+    title: string;
+    text: string;
+    note: string;
   };
   facts: {
     title: string;
@@ -160,14 +158,10 @@ type StadionContent = {
     items: StadionGalleryItem[];
   };
   map: StadionMap;
-  people: {
-    title: string;
-    items: StadionPerson[];
-  };
 };
 
 const stadionContent = rawStadion as StadionContent;
-const { hero, facts, gallery, map, people } = stadionContent;
+const { hero, intro, facts, gallery, map } = stadionContent;
 
 const imageMap: Record<string, string> = {
   stadionHero,
@@ -236,23 +230,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   stopTimer();
 });
-
-const personCards = people.items.map((person) => ({
-  ...person,
-  image: person.image ? imageMap[person.image] ?? person.image : undefined,
-  imageAlt: person.imageAlt ?? person.name,
-}));
-
-const getInitials = (value?: string) =>
-  (value ?? "")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("");
 </script>
 
 <style scoped>
+.stadion-mobile-intro {
+  display: none;
+}
+
 .stadion-section {
   width: min(1120px, calc(100dvw - 48px));
   margin: 0 auto clamp(40px, 7vw, 88px);
@@ -413,66 +397,6 @@ const getInitials = (value?: string) =>
   text-decoration: underline;
 }
 
-.people-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: clamp(16px, 2.5vw, 32px);
-}
-
-.people-card {
-  background: #f7f1e3;
-  color: #1f2a44;
-  border: 1px solid rgba(11, 31, 77, 0.2);
-  border-radius: 6px;
-  padding: 12px;
-  display: grid;
-  gap: 10px;
-  box-shadow: 0 14px 28px rgba(11, 31, 77, 0.18);
-}
-
-.people-photo {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #d7d2c6;
-  display: grid;
-  place-items: center;
-}
-
-.people-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.people-photo-fallback {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(31, 42, 68, 0.7);
-}
-
-.people-caption {
-  padding: 2px 4px 4px;
-  text-align: center;
-}
-
-.people-name {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-
-.people-role {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 10px;
-  color: rgba(31, 42, 68, 0.65);
-}
-
 @media (max-width: 900px) {
   .stadion-section {
     width: calc(100dvw - 24px);
@@ -480,6 +404,160 @@ const getInitials = (value?: string) =>
 
   .slideshow-stage {
     height: clamp(320px, 58vw, 460px);
+  }
+}
+
+@media (max-width: 720px) {
+  .stadion-page-hero {
+    display: none;
+  }
+
+  .stadion-mobile-intro {
+    display: grid;
+    align-content: center;
+    gap: 1rem;
+    width: calc(100dvw - 24px);
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 1.25rem 0 1rem;
+  }
+
+  .stadion-mobile-intro-copy {
+    padding: 1.35rem 1.1rem 1.2rem;
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, rgba(16, 39, 22, 0.98), rgba(27, 62, 35, 0.96));
+    color: #fff;
+    box-shadow: 0 1rem 2.6rem rgba(16, 39, 22, 0.24);
+  }
+
+  .stadion-mobile-section-header {
+    padding: 0 0.15rem;
+  }
+
+  .stadion-mobile-kicker {
+    margin: 0 0 0.6rem;
+    color: #78d982;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .stadion-mobile-title {
+    margin: 0;
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+  }
+
+  .stadion-mobile-text,
+  .stadion-mobile-note {
+    margin: 0.85rem 0 0;
+    line-height: 1.55;
+  }
+
+  .stadion-mobile-text {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.98rem;
+  }
+
+  .stadion-mobile-note {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 0.82rem;
+  }
+
+  .stadion-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .stadion-fact-card {
+    min-height: 8.8rem;
+    display: grid;
+    align-content: space-between;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, #ffffff, #f4f0e6);
+    border: 1px solid rgba(16, 39, 22, 0.08);
+    box-shadow: 0 0.8rem 2rem rgba(16, 39, 22, 0.1);
+  }
+
+  .stadion-fact-label {
+    color: #2f7d46;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .stadion-fact-value {
+    align-self: end;
+    color: #111;
+    font-size: 1.02rem;
+    line-height: 1.2;
+  }
+
+  .stadion-section {
+    width: calc(100dvw - 24px);
+    min-height: 100svh;
+    margin-bottom: 0;
+    padding: 1.25rem 0 1rem;
+    display: grid;
+    align-content: center;
+  }
+
+  .section-header {
+    margin-bottom: 0.9rem;
+    padding: 0 0.15rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.7rem, 8vw, 2.35rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .slideshow {
+    gap: 0.85rem;
+  }
+
+  .slideshow-stage {
+    height: 54dvh;
+    min-height: 20rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 1rem 2.4rem rgba(2, 43, 121, 0.18);
+  }
+
+  .slideshow-controls {
+    gap: 1rem;
+  }
+
+  .slideshow-btn {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+  }
+
+  .slideshow-dots {
+    gap: 0.5rem;
+  }
+
+  .map-frame {
+    height: 54dvh;
+    min-height: 20rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 1rem 2.4rem rgba(2, 43, 121, 0.18);
+  }
+
+  .address-link {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 999px;
+    background: rgba(244, 208, 71, 0.14);
   }
 }
 </style>

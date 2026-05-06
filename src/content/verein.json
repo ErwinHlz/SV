@@ -1,14 +1,69 @@
 {
   "hero": {
-    "title": "Unser Verein",
-    "lead": "Die wichtigsten Ansprechpartnerinnen und Ansprechpartner der FSG Ottweiler-Steinbach."
+    "title": "Willkommen bei der FSG Ottweiler-Steinbach",
+    "lead": "Wir bringen Menschen zusammen, leben Fussball mit Herz und schaffen Gemeinschaft auf und neben dem Platz."
   },
   "intro": {
-    "title": "Vorstand und Organisation",
-    "text": "Unser Verein lebt vom Einsatz vieler Ehrenamtlicher. Hier findest du die zentralen Personen und Zustaendigkeiten."
+    "title": "Wer wir sind",
+    "text": "Die FSG Ottweiler-Steinbach ist mehr als nur ein Fussballverein. Wir sind ein Ort fuer Teamgeist, ehrenamtliches Engagement und gemeinsame Erlebnisse im Alltag, im Training und an Spieltagen. Bei uns kommen Kinder, Jugendliche, Erwachsene und Unterstuetzer zusammen, um Fussball und Vereinsleben aktiv zu gestalten."
+  },
+  "values": {
+    "title": "Was uns ausmacht",
+    "items": [
+      {
+        "id": "gemeinschaft",
+        "title": "Gemeinschaft",
+        "text": "Wir schaffen einen Ort, an dem sich Menschen willkommen fuehlen und zusammen wachsen."
+      },
+      {
+        "id": "engagement",
+        "title": "Engagement",
+        "text": "Unsere Mitglieder, Trainer und Helfer bringen Ideen ein und praegen den Verein aktiv."
+      },
+      {
+        "id": "tradition-zukunft",
+        "title": "Tradition & Zukunft",
+        "text": "Wir bauen auf Vereinskultur auf und entwickeln gleichzeitig neue Angebote und Projekte."
+      },
+      {
+        "id": "zusammenhalt",
+        "title": "Spass & Zusammenhalt",
+        "text": "Neben Leistung zaehlen bei uns vor allem Freude, Respekt und echtes Miteinander."
+      }
+    ]
+  },
+  "activities": {
+    "title": "Unsere Aktivitaeten",
+    "items": [
+      {
+        "id": "training",
+        "title": "Regelmaessige Treffen",
+        "text": "Trainings, Besprechungen und gemeinsame Vereinsmomente gehoeren fest zu unserem Alltag."
+      },
+      {
+        "id": "events",
+        "title": "Veranstaltungen",
+        "text": "Spieltage, Vereinsaktionen und besondere Events machen die FSG auch abseits des Platzes lebendig."
+      },
+      {
+        "id": "jugend",
+        "title": "Jugendarbeit",
+        "text": "Wir foerdern junge Spielerinnen und Spieler mit Teamgeist, Verantwortung und Freude am Fussball."
+      },
+      {
+        "id": "projekte",
+        "title": "Projekte & Vereinshilfe",
+        "text": "Ob Organisation, Platzpflege oder Aktionen fuer den Ort: Viele Aufgaben werden gemeinsam getragen."
+      }
+    ]
+  },
+  "history": {
+    "title": "Vereinsgeschichte",
+    "text": "Unsere Vereinsarbeit ist ueber Jahre gewachsen und fest in der Region verankert. Was Menschen bei uns verbindet, ist die Begeisterung fuer Fussball, das Ehrenamt und das gute Gefuehl, Teil einer starken Gemeinschaft zu sein."
   },
   "people": {
-    "title": "Vereinsleitung",
+    "title": "Vorstand & Ansprechpartner",
+    "lead": "Hinter der FSG stehen Menschen, die organisieren, mitdenken und ansprechbar sind.",
     "items": [
       {
         "id": "vorstand-1",
@@ -32,20 +87,6 @@
         "imageAlt": "Kassenwartin"
       },
       {
-        "id": "schriftfuehrer",
-        "name": "Tim Beispiel",
-        "role": "Schriftfuehrer",
-        "image": "vereinHero",
-        "imageAlt": "Schriftfuehrer"
-      },
-      {
-        "id": "sportlicher-leiter",
-        "name": "Sven Muster",
-        "role": "Sportlicher Leiter",
-        "image": "vereinHero",
-        "imageAlt": "Sportlicher Leiter"
-      },
-      {
         "id": "jugendleitung",
         "name": "Lea Muster",
         "role": "Jugendleitung",
@@ -53,5 +94,11 @@
         "imageAlt": "Jugendleitung"
       }
     ]
+  },
+  "cta": {
+    "title": "Mitglied werden",
+    "text": "Du moechtest Teil unserer Gemeinschaft werden, den Verein kennenlernen oder uns unterstuetzen? Dann melde dich bei uns oder schau einfach vorbei. Wir freuen uns ueber neue Gesichter.",
+    "primaryLabel": "Mitglied werden",
+    "secondaryLabel": "Kontakt aufnehmen"
   }
 }

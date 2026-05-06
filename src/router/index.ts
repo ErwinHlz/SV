@@ -51,6 +51,7 @@ const router = createRouter({
       path: "/spielberichte",
       name: "spielberichte",
       component: SpielberichtePage,
+      meta: { snap: true },
     },
     {
       path: "/spielberichte/:slug",
