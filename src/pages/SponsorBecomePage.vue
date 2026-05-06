@@ -156,16 +156,20 @@
 
 <style scoped>
 	.sponsor-become-page {
-		--sponsor-bg: #07150d;
-		--sponsor-bg-soft: #0d2115;
+		--sv-primary-color: #022b79;
+		--sv-secondary-color: #f4d047;
+
+		--sponsor-bg: #061123;
+		--sponsor-bg-soft: #081a36;
 		--sponsor-card: rgba(255, 255, 255, 0.08);
 		--sponsor-card-strong: rgba(255, 255, 255, 0.13);
 		--sponsor-border: rgba(255, 255, 255, 0.16);
-		--sponsor-text: #f6f2e8;
-		--sponsor-muted: rgba(246, 242, 232, 0.74);
-		--sponsor-green: #77b255;
-		--sponsor-green-soft: rgba(119, 178, 85, 0.24);
-		--sponsor-gold: #f1c96b;
+		--sponsor-text: #f8f6ee;
+		--sponsor-muted: rgba(248, 246, 238, 0.74);
+		--sponsor-primary: var(--sv-primary-color);
+		--sponsor-secondary: var(--sv-secondary-color);
+		--sponsor-primary-soft: rgba(2, 43, 121, 0.34);
+		--sponsor-secondary-soft: rgba(244, 208, 71, 0.22);
 		--sponsor-radius: 28px;
 
 		position: relative;
@@ -174,15 +178,15 @@
 		background:
 			radial-gradient(
 				circle at 20% 10%,
-				rgba(119, 178, 85, 0.25),
+				rgba(2, 43, 121, 0.52),
 				transparent 30rem
 			),
 			radial-gradient(
-				circle at 80% 40%,
-				rgba(241, 201, 107, 0.15),
-				transparent 26rem
+				circle at 82% 38%,
+				rgba(244, 208, 71, 0.18),
+				transparent 28rem
 			),
-			linear-gradient(180deg, #06110b 0%, var(--sponsor-bg) 45%, #030806 100%);
+			linear-gradient(180deg, #030916 0%, var(--sponsor-bg) 45%, #02050b 100%);
 	}
 
 	.sponsor-become-page::before {
@@ -234,7 +238,7 @@
 		font-size: 0.78rem;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		background: rgba(7, 21, 13, 0.58);
+		background: rgba(6, 17, 35, 0.62);
 		backdrop-filter: blur(14px);
 		box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
 		animation: sponsorHintFloat 1.7s ease-in-out infinite;
@@ -274,6 +278,16 @@
 		border: 1px solid var(--sponsor-border);
 		border-radius: var(--sponsor-radius);
 		background:
+			radial-gradient(
+				circle at 0% 0%,
+				rgba(244, 208, 71, 0.16),
+				transparent 15rem
+			),
+			radial-gradient(
+				circle at 100% 100%,
+				rgba(2, 43, 121, 0.45),
+				transparent 18rem
+			),
 			linear-gradient(
 				145deg,
 				rgba(255, 255, 255, 0.13),
@@ -291,18 +305,18 @@
 		width: 18rem;
 		aspect-ratio: 1;
 		border-radius: 999px;
-		background: var(--sponsor-green-soft);
+		background: var(--sponsor-secondary-soft);
 		filter: blur(16px);
 	}
 
 	.sponsor-intro--needs .sponsor-intro__inner::before {
 		inset: auto -30% -35% auto;
-		background: rgba(241, 201, 107, 0.18);
+		background: var(--sponsor-primary-soft);
 	}
 
 	.sponsor-eyebrow {
 		margin: 0 0 0.9rem;
-		color: var(--sponsor-green);
+		color: var(--sponsor-secondary);
 		font-size: 0.78rem;
 		font-weight: 800;
 		letter-spacing: 0.16em;
@@ -342,8 +356,8 @@
 		width: 0.85rem;
 		aspect-ratio: 1;
 		border-radius: 999px;
-		background: var(--sponsor-green);
-		box-shadow: 0 0 0 7px var(--sponsor-green-soft);
+		background: var(--sponsor-secondary);
+		box-shadow: 0 0 0 7px var(--sponsor-secondary-soft);
 	}
 
 	/* PACKAGE-SCROLL */
@@ -354,19 +368,26 @@
 	}
 
 	.sponsor-packages__intro {
-		position: sticky;
-		top: 0;
+		position: relative;
 		z-index: 1;
-		min-height: 70svh;
+		min-height: 58svh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		pointer-events: none;
+		pointer-events: auto;
 	}
 
 	.sponsor-packages__intro .sponsor-section-title {
 		max-width: 10ch;
 	}
+
+	/*
+  Natürlicher Ablauf:
+  1. Erst normal zur ersten Karte scrollen.
+  2. Danach bleiben Karten sticky.
+  3. Jede neue Karte kommt von unten und überdeckt die alte.
+  4. Keine Opacity-Reduzierung bei den Karten.
+*/
 
 	.sponsor-package {
 		position: sticky;
@@ -375,26 +396,31 @@
 		min-height: 100svh;
 		display: flex;
 		align-items: center;
-		padding-block: 1.1rem;
+		padding-block: 1rem;
+	}
+
+	.sponsor-package:nth-of-type(1) {
+		z-index: 2;
 	}
 
 	.sponsor-package:nth-of-type(2) {
 		z-index: 3;
 	}
+
 	.sponsor-package:nth-of-type(3) {
 		z-index: 4;
 	}
+
 	.sponsor-package:nth-of-type(4) {
 		z-index: 5;
 	}
+
 	.sponsor-package:nth-of-type(5) {
 		z-index: 6;
 	}
+
 	.sponsor-package:nth-of-type(6) {
 		z-index: 7;
-	}
-	.sponsor-package:nth-of-type(7) {
-		z-index: 8;
 	}
 
 	.sponsor-package__inner {
@@ -405,38 +431,49 @@
 		padding: clamp(1.25rem, 6vw, 2.5rem);
 		border: 1px solid var(--sponsor-border);
 		border-radius: 32px;
+		opacity: 1;
 		background:
 			radial-gradient(
 				circle at 90% 0%,
-				rgba(119, 178, 85, 0.28),
+				rgba(244, 208, 71, 0.26),
 				transparent 13rem
+			),
+			radial-gradient(
+				circle at 0% 100%,
+				rgba(2, 43, 121, 0.42),
+				transparent 15rem
 			),
 			linear-gradient(
 				145deg,
 				rgba(255, 255, 255, 0.16),
 				rgba(255, 255, 255, 0.055)
 			),
-			#0c1b12;
+			#07142b;
 		box-shadow:
 			0 36px 100px rgba(0, 0, 0, 0.48),
 			inset 0 1px 0 rgba(255, 255, 255, 0.16);
 		backdrop-filter: blur(18px);
-		transform-origin: center;
+		transform-origin: center bottom;
 	}
 
 	.sponsor-package:nth-of-type(even) .sponsor-package__inner {
 		background:
 			radial-gradient(
 				circle at 0% 0%,
-				rgba(241, 201, 107, 0.22),
+				rgba(244, 208, 71, 0.28),
 				transparent 13rem
+			),
+			radial-gradient(
+				circle at 100% 100%,
+				rgba(2, 43, 121, 0.52),
+				transparent 16rem
 			),
 			linear-gradient(
 				145deg,
 				rgba(255, 255, 255, 0.15),
 				rgba(255, 255, 255, 0.05)
 			),
-			#0d1c14;
+			#081831;
 	}
 
 	.sponsor-package__inner::before {
@@ -447,11 +484,11 @@
 		background: linear-gradient(
 			120deg,
 			transparent 0 35%,
-			rgba(255, 255, 255, 0.12) 50%,
+			rgba(255, 255, 255, 0.13) 50%,
 			transparent 65% 100%
 		);
 		translate: -120% 0;
-		animation: sponsorCardShine 6s ease-in-out infinite;
+		animation: sponsorCardShine 7s ease-in-out infinite;
 	}
 
 	.sponsor-package__index {
@@ -473,12 +510,12 @@
 		padding: 0.5rem 0.75rem;
 		border: 1px solid var(--sponsor-border);
 		border-radius: 999px;
-		color: var(--sponsor-gold);
+		color: var(--sponsor-secondary);
 		font-size: 0.72rem;
 		font-weight: 800;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		background: rgba(0, 0, 0, 0.2);
+		background: rgba(0, 0, 0, 0.22);
 	}
 
 	.sponsor-package__title {
@@ -514,7 +551,7 @@
 	.sponsor-package__points li {
 		position: relative;
 		padding-left: 1.6rem;
-		color: rgba(246, 242, 232, 0.82);
+		color: rgba(248, 246, 238, 0.82);
 		line-height: 1.45;
 	}
 
@@ -526,7 +563,7 @@
 		width: 0.55rem;
 		aspect-ratio: 1;
 		border-radius: 999px;
-		background: var(--sponsor-green);
+		background: var(--sponsor-secondary);
 	}
 
 	.sponsor-contact {
@@ -541,15 +578,11 @@
 		margin-top: 1.8rem;
 		padding: 0.95rem 1.1rem;
 		border-radius: 999px;
-		color: #07150d;
+		color: var(--sv-primary-color);
 		font-weight: 900;
 		text-decoration: none;
-		background: linear-gradient(
-			135deg,
-			var(--sponsor-green),
-			var(--sponsor-gold)
-		);
-		box-shadow: 0 18px 44px rgba(119, 178, 85, 0.25);
+		background: var(--sponsor-secondary);
+		box-shadow: 0 18px 44px rgba(244, 208, 71, 0.26);
 		transition:
 			transform 180ms ease,
 			box-shadow 180ms ease,
@@ -564,15 +597,15 @@
 
 	.sponsor-contact:hover {
 		transform: translateY(-2px);
-		filter: saturate(1.05);
-		box-shadow: 0 24px 58px rgba(119, 178, 85, 0.34);
+		filter: saturate(1.08);
+		box-shadow: 0 24px 58px rgba(244, 208, 71, 0.34);
 	}
 
 	.sponsor-contact:hover::after {
 		transform: translateX(4px);
 	}
 
-	/* MODERNE SCROLL-ANIMATION, wenn Browser sie unterstützt */
+	/* MODERNE SCROLL-ANIMATION */
 
 	@supports (animation-timeline: view()) {
 		.sponsor-intro__inner {
@@ -582,9 +615,9 @@
 		}
 
 		.sponsor-package__inner {
-			animation: sponsorCardDepth both ease-out;
+			animation: sponsorCardRise both linear;
 			animation-timeline: view();
-			animation-range: entry 0% cover 62%;
+			animation-range: entry 0% cover 38%;
 		}
 	}
 
@@ -620,8 +653,8 @@
 		}
 
 		.sponsor-package {
-			min-height: 82vh;
-			top: 4vh;
+			min-height: 88vh;
+			top: 6vh;
 		}
 
 		.sponsor-package__inner {
@@ -640,6 +673,11 @@
 	@media (min-width: 1080px) {
 		.sponsor-packages {
 			padding-bottom: 10rem;
+		}
+
+		.sponsor-package {
+			min-height: 86vh;
+			top: 7vh;
 		}
 
 		.sponsor-package__inner {
@@ -698,19 +736,13 @@
 		}
 	}
 
-	@keyframes sponsorCardDepth {
-		0% {
-			opacity: 0;
-			transform: translateY(54px) scale(0.92) rotateX(8deg);
+	@keyframes sponsorCardRise {
+		from {
+			transform: translateY(34px) scale(0.985);
 		}
 
-		42% {
-			opacity: 1;
-			transform: translateY(0) scale(1) rotateX(0);
-		}
-
-		100% {
-			transform: translateY(-20px) scale(0.96);
+		to {
+			transform: translateY(0) scale(1);
 		}
 	}
 
@@ -737,8 +769,7 @@
 			transition-duration: 0.001ms !important;
 		}
 
-		.sponsor-package,
-		.sponsor-packages__intro {
+		.sponsor-package {
 			position: relative;
 			top: auto;
 			min-height: auto;
