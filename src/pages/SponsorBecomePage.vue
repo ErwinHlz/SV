@@ -43,7 +43,12 @@
 
 		<section class="sponsor-packages" aria-labelledby="packages-title">
 			<div class="sponsor-packages__intro">
-				<p class="sponsor-eyebrow">Moeglichkeiten</p>
+				<p
+					class="sponsor-eyebrow"
+					style="text-align: center; transform: translateX(-3rem)"
+				>
+					Möglichkeiten
+				</p>
 				<h2 id="packages-title" class="sponsor-section-title">
 					Sechs direkte Wege, wie du unseren Verein sinnvoll unterstuetzen
 					kannst.
@@ -214,6 +219,35 @@
 		isolation: isolate;
 	}
 
+	.sponsor-become-hero :deep(.page-hero-content) {
+		position: relative;
+		z-index: 3;
+		min-height: 100svh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: 0.9rem;
+		padding: calc(var(--sv-header-height) + 2.5rem) clamp(1rem, 4vw, 2rem)
+			clamp(7rem, 14vw, 9rem);
+		box-sizing: border-box;
+	}
+
+	.sponsor-become-hero :deep(.page-hero-title) {
+		max-width: 9ch;
+		width: 100%;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.sponsor-become-hero :deep(.page-hero-lead) {
+		max-width: 28ch;
+		width: 100%;
+		margin-inline: auto;
+		text-align: center;
+	}
+
 	.sponsor-become-hero::after {
 		content: "";
 		position: absolute;
@@ -227,7 +261,7 @@
 	.sponsor-mobile-scroll-hint {
 		position: absolute;
 		left: 50%;
-		bottom: clamp(1.25rem, 5vw, 2.5rem);
+		bottom: clamp(3rem, 9vw, 4.75rem);
 		z-index: 5;
 		translate: -50% 0;
 		margin: 0;
@@ -275,43 +309,6 @@
 		position: relative;
 		overflow: hidden;
 		padding: clamp(1.4rem, 6vw, 3.5rem);
-		border: 1px solid var(--sponsor-border);
-		border-radius: var(--sponsor-radius);
-		background:
-			radial-gradient(
-				circle at 0% 0%,
-				rgba(244, 208, 71, 0.16),
-				transparent 15rem
-			),
-			radial-gradient(
-				circle at 100% 100%,
-				rgba(2, 43, 121, 0.45),
-				transparent 18rem
-			),
-			linear-gradient(
-				145deg,
-				rgba(255, 255, 255, 0.13),
-				rgba(255, 255, 255, 0.045)
-			),
-			rgba(255, 255, 255, 0.035);
-		box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
-		backdrop-filter: blur(18px);
-	}
-
-	.sponsor-intro__inner::before {
-		content: "";
-		position: absolute;
-		inset: -35% auto auto -30%;
-		width: 18rem;
-		aspect-ratio: 1;
-		border-radius: 999px;
-		background: var(--sponsor-secondary-soft);
-		filter: blur(16px);
-	}
-
-	.sponsor-intro--needs .sponsor-intro__inner::before {
-		inset: auto -30% -35% auto;
-		background: var(--sponsor-primary-soft);
 	}
 
 	.sponsor-eyebrow {
@@ -329,11 +326,13 @@
 		font-size: clamp(2.25rem, 11vw, 5.6rem);
 		line-height: 0.94;
 		letter-spacing: -0.07em;
+		text-align: center;
+		margin-inline: auto;
 	}
 
 	.sponsor-points {
 		display: grid;
-		gap: 0.85rem;
+		gap: 1rem;
 		margin: clamp(1.6rem, 6vw, 2.5rem) 0 0;
 		padding: 0;
 		list-style: none;
@@ -342,10 +341,8 @@
 	.sponsor-points li {
 		position: relative;
 		padding: 1rem 1rem 1rem 3rem;
-		border: 1px solid var(--sponsor-border);
-		border-radius: 18px;
+
 		color: var(--sponsor-muted);
-		background: rgba(0, 0, 0, 0.18);
 	}
 
 	.sponsor-points li::before {
@@ -358,6 +355,7 @@
 		border-radius: 999px;
 		background: var(--sponsor-secondary);
 		box-shadow: 0 0 0 7px var(--sponsor-secondary-soft);
+		transform: translateY(0.85rem);
 	}
 
 	/* PACKAGE-SCROLL */
@@ -379,6 +377,10 @@
 
 	.sponsor-packages__intro .sponsor-section-title {
 		max-width: 10ch;
+	}
+
+	.sponsor-packages__intro .sponsor-eyebrow {
+		padding-inline: 0.35rem;
 	}
 
 	/*
@@ -626,6 +628,11 @@
 	@media (min-width: 760px) {
 		.sponsor-mobile-scroll-hint {
 			display: none;
+		}
+
+		.sponsor-become-hero :deep(.page-hero-content) {
+			padding-top: calc(var(--sv-header-height) + 2.5rem);
+			padding-bottom: 6rem;
 		}
 
 		.sponsor-intro {
