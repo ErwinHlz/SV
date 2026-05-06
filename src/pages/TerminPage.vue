@@ -1,5 +1,5 @@
 <template>
-  <div ref="terminePageFlow" class="termine-page-flow">
+  <div class="termine-page-flow">
     <PageHero
       class="termine-page-hero"
       :image="termineHero"
@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
 import { ExternalLink, Pin } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
 import termineHero from "@/assets/header/background.png";
@@ -95,7 +95,6 @@ import { formatDate } from "@/utils/date";
 import { getTerminItems, type TerminEntry } from "@/utils/contentEntries";
 
 const termineItems = computed(() => getTerminItems());
-const terminePageFlow = ref<HTMLElement | null>(null);
 const termineScrollStorageKey = "sv-termine-scroll-position";
 
 const getRandomTilt = (seedSource: string, index: number) => {
@@ -117,13 +116,18 @@ const getTerminCardStyle = (item: TerminEntry, index: number) => ({
 const isMobileTermineLayout = () =>
   typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches;
 
+const getAppScrollContainer = () =>
+  typeof document === "undefined"
+    ? null
+    : (document.querySelector(".app-content") as HTMLElement | null);
+
 const readTerminScrollPosition = () => {
   if (typeof window === "undefined") {
     return 0;
   }
 
   if (isMobileTermineLayout()) {
-    return terminePageFlow.value?.scrollTop ?? 0;
+    return getAppScrollContainer()?.scrollTop ?? 0;
   }
 
   return window.scrollY;
@@ -157,8 +161,8 @@ const restoreTerminScrollPosition = async () => {
 
   await nextTick();
   window.requestAnimationFrame(() => {
-    if (isMobileTermineLayout() && terminePageFlow.value) {
-      terminePageFlow.value.scrollTo({ top: nextScrollTop, behavior: "auto" });
+    if (isMobileTermineLayout()) {
+      getAppScrollContainer()?.scrollTo({ top: nextScrollTop, behavior: "auto" });
       return;
     }
 
@@ -168,7 +172,7 @@ const restoreTerminScrollPosition = async () => {
 
 onMounted(() => {
   restoreTerminScrollPosition();
-  terminePageFlow.value?.addEventListener("scroll", persistTerminScrollPosition, {
+  getAppScrollContainer()?.addEventListener("scroll", persistTerminScrollPosition, {
     passive: true,
   });
   window.addEventListener("scroll", persistTerminScrollPosition, {
@@ -178,7 +182,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   persistTerminScrollPosition();
-  terminePageFlow.value?.removeEventListener("scroll", persistTerminScrollPosition);
+  getAppScrollContainer()?.removeEventListener("scroll", persistTerminScrollPosition);
   window.removeEventListener("scroll", persistTerminScrollPosition);
 });
 </script>
@@ -478,11 +482,6 @@ onBeforeUnmount(() => {
 @media (max-width: 700px) {
   .termine-page-flow {
     display: block;
-    height: calc(100dvh + var(--sv-header-height));
-    margin-top: calc(var(--sv-header-height) * -1);
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
-    overscroll-behavior-y: contain;
   }
 
   .termine-page-hero {

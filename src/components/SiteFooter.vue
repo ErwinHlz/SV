@@ -127,6 +127,13 @@
     text-align: center;
   }
 
+  .footer-links {
+    flex-wrap: nowrap;
+    gap: 10px 16px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+
   .footer-credit {
     justify-self: center;
   }

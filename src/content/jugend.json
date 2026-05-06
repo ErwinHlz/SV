@@ -35,6 +35,7 @@
         "id": "",
         "type": "team-matches"
       },
+      "tableUrl": "https://next.fussball.de/",
       "image": "youthHero",
       "imageAlt": "Bambini im Training"
     },
@@ -60,6 +61,7 @@
         "title": "Tabelle",
         "id": ""
       },
+      "tableUrl": "https://next.fussball.de/",
       "image": "youthHero",
       "imageAlt": "F-Jugend im Training"
     },
@@ -85,6 +87,7 @@
         "title": "Tabelle",
         "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b"
       },
+      "tableUrl": "https://next.fussball.de/",
       "image": "youthHero",
       "imageAlt": "E-Jugend beim Training"
     },
@@ -110,6 +113,7 @@
         "title": "Tabelle",
         "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe"
       },
+      "tableUrl": "https://next.fussball.de/",
       "image": "youthHero",
       "imageAlt": "D-Jugend in Aktion"
     },
@@ -135,6 +139,7 @@
         "title": "Tabelle",
         "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2"
       },
+      "tableUrl": "https://next.fussball.de/mannschaft/-/02TET5EQ9S000000VS5489BSVTA87VEB/tabelle",
       "image": "youthHero",
       "imageAlt": "C-Jugend im Spiel"
     },
@@ -160,6 +165,7 @@
         "title": "Tabelle",
         "id": "db8a345c-91e9-47ef-8197-1a6922273d73"
       },
+      "tableUrl": "https://next.fussball.de/",
       "image": "youthHero",
       "imageAlt": "A-Jugend Mannschaft"
     }

@@ -1,916 +1,1269 @@
 <template>
-  <PageHero :image="youthHero" :title="hero.title" :lead="hero.lead" />
+	<div class="youth-page-flow">
+		<PageHero
+			class="youth-page-hero"
+			:image="youthHero"
+			:title="hero.title"
+			:lead="hero.lead"
+		/>
 
-  <section class="youth-intro" aria-label="Jugendintro">
-    <div class="intro-card">
-      <h2 class="intro-title">{{ intro.title }}</h2>
-      <p class="intro-text">{{ intro.text }}</p>
-    </div>
-  </section>
+		<main class="youth-content">
+			<section
+				ref="introPanel"
+				class="youth-intro-panel"
+				aria-label="Jugendintro"
+			>
+				<div class="intro-inner">
+					<div class="intro-copy">
+						<p class="section-kicker">Jugendfußball</p>
+						<h1 class="intro-title">{{ intro.title }}</h1>
+						<p class="intro-text">{{ intro.text }}</p>
 
-  <section
-    id="jugendteams"
-    class="teams-section"
-    aria-label="Jugendmannschaften">
-    <header class="teams-header">
-      <h2 class="teams-title">{{ teamsSection.title }}</h2>
-      <p class="teams-lead">{{ teamsSection.lead }}</p>
-    </header>
-    <div class="teams-grid">
-      <article
-        v-for="team in teamCards"
-        :key="team.id"
-        class="team-card"
-        type="button"
-        @click="openWidget(team.id)">
-        <div class="team-body">
-          <div class="team-header">
-            <div>
-              <p class="team-age">{{ team.ageGroup }}</p>
-              <h3 class="team-name">{{ team.name }}</h3>
-            </div>
-            <span class="team-league">{{ team.league }}</span>
-          </div>
-          <p class="team-description">{{ team.description }}</p>
-          <div v-if="team.training?.length" class="team-training">
-            <p class="team-training-label">Training</p>
-            <ul class="team-training-list">
-              <li
-                v-for="slot in team.training"
-                :key="`${team.id}-${slot.day}-${slot.time}-${slot.location}`"
-                class="team-training-item">
-                <span class="team-training-day">{{ slot.day }}</span>
-                <span class="team-training-time">{{ slot.time }}</span>
-                <a
-                  v-if="mapsHref"
-                  class="team-training-location"
-                  :href="mapsHref"
-                  target="_blank"
-                  rel="noopener">
-                  {{ slot.location }}
-                </a>
-                <span v-else class="team-training-location">
-                  {{ slot.location }}
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="team-media">
-          <img :src="team.image" :alt="team.imageAlt" loading="lazy" />
-        </div>
-      </article>
-    </div>
-  </section>
+						<p class="intro-added-text">
+							Ob Anfänger, Wiedereinsteiger oder ambitionierter Spieler: Bei uns
+							stehen Teamgeist, Bewegung und Spaß am Fußball im Mittelpunkt.
+						</p>
+					</div>
+				</div>
+			</section>
 
-  <div v-if="activeTeam" class="widget-overlay" @click.self="closeWidget">
-    <div
-      class="widget-modal"
-      role="dialog"
-      aria-modal="true"
-      :aria-labelledby="`widget-title-${activeTeam.id}`">
-      <button
-        class="widget-close"
-        type="button"
-        aria-label="Popup schliessen"
-        @click="closeWidget">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
-      </button>
-      <div class="widget-header">
-        <p class="widget-kicker">fussball.de</p>
-        <h3 class="widget-title" :id="`widget-title-${activeTeam.id}`">
-          {{ activeTeam.name }}
-        </h3>
-        <p class="widget-lead">
-          {{
-            activeTeam.hasWidget ? activeTeam.widgetTitle : "Widget einrichten"
-          }}
-        </p>
-      </div>
-      <div class="widget-frame">
-        <div
-          v-if="activeTeam.hasWidget"
-          :key="activeTeam.widgetId"
-          class="fussballde_widget"
-          :data-id="activeTeam.widgetId"
-          data-type="table"
-          style="width: 100%"></div>
-        <p v-else class="widget-placeholder">
-          Fuer dieses Team gibt es noch keine Fussball.de Daten
-        </p>
-      </div>
-    </div>
-  </div>
+			<section
+				class="youth-intro-panel youth-intro-panel--cards"
+				aria-hidden="true"
+			>
+				<div
+					class="intro-info-grid"
+					:class="{ 'is-unlocked': introInfoVisible }"
+				>
+					<article
+						v-for="(item, index) in introInfoItems"
+						:key="item.label"
+						class="intro-info-card"
+						:class="{ 'is-visible': index < revealedIntroCardCount }"
+					>
+						<span class="intro-info-label">{{ item.label }}</span>
+						<span class="intro-info-empty" aria-hidden="true"></span>
+						<strong class="intro-info-value">{{ item.value }}</strong>
+						<p class="intro-info-note">{{ item.note }}</p>
+					</article>
+				</div>
+			</section>
 
-  <section id="jugendtrainer" class="coach-section" aria-label="Trainerteam">
-    <header class="coach-header">
-      <h2 class="coach-title">{{ coachSection.title }}</h2>
-      <p class="coach-lead">{{ coachSection.lead }}</p>
-    </header>
-    <div class="coach-grid">
-      <article v-for="member in coachCards" :key="member.id" class="coach-card">
-        <div class="coach-photo">
-          <img
-            v-if="member.image"
-            :src="member.image"
-            :alt="member.imageAlt"
-            loading="lazy" />
-          <span v-else class="coach-photo-fallback">
-            {{ getInitials(member.name) }}
-          </span>
-        </div>
-        <div class="coach-caption">
-          <p class="coach-name">{{ member.name }}</p>
-          <p class="coach-role">{{ member.role }}</p>
-        </div>
-      </article>
-    </div>
-  </section>
+			<section
+				id="jugendteams"
+				class="teams-section"
+				aria-label="Jugendmannschaften"
+			>
+				<div class="section-inner">
+					<div class="teams-grid">
+						<article v-for="team in teamCards" :key="team.id" class="team-card">
+							<div class="team-cover">
+								<img :src="team.image" :alt="team.imageAlt" loading="lazy" />
+								<div class="team-cover-overlay">
+									<p class="team-age">{{ team.ageGroup }}</p>
+									<h3 class="team-name">{{ team.name }}</h3>
+								</div>
+							</div>
 
-  <section class="youth-contact" aria-label="Kontakt Jugend">
-    <div class="contact-card">
-      <h2 class="contact-title">{{ contact.title }}</h2>
-      <p class="contact-lead">{{ contact.lead }}</p>
-      <dl class="contact-list">
-        <div class="contact-item">
-          <dt>{{ contact.labels.name }}</dt>
-          <dd>{{ contact.name }}</dd>
-        </div>
-        <div class="contact-item">
-          <dt>{{ contact.labels.role }}</dt>
-          <dd>{{ contact.role }}</dd>
-        </div>
-        <div class="contact-item">
-          <dt>{{ contact.labels.phone }}</dt>
-          <dd>
-            <a v-if="phoneHref" :href="phoneHref">{{ contact.phone }}</a>
-            <span v-else>{{ contact.phone }}</span>
-          </dd>
-        </div>
-        <div class="contact-item">
-          <dt>{{ contact.labels.email }}</dt>
-          <dd>
-            <a v-if="emailHref" :href="emailHref">{{ contact.email }}</a>
-            <span v-else>{{ contact.email }}</span>
-          </dd>
-        </div>
-      </dl>
-      <p class="contact-note">{{ contact.note }}</p>
-    </div>
-  </section>
+							<div class="team-content">
+								<div class="team-meta-row">
+									<span>Liga</span>
+									<strong>{{ team.league }}</strong>
+								</div>
+								<div class="team-table-block">
+									<p class="table-title">Trainingszeiten</p>
+
+									<table v-if="team.training?.length" class="training-table">
+										<thead>
+											<tr>
+												<th>Tag</th>
+												<th>Uhrzeit</th>
+												<th>Ort</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr
+												v-for="slot in team.training"
+												:key="`${team.id}-${slot.day}-${slot.time}-${slot.location}`"
+											>
+												<td>{{ slot.day }}</td>
+												<td>{{ slot.time }}</td>
+												<td>
+													<a
+														v-if="mapsHref"
+														:href="mapsHref"
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														{{ slot.location }}
+													</a>
+													<span v-else>{{ slot.location }}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<p v-else class="empty-training">
+										Trainingszeiten folgen in Kürze.
+									</p>
+								</div>
+
+								<div class="team-links">
+									<a
+										v-if="mapsHref"
+										class="team-action secondary"
+										:href="mapsHref"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<span>Spielstätte</span>
+										<strong>{{ getTeamVenue(team) }}</strong>
+									</a>
+
+									<a
+										class="team-action primary"
+										:href="team.tableUrl"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<span>fussball.de</span>
+										<strong>Aktuelle Tabelle</strong>
+									</a>
+								</div>
+							</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section
+				id="jugendtrainer"
+				class="coach-section"
+				aria-label="Trainerteam"
+			>
+				<div class="section-inner">
+					<header class="section-header centered">
+						<p class="section-kicker">Trainerteam</p>
+						<h2 class="section-title">{{ coachSection.title }}</h2>
+						<p class="section-lead">{{ coachSection.lead }}</p>
+					</header>
+
+					<div class="coach-grid">
+						<article
+							v-for="member in coachCards"
+							:key="member.id"
+							class="coach-card"
+						>
+							<div class="coach-photo">
+								<img
+									v-if="member.image"
+									:src="member.image"
+									:alt="member.imageAlt"
+									loading="lazy"
+								/>
+
+								<span v-else class="coach-photo-fallback">
+									{{ getInitials(member.name) }}
+								</span>
+							</div>
+
+							<div class="coach-caption">
+								<p class="coach-name">{{ member.name }}</p>
+								<p class="coach-role">{{ member.role }}</p>
+							</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section class="contact-section" aria-label="Kontakt Jugend">
+				<div class="section-inner contact-layout">
+					<div class="contact-copy">
+						<p class="section-kicker">Kontakt</p>
+						<h2 class="section-title">{{ contact.title }}</h2>
+						<p class="section-lead">{{ contact.lead }}</p>
+
+						<div class="contact-person">
+							<p>
+								<span>{{ contact.labels.name }}</span>
+								<strong>{{ contact.name }}</strong>
+							</p>
+							<p>
+								<span>{{ contact.labels.role }}</span>
+								<strong>{{ contact.role }}</strong>
+							</p>
+							<p>
+								<span>{{ contact.labels.phone }}</span>
+								<strong>
+									<a v-if="phoneHref" :href="phoneHref">{{ contact.phone }}</a>
+									<span v-else>{{ contact.phone }}</span>
+								</strong>
+							</p>
+							<p>
+								<span>{{ contact.labels.email }}</span>
+								<strong>
+									<a v-if="emailHref" :href="emailHref">{{ contact.email }}</a>
+									<span v-else>{{ contact.email }}</span>
+								</strong>
+							</p>
+						</div>
+					</div>
+
+					<form class="contact-form" @submit.prevent="handleContactSubmit">
+						<div class="form-row">
+							<label>
+								Name
+								<input
+									v-model="contactForm.name"
+									type="text"
+									name="name"
+									autocomplete="name"
+									required
+								/>
+							</label>
+
+							<label>
+								E-Mail
+								<input
+									v-model="contactForm.email"
+									type="email"
+									name="email"
+									autocomplete="email"
+									required
+								/>
+							</label>
+						</div>
+
+						<div class="form-row">
+							<label>
+								Telefon
+								<input
+									v-model="contactForm.phone"
+									type="tel"
+									name="phone"
+									autocomplete="tel"
+								/>
+							</label>
+
+							<label>
+								Mannschaft / Alter
+								<input
+									v-model="contactForm.team"
+									type="text"
+									name="team"
+									placeholder="z. B. D-Jugend, 11 Jahre"
+								/>
+							</label>
+						</div>
+
+						<label>
+							Nachricht
+							<textarea
+								v-model="contactForm.message"
+								name="message"
+								rows="6"
+								required
+								placeholder="Hallo, ich interessiere mich für ein Probetraining ..."
+							/>
+						</label>
+
+						<button type="submit">Anfrage senden</button>
+
+						<p class="form-note">
+							{{ contact.note }}
+						</p>
+					</form>
+				</div>
+			</section>
+		</main>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref } from "vue";
-import PageHero from "@/components/PageHero.vue";
-import youthHero from "@/assets/header/background.png";
-import rawYouthContent from "@/content/jugend.json";
+	import { computed, ref } from "vue";
+	import PageHero from "@/components/PageHero.vue";
+	import youthHero from "@/assets/header/background.png";
+	import rawYouthContent from "@/content/jugend.json";
 
-type YouthTeamWidget = {
-  id?: string;
-  type?: string;
-  title?: string;
-};
+	type YouthTeamWidget = {
+		id?: string;
+		type?: string;
+		title?: string;
+	};
 
-type YouthTraining = {
-  day: string;
-  time: string;
-  location: string;
-};
+	type YouthTraining = {
+		day: string;
+		time: string;
+		location: string;
+	};
 
-type TrainingLocation = {
-  name: string;
-  address: string;
-  mapsUrl: string;
-};
+	type TrainingLocation = {
+		name: string;
+		address: string;
+		mapsUrl: string;
+	};
 
-type YouthTeam = {
-  id: string;
-  name: string;
-  ageGroup: string;
-  league: string;
-  description: string;
-  image: string;
-  imageAlt: string;
-  widget?: YouthTeamWidget;
-  training?: YouthTraining[];
-};
+	type YouthTeam = {
+		id: string;
+		name: string;
+		ageGroup: string;
+		league: string;
+		description: string;
+		image: string;
+		imageAlt: string;
+		widget?: YouthTeamWidget;
+		tableUrl?: string;
+		training?: YouthTraining[];
+	};
 
-type CoachMember = {
-  id: string;
-  name: string;
-  role: string;
-  image?: string;
-  imageAlt?: string;
-};
+	type CoachMember = {
+		id: string;
+		name: string;
+		role: string;
+		image?: string;
+		imageAlt?: string;
+	};
 
-type YouthContent = {
-  hero: {
-    title: string;
-    lead: string;
-  };
-  intro: {
-    title: string;
-    text: string;
-  };
-  teamsSection: {
-    title: string;
-    lead: string;
-  };
-  trainingLocation?: TrainingLocation;
-  teams: YouthTeam[];
-  coachSection: {
-    title: string;
-    lead: string;
-    members: CoachMember[];
-  };
-  contact: {
-    title: string;
-    lead: string;
-    name: string;
-    role: string;
-    phone: string;
-    email: string;
-    note: string;
-    labels: {
-      name: string;
-      role: string;
-      phone: string;
-      email: string;
-    };
-  };
-};
+	type YouthContent = {
+		hero: {
+			title: string;
+			lead: string;
+		};
+		intro: {
+			title: string;
+			text: string;
+		};
+		teamsSection: {
+			title: string;
+			lead: string;
+		};
+		trainingLocation?: TrainingLocation;
+		teams: YouthTeam[];
+		coachSection: {
+			title: string;
+			lead: string;
+			members: CoachMember[];
+		};
+		contact: {
+			title: string;
+			lead: string;
+			name: string;
+			role: string;
+			phone: string;
+			email: string;
+			note: string;
+			labels: {
+				name: string;
+				role: string;
+				phone: string;
+				email: string;
+			};
+		};
+	};
 
-const youthContent = rawYouthContent as YouthContent;
-const { hero, intro, teamsSection, coachSection, contact } = youthContent;
+	const youthContent = rawYouthContent as YouthContent;
+	const { hero, intro, coachSection, contact } = youthContent;
 
-const teamImageMap: Record<string, string> = {
-  youthHero,
-};
+	const teamImageMap: Record<string, string> = {
+		youthHero,
+	};
 
-const coachImageMap: Record<string, string> = {
-  youthHero,
-};
+	const coachImageMap: Record<string, string> = {
+		youthHero,
+	};
 
-type YouthTeamCard = YouthTeam & {
-  widgetId: string;
-  widgetType: string;
-  widgetTitle: string;
-  hasWidget: boolean;
-};
+	type YouthTeamCard = YouthTeam & {
+		tableUrl: string;
+	};
 
-const teamCards: YouthTeamCard[] = youthContent.teams.map((team) => {
-  const widgetId = team.widget?.id?.trim() ?? "";
-  return {
-    ...team,
-    image: teamImageMap[team.image] ?? team.image,
-    widgetId,
-    widgetType: team.widget?.type ?? "team-matches",
-    widgetTitle: team.widget?.title ?? "Spielplan & Ergebnisse",
-    hasWidget: widgetId.length > 0,
-  };
-});
+	const teamCards: YouthTeamCard[] = youthContent.teams.map((team) => ({
+		...team,
+		image: teamImageMap[team.image] ?? team.image,
+		tableUrl: team.tableUrl?.trim() || "https://next.fussball.de/",
+	}));
 
-type CoachCard = CoachMember & {
-  image?: string;
-  imageAlt: string;
-};
+	type CoachCard = CoachMember & {
+		image?: string;
+		imageAlt: string;
+	};
 
-const coachCards: CoachCard[] = coachSection.members.map((member) => ({
-  ...member,
-  image: member.image ? coachImageMap[member.image] ?? member.image : undefined,
-  imageAlt: member.imageAlt ?? member.name,
-}));
+	const coachCards: CoachCard[] = coachSection.members.map((member) => ({
+		...member,
+		image: member.image
+			? (coachImageMap[member.image] ?? member.image)
+			: undefined,
+		imageAlt: member.imageAlt ?? member.name,
+	}));
 
-const trainingLocation = youthContent.trainingLocation;
-const mapsHref =
-  trainingLocation?.mapsUrl ??
-  (trainingLocation?.address
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        trainingLocation.address
-      )}`
-    : "");
+	const trainingLocation = youthContent.trainingLocation;
 
-const activeTeamId = ref<string | null>(null);
-const activeTeam = computed(
-  () => teamCards.find((team) => team.id === activeTeamId.value) ?? null
-);
+	const mapsHref =
+		trainingLocation?.mapsUrl ??
+		(trainingLocation?.address
+			? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+					trainingLocation.address,
+				)}`
+			: "");
 
-const phoneHref = contact.phone
-  ? `tel:${contact.phone.replace(/\s+/g, "")}`
-  : "";
-const emailHref = contact.email ? `mailto:${contact.email}` : "";
+	const phoneHref = contact.phone
+		? `tel:${contact.phone.replace(/\s+/g, "")}`
+		: "";
 
-const runWidgetInit = () => {
-  const candidates = [
-    (window as any).fussballdeWidgets,
-    (window as any).fussballDeWidgets,
-    (window as any).fussballdeWidget,
-    (window as any).fussballDeWidget,
-  ];
-  const methods = ["init", "load", "render", "refresh", "reload"];
+	const emailHref = contact.email ? `mailto:${contact.email}` : "";
 
-  for (const candidate of candidates) {
-    if (!candidate) continue;
-    if (typeof candidate === "function") {
-      candidate();
-      return true;
-    }
-    for (const method of methods) {
-      if (typeof candidate[method] === "function") {
-        candidate[method]();
-        return true;
-      }
-    }
-  }
-  return false;
-};
+	const introInfoItems = computed(() => [
+		{
+			label: "Philosophie",
+			value: "Technik, Spielfreude und Teamgeist",
+			note: "Altersgerechtes Training mit klaren Werten.",
+		},
+		{
+			label: "Teams",
+			value: `${teamCards.length} `,
+			note: "Von den jüngeren Jahrgängen bis zur älteren Jugend.",
+		},
+		{
+			label: "Trainingsort",
+			value: trainingLocation?.name ?? "Sportplatz Ottweiler",
+			note: "Zentraler Treffpunkt für Training und Spielbetrieb.",
+		},
+		{
+			label: "Probetraining",
+			value: "Jederzeit möglich",
+			note: contact.note,
+		},
+	]);
 
-const refreshWidgets = async () => {
-  if (runWidgetInit()) return;
+	const introInfoVisible = true;
+	const revealedIntroCardCount = computed(() => introInfoItems.value.length);
 
-  const existingScript = document.querySelector(
-    'script[src*="fussball.de/widgets.js"]'
-  ) as HTMLScriptElement | null;
-  const parent = existingScript?.parentNode;
+	const contactForm = ref({
+		name: "",
+		email: "",
+		phone: "",
+		team: "",
+		message: "",
+	});
 
-  if (!existingScript || !parent) {
-    return;
-  }
+	const getTeamVenue = (team: YouthTeamCard) =>
+		team.training?.[0]?.location ??
+		trainingLocation?.name ??
+		"Sportplatz Ottweiler";
 
-  const src = existingScript.getAttribute("src") ?? existingScript.src;
-  parent.removeChild(existingScript);
+	const getInitials = (value?: string) =>
+		(value ?? "")
+			.split(" ")
+			.filter(Boolean)
+			.slice(0, 2)
+			.map((part) => part.charAt(0).toUpperCase())
+			.join("");
 
-  const nextScript = document.createElement("script");
-  nextScript.src = src || "https://www.fussball.de/widgets.js";
-  nextScript.async = true;
-  nextScript.onload = () => {
-    runWidgetInit();
-  };
-  parent.appendChild(nextScript);
-};
+	const handleContactSubmit = () => {
+		if (!contact.email) return;
 
-const openWidget = async (teamId: string) => {
-  activeTeamId.value = teamId;
-  await nextTick();
-  if (activeTeam.value?.hasWidget) {
-    await refreshWidgets();
-  }
-};
+		const subject = `Jugend-Anfrage${contactForm.value.team ? ` - ${contactForm.value.team}` : ""}`;
 
-const closeWidget = () => {
-  activeTeamId.value = null;
-};
+		const body = [
+			`Name: ${contactForm.value.name}`,
+			`E-Mail: ${contactForm.value.email}`,
+			`Telefon: ${contactForm.value.phone || "-"}`,
+			`Mannschaft / Alter: ${contactForm.value.team || "-"}`,
+			"",
+			"Nachricht:",
+			contactForm.value.message,
+		].join("\n");
 
-const getInitials = (value?: string) =>
-  (value ?? "")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("");
+		window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(
+			subject,
+		)}&body=${encodeURIComponent(body)}`;
+	};
 </script>
 
 <style scoped>
-.youth-intro,
-.teams-section,
-.coach-section,
-.youth-contact {
-  width: 80dvw;
-  margin: 0 auto;
-}
-
-.youth-intro {
-  margin-bottom: clamp(32px, 6vw, 64px);
-}
-
-.intro-card {
-  background: var(--sv-card-bg);
-  border: 1px solid var(--sv-card-border);
-  border-radius: 24px;
-  padding: clamp(20px, 3vw, 36px);
-  display: grid;
-  gap: 12px;
-  box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
-}
-
-.intro-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
-}
-
-.intro-text {
-  margin: 0;
-  opacity: 0.9;
-}
-
-.teams-section {
-  margin-bottom: clamp(40px, 8vw, 96px);
-  scroll-margin-top: calc(var(--sv-header-height) + 16px);
-}
-
-.teams-header {
-  display: grid;
-  gap: 8px;
-  margin-bottom: clamp(20px, 3vw, 32px);
-}
-
-.teams-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
-}
-
-.teams-lead {
-  margin: 0;
-  opacity: 0.9;
-}
-
-.teams-grid {
-  display: grid;
-  grid-template-columns: 40dvw 40dvw;
-  gap: clamp(16px, 2.5vw, 32px);
-}
-
-.team-card {
-  background: var(--sv-card-bg-soft);
-  border: 1px solid var(--sv-card-border);
-  border-radius: 22px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: stretch;
-  gap: 0;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.team-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(244, 208, 71, 0.7);
-  box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
-}
-
-.team-media {
-  position: relative;
-  min-height: clamp(180px, 25vw, 240px);
-  overflow: hidden;
-  background: rgba(2, 43, 121, 0.3);
-  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.team-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transform: scale(1);
-  transition: transform 0.6s ease;
-}
-
-.team-card:hover .team-media img {
-  transform: scale(1.05);
-}
-
-.team-body {
-  padding: clamp(16px, 2.4vw, 24px);
-  display: grid;
-  gap: 10px;
-}
-
-.team-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.team-age {
-  margin: 0 0 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 11px;
-  color: var(--sv-secondary-color);
-}
-
-.team-name {
-  margin: 0;
-  font-size: clamp(18px, 2vw, 22px);
-}
-
-.team-league {
-  align-self: start;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(2, 43, 121, 0.6);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--sv-secondary-color);
-}
-
-.team-description {
-  margin: 0;
-  opacity: 0.9;
-}
-
-.team-training {
-  display: grid;
-  padding: 6px;
-  gap: 6px;
-  font-size: 0.9rem;
-  border: 1px solid var(--sv-secondary-color);
-  border-radius: 10px;
-}
-
-.team-training-label {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.team-training-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 6px;
-}
-
-.team-training-item {
-  display: grid;
-  grid-template-columns: minmax(88px, auto) minmax(88px, auto) 1fr;
-  gap: 8px;
-}
-
-.team-training-day {
-  font-weight: 600;
-}
-
-.team-training-location {
-  opacity: 0.85;
-  color: inherit;
-  text-decoration: none;
-}
-
-.team-training-location:hover,
-.team-training-location:focus-visible {
-  color: var(--sv-secondary-color);
-  text-decoration: underline;
-}
-
-.team-widget-button {
-  margin-top: 6px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 10px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(244, 208, 71, 0.45);
-  background: rgba(2, 43, 121, 0.45);
-  color: var(--sv-secondary-color);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
-    color 0.25s ease, border-color 0.25s ease;
-}
-
-.team-widget-button:hover,
-.team-widget-button:focus-visible {
-  background: var(--sv-secondary-color);
-  color: var(--sv-primary-color);
-  border-color: var(--sv-secondary-color);
-  box-shadow: 0 10px 22px rgba(2, 43, 121, 0.22);
-  transform: translateY(-2px);
-}
-
-.team-widget-kicker {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  opacity: 0.75;
-}
-
-.team-widget-label {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-}
-
-.widget-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(16px, 4vw, 48px);
-  background: rgba(2, 43, 121, 0.45);
-  backdrop-filter: blur(3px);
-}
-
-.widget-modal {
-  position: absolute;
-  top: 15dvh;
-  width: min(1100px, 100%);
-  height: auto;
-  max-height: 70dvh;
-  background-color: #f7f1e3;
-  background-image: repeating-linear-gradient(
-      90deg,
-      rgba(17, 24, 39, 0.03),
-      rgba(17, 24, 39, 0.03) 1px,
-      transparent 1px,
-      transparent 7px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(17, 24, 39, 0.04),
-      rgba(17, 24, 39, 0.04) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    linear-gradient(135deg, #ffd89d 0%, #d8bb90 55%, #e6d8c3 100%);
-  border: 1px solid rgba(11, 31, 77, 0.2);
-  border-radius: 20px;
-  overflow: auto;
-  display: grid;
-  gap: clamp(12px, 2vw, 20px);
-  color: #1f2a44;
-  font-family: "Georgia", "Times New Roman", serif;
-  letter-spacing: 0.01em;
-  box-shadow: 0 24px 60px rgba(11, 31, 77, 0.22);
-  padding: clamp(16px, 2.5vw, 28px);
-}
-
-.widget-close {
-  position: absolute;
-  z-index: 11;
-  top: 12px;
-  right: 12px;
-  border: 1px solid var(--sv-primary-color);
-  background: transparent;
-  color: var(--sv-primary-color);
-  width: 50px;
-  height: 50px;
-  border-radius: 25%;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
-.widget-close svg {
-  width: 50px;
-  height: 50px;
-  stroke: currentColor;
-  stroke-width: 1.2;
-  fill: none;
-}
-
-.widget-close:hover {
-  background: var(--sv-primary-color);
-  color: var(--sv-secondary-color);
-}
-
-.widget-header {
-  display: grid;
-  gap: 6px;
-}
-
-.widget-kicker {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 11px;
-  color: rgba(31, 42, 68, 0.65);
-}
-
-.widget-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 30px);
-}
-
-.widget-lead {
-  margin: 0;
-  opacity: 0.8;
-}
-
-.widget-frame {
-  width: min(var(--sv-fupa-width), 100%);
-  height: auto;
-  border-radius: 16px;
-  overflow: scroll;
-  background: #faf7ef;
-  border: 1px solid rgba(11, 31, 77, 0.15);
-  margin: 0 auto;
-}
-
-.widget-frame .fussballde_widget {
-  width: 100%;
-}
-
-.widget-placeholder {
-  margin: 0;
-  padding: 24px;
-  text-align: center;
-  color: rgba(31, 42, 68, 0.7);
-}
-
-.coach-section {
-  margin-bottom: clamp(40px, 8vw, 96px);
-  scroll-margin-top: calc(var(--sv-header-height) + 16px);
-}
-
-.coach-header {
-  display: grid;
-  gap: 8px;
-  margin-bottom: clamp(20px, 3vw, 32px);
-}
-
-.coach-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: 0.02em;
-}
-
-.coach-lead {
-  margin: 0;
-  max-width: 70ch;
-  opacity: 0.9;
-}
-
-.coach-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: clamp(16px, 2.5vw, 32px);
-}
-
-.coach-card {
-  background: #f7f1e3;
-  color: #1f2a44;
-  border: 1px solid rgba(11, 31, 77, 0.2);
-  border-radius: 6px;
-  padding: 12px;
-  display: grid;
-  gap: 10px;
-  box-shadow: 0 14px 28px rgba(11, 31, 77, 0.18);
-}
-
-.coach-photo {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #d7d2c6;
-  display: grid;
-  place-items: center;
-}
-
-.coach-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.coach-photo-fallback {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(31, 42, 68, 0.7);
-}
-
-.coach-caption {
-  padding: 2px 4px 4px;
-  text-align: center;
-}
-
-.coach-name {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-
-.coach-role {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 10px;
-  color: rgba(31, 42, 68, 0.65);
-}
-
-.youth-contact {
-  margin-bottom: clamp(48px, 8vw, 96px);
-}
-
-.contact-card {
-  background: linear-gradient(
-    135deg,
-    rgba(2, 43, 121, 0.65),
-    rgba(2, 43, 121, 0.15)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 24px;
-  padding: clamp(22px, 3vw, 36px);
-  display: grid;
-  gap: 16px;
-}
-
-.contact-title {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 30px);
-}
-
-.contact-lead {
-  margin: 0;
-  max-width: 70ch;
-  opacity: 0.9;
-}
-
-.contact-list {
-  margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.contact-item {
-  display: grid;
-  grid-template-columns: minmax(80px, 120px) 1fr;
-  gap: 12px;
-  align-items: baseline;
-}
-
-.contact-item dt {
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.contact-item dd {
-  margin: 0;
-}
-
-.contact-item a {
-  color: var(--sv-secondary-color);
-  text-decoration: none;
-}
-
-.contact-item a:hover,
-.contact-item a:focus-visible {
-  text-decoration: underline;
-}
-
-.contact-note {
-  margin: 0;
-  font-size: 0.95rem;
-  opacity: 0.85;
-}
-
-@media (max-width: 720px) {
-  .youth-intro,
-  .teams-section,
-  .coach-section,
-  .youth-contact {
-    width: calc(100dvw - 24px);
-  }
-
-  .teams-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .team-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .team-card {
-    grid-template-columns: 1fr;
-  }
-
-  .team-media {
-    clip-path: none;
-  }
-
-  .team-training-item {
-    grid-template-columns: 1fr;
-  }
-
-  .widget-modal {
-    top: 8dvh;
-    width: calc(100dvw - 24px);
-    max-height: 92dvh;
-  }
-
-  .contact-item {
-    grid-template-columns: 1fr;
-  }
-}
+	.youth-page-flow {
+		width: 100%;
+		min-height: 100vh;
+		overflow-x: hidden;
+		background: #f7f5ef;
+		color: #111;
+	}
+
+	.youth-page-hero {
+		width: 100%;
+	}
+
+	.youth-content {
+		width: 100%;
+	}
+
+	.section-inner,
+	.intro-inner {
+		width: min(1180px, calc(100% - 2rem));
+		margin-inline: auto;
+	}
+
+	.youth-intro-panel,
+	.coach-section,
+	.contact-section {
+		width: 100%;
+		min-height: 100svh;
+		padding: clamp(4rem, 7vw, 7rem) 0;
+	}
+
+	.youth-intro-panel {
+		display: flex;
+		align-items: center;
+		background:
+			radial-gradient(
+				circle at 85% 10%,
+				rgba(71, 151, 83, 0.26),
+				transparent 28rem
+			),
+			linear-gradient(135deg, #07130b, #102716);
+		color: #fff;
+	}
+
+	.youth-intro-panel--cards {
+		background:
+			radial-gradient(
+				circle at 15% 18%,
+				rgba(120, 217, 130, 0.18),
+				transparent 24rem
+			),
+			linear-gradient(135deg, #0e2314, #122b19);
+	}
+
+	.intro-inner {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+		gap: clamp(2rem, 6vw, 5rem);
+		align-items: center;
+	}
+
+	.section-kicker {
+		margin: 0 0 0.85rem;
+		color: #2f7d46;
+		font-size: 0.78rem;
+		font-weight: 900;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	.youth-intro-panel .section-kicker,
+	.coach-section .section-kicker {
+		color: #78d982;
+	}
+
+	.intro-title,
+	.section-title {
+		margin: 0;
+		font-size: clamp(2.6rem, 6vw, 5.6rem);
+		line-height: 0.92;
+		letter-spacing: -0.07em;
+		text-wrap: balance;
+	}
+
+	.intro-text,
+	.section-lead,
+	.intro-added-text {
+		max-width: 700px;
+		margin: 1.3rem 0 0;
+		font-size: clamp(1.05rem, 1.55vw, 1.25rem);
+		line-height: 1.7;
+		opacity: 0.78;
+	}
+
+	.intro-added-text {
+		padding-left: 1.25rem;
+		border-left: 0.35rem solid #78d982;
+	}
+
+	.intro-info-grid {
+		width: min(100%, 46rem);
+		margin-left: auto;
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		grid-auto-rows: minmax(10.5rem, auto);
+		gap: 1.1rem;
+		align-items: stretch;
+	}
+
+	.intro-info-card {
+		position: relative;
+		min-height: 13rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		padding: 1.35rem;
+		border-radius: 1.8rem;
+		overflow: hidden;
+		backdrop-filter: blur(18px);
+	}
+
+	.intro-info-card:nth-child(1),
+	.intro-info-card:nth-child(4) {
+		grid-column: span 4;
+	}
+
+	.intro-info-card:nth-child(2),
+	.intro-info-card:nth-child(3) {
+		grid-column: span 2;
+	}
+
+	.intro-info-label {
+		position: absolute;
+		top: 1.2rem;
+		left: 1.35rem;
+		color: #78d982;
+		font-size: 0.74rem;
+		font-weight: 900;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+
+	.intro-info-empty {
+		position: absolute;
+		left: 1.35rem;
+		right: 1.35rem;
+		bottom: 4.8rem;
+		height: 1.2rem;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.16);
+		transition:
+			opacity 400ms ease,
+			transform 400ms ease;
+	}
+
+	.intro-info-value,
+	.intro-info-note {
+		display: flex;
+		justify-content: center;
+	}
+
+	.intro-info-card.is-visible .intro-info-value,
+	.intro-info-card.is-visible .intro-info-note {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.intro-info-card.is-visible .intro-info-empty {
+		opacity: 0;
+		transform: scaleX(0.6);
+	}
+
+	.intro-info-value {
+		font-size: clamp(1.35rem, 2.4vw, 2.2rem);
+		line-height: 1;
+		letter-spacing: -0.04em;
+	}
+
+	.intro-info-note {
+		margin: 0.8rem 0 0;
+		color: rgba(255, 255, 255, 0.72);
+		line-height: 1.55;
+	}
+
+	.section-header {
+		max-width: 760px;
+		margin-bottom: clamp(2rem, 4vw, 3.5rem);
+	}
+
+	.section-header.centered {
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.section-header.centered .section-lead {
+		margin-inline: auto;
+	}
+
+	.teams-scroll-hint {
+		display: none;
+	}
+
+	.teams-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(1.2rem, 2vw, 1.8rem);
+	}
+
+	.team-card {
+		overflow: hidden;
+		border-radius: 2rem;
+		background: #fff;
+		box-shadow: 0 1.2rem 3.5rem rgba(7, 19, 11, 0.12);
+		border: 1px solid rgba(17, 17, 17, 0.08);
+	}
+
+	.team-cover {
+		position: relative;
+		height: 18rem;
+		background: #102716;
+	}
+
+	.team-cover img {
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+	}
+
+	.team-cover::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 65%);
+	}
+
+	.team-cover-overlay {
+		position: absolute;
+		z-index: 1;
+		left: 1.25rem;
+		right: 1.25rem;
+		bottom: 1.25rem;
+		color: #fff;
+	}
+
+	.team-age {
+		margin: 0 0 0.35rem;
+		color: #78d982;
+		font-size: 0.75rem;
+		font-weight: 900;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+
+	.team-name {
+		margin: 0;
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		line-height: 0.95;
+		letter-spacing: -0.05em;
+	}
+
+	.team-content {
+		padding: clamp(1.15rem, 2vw, 1.6rem);
+	}
+
+	.team-meta-row {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+	}
+
+	.team-meta-row span,
+	.table-title,
+	.team-action span {
+		color: rgba(17, 17, 17, 0.55);
+		font-size: 0.74rem;
+		font-weight: 900;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+
+	.team-meta-row strong {
+		text-align: right;
+		color: #2f7d46;
+	}
+
+	.team-description {
+		margin: 1rem 0 1.3rem;
+		color: rgba(17, 17, 17, 0.72);
+		line-height: 1.65;
+	}
+
+	.table-title {
+		margin: 0 0 0.75rem;
+	}
+
+	.training-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.95rem;
+	}
+
+	.training-table th,
+	.training-table td {
+		padding: 0.75rem 0.6rem;
+		border-bottom: 1px solid rgba(17, 17, 17, 0.09);
+		text-align: left;
+		vertical-align: top;
+	}
+
+	.training-table th {
+		color: rgba(17, 17, 17, 0.55);
+		font-size: 0.72rem;
+		font-weight: 900;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.training-table a {
+		color: #2f7d46;
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.training-table a:hover {
+		text-decoration: underline;
+	}
+
+	.empty-training {
+		margin: 0;
+		color: rgba(17, 17, 17, 0.6);
+	}
+
+	.team-links {
+		display: grid;
+		gap: 0.75rem;
+		margin-top: 1.3rem;
+	}
+
+	.team-action {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1rem;
+		border-radius: 1rem;
+		text-decoration: none;
+	}
+
+	.team-action.secondary {
+		background: #edf4ea;
+		color: #102716;
+	}
+
+	.team-action.primary {
+		background: #102716;
+		color: #fff;
+	}
+
+	.team-action.primary span {
+		color: rgba(255, 255, 255, 0.62);
+	}
+
+	.coach-section {
+		background:
+			radial-gradient(
+				circle at 15% 15%,
+				rgba(120, 217, 130, 0.16),
+				transparent 25rem
+			),
+			linear-gradient(135deg, #102716, #07130b);
+		color: #fff;
+	}
+
+	.coach-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		gap: clamp(1rem, 2vw, 1.5rem);
+	}
+
+	.coach-card {
+		padding: 0.8rem 0.8rem 1.2rem;
+		background: #fffdf7;
+		color: #111;
+		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.22);
+		transform: rotate(-1deg);
+	}
+
+	.coach-card:nth-child(even) {
+		transform: rotate(1.2deg);
+	}
+
+	.coach-card:nth-child(3n) {
+		transform: rotate(-0.4deg);
+	}
+
+	.coach-photo {
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		background: #e9e5da;
+	}
+
+	.coach-photo img {
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+	}
+
+	.coach-photo-fallback {
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+		color: #2f7d46;
+		font-size: 3rem;
+		font-weight: 900;
+	}
+
+	.coach-caption {
+		padding-top: 0.9rem;
+		text-align: center;
+	}
+
+	.coach-name {
+		margin: 0;
+		font-weight: 900;
+	}
+
+	.coach-role {
+		margin: 0.25rem 0 0;
+		color: rgba(17, 17, 17, 0.6);
+		font-size: 0.92rem;
+	}
+
+	.contact-section {
+		background: #f7f5ef;
+		color: #111;
+	}
+
+	.contact-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: start;
+	}
+
+	.contact-person {
+		margin-top: 2rem;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.contact-person p {
+		display: grid;
+		gap: 0.2rem;
+		margin: 0;
+	}
+
+	.contact-person span {
+		color: rgba(17, 17, 17, 0.55);
+		font-size: 0.75rem;
+		font-weight: 900;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.contact-person a {
+		color: #2f7d46;
+		text-decoration: none;
+	}
+
+	.contact-form {
+		display: grid;
+		gap: 1rem;
+		padding: clamp(1.2rem, 3vw, 2rem);
+		border-radius: 1.4rem;
+		background: #fff;
+		border: 1px solid rgba(17, 17, 17, 0.08);
+		box-shadow: 0 1.2rem 3rem rgba(7, 19, 11, 0.1);
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.contact-form label {
+		display: grid;
+		gap: 0.45rem;
+		color: rgba(17, 17, 17, 0.68);
+		font-size: 0.86rem;
+		font-weight: 800;
+	}
+
+	.contact-form input,
+	.contact-form textarea {
+		width: 100%;
+		border: 1px solid rgba(17, 17, 17, 0.16);
+		border-radius: 0.85rem;
+		padding: 0.9rem 1rem;
+		background: #fbfaf6;
+		color: #111;
+		font: inherit;
+	}
+
+	.contact-form input:focus,
+	.contact-form textarea:focus {
+		outline: 3px solid rgba(47, 125, 70, 0.2);
+		border-color: #2f7d46;
+	}
+
+	.contact-form button {
+		border: 0;
+		border-radius: 999px;
+		padding: 1rem 1.4rem;
+		background: #102716;
+		color: #fff;
+		font: inherit;
+		font-weight: 900;
+		cursor: pointer;
+	}
+
+	.contact-form button:hover {
+		background: #2f7d46;
+	}
+
+	.form-note {
+		margin: 0;
+		color: rgba(17, 17, 17, 0.6);
+		line-height: 1.55;
+	}
+
+	@media (min-width: 721px) {
+		.intro-info-value,
+		.intro-info-note {
+			opacity: 1;
+			transform: none;
+		}
+
+		.intro-info-empty {
+			display: none;
+		}
+	}
+
+	@media (max-width: 980px) {
+		.intro-inner,
+		.contact-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.teams-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.youth-page-hero {
+			display: none;
+		}
+
+		.youth-content {
+			width: 100%;
+		}
+
+		.youth-intro-panel {
+			min-height: 100svh;
+			padding: 2rem 0;
+			align-items: flex-start;
+		}
+
+		.youth-intro-panel--cards {
+			min-height: 100svh;
+			padding: 2rem 0 2.5rem;
+			align-items: center;
+		}
+
+		.intro-inner {
+			width: min(100% - 2rem, 100%);
+			min-height: calc(100svh - 4rem);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		.intro-title,
+		.section-title {
+			font-size: clamp(2.8rem, 14vw, 4.5rem);
+		}
+
+		.intro-info-grid {
+			width: calc(100% - 2rem);
+			margin-inline: auto;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-auto-rows: minmax(10.75rem, auto);
+			gap: 0.75rem;
+			margin-top: 0;
+			padding: 0.25rem 0;
+		}
+
+		.intro-info-card:nth-child(1),
+		.intro-info-card:nth-child(2),
+		.intro-info-card:nth-child(3),
+		.intro-info-card:nth-child(4) {
+			grid-column: span 1;
+		}
+
+		.intro-info-card {
+			min-height: 10.1rem;
+			border-radius: 1.25rem;
+			padding: 1rem;
+		}
+
+		.intro-info-label {
+			top: 0.9rem;
+			left: 1rem;
+			font-size: 0.68rem;
+		}
+
+		.intro-info-empty {
+			left: 1rem;
+			right: 1rem;
+			bottom: 3.85rem;
+			height: 0.9rem;
+		}
+
+		.intro-info-value {
+			font-size: 1.08rem;
+			line-height: 1.12;
+		}
+
+		.intro-info-note {
+			margin-top: 0.45rem;
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.section-inner {
+			width: 100%;
+		}
+
+		.section-header {
+			width: calc(100% - 2rem);
+			margin-inline: auto;
+		}
+
+		.teams-scroll-hint {
+			width: calc(100% - 2rem);
+			margin: 0 auto 1rem;
+			padding: 0.95rem 1rem;
+			display: grid;
+			gap: 0.15rem;
+			border-radius: 1rem;
+			background: #102716;
+			color: #fff;
+		}
+
+		.teams-scroll-hint span {
+			color: #78d982;
+			font-size: 0.72rem;
+			font-weight: 900;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+
+		.teams-scroll-hint strong {
+			font-size: 1rem;
+			line-height: 1.3;
+		}
+
+		.teams-grid {
+			width: 100%;
+			gap: 0;
+		}
+
+		.team-card {
+			position: relative;
+			min-height: 100svh;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			width: 100%;
+			border-radius: 0;
+			border: 0;
+			box-shadow: none;
+		}
+
+		.team-card:not(:last-child)::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 14rem;
+			background: linear-gradient(
+				to bottom,
+				rgba(16, 39, 22, 0),
+				rgba(16, 39, 22, 0.18) 22%,
+				rgba(16, 39, 22, 0.42) 52%,
+				rgba(16, 39, 22, 0.68) 78%,
+				rgba(16, 39, 22, 0.88) 100%
+			);
+			pointer-events: none;
+		}
+
+		.team-cover {
+			height: 34svh;
+			min-height: 16rem;
+		}
+
+		.team-content {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			padding: 1.1rem 1.1rem 2.6rem;
+			background: linear-gradient(
+				to bottom,
+				rgba(255, 255, 255, 0.98),
+				rgba(247, 245, 239, 1)
+			);
+		}
+
+		.training-table {
+			font-size: 0.9rem;
+		}
+
+		.training-table th,
+		.training-table td {
+			padding: 0.7rem 0.45rem;
+		}
+
+		.team-links {
+			grid-template-columns: 1fr;
+			margin-top: 1.3rem;
+			padding-bottom: 5.5rem;
+		}
+
+		.coach-section {
+			padding: 3rem 0;
+		}
+
+		.coach-grid {
+			width: calc(100% - 1rem);
+			margin-inline: auto;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.coach-card {
+			padding: 0.35rem 0.35rem 0.65rem;
+			box-shadow: 0 0.7rem 1.4rem rgba(0, 0, 0, 0.2);
+		}
+
+		.coach-photo {
+			aspect-ratio: 3 / 4;
+		}
+
+		.coach-name {
+			font-size: 0.78rem;
+			line-height: 1.15;
+		}
+
+		.coach-role {
+			font-size: 0.68rem;
+			line-height: 1.2;
+		}
+
+		.contact-section {
+			padding: 3rem 0;
+		}
+
+		.contact-layout {
+			width: calc(100% - 2rem);
+		}
+
+		.form-row {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-form {
+			border-radius: 1rem;
+		}
+	}
 </style>

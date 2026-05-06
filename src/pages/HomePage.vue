@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-container">
+  <div class="home-page">
     <section class="section section--hero">
       <div class="home-stage">
         <HeroComponent class="home-hero" />
@@ -20,9 +20,6 @@
     <section class="section">
       <TermineSection />
     </section>
-    <section class="section--footer">
-      <SiteFooter />
-    </section>
   </div>
 </template>
 
@@ -31,7 +28,6 @@ import HeroComponent from "../components/HeroComponent.vue";
 import MatchHighlights from "../components/MatchHighlights.vue";
 import NewsSection from "../components/NewsSection.vue";
 import TermineSection from "../components/TermineSection.vue";
-import SiteFooter from "../components/SiteFooter.vue";
 </script>
 
 <style scoped>
@@ -201,29 +197,11 @@ import SiteFooter from "../components/SiteFooter.vue";
 }
 
 @media (max-width: 767px) {
-  .scroll-container {
-    height: 100dvh;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .section {
     height: 100dvh;
     min-height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-  }
-
-  .section--footer {
-    width: 100%;
-
-    scroll-snap-align: end;
-    scroll-snap-stop: normal;
-    overflow: visible;
   }
 }
 </style>

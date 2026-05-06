@@ -106,3 +106,24 @@ h1 {
     padding-top: var(--sv-header-height);
   }
 }
+
+@media (max-width: 767px) {
+  .app-content {
+    height: 100dvh;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .app-page {
+    display: contents;
+  }
+
+  .app-footer {
+    scroll-snap-align: end;
+    scroll-snap-stop: normal;
+  }
+}
