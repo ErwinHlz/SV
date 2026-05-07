@@ -426,9 +426,9 @@ onBeforeUnmount(() => {
     padding: 1.35rem 1.1rem 1.2rem;
     border-radius: 1.5rem;
     background:
-      linear-gradient(180deg, rgba(16, 39, 22, 0.98), rgba(27, 62, 35, 0.96));
+      linear-gradient(180deg, rgba(7, 18, 44, 0.98), rgba(12, 31, 75, 0.96));
     color: #fff;
-    box-shadow: 0 1rem 2.6rem rgba(16, 39, 22, 0.24);
+    box-shadow: 0 1rem 2.6rem rgba(2, 43, 121, 0.24);
   }
 
   .stadion-mobile-section-header {
@@ -437,7 +437,7 @@ onBeforeUnmount(() => {
 
   .stadion-mobile-kicker {
     margin: 0 0 0.6rem;
-    color: #78d982;
+    color: var(--sv-secondary-color);
     font-size: 0.7rem;
     font-weight: 900;
     letter-spacing: 0.16em;
@@ -480,13 +480,13 @@ onBeforeUnmount(() => {
     gap: 0.8rem;
     padding: 1rem;
     border-radius: 1.25rem;
-    background: linear-gradient(180deg, #ffffff, #f4f0e6);
-    border: 1px solid rgba(16, 39, 22, 0.08);
-    box-shadow: 0 0.8rem 2rem rgba(16, 39, 22, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 242, 220, 0.94));
+    border: 1px solid rgba(2, 43, 121, 0.08);
+    box-shadow: 0 0.8rem 2rem rgba(2, 43, 121, 0.1);
   }
 
   .stadion-fact-label {
-    color: #2f7d46;
+    color: var(--sv-primary-color);
     font-size: 0.66rem;
     font-weight: 900;
     letter-spacing: 0.14em;
@@ -558,6 +558,7 @@ onBeforeUnmount(() => {
     padding: 0.9rem 1rem;
     border-radius: 999px;
     background: rgba(244, 208, 71, 0.14);
+    color: var(--sv-secondary-color);
   }
 }
 </style>

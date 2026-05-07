@@ -1,12 +1,5 @@
 <template>
 	<main class="verein-story-page">
-		<PageHero
-			class="verein-page-hero"
-			:image="vereinHero"
-			:title="hero.title"
-			:lead="hero.lead"
-		/>
-
 		<section class="verein-welcome" aria-label="Willkommen beim Verein">
 			<div class="welcome-card">
 				<div class="welcome-copy">
@@ -164,7 +157,6 @@
 </template>
 
 <script setup lang="ts">
-	import PageHero from "@/components/PageHero.vue";
 	import vereinHero from "@/assets/header/background.png";
 	import rawVerein from "@/content/verein.json";
 
@@ -648,7 +640,7 @@
 	}
 
 	.history-shell::after {
-		content: "seit\A damals";
+		content: "⚽️";
 		white-space: pre-line;
 		justify-self: end;
 		font-size: clamp(4rem, 11vw, 9rem);

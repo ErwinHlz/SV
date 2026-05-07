@@ -33,4 +33,14 @@
 	const { onTouchEnd, onTouchStart } = useTeamViewSwipe("/teams/one");
 </script>
 
-<style scoped></style>
+<style scoped>
+	.team-page-hero {
+		margin-bottom: 2dvh;
+	}
+
+	@media (max-width: 900px) {
+		.team-page-hero {
+			margin-bottom: 1dvh;
+		}
+	}
+</style>

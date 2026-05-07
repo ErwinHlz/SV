@@ -1,13 +1,21 @@
 <template>
 	<div class="sponsor-become-page">
-		<PageHero
-			class="sponsor-become-hero"
-			:image="sponsorHero"
-			title="Sponsor werden"
-			lead="Gemeinsam staerken wir den Verein und den Fussball vor Ort."
-		>
-			<p class="sponsor-mobile-scroll-hint">Nach unten scrollen</p>
-		</PageHero>
+		<section class="sponsor-become-hero" aria-labelledby="sponsor-hero-title">
+			<div class="sponsor-become-hero__media" aria-hidden="true">
+				<img :src="sponsorHero" alt="" />
+			</div>
+			<div class="sponsor-become-hero__overlay" aria-hidden="true"></div>
+			<div class="sponsor-become-hero__content">
+				<p class="sponsor-become-hero__eyebrow">Partner werden</p>
+				<h1 id="sponsor-hero-title" class="sponsor-become-hero__title">
+					Sponsor werden
+				</h1>
+				<p class="sponsor-become-hero__lead">
+					Gemeinsam staerken wir den Verein und den Fussball vor Ort.
+				</p>
+			</div>
+			<p class="sponsor-mobile-scroll-hint"><ChevronDown /></p>
+		</section>
 
 		<section
 			class="sponsor-intro sponsor-intro--offers"
@@ -70,18 +78,104 @@
 					<ul class="sponsor-package__points">
 						<li v-for="point in pkg.points" :key="point">{{ point }}</li>
 					</ul>
-					<RouterLink to="/contact" class="sponsor-contact">
-						Interesse melden
-					</RouterLink>
 				</div>
 			</article>
+		</section>
+
+		<section
+			class="sponsor-contact-section"
+			aria-labelledby="sponsor-contact-title"
+		>
+			<div class="sponsor-contact-panel">
+				<div class="sponsor-contact-copy">
+					<p class="sponsor-eyebrow">Kontakt</p>
+					<h2 id="sponsor-contact-title" class="sponsor-section-title">
+						Erzaehl uns kurz, wie du den Verein unterstuetzen moechtest.
+					</h2>
+					<p class="sponsor-contact-text">
+						Ob Ballspende, Jugendunterstuetzung oder eine individuelle Idee: Wir
+						melden uns mit einer passenden Rueckmeldung bei dir.
+					</p>
+				</div>
+
+				<form
+					class="sponsor-contact-form"
+					@submit.prevent="handleSponsorSubmit"
+				>
+					<div class="sponsor-form-row">
+						<label>
+							Name
+							<input
+								v-model="sponsorForm.name"
+								type="text"
+								name="name"
+								autocomplete="name"
+								required
+							/>
+						</label>
+
+						<label>
+							E-Mail
+							<input
+								v-model="sponsorForm.email"
+								type="email"
+								name="email"
+								autocomplete="email"
+								required
+							/>
+						</label>
+					</div>
+
+					<div class="sponsor-form-row">
+						<label>
+							Unternehmen
+							<input
+								v-model="sponsorForm.company"
+								type="text"
+								name="company"
+								autocomplete="organization"
+							/>
+						</label>
+
+						<label>
+							Interesse
+							<input
+								v-model="sponsorForm.interest"
+								type="text"
+								name="interest"
+								placeholder="z. B. Jugendunterstuetzung"
+							/>
+						</label>
+					</div>
+
+					<label>
+						Nachricht
+						<textarea
+							v-model="sponsorForm.message"
+							name="message"
+							rows="6"
+							required
+							placeholder="Hallo, ich interessiere mich fuer eine Unterstuetzung des Vereins ..."
+						/>
+					</label>
+
+					<button type="submit" class="sponsor-submit">Anfrage senden</button>
+
+					<p class="sponsor-form-note">
+						Die Anfrage wird aktuell per E-Mail vorbereitet. Die
+						Empfaengeradresse kann spaeter noch durch die finale Vereinsadresse
+						ersetzt werden.
+					</p>
+				</form>
+			</div>
 		</section>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import PageHero from "@/components/PageHero.vue";
+	import { ref } from "vue";
 	import sponsorHero from "@/assets/header/background.png";
+	import { ChevronDown } from "@lucide/vue";
 
 	const offerPoints = [
 		"Sichtbarkeit auf Website, Social Media und im Stadion",
@@ -157,6 +251,33 @@
 			],
 		},
 	];
+
+	const sponsorContactEmail = "platzhalter@example.de";
+
+	const sponsorForm = ref({
+		name: "",
+		email: "",
+		company: "",
+		interest: "",
+		message: "",
+	});
+
+	const handleSponsorSubmit = () => {
+		const subject = `Sponsoring-Anfrage${sponsorForm.value.interest ? ` - ${sponsorForm.value.interest}` : ""}`;
+		const body = [
+			`Name: ${sponsorForm.value.name}`,
+			`E-Mail: ${sponsorForm.value.email}`,
+			`Unternehmen: ${sponsorForm.value.company || "-"}`,
+			`Interesse: ${sponsorForm.value.interest || "-"}`,
+			"",
+			"Nachricht:",
+			sponsorForm.value.message,
+		].join("\n");
+
+		window.location.href = `mailto:${sponsorContactEmail}?subject=${encodeURIComponent(
+			subject,
+		)}&body=${encodeURIComponent(body)}`;
+	};
 </script>
 
 <style scoped>
@@ -217,9 +338,45 @@
 	.sponsor-become-hero {
 		min-height: 100svh;
 		isolation: isolate;
+		display: grid;
+		place-items: center;
+		overflow: hidden;
+		top: -10dvh;
 	}
 
-	.sponsor-become-hero :deep(.page-hero-content) {
+	.sponsor-become-hero__media {
+		position: absolute;
+		inset: 0;
+	}
+
+	.sponsor-become-hero__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		filter: saturate(0.92) brightness(0.72);
+		transform: scale(1.03);
+	}
+
+	.sponsor-become-hero__overlay {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(
+				circle at 50% 38%,
+				rgba(244, 208, 71, 0.12),
+				transparent 24rem
+			),
+			linear-gradient(
+				180deg,
+				rgba(3, 9, 22, 0.44) 0%,
+				rgba(6, 17, 35, 0.68) 54%,
+				var(--sponsor-bg) 100%
+			);
+		z-index: 1;
+	}
+
+	.sponsor-become-hero__content {
 		position: relative;
 		z-index: 3;
 		min-height: 100svh;
@@ -228,23 +385,36 @@
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-		gap: 0.9rem;
+		gap: 0.75rem;
 		padding: calc(var(--sv-header-height) + 2.5rem) clamp(1rem, 4vw, 2rem)
 			clamp(7rem, 14vw, 9rem);
 		box-sizing: border-box;
 	}
 
-	.sponsor-become-hero :deep(.page-hero-title) {
+	.sponsor-become-hero__eyebrow {
+		margin: 0;
+		color: rgba(244, 208, 71, 0.92);
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.sponsor-become-hero__title {
+		margin: 0;
 		max-width: 9ch;
-		width: 100%;
-		margin-inline: auto;
+		font-size: clamp(3.1rem, 10vw, 6.2rem);
+		line-height: 0.92;
+		letter-spacing: -0.08em;
 		text-align: center;
 	}
 
-	.sponsor-become-hero :deep(.page-hero-lead) {
+	.sponsor-become-hero__lead {
+		margin: 0;
 		max-width: 28ch;
-		width: 100%;
-		margin-inline: auto;
+		font-size: clamp(1rem, 2.8vw, 1.25rem);
+		line-height: 1.55;
+		color: rgba(248, 246, 238, 0.82);
 		text-align: center;
 	}
 
@@ -259,35 +429,19 @@
 	}
 
 	.sponsor-mobile-scroll-hint {
-		position: absolute;
-		left: 50%;
-		bottom: clamp(3rem, 9vw, 4.75rem);
+		position: relative;
+		top: -30dvh;
+
 		z-index: 5;
-		translate: -50% 0;
 		margin: 0;
 		padding: 0.7rem 1rem;
-		border: 1px solid var(--sponsor-border);
 		border-radius: 999px;
 		color: var(--sponsor-text);
 		font-size: 0.78rem;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		background: rgba(6, 17, 35, 0.62);
-		backdrop-filter: blur(14px);
-		box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
-		animation: sponsorHintFloat 1.7s ease-in-out infinite;
-	}
 
-	.sponsor-mobile-scroll-hint::after {
-		content: "";
-		display: inline-block;
-		width: 0.45rem;
-		height: 0.45rem;
-		margin-left: 0.55rem;
-		border-right: 2px solid currentColor;
-		border-bottom: 2px solid currentColor;
-		rotate: 45deg;
-		translate: 0 -0.15rem;
+		animation: sponsorHintFloat 1.7s ease-in-out infinite;
 	}
 
 	/* INTRO-SEKTIONEN */
@@ -384,12 +538,12 @@
 	}
 
 	/*
-  Natürlicher Ablauf:
-  1. Erst normal zur ersten Karte scrollen.
-  2. Danach bleiben Karten sticky.
-  3. Jede neue Karte kommt von unten und überdeckt die alte.
-  4. Keine Opacity-Reduzierung bei den Karten.
-*/
+	  Natürlicher Ablauf:
+	  1. Erst normal zur ersten Karte scrollen.
+	  2. Danach bleiben Karten sticky.
+	  3. Jede neue Karte kommt von unten und überdeckt die alte.
+	  4. Keine Opacity-Reduzierung bei den Karten.
+	*/
 
 	.sponsor-package {
 		position: sticky;
@@ -431,66 +585,20 @@
 		width: min(100%, 760px);
 		margin-inline: auto;
 		padding: clamp(1.25rem, 6vw, 2.5rem);
-		border: 1px solid var(--sponsor-border);
+		border: 1px solid var(--sv-primary-color);
 		border-radius: 32px;
 		opacity: 1;
 		background:
-			radial-gradient(
-				circle at 90% 0%,
-				rgba(244, 208, 71, 0.26),
-				transparent 13rem
-			),
-			radial-gradient(
-				circle at 0% 100%,
-				rgba(2, 43, 121, 0.42),
-				transparent 15rem
-			),
-			linear-gradient(
-				145deg,
-				rgba(255, 255, 255, 0.16),
-				rgba(255, 255, 255, 0.055)
-			),
-			#07142b;
+			linear-gradient(145deg, var(--sv-primary-color), black), #091728;
 		box-shadow:
-			0 36px 100px rgba(0, 0, 0, 0.48),
-			inset 0 1px 0 rgba(255, 255, 255, 0.16);
-		backdrop-filter: blur(18px);
+			0 24px 60px rgba(0, 0, 0, 0.34),
+			inset 0 1px 0 rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(14px);
 		transform-origin: center bottom;
 	}
 
-	.sponsor-package:nth-of-type(even) .sponsor-package__inner {
-		background:
-			radial-gradient(
-				circle at 0% 0%,
-				rgba(244, 208, 71, 0.28),
-				transparent 13rem
-			),
-			radial-gradient(
-				circle at 100% 100%,
-				rgba(2, 43, 121, 0.52),
-				transparent 16rem
-			),
-			linear-gradient(
-				145deg,
-				rgba(255, 255, 255, 0.15),
-				rgba(255, 255, 255, 0.05)
-			),
-			#081831;
-	}
-
 	.sponsor-package__inner::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		background: linear-gradient(
-			120deg,
-			transparent 0 35%,
-			rgba(255, 255, 255, 0.13) 50%,
-			transparent 65% 100%
-		);
-		translate: -120% 0;
-		animation: sponsorCardShine 7s ease-in-out infinite;
+		content: none;
 	}
 
 	.sponsor-package__index {
@@ -510,14 +618,11 @@
 		width: fit-content;
 		margin: 0 0 1.2rem;
 		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--sponsor-border);
-		border-radius: 999px;
 		color: var(--sponsor-secondary);
 		font-size: 0.72rem;
 		font-weight: 800;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		background: rgba(0, 0, 0, 0.22);
 	}
 
 	.sponsor-package__title {
@@ -568,43 +673,100 @@
 		background: var(--sponsor-secondary);
 	}
 
-	.sponsor-contact {
-		position: relative;
-		z-index: 1;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.55rem;
+	.sponsor-contact-section {
+		padding: 2rem 1rem 6rem;
+	}
+
+	.sponsor-contact-panel {
+		width: min(100%, 1080px);
+		margin: 0 auto;
+		display: grid;
+		gap: 1.5rem;
+		padding: clamp(1.4rem, 4vw, 2.6rem);
+		border: 1px solid var(--sv-primary-color);
+		border-radius: 32px;
+		background:
+			linear-gradient(145deg, var(--sv-primary-color), black), #091728;
+		box-shadow: 0 26px 72px rgba(0, 0, 0, 0.28);
+		backdrop-filter: blur(14px);
+	}
+
+	.sponsor-contact-copy {
+		display: grid;
+		gap: 0.9rem;
+	}
+
+	.sponsor-contact-text {
+		margin: 0;
+		max-width: 42rem;
+		color: var(--sponsor-muted);
+		line-height: 1.6;
+	}
+
+	.sponsor-contact-form {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.sponsor-form-row {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.sponsor-contact-form label {
+		display: grid;
+		gap: 0.45rem;
+		font-size: 0.84rem;
+		font-weight: 800;
+		color: rgba(248, 246, 238, 0.72);
+	}
+
+	.sponsor-contact-form input,
+	.sponsor-contact-form textarea {
 		width: 100%;
-		min-height: 3.35rem;
-		margin-top: 1.8rem;
-		padding: 0.95rem 1.1rem;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 16px;
+		padding: 0.9rem 1rem;
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--sponsor-text);
+		font: inherit;
+	}
+
+	.sponsor-contact-form input::placeholder,
+	.sponsor-contact-form textarea::placeholder {
+		color: rgba(248, 246, 238, 0.34);
+	}
+
+	.sponsor-contact-form input:focus,
+	.sponsor-contact-form textarea:focus {
+		outline: 3px solid rgba(244, 208, 71, 0.14);
+		border-color: rgba(244, 208, 71, 0.34);
+	}
+
+	.sponsor-submit {
+		border: 0;
 		border-radius: 999px;
-		color: var(--sv-primary-color);
+		padding: 1rem 1.4rem;
+		background: rgba(244, 208, 71, 0.9);
+		color: #081326;
+		font: inherit;
 		font-weight: 900;
-		text-decoration: none;
-		background: var(--sponsor-secondary);
-		box-shadow: 0 18px 44px rgba(244, 208, 71, 0.26);
+		cursor: pointer;
 		transition:
 			transform 180ms ease,
-			box-shadow 180ms ease,
 			filter 180ms ease;
 	}
 
-	.sponsor-contact::after {
-		content: "→";
-		font-size: 1.15rem;
-		transition: transform 180ms ease;
-	}
-
-	.sponsor-contact:hover {
+	.sponsor-submit:hover {
 		transform: translateY(-2px);
-		filter: saturate(1.08);
-		box-shadow: 0 24px 58px rgba(244, 208, 71, 0.34);
+		filter: brightness(1.03);
 	}
 
-	.sponsor-contact:hover::after {
-		transform: translateX(4px);
+	.sponsor-form-note {
+		margin: 0;
+		color: rgba(248, 246, 238, 0.54);
+		line-height: 1.55;
 	}
 
 	/* MODERNE SCROLL-ANIMATION */
@@ -615,104 +777,213 @@
 			animation-timeline: view();
 			animation-range: entry 10% cover 42%;
 		}
-
-		.sponsor-package__inner {
-			animation: sponsorCardRise both linear;
-			animation-timeline: view();
-			animation-range: entry 0% cover 38%;
-		}
 	}
 
 	/* TABLET / DESKTOP */
 
 	@media (min-width: 760px) {
-		.sponsor-mobile-scroll-hint {
-			display: none;
+		.sponsor-intro .sponsor-section-title {
+			font-size: clamp(2.25rem, 4.8vw, 4.2rem);
+			line-height: 0.98;
+			max-width: 12ch;
+			text-align: left;
+			margin-inline: 0;
 		}
 
-		.sponsor-become-hero :deep(.page-hero-content) {
+		.sponsor-become-hero__content {
 			padding-top: calc(var(--sv-header-height) + 2.5rem);
 			padding-bottom: 6rem;
 		}
 
+		.sponsor-become-hero__title {
+			max-width: 8ch;
+		}
+
+		.sponsor-mobile-scroll-hint {
+			bottom: 2.5rem;
+			padding: 0.65rem 0.95rem;
+			font-size: 0.74rem;
+			opacity: 0.82;
+		}
+
 		.sponsor-intro {
-			min-height: 76vh;
-			padding-inline: 2rem;
+			min-height: auto;
+			padding: 5rem 2rem 0;
 		}
 
 		.sponsor-intro__inner {
 			display: grid;
 			grid-template-columns: 1.05fr 0.95fr;
+			grid-template-areas:
+				"kicker points"
+				"title points";
 			gap: clamp(2rem, 5vw, 5rem);
-			align-items: end;
+			align-items: start;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+			backdrop-filter: none;
+		}
+
+		.sponsor-intro--needs .sponsor-intro__inner {
+			grid-template-columns: 0.95fr 1.05fr;
+			grid-template-areas:
+				"points kicker"
+				"points title";
+		}
+
+		.sponsor-intro .sponsor-eyebrow {
+			grid-area: kicker;
+			margin-bottom: 0.4rem;
+		}
+
+		.sponsor-intro .sponsor-section-title {
+			grid-area: title;
 		}
 
 		.sponsor-points {
+			grid-area: points;
 			margin-top: 0;
+			align-self: center;
 		}
 
 		.sponsor-packages {
-			padding-inline: 2rem;
+			width: min(1180px, calc(100dvw - 64px));
+			margin: 0 auto;
+			padding: 5rem 0 8rem;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1.5rem;
+			align-items: stretch;
 		}
 
 		.sponsor-packages__intro {
-			min-height: 56vh;
+			grid-column: 1 / -1;
+			min-height: auto;
+			text-align: center;
+			margin-bottom: 2rem;
 		}
 
 		.sponsor-package {
-			min-height: 88vh;
-			top: 6vh;
+			position: relative;
+			top: auto;
+			min-height: auto;
+			padding-block: 0;
+			margin-bottom: 0;
 		}
 
 		.sponsor-package__inner {
-			min-height: 520px;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
+			width: 100%;
+			min-height: 100%;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				"label"
+				"title"
+				"lead"
+				"points"
+				"cta";
+			column-gap: 0;
+			row-gap: 1rem;
+			align-items: start;
+			padding: 2rem;
+			border-radius: 32px;
+			box-shadow:
+				0 30px 72px rgba(0, 0, 0, 0.34),
+				inset 0 1px 0 rgba(255, 255, 255, 0.12);
 		}
 
-		.sponsor-contact {
-			width: fit-content;
-			min-width: 13rem;
+		.sponsor-package:nth-of-type(even) .sponsor-package__inner {
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				"label"
+				"title"
+				"lead"
+				"points"
+				"cta";
+		}
+
+		.sponsor-package__label {
+			grid-area: label;
+			margin-bottom: 0;
+		}
+
+		.sponsor-package__title {
+			grid-area: title;
+			max-width: 10ch;
+			font-size: clamp(2.4rem, 3.6vw, 3.5rem);
+		}
+
+		.sponsor-package__lead {
+			grid-area: lead;
+			margin-top: 0;
+			max-width: 30rem;
+			font-size: 1rem;
+		}
+
+		.sponsor-package__points {
+			grid-area: points;
+			margin-top: 0.3rem;
+		}
+
+		.sponsor-contact-panel {
+			grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+			align-items: start;
+			gap: clamp(2rem, 4vw, 4rem);
+		}
+
+		.sponsor-contact-copy .sponsor-section-title {
+			text-align: left;
+			margin-inline: 0;
+			max-width: 10ch;
+		}
+
+		.sponsor-contact-copy .sponsor-eyebrow {
+			margin-bottom: 0;
 		}
 	}
 
 	@media (min-width: 1080px) {
 		.sponsor-packages {
+			width: min(1280px, calc(100dvw - 96px));
 			padding-bottom: 10rem;
-		}
-
-		.sponsor-package {
-			min-height: 86vh;
-			top: 7vh;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 
 		.sponsor-package__inner {
-			width: min(100%, 980px);
-			padding: 3.2rem;
+			width: 100%;
+			padding: 2.4rem;
 		}
 
 		.sponsor-package__title {
-			max-width: 12ch;
+			max-width: 9ch;
 		}
 
 		.sponsor-package__points {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 1rem;
-			margin-top: 2rem;
+			grid-template-columns: 1fr;
+			gap: 0.85rem;
+			margin-top: 0.75rem;
 		}
 
 		.sponsor-package__points li {
-			padding: 1rem;
-			border: 1px solid var(--sponsor-border);
-			border-radius: 18px;
-			background: rgba(0, 0, 0, 0.18);
+			padding-left: 1.6rem;
 		}
 
-		.sponsor-package__points li::before {
-			position: static;
-			display: block;
-			margin-bottom: 0.8rem;
+		.sponsor-contact-section {
+			padding-inline: 2rem;
+		}
+	}
+
+	@media (max-width: 759px) {
+		.sponsor-contact-panel {
+			border-radius: 24px;
+			padding: 1.2rem 1rem 1.3rem;
+		}
+
+		.sponsor-form-row {
+			grid-template-columns: 1fr;
 		}
 	}
 
@@ -740,27 +1011,6 @@
 		to {
 			opacity: 1;
 			transform: translateY(0) scale(1);
-		}
-	}
-
-	@keyframes sponsorCardRise {
-		from {
-			transform: translateY(34px) scale(0.985);
-		}
-
-		to {
-			transform: translateY(0) scale(1);
-		}
-	}
-
-	@keyframes sponsorCardShine {
-		0%,
-		72% {
-			translate: -120% 0;
-		}
-
-		100% {
-			translate: 120% 0;
 		}
 	}
 
