@@ -31,21 +31,29 @@
 				class="youth-intro-panel youth-intro-panel--cards"
 				aria-hidden="true"
 			>
-				<div
-					class="intro-info-grid"
-					:class="{ 'is-unlocked': introInfoVisible }"
-				>
-					<article
-						v-for="(item, index) in introInfoItems"
-						:key="item.label"
-						class="intro-info-card"
-						:class="{ 'is-visible': index < revealedIntroCardCount }"
+				<div class="section-inner intro-facts-shell">
+					<header class="section-header intro-facts-header">
+						<p class="section-kicker">Jugendfakten</p>
+						<h2 class="section-title">Jugend im Überblick</h2>
+					</header>
+					<div
+						class="intro-info-grid"
+						:class="{ 'is-unlocked': introInfoVisible }"
 					>
-						<span class="intro-info-label">{{ item.label }}</span>
-						<span class="intro-info-empty" aria-hidden="true"></span>
-						<strong class="intro-info-value">{{ item.value }}</strong>
-						<p class="intro-info-note">{{ item.note }}</p>
-					</article>
+						<span class="intro-info-line" aria-hidden="true"></span>
+						<article
+							v-for="(item, index) in introInfoItems"
+							:key="item.label"
+							class="intro-info-card"
+							:class="{ 'is-visible': index < revealedIntroCardCount }"
+						>
+							<span class="intro-info-marker" aria-hidden="true"></span>
+							<span class="intro-info-label">{{ item.label }}</span>
+							<span class="intro-info-empty" aria-hidden="true"></span>
+							<strong class="intro-info-value">{{ item.value }}</strong>
+							<p class="intro-info-note">{{ item.note }}</p>
+						</article>
+					</div>
 				</div>
 			</section>
 
@@ -55,8 +63,16 @@
 				aria-label="Jugendmannschaften"
 			>
 				<div class="section-inner">
+					<header class="section-header centered">
+						<p class="section-kicker">Jugendteams</p>
+					</header>
+
 					<div class="teams-grid">
-						<article v-for="team in teamCards" :key="team.id" class="team-card">
+						<article
+							v-for="team in visibleTeamCards"
+							:key="team.id"
+							class="team-card"
+						>
 							<div class="team-cover">
 								<img :src="team.image" :alt="team.imageAlt" loading="lazy" />
 								<div class="team-cover-overlay">
@@ -134,6 +150,39 @@
 							</div>
 						</article>
 					</div>
+					<div
+						class="teams-toolbar"
+						v-if="isDesktopYouthLayout && teamPageCount > 1"
+					>
+						<button
+							type="button"
+							class="teams-control-button"
+							@click="goToPreviousTeamPage"
+							:disabled="activeTeamPage === 0"
+							aria-label="Vorherige Teamseite"
+						>
+							<ChevronLeft :size="18" :stroke-width="2.4" />
+						</button>
+
+						<div class="teams-page-indicator" aria-label="Teamseiten">
+							<span
+								v-for="page in teamPageCount"
+								:key="page"
+								class="teams-page-indicator__dot"
+								:class="{ 'is-active': page - 1 === activeTeamPage }"
+							></span>
+						</div>
+
+						<button
+							type="button"
+							class="teams-control-button"
+							@click="goToNextTeamPage"
+							:disabled="activeTeamPage >= teamPageCount - 1"
+							aria-label="Nächste Teamseite"
+						>
+							<ChevronRight :size="18" :stroke-width="2.4" />
+						</button>
+					</div>
 				</div>
 			</section>
 
@@ -149,9 +198,13 @@
 						<p class="section-lead">{{ coachSection.lead }}</p>
 					</header>
 
-					<div class="coach-grid">
+					<div
+						ref="coachGridRef"
+						class="coach-grid"
+						@scroll.passive="handleCoachGridScroll"
+					>
 						<article
-							v-for="member in coachCards"
+							v-for="member in visibleCoachCards"
 							:key="member.id"
 							class="coach-card"
 						>
@@ -174,6 +227,60 @@
 							</div>
 						</article>
 					</div>
+
+					<div
+						v-if="!isDesktopYouthLayout && coachMobilePageCount > 1"
+						class="coach-page-indicator"
+						aria-label="Trainerseiten"
+					>
+						<span
+							v-for="page in coachMobilePageCount"
+							:key="page"
+							class="coach-page-indicator__dot"
+							:class="{ 'is-active': page - 1 === activeCoachPage }"
+						></span>
+					</div>
+
+					<div
+						v-if="isDesktopYouthLayout && coachDesktopPageCount > 1"
+						class="coach-toolbar"
+					>
+						<button
+							type="button"
+							class="coach-control-button"
+							@click="goToPreviousCoachPage"
+							:disabled="activeDesktopCoachPage === 0"
+							aria-label="Vorherige Trainerseite"
+						>
+							<ChevronLeft :size="18" :stroke-width="2.4" />
+						</button>
+
+						<div
+							class="coach-page-indicator coach-page-indicator--desktop"
+							aria-label="Trainerseiten"
+						>
+							<span
+								v-for="page in coachDesktopPageCount"
+								:key="page"
+								class="coach-page-indicator__dot"
+								:class="{ 'is-active': page - 1 === activeDesktopCoachPage }"
+							></span>
+						</div>
+
+						<button
+							type="button"
+							class="coach-control-button"
+							@click="goToNextCoachPage"
+							:disabled="activeDesktopCoachPage >= coachDesktopPageCount - 1"
+							aria-label="Nächste Trainerseite"
+						>
+							<ChevronRight :size="18" :stroke-width="2.4" />
+						</button>
+					</div>
+
+					<div class="youth-sponsor-strip-wrap">
+						<SponsorLogoStrip class="youth-sponsor-strip" />
+					</div>
 				</div>
 			</section>
 
@@ -183,31 +290,6 @@
 						<p class="section-kicker">Kontakt</p>
 						<h2 class="section-title">{{ contact.title }}</h2>
 						<p class="section-lead">{{ contact.lead }}</p>
-
-						<div class="contact-person">
-							<p>
-								<span>{{ contact.labels.name }}</span>
-								<strong>{{ contact.name }}</strong>
-							</p>
-							<p>
-								<span>{{ contact.labels.role }}</span>
-								<strong>{{ contact.role }}</strong>
-							</p>
-							<p>
-								<span>{{ contact.labels.phone }}</span>
-								<strong>
-									<a v-if="phoneHref" :href="phoneHref">{{ contact.phone }}</a>
-									<span v-else>{{ contact.phone }}</span>
-								</strong>
-							</p>
-							<p>
-								<span>{{ contact.labels.email }}</span>
-								<strong>
-									<a v-if="emailHref" :href="emailHref">{{ contact.email }}</a>
-									<span v-else>{{ contact.email }}</span>
-								</strong>
-							</p>
-						</div>
 					</div>
 
 					<form class="contact-form" @submit.prevent="handleContactSubmit">
@@ -237,16 +319,6 @@
 
 						<div class="form-row">
 							<label>
-								Telefon
-								<input
-									v-model="contactForm.phone"
-									type="tel"
-									name="phone"
-									autocomplete="tel"
-								/>
-							</label>
-
-							<label>
 								Mannschaft / Alter
 								<input
 									v-model="contactForm.team"
@@ -269,20 +341,21 @@
 						</label>
 
 						<button type="submit">Anfrage senden</button>
-
-						<p class="form-note">
-							{{ contact.note }}
-						</p>
 					</form>
 				</div>
 			</section>
+
+			<HomeSponsorsMobileSection />
 		</main>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { computed, ref } from "vue";
+	import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+	import { ChevronLeft, ChevronRight } from "@lucide/vue";
+	import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 	import PageHero from "@/components/PageHero.vue";
+	import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 	import youthHero from "@/assets/header/background.png";
 	import rawYouthContent from "@/content/jugend.json";
 
@@ -383,6 +456,10 @@
 		tableUrl: team.tableUrl?.trim() || "https://next.fussball.de/",
 	}));
 
+	const activeTeamPage = ref(0);
+	const isDesktopYouthLayout = ref(false);
+	let desktopYouthMediaQuery: MediaQueryList | null = null;
+
 	type CoachCard = CoachMember & {
 		image?: string;
 		imageAlt: string;
@@ -406,12 +483,6 @@
 				)}`
 			: "");
 
-	const phoneHref = contact.phone
-		? `tel:${contact.phone.replace(/\s+/g, "")}`
-		: "";
-
-	const emailHref = contact.email ? `mailto:${contact.email}` : "";
-
 	const introInfoItems = computed(() => [
 		{
 			label: "Philosophie",
@@ -420,7 +491,7 @@
 		},
 		{
 			label: "Teams",
-			value: `${teamCards.length} `,
+			value: `${teamCards.length} Teams`,
 			note: "Von den jüngeren Jahrgängen bis zur älteren Jugend.",
 		},
 		{
@@ -430,13 +501,37 @@
 		},
 		{
 			label: "Probetraining",
-			value: "Jederzeit möglich",
-			note: contact.note,
+			value: "Probetraining",
+			note: "Jederzeit möglich",
 		},
 	]);
 
 	const introInfoVisible = true;
 	const revealedIntroCardCount = computed(() => introInfoItems.value.length);
+	const coachGridRef = ref<HTMLElement | null>(null);
+	const activeCoachPage = ref(0);
+	const activeDesktopCoachPage = ref(0);
+	const coachMobilePageCount = computed(() => Math.ceil(coachCards.length / 4));
+	const coachDesktopPageCount = computed(() =>
+		Math.ceil(coachCards.length / 5),
+	);
+	const teamPageCount = computed(() => Math.ceil(teamCards.length / 3));
+	const visibleTeamCards = computed(() => {
+		if (!isDesktopYouthLayout.value) {
+			return teamCards;
+		}
+
+		const startIndex = activeTeamPage.value * 3;
+		return teamCards.slice(startIndex, startIndex + 3);
+	});
+	const visibleCoachCards = computed(() => {
+		if (!isDesktopYouthLayout.value) {
+			return coachCards;
+		}
+
+		const startIndex = activeDesktopCoachPage.value * 5;
+		return coachCards.slice(startIndex, startIndex + 5);
+	});
 
 	const contactForm = ref({
 		name: "",
@@ -478,15 +573,126 @@
 			subject,
 		)}&body=${encodeURIComponent(body)}`;
 	};
+
+	const syncDesktopYouthLayout = () => {
+		const matches = desktopYouthMediaQuery?.matches ?? false;
+		isDesktopYouthLayout.value = matches;
+
+		if (!matches) {
+			activeTeamPage.value = 0;
+			activeDesktopCoachPage.value = 0;
+			return;
+		}
+
+		activeTeamPage.value = Math.min(
+			activeTeamPage.value,
+			Math.max(teamPageCount.value - 1, 0),
+		);
+		activeDesktopCoachPage.value = Math.min(
+			activeDesktopCoachPage.value,
+			Math.max(coachDesktopPageCount.value - 1, 0),
+		);
+	};
+
+	const goToPreviousTeamPage = () => {
+		activeTeamPage.value = Math.max(activeTeamPage.value - 1, 0);
+	};
+
+	const goToNextTeamPage = () => {
+		activeTeamPage.value = Math.min(
+			activeTeamPage.value + 1,
+			Math.max(teamPageCount.value - 1, 0),
+		);
+	};
+
+	const goToPreviousCoachPage = () => {
+		activeDesktopCoachPage.value = Math.max(
+			activeDesktopCoachPage.value - 1,
+			0,
+		);
+	};
+
+	const goToNextCoachPage = () => {
+		activeDesktopCoachPage.value = Math.min(
+			activeDesktopCoachPage.value + 1,
+			Math.max(coachDesktopPageCount.value - 1, 0),
+		);
+	};
+
+	const updateActiveCoachPage = () => {
+		const element = coachGridRef.value;
+		if (!element) return;
+
+		const pageWidth = element.clientWidth;
+		if (!pageWidth) {
+			activeCoachPage.value = 0;
+			return;
+		}
+
+		activeCoachPage.value = Math.max(
+			0,
+			Math.min(
+				coachMobilePageCount.value - 1,
+				Math.round(element.scrollLeft / pageWidth),
+			),
+		);
+	};
+
+	const handleCoachGridScroll = () => {
+		updateActiveCoachPage();
+	};
+
+	onMounted(() => {
+		if (typeof window !== "undefined") {
+			desktopYouthMediaQuery = window.matchMedia("(min-width: 981px)");
+			syncDesktopYouthLayout();
+			desktopYouthMediaQuery.addEventListener("change", syncDesktopYouthLayout);
+		}
+
+		updateActiveCoachPage();
+		window.addEventListener("resize", updateActiveCoachPage);
+	});
+
+	onBeforeUnmount(() => {
+		desktopYouthMediaQuery?.removeEventListener(
+			"change",
+			syncDesktopYouthLayout,
+		);
+		window.removeEventListener("resize", updateActiveCoachPage);
+	});
 </script>
 
 <style scoped>
 	.youth-page-flow {
+		--youth-bg: var(--sv-bg-base);
+		--youth-surface: #fffdf8;
+		--youth-surface-strong: #f0e9d9;
+		--youth-ink: #101828;
+		--youth-muted: rgba(16, 24, 40, 0.68);
+		--youth-border: rgba(2, 43, 121, 0.12);
+		--youth-primary: #022b79;
+		--youth-primary-strong: #011c4d;
+		--youth-primary-soft: #e8eefb;
+		--youth-accent: #f4d047;
+		--youth-accent-soft: rgba(244, 208, 71, 0.2);
+		--youth-shadow: rgba(1, 22, 61, 0.14);
+
 		width: 100%;
 		min-height: 100vh;
 		overflow-x: hidden;
-		background: #f7f5ef;
-		color: #111;
+		background:
+			linear-gradient(
+				130deg,
+				var(--sv-bg-header-black) 0%,
+				var(--sv-bg-header-blue) 300%
+			),
+			linear-gradient(
+				180deg,
+				var(--sv-bg-deep) 0%,
+				var(--sv-bg-base) 0%,
+				var(--sv-bg-deep) 160%
+			);
+		color: var(--youth-ink);
 	}
 
 	.youth-page-hero {
@@ -517,10 +723,15 @@
 		background:
 			radial-gradient(
 				circle at 85% 10%,
-				rgba(71, 151, 83, 0.26),
+				rgba(244, 208, 71, 0.22),
 				transparent 28rem
 			),
-			linear-gradient(135deg, #07130b, #102716);
+			radial-gradient(
+				circle at 12% 82%,
+				rgba(2, 43, 121, 0.26),
+				transparent 30rem
+			),
+			linear-gradient(135deg, #04112d, #0a255f);
 		color: #fff;
 	}
 
@@ -528,10 +739,15 @@
 		background:
 			radial-gradient(
 				circle at 15% 18%,
-				rgba(120, 217, 130, 0.18),
+				rgba(244, 208, 71, 0.16),
 				transparent 24rem
 			),
-			linear-gradient(135deg, #0e2314, #122b19);
+			radial-gradient(
+				circle at 82% 78%,
+				rgba(2, 43, 121, 0.18),
+				transparent 28rem
+			),
+			linear-gradient(135deg, #07183d, #0b275f);
 	}
 
 	.intro-inner {
@@ -544,7 +760,7 @@
 
 	.section-kicker {
 		margin: 0 0 0.85rem;
-		color: #2f7d46;
+		color: var(--youth-primary);
 		font-size: 0.78rem;
 		font-weight: 900;
 		letter-spacing: 0.18em;
@@ -553,7 +769,7 @@
 
 	.youth-intro-panel .section-kicker,
 	.coach-section .section-kicker {
-		color: #78d982;
+		color: var(--youth-accent);
 	}
 
 	.intro-title,
@@ -577,16 +793,16 @@
 
 	.intro-added-text {
 		padding-left: 1.25rem;
-		border-left: 0.35rem solid #78d982;
+		border-left: 0.35rem solid var(--youth-accent);
 	}
 
 	.intro-info-grid {
 		width: min(100%, 46rem);
-		margin-left: auto;
+
 		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+		background: transparent;
 
-		gap: 1.1rem;
 		align-items: center;
 	}
 
@@ -600,7 +816,7 @@
 		border-radius: 1.8rem;
 		overflow: hidden;
 		background: rgba(255, 255, 255, 0.09);
-		border: 1px solid rgba(255, 255, 255, 0.16);
+		border: 1px solid rgba(255, 255, 255, 0.18);
 		box-shadow: 0 1.4rem 4rem rgba(0, 0, 0, 0.22);
 		backdrop-filter: blur(18px);
 	}
@@ -619,7 +835,7 @@
 		position: absolute;
 		top: 1.2rem;
 		left: 1.35rem;
-		color: #78d982;
+		color: var(--youth-accent);
 		font-size: 0.74rem;
 		font-weight: 900;
 		letter-spacing: 0.15em;
@@ -693,18 +909,23 @@
 		gap: clamp(1.2rem, 2vw, 1.8rem);
 	}
 
+	.teams-toolbar,
+	.teams-page-indicator {
+		display: none;
+	}
+
 	.team-card {
 		overflow: hidden;
 		border-radius: 2rem;
-		background: #fff;
-		box-shadow: 0 1.2rem 3.5rem rgba(7, 19, 11, 0.12);
-		border: 1px solid rgba(17, 17, 17, 0.08);
+		background: var(--youth-surface);
+		box-shadow: 0 1.2rem 3.5rem var(--youth-shadow);
+		border: 1px solid var(--youth-border);
 	}
 
 	.team-cover {
 		position: relative;
 		height: 18rem;
-		background: #102716;
+		background: var(--youth-primary-strong);
 	}
 
 	.team-cover img {
@@ -732,7 +953,7 @@
 
 	.team-age {
 		margin: 0 0 0.35rem;
-		color: #78d982;
+		color: var(--youth-accent);
 		font-size: 0.75rem;
 		font-weight: 900;
 		letter-spacing: 0.15em;
@@ -755,13 +976,13 @@
 		justify-content: space-between;
 		gap: 1rem;
 		padding-bottom: 1rem;
-		border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+		border-bottom: 1px solid var(--youth-border);
 	}
 
 	.team-meta-row span,
 	.table-title,
 	.team-action span {
-		color: rgba(17, 17, 17, 0.55);
+		color: rgba(16, 24, 40, 0.55);
 		font-size: 0.74rem;
 		font-weight: 900;
 		letter-spacing: 0.13em;
@@ -770,7 +991,7 @@
 
 	.team-meta-row strong {
 		text-align: right;
-		color: #2f7d46;
+		color: var(--youth-primary);
 	}
 
 	.team-description {
@@ -792,13 +1013,13 @@
 	.training-table th,
 	.training-table td {
 		padding: 0.75rem 0.6rem;
-		border-bottom: 1px solid rgba(17, 17, 17, 0.09);
+		border-bottom: 1px solid rgba(2, 43, 121, 0.09);
 		text-align: left;
 		vertical-align: top;
 	}
 
 	.training-table th {
-		color: rgba(17, 17, 17, 0.55);
+		color: rgba(16, 24, 40, 0.55);
 		font-size: 0.72rem;
 		font-weight: 900;
 		letter-spacing: 0.1em;
@@ -806,7 +1027,7 @@
 	}
 
 	.training-table a {
-		color: #2f7d46;
+		color: var(--youth-primary);
 		font-weight: 800;
 		text-decoration: none;
 	}
@@ -836,12 +1057,12 @@
 	}
 
 	.team-action.secondary {
-		background: #edf4ea;
-		color: #102716;
+		background: var(--youth-primary-soft);
+		color: var(--youth-primary-strong);
 	}
 
 	.team-action.primary {
-		background: #102716;
+		background: var(--youth-primary);
 		color: #fff;
 	}
 
@@ -853,10 +1074,15 @@
 		background:
 			radial-gradient(
 				circle at 15% 15%,
-				rgba(120, 217, 130, 0.16),
+				rgba(244, 208, 71, 0.16),
 				transparent 25rem
 			),
-			linear-gradient(135deg, #102716, #07130b);
+			radial-gradient(
+				circle at 85% 82%,
+				rgba(2, 43, 121, 0.22),
+				transparent 24rem
+			),
+			linear-gradient(135deg, #07183d, #031128);
 		color: #fff;
 	}
 
@@ -866,11 +1092,23 @@
 		gap: clamp(1rem, 2vw, 1.5rem);
 	}
 
+	.coach-page-indicator {
+		display: none;
+	}
+
+	.coach-toolbar {
+		display: none;
+	}
+
+	.youth-sponsor-strip-wrap {
+		margin-top: 1.8rem;
+	}
+
 	.coach-card {
 		padding: 0.8rem 0.8rem 1.2rem;
-		background: #fffdf7;
-		color: #111;
-		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.22);
+		background: var(--youth-surface);
+		color: var(--youth-ink);
+		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
 		transform: rotate(-1deg);
 	}
 
@@ -885,7 +1123,7 @@
 	.coach-photo {
 		aspect-ratio: 4 / 5;
 		overflow: hidden;
-		background: #e9e5da;
+		background: var(--youth-surface-strong);
 	}
 
 	.coach-photo img {
@@ -900,7 +1138,7 @@
 		height: 100%;
 		display: grid;
 		place-items: center;
-		color: #2f7d46;
+		color: var(--youth-primary);
 		font-size: 3rem;
 		font-weight: 900;
 	}
@@ -922,14 +1160,13 @@
 	}
 
 	.contact-section {
-		background: #f7f5ef;
-		color: #111;
+		color: var(--youth-ink);
 	}
 
 	.contact-layout {
 		display: grid;
-		grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
-		gap: clamp(2rem, 5vw, 4rem);
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
 		align-items: start;
 	}
 
@@ -954,7 +1191,7 @@
 	}
 
 	.contact-person a {
-		color: #2f7d46;
+		color: var(--youth-primary);
 		text-decoration: none;
 	}
 
@@ -963,9 +1200,9 @@
 		gap: 1rem;
 		padding: clamp(1.2rem, 3vw, 2rem);
 		border-radius: 1.4rem;
-		background: #fff;
-		border: 1px solid rgba(17, 17, 17, 0.08);
-		box-shadow: 0 1.2rem 3rem rgba(7, 19, 11, 0.1);
+		background: var(--youth-surface);
+		border: 1px solid var(--youth-border);
+		box-shadow: 0 1.2rem 3rem var(--youth-shadow);
 	}
 
 	.form-row {
@@ -985,25 +1222,25 @@
 	.contact-form input,
 	.contact-form textarea {
 		width: 100%;
-		border: 1px solid rgba(17, 17, 17, 0.16);
+		border: 1px solid rgba(2, 43, 121, 0.16);
 		border-radius: 0.85rem;
 		padding: 0.9rem 1rem;
-		background: #fbfaf6;
-		color: #111;
+		background: #fffefb;
+		color: var(--youth-ink);
 		font: inherit;
 	}
 
 	.contact-form input:focus,
 	.contact-form textarea:focus {
-		outline: 3px solid rgba(47, 125, 70, 0.2);
-		border-color: #2f7d46;
+		outline: 3px solid rgba(244, 208, 71, 0.2);
+		border-color: var(--youth-primary);
 	}
 
 	.contact-form button {
 		border: 0;
 		border-radius: 999px;
 		padding: 1rem 1.4rem;
-		background: #102716;
+		background: var(--youth-primary);
 		color: #fff;
 		font: inherit;
 		font-weight: 900;
@@ -1011,7 +1248,7 @@
 	}
 
 	.contact-form button:hover {
-		background: #2f7d46;
+		background: #0a3a99;
 	}
 
 	.form-note {
@@ -1021,6 +1258,111 @@
 	}
 
 	@media (min-width: 721px) {
+		.youth-intro-panel,
+		.youth-intro-panel--cards {
+			min-height: auto;
+			padding: clamp(4.25rem, 6vw, 6rem) 0;
+		}
+
+		.youth-intro-panel {
+			background: var(--youth-surface);
+			color: var(--youth-ink);
+		}
+
+		.youth-intro-panel--cards {
+			background: var(--youth-bg);
+			color: var(--youth-ink);
+		}
+
+		.youth-intro-panel .section-kicker {
+			color: var(--youth-primary);
+		}
+
+		.intro-inner {
+			width: min(1120px, calc(100% - 3rem));
+			display: block;
+		}
+
+		.intro-copy {
+			max-width: 780px;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+			text-align: left;
+		}
+
+		.intro-title {
+			font-size: clamp(2.9rem, 4.8vw, 4.8rem);
+			line-height: 0.95;
+		}
+
+		.intro-text,
+		.intro-added-text {
+			max-width: 60ch;
+			margin-left: 0;
+			margin-right: 0;
+			color: rgba(16, 24, 40, 0.72);
+			opacity: 1;
+		}
+
+		.intro-added-text {
+			padding-left: 0;
+			border-left: 0;
+		}
+
+		.intro-info-grid {
+			width: min(1120px, calc(100% - 3rem));
+
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+
+			align-items: start;
+		}
+
+		.intro-info-card,
+		.intro-info-card:nth-child(1),
+		.intro-info-card:nth-child(2),
+		.intro-info-card:nth-child(3),
+		.intro-info-card:nth-child(4) {
+			grid-column: span 1;
+		}
+
+		.intro-info-card {
+			min-height: 14rem;
+			padding: 1rem 0 0;
+			display: block;
+			background: transparent;
+			border: 0;
+			border-top: 2px solid rgba(2, 43, 121, 0.12);
+			border-radius: 0;
+			box-shadow: none;
+			backdrop-filter: none;
+		}
+
+		.intro-info-label {
+			position: static;
+			display: inline-block;
+			margin-bottom: 0.95rem;
+			color: var(--youth-primary);
+		}
+
+		.intro-info-empty {
+			display: none;
+		}
+
+		.intro-info-value {
+			font-size: clamp(1.45rem, 2vw, 2rem);
+			line-height: 1.02;
+			color: var(--youth-ink);
+		}
+
+		.intro-info-note {
+			margin-top: 0.85rem;
+			color: rgba(16, 24, 40, 0.64);
+			line-height: 1.6;
+		}
+
 		.intro-info-value,
 		.intro-info-note {
 			opacity: 1;
@@ -1043,13 +1385,651 @@
 		}
 	}
 
+	@media (min-width: 721px) and (max-width: 980px) {
+		.youth-intro-panel,
+		.coach-section,
+		.contact-section {
+			min-height: auto;
+			padding: 4.5rem 0;
+		}
+
+		.intro-inner {
+			width: min(940px, calc(100% - 2.5rem));
+			display: block;
+		}
+
+		.intro-copy {
+			max-width: 760px;
+		}
+
+		.youth-intro-panel--cards {
+			padding-top: 0;
+		}
+
+		.intro-info-grid {
+			width: 100%;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.intro-info-card:nth-child(1),
+		.intro-info-card:nth-child(2),
+		.intro-info-card:nth-child(3),
+		.intro-info-card:nth-child(4) {
+			grid-column: span 1;
+		}
+
+		.teams-section .section-inner,
+		.coach-section .section-inner,
+		.contact-section .section-inner {
+			width: min(1080px, calc(100% - 2.5rem));
+		}
+
+		.teams-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+		}
+
+		.team-card {
+			height: 100%;
+		}
+
+		.team-content {
+			display: flex;
+			flex-direction: column;
+			min-height: 24rem;
+		}
+
+		.team-links {
+			margin-top: auto;
+			padding-top: 1.25rem;
+		}
+
+		.coach-section {
+			background:
+				radial-gradient(
+					circle at 12% 12%,
+					rgba(244, 208, 71, 0.12),
+					transparent 22rem
+				),
+				linear-gradient(180deg, #f2ecde 0%, #fbf8f1 100%);
+			color: var(--youth-ink);
+		}
+
+		.coach-section .section-kicker {
+			color: var(--youth-primary);
+		}
+
+		.coach-grid {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 1rem;
+		}
+
+		.coach-card,
+		.coach-card:nth-child(even),
+		.coach-card:nth-child(3n) {
+			transform: none;
+		}
+
+		.contact-layout {
+			gap: 2rem;
+		}
+	}
+
+	@media (min-width: 981px) {
+		.youth-page-hero {
+			min-height: clamp(220px, 24vh, 310px);
+			margin-bottom: 0;
+		}
+
+		.youth-page-hero :deep(.page-hero-content) {
+			width: min(1120px, calc(100% - 4rem));
+		}
+
+		.youth-page-hero :deep(.page-hero::before) {
+			box-shadow: none;
+		}
+
+		.youth-intro-panel,
+		.youth-intro-panel--cards,
+		.teams-section,
+		.coach-section,
+		.contact-section {
+			min-height: calc(100svh - var(--sv-header-height));
+			padding: clamp(2.75rem, 4vw, 4rem) 0;
+			display: flex;
+			align-items: center;
+		}
+
+		.youth-intro-panel {
+			background:
+				linear-gradient(180deg, #f8f4ea 0%, #fdfbf5 100%),
+				radial-gradient(
+					circle at 86% 14%,
+					rgba(244, 208, 71, 0.12),
+					transparent 22rem
+				);
+			color: var(--youth-ink);
+		}
+
+		.youth-content > .youth-intro-panel:not(.youth-intro-panel--cards) {
+			min-height: calc(
+				100svh - var(--sv-header-height) - clamp(220px, 24vh, 310px)
+			);
+			padding: clamp(1.5rem, 2.6vw, 2.4rem) 0;
+		}
+
+		.youth-intro-panel--cards,
+		.teams-section,
+		.coach-section,
+		.contact-section {
+			width: 100%;
+		}
+
+		.youth-intro-panel .section-kicker {
+			color: var(--youth-primary);
+		}
+
+		.intro-inner {
+			width: min(1120px, calc(100% - 4rem));
+			display: block;
+		}
+
+		.intro-copy {
+			width: min(880px, 100%);
+			max-width: none;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+			text-align: left;
+			border-top: 2px solid rgba(2, 43, 121, 0.14);
+			padding-top: 1.2rem;
+		}
+
+		.intro-title {
+			font-size: clamp(3rem, 4.6vw, 4.9rem);
+			line-height: 0.94;
+		}
+
+		.intro-text,
+		.intro-added-text {
+			max-width: 58ch;
+			color: rgba(16, 24, 40, 0.74);
+			opacity: 1;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.youth-intro-panel--cards {
+			background:
+				linear-gradient(180deg, #fbf8f1 0%, #f2ebdb 100%),
+				radial-gradient(
+					circle at 14% 18%,
+					rgba(2, 43, 121, 0.06),
+					transparent 24rem
+				),
+				radial-gradient(
+					circle at 84% 78%,
+					rgba(244, 208, 71, 0.1),
+					transparent 24rem
+				);
+			padding: clamp(2.75rem, 4vw, 4rem) 0;
+		}
+
+		.intro-facts-shell {
+			width: min(1160px, calc(100% - 4rem));
+		}
+
+		.intro-facts-header {
+			max-width: none;
+			margin-bottom: clamp(2.5rem, 5vw, 4.25rem);
+			text-align: left;
+		}
+
+		.intro-facts-header .section-title {
+			font-size: clamp(4rem, 7vw, 6.9rem);
+			line-height: 0.9;
+			letter-spacing: -0.08em;
+			text-wrap: balance;
+		}
+
+		.intro-info-grid {
+			--facts-gap: clamp(4rem, 7vw, 5.5rem);
+			position: relative;
+			width: min(1040px, 100%);
+
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+
+			align-items: start;
+		}
+
+		.intro-info-line {
+			position: absolute;
+			top: 0.75rem;
+			bottom: 0.75rem;
+			left: 50%;
+			width: 1px;
+			background: rgba(16, 24, 40, 0.1);
+			transform: translateX(-50%);
+			z-index: 0;
+			padding: 0;
+			margin: 0;
+			z-index: 0;
+		}
+
+		.intro-info-card {
+			position: relative;
+			width: 100%;
+			min-height: 0;
+			padding: 0;
+			background: transparent;
+			border: 0;
+			box-shadow: none;
+			backdrop-filter: none;
+			border-radius: 0;
+			z-index: 1;
+		}
+
+		.intro-info-card:nth-child(odd) {
+			grid-column: 1;
+			padding-right: clamp(2.75rem, 4vw, 3.4rem);
+			text-align: right;
+		}
+
+		.intro-info-card:nth-child(even) {
+			grid-column: 2;
+			padding-left: clamp(2.75rem, 4vw, 3.4rem);
+			text-align: left;
+		}
+
+		.intro-info-card:nth-child(1) {
+			margin-top: 0.2rem;
+		}
+
+		.intro-info-card:nth-child(2) {
+			margin-top: 4.3rem;
+		}
+
+		.intro-info-card:nth-child(3) {
+			margin-top: 0.4rem;
+		}
+
+		.intro-info-card:nth-child(4) {
+			margin-top: 4.4rem;
+		}
+
+		.intro-info-marker {
+			position: absolute;
+			top: 0.7rem;
+			width: 1rem;
+			height: 1rem;
+			border-radius: 999px;
+			background: var(--youth-accent);
+			border: 2px solid var(--youth-primary);
+			z-index: 10;
+			margin: 0;
+		}
+
+		.intro-info-card:nth-child(odd) .intro-info-marker {
+			right: 10px;
+		}
+
+		.intro-info-card:nth-child(even) .intro-info-marker {
+			left: 10px;
+		}
+
+		.intro-info-label {
+			display: none;
+		}
+
+		.intro-info-value {
+			color: var(--youth-ink);
+			max-width: 22rem;
+			font-size: clamp(2rem, 2.7vw, 3rem);
+			line-height: 0.94;
+			letter-spacing: -0.06em;
+			text-wrap: balance;
+		}
+
+		.intro-info-card:nth-child(odd) .intro-info-value {
+			margin-left: auto;
+		}
+
+		.intro-info-note {
+			max-width: 26rem;
+			color: rgba(16, 24, 40, 0.62);
+			margin-top: 0.95rem;
+			font-size: 1rem;
+			line-height: 1.6;
+		}
+
+		.intro-info-card:nth-child(odd) .intro-info-note {
+			margin-left: auto;
+		}
+
+		.intro-info-empty {
+			display: none;
+		}
+
+		.teams-section {
+			background:
+				radial-gradient(
+					circle at 82% 16%,
+					rgba(244, 208, 71, 0.14),
+					transparent 22rem
+				),
+				radial-gradient(
+					circle at 12% 78%,
+					rgba(2, 43, 121, 0.12),
+					transparent 24rem
+				),
+				linear-gradient(180deg, #f7f2e7 0%, #fcfaf5 100%);
+		}
+
+		.teams-section .section-inner,
+		.coach-section .section-inner,
+		.contact-section .section-inner {
+			width: min(1240px, calc(100% - 4rem));
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		.teams-toolbar {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			margin-bottom: 1.35rem;
+			margin-top: 1.35rem;
+		}
+
+		.teams-page-indicator {
+			display: flex;
+			align-items: center;
+			gap: 0.45rem;
+		}
+
+		.teams-page-indicator__dot {
+			width: 0.48rem;
+			height: 0.48rem;
+			border-radius: 999px;
+			background: rgba(2, 43, 121, 0.18);
+			transition:
+				transform 0.2s ease,
+				background-color 0.2s ease;
+		}
+
+		.teams-page-indicator__dot.is-active {
+			background: var(--youth-primary);
+			transform: scale(1.15);
+		}
+
+		.teams-control-button {
+			width: 2.9rem;
+			height: 2.9rem;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			border: 1px solid rgba(2, 43, 121, 0.14);
+			border-radius: 999px;
+			background: #fffdf7;
+			color: var(--youth-primary);
+			font: inherit;
+			font-weight: 800;
+			cursor: pointer;
+			transition:
+				background-color 0.2s ease,
+				color 0.2s ease,
+				border-color 0.2s ease,
+				opacity 0.2s ease;
+		}
+
+		.teams-control-button:hover:not(:disabled) {
+			background: var(--youth-primary);
+			color: #fff;
+			border-color: var(--youth-primary);
+		}
+
+		.teams-control-button:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
+
+		.teams-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.25rem;
+			align-items: stretch;
+		}
+
+		.team-card {
+			height: 100%;
+			border-radius: 1.7rem;
+		}
+
+		.team-cover {
+			height: 15.5rem;
+		}
+
+		.team-content {
+			display: flex;
+			flex-direction: column;
+			min-height: 20.5rem;
+			padding: 1rem 1rem 1.15rem;
+		}
+
+		.team-links {
+			margin-top: auto;
+			padding-top: 1rem;
+		}
+
+		.coach-section {
+			background:
+				radial-gradient(
+					circle at 12% 18%,
+					rgba(244, 208, 71, 0.12),
+					transparent 22rem
+				),
+				radial-gradient(
+					circle at 86% 22%,
+					rgba(2, 43, 121, 0.12),
+					transparent 20rem
+				),
+				linear-gradient(180deg, #efe6d4 0%, #faf6ed 100%);
+			color: var(--youth-ink);
+		}
+
+		.coach-section .section-kicker {
+			color: var(--youth-primary);
+		}
+
+		.coach-section .section-header {
+			max-width: 640px;
+		}
+
+		.youth-sponsor-strip-wrap {
+			width: min(980px, 100%);
+			margin: 1.35rem auto 0;
+		}
+
+		.youth-sponsor-strip {
+			width: 100%;
+		}
+
+		.coach-toolbar {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			margin-top: 1.35rem;
+		}
+
+		.coach-toolbar .coach-page-indicator {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.45rem;
+		}
+
+		.coach-toolbar .coach-page-indicator__dot {
+			width: 0.48rem;
+			height: 0.48rem;
+			border-radius: 999px;
+			background: rgba(2, 43, 121, 0.18);
+			transition:
+				transform 0.2s ease,
+				background-color 0.2s ease;
+		}
+
+		.coach-toolbar .coach-page-indicator__dot.is-active {
+			background: var(--youth-primary);
+			transform: scale(1.15);
+		}
+
+		.coach-control-button {
+			width: 2.9rem;
+			height: 2.9rem;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			border: 1px solid rgba(2, 43, 121, 0.14);
+			border-radius: 999px;
+			background: #fffdf7;
+			color: var(--youth-primary);
+			font: inherit;
+			font-weight: 800;
+			cursor: pointer;
+			transition:
+				background-color 0.2s ease,
+				color 0.2s ease,
+				border-color 0.2s ease,
+				opacity 0.2s ease;
+		}
+
+		.coach-control-button:hover:not(:disabled) {
+			background: var(--youth-primary);
+			color: #fff;
+			border-color: var(--youth-primary);
+		}
+
+		.coach-control-button:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
+
+		.coach-grid {
+			grid-template-columns: repeat(5, minmax(0, 180px));
+			justify-content: center;
+			gap: 0.7rem;
+			align-items: start;
+		}
+
+		.coach-card,
+		.coach-card:nth-child(even),
+		.coach-card:nth-child(3n) {
+			padding: 0.45rem 0.45rem 0.65rem;
+			transform: rotate(-1.4deg);
+			border-radius: 0;
+			border: 1px solid rgba(17, 17, 17, 0.08);
+			background: #fffdf7;
+			box-shadow: 0 0.8rem 1.9rem rgba(0, 0, 0, 0.15);
+		}
+
+		.coach-card:nth-child(even) {
+			transform: rotate(1.2deg);
+		}
+
+		.coach-card:nth-child(3n) {
+			transform: rotate(-0.45deg);
+		}
+
+		.coach-caption {
+			padding-top: 0.55rem;
+		}
+
+		.coach-name {
+			font-size: 0.95rem;
+		}
+
+		.coach-role {
+			font-size: 0.76rem;
+		}
+
+		.contact-section {
+			background:
+				linear-gradient(180deg, #0a1f52 0%, #07183d 100%),
+				radial-gradient(
+					circle at 18% 18%,
+					rgba(244, 208, 71, 0.12),
+					transparent 20rem
+				);
+			color: #fff;
+		}
+
+		.contact-section .section-kicker {
+			color: var(--youth-accent);
+		}
+
+		.contact-section .section-title,
+		.contact-section .section-lead {
+			color: inherit;
+		}
+
+		.contact-section .section-lead {
+			opacity: 0.8;
+		}
+
+		.contact-layout {
+			grid-template-columns: 1fr;
+			gap: 1.4rem;
+			align-items: start;
+			width: min(860px, 100%);
+			margin-inline: auto;
+		}
+
+		.contact-copy {
+			position: static;
+			max-width: 44rem;
+		}
+
+		.contact-form {
+			width: min(100%, 42rem);
+			margin-inline: auto;
+			padding: 1.5rem;
+			border-radius: 1.35rem;
+			background: rgba(255, 253, 247, 0.98);
+		}
+	}
+
 	@media (max-width: 720px) {
 		.youth-page-hero {
 			display: none;
 		}
 
+		.youth-page-flow,
+		.youth-content {
+			display: contents;
+		}
+
 		.youth-content {
 			width: 100%;
+		}
+
+		.youth-intro-panel,
+		.coach-section,
+		.contact-section {
+			scroll-snap-align: start;
+			scroll-snap-stop: always;
+		}
+
+		.teams-section {
+			scroll-snap-align: unset;
+			scroll-snap-stop: normal;
 		}
 
 		.youth-intro-panel {
@@ -1063,14 +2043,14 @@
 			padding: 0;
 			background: linear-gradient(
 				to bottom,
-				#102716 0,
-				#183920 5%,
-				#e8eee6 40%,
-				#fbfaf6 60%,
-				#fbfaf6 100%
+				#07183d 0,
+				#0c2d70 6%,
+				#eef2fa 40%,
+				#fbf8f1 62%,
+				#fbf8f1 100%
 			);
-			color: #111;
-			box-shadow: inset #102716 0px 1px 30px 1px;
+			color: var(--youth-ink);
+			box-shadow: inset rgba(2, 43, 121, 0.72) 0px 1px 30px 1px;
 		}
 
 		.intro-inner {
@@ -1098,6 +2078,32 @@
 			justify-content: center;
 		}
 
+		.intro-facts-shell {
+			width: 100%;
+		}
+
+		.intro-facts-header {
+			width: calc(100% - 2rem);
+			margin: 0 auto 1.1rem;
+			text-align: left;
+		}
+
+		.intro-facts-header .section-kicker {
+			margin-bottom: 0.55rem;
+		}
+
+		.intro-facts-header .section-title {
+			font-size: clamp(2.8rem, 14vw, 4.5rem);
+			line-height: 0.96;
+			letter-spacing: -0.06em;
+			text-wrap: balance;
+		}
+
+		.intro-info-line,
+		.intro-info-marker {
+			display: none;
+		}
+
 		.intro-info-card:nth-child(1),
 		.intro-info-card:nth-child(2),
 		.intro-info-card:nth-child(3),
@@ -1110,18 +2116,21 @@
 			display: grid;
 			grid-template-rows: auto 1fr auto;
 			align-content: start;
+			margin-top: 0;
 			border-radius: 1.25rem;
 			padding: 0.9rem 0.9rem 0.95rem;
 			background: linear-gradient(180deg, #ffffff 0%, #f3f0e7 100%);
-			border: 1px solid rgba(16, 39, 22, 0.08);
-			box-shadow: 0 1rem 2.5rem rgba(16, 39, 22, 0.12);
+			border: 1px solid rgba(2, 43, 121, 0.08);
+			box-shadow: 0 1rem 2.5rem rgba(2, 43, 121, 0.12);
 			backdrop-filter: none;
+			text-align: left;
 		}
 
 		.intro-info-label {
+			display: inline-block;
 			position: static;
 			margin-bottom: 0.65rem;
-			color: #2f7d46;
+			color: var(--youth-primary);
 			font-size: 0.62rem;
 			letter-spacing: 0.14em;
 		}
@@ -1131,14 +2140,24 @@
 		}
 
 		.intro-info-value {
-			align-self: center;
+			align-self: start;
+			max-width: none;
 			font-size: 1.1rem;
 			line-height: 1.08;
 			letter-spacing: -0.04em;
 			color: #111;
 		}
 
+		.intro-info-card:nth-child(odd) .intro-info-value {
+			margin-left: 0;
+		}
+
+		.intro-info-card:nth-child(odd) .intro-info-note {
+			margin-left: 0;
+		}
+
 		.intro-info-note {
+			max-width: none;
 			margin-top: 0.55rem;
 			color: rgba(17, 17, 17, 0.62);
 			font-size: 0.76rem;
@@ -1161,12 +2180,12 @@
 			display: grid;
 			gap: 0.15rem;
 			border-radius: 1rem;
-			background: #102716;
+			background: var(--youth-primary);
 			color: #fff;
 		}
 
 		.teams-scroll-hint span {
-			color: #78d982;
+			color: var(--youth-accent);
 			font-size: 0.72rem;
 			font-weight: 900;
 			letter-spacing: 0.14em;
@@ -1193,6 +2212,8 @@
 			border-radius: 0;
 			border: 0;
 			box-shadow: none;
+			scroll-snap-align: start;
+			scroll-snap-stop: always;
 		}
 
 		.team-card:not(:last-child)::after {
@@ -1204,11 +2225,11 @@
 			height: 14rem;
 			background: linear-gradient(
 				to bottom,
-				rgba(16, 39, 22, 0),
-				rgba(16, 39, 22, 0.18) 22%,
-				rgba(16, 39, 22, 0.42) 52%,
-				rgba(16, 39, 22, 0.68) 78%,
-				rgba(16, 39, 22, 0.88) 100%
+				rgba(2, 43, 121, 0),
+				rgba(2, 43, 121, 0.16) 22%,
+				rgba(2, 43, 121, 0.4) 52%,
+				rgba(2, 43, 121, 0.68) 78%,
+				rgba(2, 43, 121, 0.86) 100%
 			);
 			pointer-events: none;
 		}
@@ -1252,13 +2273,61 @@
 		.coach-grid {
 			width: calc(100% - 1rem);
 			margin-inline: auto;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
+			display: grid;
+			grid-auto-flow: column;
+			grid-template-rows: repeat(2, minmax(0, 1fr));
+			grid-auto-columns: calc((100% - 0.55rem) / 2);
+			grid-template-columns: none;
 			gap: 0.55rem;
+			overflow-x: auto;
+			overflow-y: hidden;
+			padding: 0 0 0.35rem;
+			scroll-snap-type: x mandatory;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+		}
+
+		.coach-page-indicator {
+			display: flex;
+			justify-content: center;
+			gap: 0.4rem;
+			margin-top: 0.7rem;
+		}
+
+		.youth-sponsor-strip-wrap {
+			width: calc(100% - 1rem);
+			margin: 1rem auto 0;
+		}
+
+		.coach-page-indicator__dot {
+			width: 0.42rem;
+			height: 0.42rem;
+			border-radius: 999px;
+			background: rgba(88, 119, 177, 0.22);
+			transition:
+				transform 0.2s ease,
+				background-color 0.2s ease;
+		}
+
+		.coach-page-indicator__dot.is-active {
+			background: var(--sv-secondary-color);
+			transform: scale(1.15);
+		}
+
+		.coach-grid::-webkit-scrollbar {
+			display: none;
 		}
 
 		.coach-card {
 			padding: 0.35rem 0.35rem 0.65rem;
 			box-shadow: 0 0.7rem 1.4rem rgba(0, 0, 0, 0.2);
+			scroll-snap-align: start;
+			scroll-snap-stop: always;
+		}
+
+		.coach-card:nth-child(even),
+		.coach-card:nth-child(odd) {
+			transform: none;
 		}
 
 		.coach-photo {
@@ -1276,19 +2345,119 @@
 		}
 
 		.contact-section {
-			padding: 3rem 0;
+			min-height: 100svh;
+			padding: 0;
+			display: flex;
+			align-items: stretch;
 		}
 
 		.contact-layout {
-			width: calc(100% - 2rem);
+			width: calc(100% - 1.5rem);
+			min-height: 100svh;
+			margin-inline: auto;
+			padding: calc(var(--sv-header-height) + 10px) 0 14px;
+			box-sizing: border-box;
+			align-content: center;
+			gap: 0.75rem;
+		}
+
+		.contact-copy {
+			display: grid;
+			gap: 0.45rem;
+		}
+
+		.contact-copy .section-kicker {
+			color: var(--youth-accent);
+		}
+
+		.contact-copy .section-title {
+			font-size: clamp(1.7rem, 8vw, 2.35rem);
+			line-height: 0.96;
+			color: #fff;
+		}
+
+		.contact-copy .section-lead {
+			margin-top: 0;
+			font-size: 0.88rem;
+			line-height: 1.38;
+			color: rgba(255, 255, 255, 0.78);
+		}
+
+		.contact-person {
+			margin-top: 0.15rem;
+			grid-template-columns: 1fr;
+			gap: 0.4rem;
+		}
+
+		.contact-person p {
+			gap: 0.1rem;
+			padding: 0.55rem 0.65rem;
+			border-radius: 0.8rem;
+			background: rgba(2, 43, 121, 0.05);
+			border: 1px solid rgba(2, 43, 121, 0.08);
+		}
+
+		.contact-person span {
+			font-size: 0.62rem;
+			letter-spacing: 0.1em;
+		}
+
+		.contact-person strong,
+		.contact-person a {
+			font-size: 0.84rem;
+			line-height: 1.25;
+		}
+
+		.contact-person p:not(:first-child) {
+			display: none;
 		}
 
 		.form-row {
 			grid-template-columns: 1fr;
+			gap: 0.6rem;
 		}
 
 		.contact-form {
-			border-radius: 1rem;
+			gap: 0.7rem;
+			padding: 0.8rem;
+			border-radius: 0.9rem;
+			background: linear-gradient(180deg, #fffdf8 0%, #f6f1e6 100%);
+			border-color: rgba(255, 255, 255, 0.1);
+			box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.22);
+		}
+
+		.contact-form label {
+			gap: 0.3rem;
+			color: rgba(16, 24, 40, 0.74);
+			font-size: 0.75rem;
+		}
+
+		.contact-form input,
+		.contact-form textarea {
+			border-color: rgba(2, 43, 121, 0.12);
+			background: rgba(255, 255, 255, 0.94);
+			color: var(--youth-ink);
+			padding: 0.72rem 0.8rem;
+			border-radius: 0.7rem;
+		}
+
+		.contact-form input::placeholder,
+		.contact-form textarea::placeholder {
+			color: rgba(16, 24, 40, 0.46);
+		}
+
+		.contact-form textarea {
+			min-height: 6.8rem;
+		}
+
+		.contact-form button {
+			padding: 0.8rem 1rem;
+			font-size: 0.92rem;
+		}
+
+		.form-note {
+			font-size: 0.76rem;
+			line-height: 1.32;
 		}
 	}
 </style>

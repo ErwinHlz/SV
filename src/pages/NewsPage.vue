@@ -8,65 +8,74 @@
       <p class="news-mobile-scroll-hint">Nach unten scrollen</p>
     </PageHero>
     <section class="news-grid" aria-label="Alle News">
-      <article
-        v-for="(item, index) in newsItems"
-        :key="item.id"
-        class="news-card"
-        :style="getNewsCardStyle(item, index)">
-        <span class="news-card-pin" aria-hidden="true">
-          <Pin :size="26" :stroke-width="2.1" />
-        </span>
-        <RouterLink
-          class="news-card-sheet-link"
-          :to="{ name: 'news-detail', params: { slug: item.slug } }"
-          :aria-label="`Zur News ${item.title}`">
-          <div class="news-card-sheet">
-            <div class="news-card-media">
-              <img
-                class="news-card-image"
-                :src="item.image"
-                :alt="item.imageAlt"
-                loading="lazy" />
-              <div class="news-card-overlay" aria-hidden="true">
-                <svg
-                  class="news-card-icon"
-                  viewBox="0 0 48 48"
-                  focusable="false"
-                  aria-hidden="true">
-                  <circle cx="24" cy="24" r="18" />
-                  <path d="M24 16v16M16 24h16" />
-                </svg>
+      <template v-for="(item, index) in newsItems" :key="item.id">
+        <article
+          class="news-card"
+          :style="getNewsCardStyle(item, index)">
+          <span class="news-card-pin" aria-hidden="true">
+            <Pin :size="26" :stroke-width="2.1" />
+          </span>
+          <RouterLink
+            class="news-card-sheet-link"
+            :to="{ name: 'news-detail', params: { slug: item.slug } }"
+            :aria-label="`Zur News ${item.title}`">
+            <div class="news-card-sheet">
+              <div class="news-card-media">
+                <img
+                  class="news-card-image"
+                  :src="item.image"
+                  :alt="item.imageAlt"
+                  loading="lazy" />
+                <div class="news-card-overlay" aria-hidden="true">
+                  <svg
+                    class="news-card-icon"
+                    viewBox="0 0 48 48"
+                    focusable="false"
+                    aria-hidden="true">
+                    <circle cx="24" cy="24" r="18" />
+                    <path d="M24 16v16M16 24h16" />
+                  </svg>
+                </div>
+              </div>
+              <div class="news-card-body">
+                <div class="news-meta">
+                  <time class="news-date" :datetime="item.date">
+                    {{ formatDate(item.date) }}
+                  </time>
+                  <span v-if="item.source" class="news-source">{{
+                    item.source
+                  }}</span>
+                </div>
+                <h3 class="news-card-title">{{ item.title }}</h3>
+                <p class="news-card-excerpt">{{ item.excerpt }}</p>
               </div>
             </div>
-            <div class="news-card-body">
-              <div class="news-meta">
-                <time class="news-date" :datetime="item.date">
-                  {{ formatDate(item.date) }}
-                </time>
-                <span v-if="item.source" class="news-source">{{
-                  item.source
-                }}</span>
-              </div>
-              <h3 class="news-card-title">{{ item.title }}</h3>
-              <p class="news-card-excerpt">{{ item.excerpt }}</p>
-            </div>
-          </div>
-        </RouterLink>
-        <RouterLink
-          class="news-mobile-detail"
-          :to="{ name: 'news-detail', params: { slug: item.slug } }"
-          :aria-label="`News ${item.title} im Detail ansehen`">
-          <ExternalLink :size="22" :stroke-width="2.2" />
-        </RouterLink>
-      </article>
+          </RouterLink>
+          <RouterLink
+            class="news-mobile-detail"
+            :to="{ name: 'news-detail', params: { slug: item.slug } }"
+            :aria-label="`News ${item.title} im Detail ansehen`">
+            <ExternalLink :size="22" :stroke-width="2.2" />
+          </RouterLink>
+        </article>
+
+        <InlineSponsorAdSection v-if="index === 1" class="news-inline-ad" />
+      </template>
     </section>
+    <section class="news-sponsor-band" aria-label="Sponsoren">
+      <SponsorLogoStrip class="news-sponsor-band__strip" />
+    </section>
+    <HomeSponsorsMobileSection />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
 import { ExternalLink, Pin } from "@lucide/vue";
+import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
+import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 import PageHero from "@/components/PageHero.vue";
+import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 import newsHero from "@/assets/news/stock_news_1.png";
 import { formatDate } from "@/utils/date";
 import { getNewsItems, type NewsEntry } from "@/utils/contentEntries";
@@ -182,6 +191,16 @@ onBeforeUnmount(() => {
 }
 
 .news-mobile-scroll-hint {
+  display: none;
+}
+
+.news-sponsor-band {
+  width: min(80dvw, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 0 0 52px;
+}
+
+.news-inline-ad {
   display: none;
 }
 
@@ -492,6 +511,10 @@ onBeforeUnmount(() => {
     margin: 0;
   }
 
+  .news-inline-ad {
+    display: flex;
+  }
+
   .news-card {
     height: 100dvh;
     min-height: 100dvh;
@@ -593,6 +616,11 @@ onBeforeUnmount(() => {
   .news-card:hover .news-card-overlay {
     opacity: 0;
     transform: scale(0.98);
+  }
+
+  .news-sponsor-band {
+    width: calc(100% - 24px);
+    padding: 8px 0 28px;
   }
 }
 

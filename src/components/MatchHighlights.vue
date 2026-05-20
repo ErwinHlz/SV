@@ -66,51 +66,37 @@ type MatchEntry = {
 };
 
 type MatchHighlightsContent = {
-  last: MatchEntry;
-  live: MatchEntry;
-  next: MatchEntry;
+  last: MatchEntry | null;
+  live: MatchEntry | null;
+  next: MatchEntry | null;
 };
 
 const matchHighlights = rawMatchHighlights as MatchHighlightsContent;
 
+const toCard = (
+  key: "last" | "live" | "next",
+  label: string,
+  match: MatchEntry | null,
+) => {
+  if (!match) {
+    return null;
+  }
+
+  return {
+    key,
+    label,
+    ...match,
+    bild_heim: getClubLogo(match.heimmannschaft) ?? match.bild_heim,
+    bild_gast: getClubLogo(match.gastmannschaft) ?? match.bild_gast,
+    linkUrl: match.match_url,
+  };
+};
+
 const cards = [
-  {
-    key: "last",
-    label: "Letztes",
-    ...matchHighlights.last,
-    bild_heim:
-      getClubLogo(matchHighlights.last.heimmannschaft) ??
-      matchHighlights.last.bild_heim,
-    bild_gast:
-      getClubLogo(matchHighlights.last.gastmannschaft) ??
-      matchHighlights.last.bild_gast,
-    linkUrl: matchHighlights.last.match_url,
-  },
-  {
-    key: "live",
-    label: "Aktuell",
-    ...matchHighlights.live,
-    bild_heim:
-      getClubLogo(matchHighlights.live.heimmannschaft) ??
-      matchHighlights.live.bild_heim,
-    bild_gast:
-      getClubLogo(matchHighlights.live.gastmannschaft) ??
-      matchHighlights.live.bild_gast,
-    linkUrl: matchHighlights.live.match_url,
-  },
-  {
-    key: "next",
-    label: "Nächstes",
-    ...matchHighlights.next,
-    bild_heim:
-      getClubLogo(matchHighlights.next.heimmannschaft) ??
-      matchHighlights.next.bild_heim,
-    bild_gast:
-      getClubLogo(matchHighlights.next.gastmannschaft) ??
-      matchHighlights.next.bild_gast,
-    linkUrl: matchHighlights.next.match_url,
-  },
-];
+  toCard("last", "Letztes", matchHighlights.last),
+  toCard("live", "Aktuell", matchHighlights.live),
+  toCard("next", "Nächstes", matchHighlights.next),
+].filter((card) => card !== null);
 
 const onMatchClick = (event: MouseEvent) => {
   if (typeof window !== "undefined" && window.innerWidth <= 640) {

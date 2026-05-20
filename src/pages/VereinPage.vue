@@ -57,7 +57,7 @@
 
 		<section
 			class="verein-section verein-section--light"
-			aria-label="Unsere Aktivitaeten"
+			aria-label="Unsere Aktivitäten"
 		>
 			<div class="section-shell">
 				<header class="section-heading">

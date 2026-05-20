@@ -71,25 +71,14 @@
         </div>
       </RouterLink>
     </div>
-    <div
-      class="slogan relative w-full h-[15dvh] flex items-center justify-center overflow-hidden text-(--sv-primary-color) text-2xl font-bold"
-      aria-hidden="true">
-      <div
-        class="absolute inset-0 bg-center bg-cover bg-no-repeat blur-[3px] scale-110"
-        :style="{ backgroundImage: `url(${termineBanner})` }"></div>
-
-      <div
-        class="slogan-text relative z-10 bg-(--sv-secondary-color) p-1.5 pb-2.5">
-        WAHRE LIEBE IST BLAU-GELB
-      </div>
-    </div>
+    <SponsorLogoStrip class="termine-sponsor-strip termine-sponsor-strip--desktop" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import { CalendarDays } from "@lucide/vue";
-import termineBanner from "@/assets/header/background.png";
+import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 import { formatDate } from "@/utils/date";
 import { getTerminItems } from "@/utils/contentEntries";
 
@@ -326,9 +315,13 @@ const termineItems = computed(() => getTerminItems());
   box-shadow: 0 12px 26px rgba(2, 43, 121, 0.18);
 }
 
-.slogan {
-  border-top: 1px solid var(--sv-secondary-color);
-  border-bottom: 1px solid var(--sv-secondary-color);
+.termine-sponsor-strip {
+  margin-top: auto;
+  padding: clamp(12px, 2.2vh, 18px) 0 clamp(28px, 4vh, 36px);
+}
+
+.termine-sponsor-mobile-section {
+  display: none;
 }
 
 @media (max-width: 900px) {
@@ -353,8 +346,8 @@ const termineItems = computed(() => getTerminItems());
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .slogan {
-    height: 110px;
+  .termine-sponsor-strip {
+    padding-bottom: 24px;
   }
 }
 
@@ -517,7 +510,7 @@ const termineItems = computed(() => getTerminItems());
     filter: none;
   }
 
-  .slogan {
+  .termine-sponsor-strip--desktop {
     display: none;
   }
 }

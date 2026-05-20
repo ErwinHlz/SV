@@ -20,10 +20,15 @@
     <section class="section">
       <TermineSection />
     </section>
+
+    <InlineSponsorAdSection />
+    <HomeSponsorsMobileSection />
   </div>
 </template>
 
 <script setup>
+import InlineSponsorAdSection from "../components/InlineSponsorAdSection.vue";
+import HomeSponsorsMobileSection from "../components/HomeSponsorsMobileSection.vue";
 import HeroComponent from "../components/HeroComponent.vue";
 import MatchHighlights from "../components/MatchHighlights.vue";
 import NewsSection from "../components/NewsSection.vue";

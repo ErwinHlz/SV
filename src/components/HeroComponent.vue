@@ -48,7 +48,7 @@ const items = [
     to: "/sponsor/werden",
     img: sponsorImage,
     kicker: "PARTNERSCHAFT",
-    title: "Sponsor werden\nund den Verein staerken",
+    title: "Sponsor werden\nund den Verein stärken",
   },
 ];
 </script>

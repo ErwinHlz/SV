@@ -4,11 +4,13 @@ import ergebnisseImage from "@/assets/home/ergebnisse.svg";
 import spielberichtImageOne from "@/assets/spielberichte/stock_spielberichte_1.png";
 import spielberichtImageTwo from "@/assets/spielberichte/stock_spielberichte_2.jpg";
 import spielberichtImageThree from "@/assets/spielberichte/stock_spielberichte_3.png";
+import externalContentNotAllowedImage from "@/assets/placeholder/extern_content_not_allowed.png";
 import rawNews from "@/content/news.json";
 import rawInstagramPosts from "@/content/instagram-posts.json";
 import rawSpielberichte from "@/content/spielberichte.json";
 import rawSpielTermine from "@/content/spiel-termine.json";
 import rawVereinslogos from "@/content/vereinslogos.json";
+import { useCookieConsent } from "@/composables/useCookieConsent";
 
 const imageMap: Record<string, string> = {
   newsImage,
@@ -21,6 +23,7 @@ const spielberichtImages = [
   spielberichtImageTwo,
   spielberichtImageThree,
 ];
+const instagramPlaceholderImage = externalContentNotAllowedImage;
 
 const vereinslogoAssets = import.meta.glob("../assets/vereinslogos/*", {
   eager: true,
@@ -325,6 +328,11 @@ const mapInstagramMediaType = (
     : "image";
 
 const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
+  const { hasExternalMediaConsent } = useCookieConsent();
+  if (!hasExternalMediaConsent.value) {
+    return [];
+  }
+
   const mediaItems: InstagramMediaSource[] = post.medien?.length
     ? post.medien
     : [
@@ -365,6 +373,7 @@ const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
 const instagramPosts = rawInstagramPosts.posts as InstagramPostSource[];
 
 export const getNewsItems = (): NewsEntry[] => {
+  const { hasExternalMediaConsent } = useCookieConsent();
   const mappedNews: Array<Omit<NewsEntry, "slug"> & { time?: string }> = [
     ...rawNews,
     ...instagramPosts.map((post) => ({
@@ -377,7 +386,9 @@ export const getNewsItems = (): NewsEntry[] => {
       content: post.caption,
       date: post.datum,
       time: getLocalTimeFromTimestamp(post.timestamp),
-      image: post.media_url || post.bild,
+      image: hasExternalMediaConsent.value
+        ? post.media_url || post.bild
+        : instagramPlaceholderImage,
       imageAlt: `Instagram-Beitrag von @${post.username}`,
       source: "Instagram",
       externalUrl: post.permalink,

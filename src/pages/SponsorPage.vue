@@ -3,7 +3,7 @@
 		class="sponsor-page-hero"
 		:image="sponsorHero"
 		title="Sponsoren"
-		lead="Danke an alle Partner, die unseren Verein unterstuetzen."
+		lead="Danke an alle Partner, die unseren Verein unterstützen."
 	/>
 	<div class="sponsor-cta-wrap">
 		<RouterLink to="/sponsor/werden" class="sponsor-cta">
@@ -69,29 +69,9 @@
 	import { ArrowRight, ExternalLink, Handshake } from "@lucide/vue";
 	import PageHero from "@/components/PageHero.vue";
 	import sponsorHero from "@/assets/header/background.png";
-	import rawSponsors from "@/content/sponsor.json";
-	import sponsorAlpha from "@/assets/sponsor/sponsor-alpha.svg";
-	import sponsorBeta from "@/assets/sponsor/sponsor-beta.svg";
-	import sponsorGamma from "@/assets/sponsor/sponsor-gamma.svg";
-	import sponsorDelta from "@/assets/sponsor/sponsor-delta.svg";
-	import sponsorEpsilon from "@/assets/sponsor/sponsor-epsilon.svg";
-	import sponsorZeta from "@/assets/sponsor/sponsor-zeta.svg";
+	import { getSponsors } from "@/utils/sponsors";
 
-	const logoMap: Record<string, string> = {
-		sponsorAlpha,
-		sponsorBeta,
-		sponsorGamma,
-		sponsorDelta,
-		sponsorEpsilon,
-		sponsorZeta,
-	};
-
-	const sponsors = computed(() =>
-		rawSponsors.map((sponsor) => ({
-			...sponsor,
-			image: logoMap[sponsor.image] ?? sponsor.image,
-		})),
-	);
+	const sponsors = computed(() => getSponsors());
 </script>
 
 <style scoped>

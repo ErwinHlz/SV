@@ -5,7 +5,7 @@
     :title="hero.title"
     :lead="hero.lead" />
 
-  <section class="stadion-mobile-intro" aria-label="Stadion Uebersicht">
+  <section class="stadion-mobile-intro" aria-label="Stadion Übersicht">
     <div class="stadion-mobile-intro-copy">
       <p class="stadion-mobile-kicker">Sportplatz Ottweiler</p>
       <h2 class="stadion-mobile-title">{{ intro.title }}</h2>
@@ -77,7 +77,7 @@
           type="button"
           class="slideshow-btn"
           :disabled="galleryItems.length < 2"
-          aria-label="Naechstes Bild"
+          aria-label="Nächstes Bild"
           @click="nextSlide">
           <span class="chevron"><ChevronRight :size="22" :stroke-width="2.2" aria-hidden="true" /></span>
         </button>
@@ -91,12 +91,17 @@
     </header>
     <div class="map-frame">
       <iframe
-        v-if="map.embedUrl"
+        v-if="map.embedUrl && hasExternalMediaConsent"
         :src="map.embedUrl"
         :title="map.title"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen></iframe>
+      <ExternalContentPlaceholder
+        v-else-if="map.embedUrl"
+        title="Google Maps"
+        description="Die eingebettete Karte wird erst geladen, wenn du externe Inhalte im Cookie-Popup zulässt."
+        :fallback-url="addressLink ?? undefined" />
       <p v-else class="map-placeholder">Keine Karte hinterlegt.</p>
     </div>
     <a
@@ -115,7 +120,9 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight, MapPinned } from "@lucide/vue";
+import ExternalContentPlaceholder from "@/components/ExternalContentPlaceholder.vue";
 import PageHero from "@/components/PageHero.vue";
+import { useCookieConsent } from "@/composables/useCookieConsent";
 import stadionHero from "@/assets/header/background.png";
 import rawStadion from "@/content/stadion.json";
 
@@ -162,6 +169,7 @@ type StadionContent = {
 
 const stadionContent = rawStadion as StadionContent;
 const { hero, intro, facts, gallery, map } = stadionContent;
+const { hasExternalMediaConsent } = useCookieConsent();
 
 const imageMap: Record<string, string> = {
   stadionHero,
@@ -178,7 +186,7 @@ const slideCount = galleryItems.length;
 let slideshowTimer: ReturnType<typeof setInterval> | null = null;
 
 const addressFact = facts.items.find((item) => item.label === "Adresse");
-const addressLabel = addressFact?.value ?? "Adresse in Google Maps oeffnen";
+const addressLabel = addressFact?.value ?? "Adresse in Google Maps öffnen";
 const addressLink = addressFact?.link ?? map.linkUrl;
 
 const clampIndex = (index: number) => {

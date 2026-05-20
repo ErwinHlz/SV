@@ -35,7 +35,7 @@
     <button
       type="button"
       class="spielbericht-detail-back"
-      aria-label="Zurueck"
+      aria-label="Zurück"
       @click="goBack">
       <ArrowLeft :size="18" :stroke-width="2.4" />
     </button>
@@ -43,7 +43,7 @@
   <section v-else class="entry-not-found">
     <h1 class="entry-not-found-title">Spielbericht nicht gefunden</h1>
     <RouterLink class="entry-not-found-link" to="/spielberichte">
-      Zur Spielbericht-Uebersicht
+      Zur Spielbericht-Übersicht
     </RouterLink>
   </section>
 </template>

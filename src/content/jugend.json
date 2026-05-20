@@ -1,11 +1,11 @@
 {
   "hero": {
     "title": "Jugendmannschaften",
-    "lead": "Unsere Nachwuchsteams stehen fuer Spass am Fussball, Teamgeist und eine nachhaltige Ausbildung."
+    "lead": "Unsere Nachwuchsteams stehen für Spaß am Fußball, Teamgeist und eine nachhaltige Ausbildung."
   },
   "intro": {
     "title": "Jugend im Fokus",
-    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir foerdern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spass."
+    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fußball. Wir fördern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spaß."
   },
   "teamsSection": {
     "title": "Unsere Jugendteams",
@@ -20,9 +20,9 @@
     {
       "id": "u7",
       "name": "G-Jugend (U7)",
-      "ageGroup": "Jahrgaenge 2018/2019",
+      "ageGroup": "Jahrgänge 2018/2019",
       "league": "Kreisturnier",
-      "description": "Unsere juengsten im Verein entdecken den Ball spielerisch und sammeln erste Team-Erfahrungen.",
+      "description": "Unsere jüngsten im Verein entdecken den Ball spielerisch und sammeln erste Team-Erfahrungen.",
       "training": [
         {
           "day": "Mittwoch",
@@ -42,9 +42,9 @@
     {
       "id": "u9",
       "name": "F-Jugend (U9)",
-      "ageGroup": "Jahrgaenge 2016/2017",
+      "ageGroup": "Jahrgänge 2016/2017",
       "league": "Kreisturnier",
-      "description": "Hier wachsen die Kinder in die Fussballfamilie hinein und lernen mutiges Dribbling sowie fairen Wettbewerb.",
+      "description": "Hier wachsen die Kinder in die Fußballfamilie hinein und lernen mutiges Dribbling sowie fairen Wettbewerb.",
       "training": [
         {
           "day": "Dienstag",
@@ -68,7 +68,7 @@
     {
       "id": "u11",
       "name": "E-Jugend (U11)",
-      "ageGroup": "Jahrgaenge 2014/2015",
+      "ageGroup": "Jahrgänge 2014/2015",
       "league": "Kreisliga",
       "description": "Unsere E-Jugend vertieft Technik und Teamplay und sammelt erste taktische Erfahrungen.",
       "training": [
@@ -94,7 +94,7 @@
     {
       "id": "u13",
       "name": "D-Jugend (U13)",
-      "ageGroup": "Jahrgaenge 2012/2013",
+      "ageGroup": "Jahrgänge 2012/2013",
       "league": "Kreisliga",
       "description": "In der D-Jugend geht es um Positionsspiel, Tempo und Entscheidungen unter Druck.",
       "training": [
@@ -120,7 +120,7 @@
     {
       "id": "u15",
       "name": "C-Jugend (U15)",
-      "ageGroup": "Jahrgaenge 2010/2011",
+      "ageGroup": "Jahrgänge 2010/2011",
       "league": "Kreisliga",
       "description": "Unsere C-Jugend arbeitet an Spielaufbau, Pressing und der athletischen Entwicklung.",
       "training": [
@@ -146,7 +146,7 @@
     {
       "id": "u19",
       "name": "A-Jugend (U19)",
-      "ageGroup": "Jahrgaenge 2007/2008",
+      "ageGroup": "Jahrgänge 2007/2008",
       "league": "Kreisliga",
       "description": "In der A-Jugend stehen Leistung, Verantwortung und der Uebergang in den Aktivenbereich im Fokus.",
       "training": [
@@ -274,7 +274,7 @@
     "role": "Koordination Jugend",
     "phone": "0170 1234567",
     "email": "jugend@fsg-ottweiler-steinbach.de",
-    "note": "Probetraining jederzeit nach Absprache moeglich.",
+    "note": "Probetraining jederzeit nach Absprache möglich.",
     "labels": {
       "name": "Name",
       "role": "Funktion",

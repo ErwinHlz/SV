@@ -21,6 +21,7 @@ import StadionPage from "@/pages/StadionPage.vue";
 import VereinPage from "@/pages/VereinPage.vue";
 import SponsorPage from "@/pages/SponsorPage.vue";
 import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
+import NotFoundPage from "@/pages/NotFoundPage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -115,7 +116,7 @@ const router = createRouter({
       name: "sponsor-werden",
       component: SponsorBecomePage,
     },
-    { path: "/:pathMatch(.*)*", redirect: "/" },
+    { path: "/:pathMatch(.*)*", name: "not-found", component: NotFoundPage },
   ],
   linkActiveClass: "is-active",
   linkExactActiveClass: "is-exact-active",

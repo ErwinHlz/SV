@@ -8,30 +8,32 @@
 			compact
 		/>
 		<TeamOneNav base-path="/teams/two" team-label="2. Mannschaft" />
-		<div id="fp-widget_root-37g8gKZ2bVAje4WU6hjFa8l1TQX" class="fupa-widget">
-		<a
-			href="https://www.fupa.net/club/fsg-ottweiler-steinbach"
-			target="_blank"
-			rel="noopener"
-			>FSG Ottweiler-Steinbach auf FuPa</a
-		>
-		</div>
-		<div
-			id="fp-widget_root-3DIWJWwtABCUOzKyQlzzGUHFyZ5"
-			class="fupa-widget-mobile"
-		>
-		<a
-			href="https://www.fupa.net/club/fsg-ottweiler-steinbach"
-			target="_blank"
-			rel="noopener"
-			>FSG Ottweiler-Steinbach auf FuPa</a
-		>
-	</div>
+		<ConsentControlledWidget
+			provider="fupa"
+			widget-id="fp-widget_root-37g8gKZ2bVAje4WU6hjFa8l1TQX"
+			widget-class="fupa-widget"
+			fallback-url="https://www.fupa.net/club/fsg-ottweiler-steinbach"
+			fallback-label="FSG Ottweiler-Steinbach auf FuPa"
+			placeholder-title="FuPa Spielplan"
+			placeholder-description="Der FuPa-Spielplan wird erst geladen, wenn du externe Inhalte zulässt."
+		/>
+		<ConsentControlledWidget
+			provider="fupa"
+			widget-id="fp-widget_root-3DIWJWwtABCUOzKyQlzzGUHFyZ5"
+			widget-class="fupa-widget-mobile"
+			fallback-url="https://www.fupa.net/club/fsg-ottweiler-steinbach"
+			fallback-label="FSG Ottweiler-Steinbach auf FuPa"
+			placeholder-title="FuPa Spielplan"
+			placeholder-description="Der mobile FuPa-Spielplan wird erst geladen, wenn du externe Inhalte zulässt."
+		/>
+		<InlineSponsorAdSection />
 	</div>
 </template>
 
 <script setup lang="ts">
+	import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 	import PageHero from "@/components/PageHero.vue";
+	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
 	import newsHero from "@/assets/header/background.png";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";

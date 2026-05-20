@@ -11,7 +11,7 @@
 					Sponsor werden
 				</h1>
 				<p class="sponsor-become-hero__lead">
-					Gemeinsam staerken wir den Verein und den Fussball vor Ort.
+					Gemeinsam stärken wir den Verein und den Fußball vor Ort.
 				</p>
 			</div>
 			<p class="sponsor-mobile-scroll-hint"><ChevronDown /></p>
@@ -24,7 +24,7 @@
 			<div class="sponsor-intro__inner">
 				<p class="sponsor-eyebrow">Was wir bieten</p>
 				<h2 id="offers-title" class="sponsor-section-title">
-					Sichtbarkeit, Naehe zum Verein und eine partnerschaftliche
+					Sichtbarkeit, Nähe zum Verein und eine partnerschaftliche
 					Zusammenarbeit.
 				</h2>
 				<ul class="sponsor-points">
@@ -57,8 +57,8 @@
 				>
 					Möglichkeiten
 				</p>
-				<h2 id="packages-title" class="sponsor-section-title">
-					Sechs direkte Wege, wie du unseren Verein sinnvoll unterstuetzen
+				<h2 id="packages-title" class="sponsor-section-title individuell">
+					Sechs direkte Wege, wie du unseren Verein sinnvoll unterstützen
 					kannst.
 				</h2>
 			</div>
@@ -90,11 +90,10 @@
 				<div class="sponsor-contact-copy">
 					<p class="sponsor-eyebrow">Kontakt</p>
 					<h2 id="sponsor-contact-title" class="sponsor-section-title">
-						Erzaehl uns kurz, wie du den Verein unterstuetzen moechtest.
+						Schreib uns deine Anfrage.
 					</h2>
 					<p class="sponsor-contact-text">
-						Ob Ballspende, Jugendunterstuetzung oder eine individuelle Idee: Wir
-						melden uns mit einer passenden Rueckmeldung bei dir.
+						Wir gehen auf jede individuelle Anfrage ein.
 					</p>
 				</div>
 
@@ -143,7 +142,7 @@
 								v-model="sponsorForm.interest"
 								type="text"
 								name="interest"
-								placeholder="z. B. Jugendunterstuetzung"
+								placeholder="z. B. Jugend"
 							/>
 						</label>
 					</div>
@@ -155,17 +154,11 @@
 							name="message"
 							rows="6"
 							required
-							placeholder="Hallo, ich interessiere mich fuer eine Unterstuetzung des Vereins ..."
+							placeholder="Deine Nachricht"
 						/>
 					</label>
 
 					<button type="submit" class="sponsor-submit">Anfrage senden</button>
-
-					<p class="sponsor-form-note">
-						Die Anfrage wird aktuell per E-Mail vorbereitet. Die
-						Empfaengeradresse kann spaeter noch durch die finale Vereinsadresse
-						ersetzt werden.
-					</p>
 				</form>
 			</div>
 		</section>
@@ -184,69 +177,69 @@
 	];
 
 	const searchPoints = [
-		"Lokale Unternehmen und engagierte Unterstuetzer",
-		"Sach- und Geldspenden fuer Vereinsleben und Ausstattung",
+		"Lokale Unternehmen und engagierte Unterstützer",
+		"Sach- und Geldspenden für Vereinsleben und Ausstattung",
 		"Partnerschaften, die langfristig zu uns passen",
 	];
 
 	const sponsorPackages = [
 		{
-			label: "Moeglichkeit 01",
+			label: "Möglichkeit 01",
 			title: "Ballspende",
 			lead: "Direkt im Trainings- und Spielalltag sichtbar helfen.",
 			points: [
-				"Unterstuetzt die Teams bei Training und Spielbetrieb",
+				"Unterstützt die Teams bei Training und Spielbetrieb",
 				"Einfacher Einstieg in ein lokales Sponsoring",
-				"Ideal fuer eine konkrete, direkte Hilfe",
+				"Ideal für eine konkrete, direkte Hilfe",
 			],
 		},
 		{
-			label: "Moeglichkeit 02",
+			label: "Möglichkeit 02",
 			title: "Vereinskleidung",
-			lead: "Ausstattung fuer Trainer, Jugend oder Mannschaften ermoeglichen.",
+			lead: "Ausstattung für Trainer, Jugend oder Mannschaften ermöglichen.",
 			points: [
-				"Unterstuetzung fuer Jacken, Shirts oder Trainingsmaterial",
-				"Praesenz im direkten Vereinsumfeld",
-				"Besonders passend fuer sichtbare Sachspenden",
+				"Unterstützung für Jacken, Shirts oder Trainingsmaterial",
+				"Präsenz im direkten Vereinsumfeld",
+				"Besonders passend für sichtbare Sachspenden",
 			],
 		},
 		{
-			label: "Moeglichkeit 03",
-			title: "Eventunterstuetzung",
+			label: "Möglichkeit 03",
+			title: "Eventunterstützung",
 			lead: "Gemeinsam Veranstaltungen, Turniere und Vereinsmomente tragen.",
 			points: [
-				"Unterstuetzung fuer Feste, Aktionen oder Heimspieltage",
+				"Unterstützung für Feste, Aktionen oder Heimspieltage",
 				"Sichtbarkeit bei Veranstaltungen vor Ort",
-				"Perfekt fuer regionale Partner mit Community-Bezug",
+				"Perfekt für regionale Partner mit Community-Bezug",
 			],
 		},
 		{
-			label: "Moeglichkeit 04",
-			title: "Jugendunterstuetzung",
-			lead: "Nachwuchsarbeit gezielt und nachhaltig staerken.",
+			label: "Möglichkeit 04",
+			title: "Jugendunterstützung",
+			lead: "Nachwuchsarbeit gezielt und nachhaltig stärken.",
 			points: [
-				"Hilfe fuer Trainingsmaterial, Fahrten oder gemeinsame Aktionen",
-				"Direkte Unterstuetzung fuer Kinder- und Jugendbereiche",
-				"Besonders wertvoll fuer langfristige Vereinsentwicklung",
+				"Hilfe für Trainingsmaterial, Fahrten oder gemeinsame Aktionen",
+				"Direkte Unterstützung für Kinder- und Jugendbereiche",
+				"Besonders wertvoll für langfristige Vereinsentwicklung",
 			],
 		},
 		{
-			label: "Moeglichkeit 05",
+			label: "Möglichkeit 05",
 			title: "Individuelle Spende",
 			lead: "Flexible Hilfe genau dort, wo sie gerade gebraucht wird.",
 			points: [
 				"Frei anpassbar an deinen Wunschbetrag oder Anlass",
-				"Sinnvoll fuer spontane oder projektbezogene Unterstuetzung",
+				"Sinnvoll für spontane oder projektbezogene Unterstützung",
 				"Gemeinsam stimmen wir den Einsatz transparent ab",
 			],
 		},
 		{
-			label: "Moeglichkeit 06",
-			title: "Mannschaftskasse unterstuetzen",
+			label: "Möglichkeit 06",
+			title: "Mannschaftskasse unterstützen",
 			lead: "Ein Team gezielt im Alltag, auf Reisen oder bei Aktionen begleiten.",
 			points: [
-				"Direkte Hilfe fuer gemeinsame Teamaktivitaeten",
-				"Unterstuetzung fuer Jugend- oder Aktiventeams moeglich",
+				"Direkte Hilfe für gemeinsame Teamaktivitäten",
+				"Unterstützung für Jugend- oder Aktiventeams möglich",
 				"Nahbar, unkompliziert und sehr konkret",
 			],
 		},
@@ -336,12 +329,12 @@
 	/* HERO */
 
 	.sponsor-become-hero {
+		position: relative;
 		min-height: 100svh;
 		isolation: isolate;
 		display: grid;
 		place-items: center;
 		overflow: hidden;
-		top: -10dvh;
 	}
 
 	.sponsor-become-hero__media {
@@ -374,6 +367,7 @@
 				var(--sponsor-bg) 100%
 			);
 		z-index: 1;
+		box-shadow: inset 0 -50px 30px -3px #011944;
 	}
 
 	.sponsor-become-hero__content {
@@ -424,24 +418,35 @@
 		inset: auto 0 0;
 		height: 42%;
 		pointer-events: none;
-		background: linear-gradient(to bottom, transparent, var(--sponsor-bg));
+
 		z-index: 2;
 	}
 
 	.sponsor-mobile-scroll-hint {
-		position: relative;
-		top: -30dvh;
-
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 3rem;
 		z-index: 5;
 		margin: 0;
-		padding: 0.7rem 1rem;
-		border-radius: 999px;
+		padding: 0;
 		color: var(--sponsor-text);
 		font-size: 0.78rem;
+		line-height: 0;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
 
 		animation: sponsorHintFloat 1.7s ease-in-out infinite;
+	}
+
+	.sponsor-mobile-scroll-hint :deep(svg) {
+		display: block;
+		flex: 0 0 auto;
 	}
 
 	/* INTRO-SEKTIONEN */
@@ -582,6 +587,7 @@
 	.sponsor-package__inner {
 		position: relative;
 		overflow: hidden;
+		min-width: 0;
 		width: min(100%, 760px);
 		margin-inline: auto;
 		padding: clamp(1.25rem, 6vw, 2.5rem);
@@ -628,16 +634,25 @@
 	.sponsor-package__title {
 		position: relative;
 		z-index: 1;
-		max-width: 8ch;
+		width: 100%;
+		max-width: 11ch;
 		margin: 0;
-		font-size: clamp(2.6rem, 14vw, 6rem);
-		line-height: 0.9;
-		letter-spacing: -0.08em;
+		padding-right: clamp(1.2rem, 4vw, 2.8rem);
+		box-sizing: border-box;
+		font-size: clamp(2.35rem, 4.8vw, 4.6rem);
+		line-height: 0.94;
+		letter-spacing: -0.05em;
+		text-align: left;
+		text-wrap: balance;
+		overflow-wrap: normal;
+		word-break: normal;
+		hyphens: manual;
 	}
 
 	.sponsor-package__lead {
 		position: relative;
 		z-index: 1;
+		min-width: 0;
 		max-width: 34rem;
 		margin: 1.2rem 0 0;
 		color: var(--sponsor-muted);
@@ -648,6 +663,7 @@
 	.sponsor-package__points {
 		position: relative;
 		z-index: 1;
+		min-width: 0;
 		display: grid;
 		gap: 0.7rem;
 		margin: 1.5rem 0 0;
@@ -782,6 +798,28 @@
 	/* TABLET / DESKTOP */
 
 	@media (min-width: 760px) {
+		.sponsor-become-hero {
+			min-height: clamp(220px, 18vh, 340px);
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			padding: clamp(20px, 4vw, 48px) clamp(18px, 8vw, 80px);
+			margin-bottom: 3dvh;
+		}
+
+		.sponsor-become-hero__overlay {
+			background: linear-gradient(
+				180deg,
+				rgba(2, 43, 121, 0.2) 0%,
+				rgba(2, 43, 121, 0.78) 70%,
+				rgba(2, 43, 121, 0.92) 100%
+			);
+		}
+
+		.sponsor-become-hero::after {
+			display: none;
+		}
+
 		.sponsor-intro .sponsor-section-title {
 			font-size: clamp(2.25rem, 4.8vw, 4.2rem);
 			line-height: 0.98;
@@ -791,19 +829,35 @@
 		}
 
 		.sponsor-become-hero__content {
-			padding-top: calc(var(--sv-header-height) + 2.5rem);
-			padding-bottom: 6rem;
+			width: min(900px, 100%);
+			min-height: auto;
+			align-items: flex-start;
+			justify-content: flex-end;
+			text-align: left;
+			gap: 0.5rem;
+			padding: calc(var(--sv-header-height) + 0.25rem) 0 0;
+			padding-bottom: 1.5rem;
+		}
+
+		.sponsor-become-hero__eyebrow,
+		.sponsor-become-hero__title {
+			text-align: left;
 		}
 
 		.sponsor-become-hero__title {
-			max-width: 8ch;
+			max-width: none;
+			font-size: clamp(24px, 4.2vw, 58px);
+			letter-spacing: 0.02em;
+			line-height: 1;
+		}
+
+		.sponsor-become-hero__lead {
+			max-width: 60ch;
+			text-align: left;
 		}
 
 		.sponsor-mobile-scroll-hint {
-			bottom: 2.5rem;
-			padding: 0.65rem 0.95rem;
-			font-size: 0.74rem;
-			opacity: 0.82;
+			display: none;
 		}
 
 		.sponsor-intro {
@@ -912,8 +966,11 @@
 
 		.sponsor-package__title {
 			grid-area: title;
-			max-width: 10ch;
-			font-size: clamp(2.4rem, 3.6vw, 3.5rem);
+			width: 100%;
+			max-width: 9ch;
+			padding-right: 2.8rem;
+			font-size: clamp(2.1rem, 3vw, 3.15rem);
+			line-height: 0.95;
 		}
 
 		.sponsor-package__lead {
@@ -958,7 +1015,9 @@
 		}
 
 		.sponsor-package__title {
-			max-width: 9ch;
+			max-width: 8.5ch;
+			padding-right: 3.4rem;
+			font-size: clamp(1.95rem, 2.45vw, 2.75rem);
 		}
 
 		.sponsor-package__points {
@@ -977,13 +1036,63 @@
 	}
 
 	@media (max-width: 759px) {
+		.sponsor-become-hero {
+			min-height: 100dvh;
+		}
+
+		.sponsor-become-hero__content {
+			min-height: 100dvh;
+			padding: calc(var(--sv-header-height) + 1.5rem) 1.25rem 5.25rem;
+		}
+
+		.sponsor-become-hero__title {
+			max-width: 8ch;
+		}
+
+		.sponsor-contact-section {
+			padding: 1.25rem 0.85rem 3.5rem;
+		}
+
 		.sponsor-contact-panel {
+			width: min(100%, 560px);
 			border-radius: 24px;
-			padding: 1.2rem 1rem 1.3rem;
+			padding: 1rem 0.9rem 1.1rem;
+			gap: 1rem;
+		}
+
+		.sponsor-contact-copy {
+			gap: 0.55rem;
+		}
+
+		.sponsor-contact-copy .sponsor-section-title {
+			font-size: clamp(1.55rem, 8vw, 2rem);
+		}
+
+		.sponsor-contact-text {
+			font-size: 0.95rem;
+			line-height: 1.5;
+		}
+
+		.sponsor-contact-form {
+			gap: 0.85rem;
 		}
 
 		.sponsor-form-row {
 			grid-template-columns: 1fr;
+		}
+
+		.sponsor-contact-form label {
+			font-size: 0.78rem;
+		}
+
+		.sponsor-contact-form input,
+		.sponsor-contact-form textarea {
+			border-radius: 14px;
+			padding: 0.8rem 0.9rem;
+		}
+
+		.sponsor-submit {
+			padding: 0.9rem 1.2rem;
 		}
 	}
 

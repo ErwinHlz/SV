@@ -4,95 +4,97 @@
 			class="termine-page-hero"
 			:image="termineHero"
 			title="Termine"
-			lead="Alle Spiele, Events und Vereinsaktivitaeten auf einen Blick."
+			lead="Alle Spiele, Events und Vereinsaktivitäten auf einen Blick."
 		>
 			<p class="termine-mobile-scroll-hint">Nach unten scrollen</p>
 		</PageHero>
 		<section class="termine-grid" aria-label="Alle Termine">
-			<article
-				v-for="(item, index) in termineItems"
-				:key="item.id"
-				class="termine-card"
-				:style="getTerminCardStyle(item, index)"
-			>
-				<span class="termine-card-pin" aria-hidden="true">
-					<Pin :size="26" :stroke-width="2.1" />
-				</span>
-				<RouterLink
-					class="termine-card-sheet-link"
-					:to="{ name: 'termine-detail', params: { slug: item.slug } }"
-					:aria-label="`Zum Termin ${item.title}`"
+			<template v-for="(item, index) in termineItems" :key="item.id">
+				<article
+					class="termine-card"
+					:style="getTerminCardStyle(item, index)"
 				>
-					<div class="termine-card-sheet">
-						<div class="termine-card-media">
-							<img
-								class="termine-card-image"
-								:src="item.image"
-								:alt="item.imageAlt"
-								loading="lazy"
-							/>
-							<div class="termine-card-overlay" aria-hidden="true">
-								<svg
-									class="termine-card-icon"
-									viewBox="0 0 48 48"
-									focusable="false"
-									aria-hidden="true"
+					<span class="termine-card-pin" aria-hidden="true">
+						<Pin :size="26" :stroke-width="2.1" />
+					</span>
+					<RouterLink
+						class="termine-card-sheet-link"
+						:to="{ name: 'termine-detail', params: { slug: item.slug } }"
+						:aria-label="`Zum Termin ${item.title}`"
+					>
+						<div class="termine-card-sheet">
+							<div class="termine-card-media">
+								<img
+									class="termine-card-image"
+									:src="item.image"
+									:alt="item.imageAlt"
+									loading="lazy"
+								/>
+								<div class="termine-card-overlay" aria-hidden="true">
+									<svg
+										class="termine-card-icon"
+										viewBox="0 0 48 48"
+										focusable="false"
+										aria-hidden="true"
+									>
+										<rect x="12" y="14" width="24" height="20" rx="3" />
+										<path d="M16 12v6M32 12v6M16 22h16" />
+									</svg>
+								</div>
+							</div>
+							<div class="termine-card-body">
+								<div class="termine-meta">
+									<time class="termine-date" :datetime="item.date">
+										{{ formatDate(item.date) }}
+									</time>
+									<span class="termine-time">{{ item.time }}</span>
+									<span class="termine-location">{{ item.location }}</span>
+									<span v-if="item.source" class="termine-source">{{
+										item.source
+									}}</span>
+								</div>
+								<div
+									v-if="item.homeTeam && item.awayTeam"
+									class="termine-matchup"
 								>
-									<rect x="12" y="14" width="24" height="20" rx="3" />
-									<path d="M16 12v6M32 12v6M16 22h16" />
-								</svg>
+									<div class="termine-team">
+										<img
+											v-if="item.homeLogo"
+											class="termine-team-logo"
+											:src="item.homeLogo"
+											:alt="`${item.homeTeam} Logo`"
+											loading="lazy"
+										/>
+										<span class="termine-team-name">{{ item.homeTeam }}</span>
+									</div>
+									<span class="termine-matchup-separator">vs</span>
+									<div class="termine-team termine-team--away">
+										<img
+											v-if="item.awayLogo"
+											class="termine-team-logo"
+											:src="item.awayLogo"
+											:alt="`${item.awayTeam} Logo`"
+											loading="lazy"
+										/>
+										<span class="termine-team-name">{{ item.awayTeam }}</span>
+									</div>
+								</div>
+								<h3 class="termine-card-title">{{ item.title }}</h3>
+								<p class="termine-card-excerpt">{{ item.excerpt }}</p>
 							</div>
 						</div>
-						<div class="termine-card-body">
-							<div class="termine-meta">
-								<time class="termine-date" :datetime="item.date">
-									{{ formatDate(item.date) }}
-								</time>
-								<span class="termine-time">{{ item.time }}</span>
-								<span class="termine-location">{{ item.location }}</span>
-								<span v-if="item.source" class="termine-source">{{
-									item.source
-								}}</span>
-							</div>
-							<div
-								v-if="item.homeTeam && item.awayTeam"
-								class="termine-matchup"
-							>
-								<div class="termine-team">
-									<img
-										v-if="item.homeLogo"
-										class="termine-team-logo"
-										:src="item.homeLogo"
-										:alt="`${item.homeTeam} Logo`"
-										loading="lazy"
-									/>
-									<span class="termine-team-name">{{ item.homeTeam }}</span>
-								</div>
-								<span class="termine-matchup-separator">vs</span>
-								<div class="termine-team termine-team--away">
-									<img
-										v-if="item.awayLogo"
-										class="termine-team-logo"
-										:src="item.awayLogo"
-										:alt="`${item.awayTeam} Logo`"
-										loading="lazy"
-									/>
-									<span class="termine-team-name">{{ item.awayTeam }}</span>
-								</div>
-							</div>
-							<h3 class="termine-card-title">{{ item.title }}</h3>
-							<p class="termine-card-excerpt">{{ item.excerpt }}</p>
-						</div>
-					</div>
-				</RouterLink>
-				<RouterLink
-					class="termine-mobile-detail"
-					:to="{ name: 'termine-detail', params: { slug: item.slug } }"
-					:aria-label="`Termin ${item.title} im Detail ansehen`"
-				>
-					<ExternalLink :size="22" :stroke-width="2.2" />
-				</RouterLink>
-			</article>
+					</RouterLink>
+					<RouterLink
+						class="termine-mobile-detail"
+						:to="{ name: 'termine-detail', params: { slug: item.slug } }"
+						:aria-label="`Termin ${item.title} im Detail ansehen`"
+					>
+						<ExternalLink :size="22" :stroke-width="2.2" />
+					</RouterLink>
+				</article>
+
+				<InlineSponsorAdSection v-if="index === 1" class="termine-inline-ad" />
+			</template>
 		</section>
 	</div>
 </template>
@@ -100,6 +102,7 @@
 <script setup lang="ts">
 	import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
 	import { ExternalLink, Pin } from "@lucide/vue";
+	import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 	import PageHero from "@/components/PageHero.vue";
 	import termineHero from "@/assets/header/background.png";
 	import { formatDate } from "@/utils/date";
@@ -226,6 +229,10 @@
 	}
 
 	.termine-mobile-scroll-hint {
+		display: none;
+	}
+
+	.termine-inline-ad {
 		display: none;
 	}
 
@@ -565,6 +572,10 @@
 			padding: 0;
 			gap: 0;
 			margin: 0;
+		}
+
+		.termine-inline-ad {
+			display: flex;
 		}
 
 		.termine-card {

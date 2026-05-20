@@ -45,7 +45,7 @@
               <button
                 type="button"
                 class="news-inline-carousel-button"
-                aria-label="Naechstes Medium"
+                aria-label="Nächstes Medium"
                 @click="showNextMedia">
                 <span class="chevron"><ChevronRight /></span>
               </button>
@@ -140,7 +140,7 @@
     <button
       type="button"
       class="news-detail-back"
-      aria-label="Zurueck"
+      aria-label="Zurück"
       @click="goBack">
       <ArrowLeft :size="18" :stroke-width="2.4" />
     </button>
@@ -148,7 +148,7 @@
   <section v-else class="entry-not-found">
     <h1 class="entry-not-found-title">News nicht gefunden</h1>
     <RouterLink class="entry-not-found-link" to="/news">
-      Zur News-Uebersicht
+      Zur News-Übersicht
     </RouterLink>
   </section>
 </template>
