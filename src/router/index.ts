@@ -21,6 +21,7 @@ import StadionPage from "@/pages/StadionPage.vue";
 import VereinPage from "@/pages/VereinPage.vue";
 import SponsorPage from "@/pages/SponsorPage.vue";
 import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
+import MembershipPage from "@/pages/MembershipPage.vue";
 import NotFoundPage from "@/pages/NotFoundPage.vue";
 
 const router = createRouter({
@@ -110,6 +111,11 @@ const router = createRouter({
     },
     { path: "/stadion", name: "stadion", component: StadionPage },
     { path: "/verein", name: "verein", component: VereinPage },
+    {
+      path: "/mitglied-werden",
+      name: "mitglied-werden",
+      component: MembershipPage,
+    },
     { path: "/sponsor", name: "sponsoren", component: SponsorPage },
     {
       path: "/sponsor/werden",

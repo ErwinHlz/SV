@@ -5,29 +5,6 @@
     :title="hero.title"
     :lead="hero.lead" />
 
-  <section class="stadion-mobile-intro" aria-label="Stadion Übersicht">
-    <div class="stadion-mobile-intro-copy">
-      <p class="stadion-mobile-kicker">Sportplatz Ottweiler</p>
-      <h2 class="stadion-mobile-title">{{ intro.title }}</h2>
-      <p class="stadion-mobile-text">{{ intro.text }}</p>
-      <p class="stadion-mobile-note">{{ intro.note }}</p>
-    </div>
-
-    <header class="stadion-mobile-section-header">
-      <h2 class="section-title">{{ facts.title }}</h2>
-    </header>
-
-    <div class="stadion-facts-grid">
-      <article
-        v-for="fact in facts.items"
-        :key="fact.label"
-        class="stadion-fact-card">
-        <span class="stadion-fact-label">{{ fact.label }}</span>
-        <strong class="stadion-fact-value">{{ fact.value }}</strong>
-      </article>
-    </div>
-  </section>
-
   <section class="stadion-section" aria-label="Stadion Impressionen">
     <header class="section-header">
       <h2 class="section-title">{{ gallery.title }}</h2>
@@ -41,7 +18,12 @@
       @mouseleave="startTimer"
       @focusin="stopTimer"
       @focusout="startTimer">
-      <div class="slideshow-stage">
+      <div
+        class="slideshow-stage"
+        @touchstart="handleGalleryTouchStart"
+        @touchmove="handleGalleryTouchMove"
+        @touchend="handleGalleryTouchEnd"
+        @touchcancel="resetGallerySwipe">
         <template v-if="galleryItems.length">
           <figure
             v-for="(item, index) in galleryItems"
@@ -151,11 +133,6 @@ type StadionContent = {
     title: string;
     lead: string;
   };
-  intro: {
-    title: string;
-    text: string;
-    note: string;
-  };
   facts: {
     title: string;
     items: StadiumFact[];
@@ -168,7 +145,7 @@ type StadionContent = {
 };
 
 const stadionContent = rawStadion as StadionContent;
-const { hero, intro, facts, gallery, map } = stadionContent;
+const { hero, facts, gallery, map } = stadionContent;
 const { hasExternalMediaConsent } = useCookieConsent();
 
 const imageMap: Record<string, string> = {
@@ -182,8 +159,12 @@ const galleryItems = gallery.items.map((item, index) => ({
 }));
 
 const activeSlide = ref(0);
+const galleryTouchStartX = ref<number | null>(null);
+const galleryTouchStartY = ref<number | null>(null);
+const gallerySwipeHandled = ref(false);
 const slideCount = galleryItems.length;
 let slideshowTimer: ReturnType<typeof setInterval> | null = null;
+const gallerySwipeThreshold = 48;
 
 const addressFact = facts.items.find((item) => item.label === "Adresse");
 const addressLabel = addressFact?.value ?? "Adresse in Google Maps öffnen";
@@ -231,6 +212,61 @@ const setSlide = (index: number) => {
   restartTimer();
 };
 
+const resetGallerySwipe = () => {
+  galleryTouchStartX.value = null;
+  galleryTouchStartY.value = null;
+  gallerySwipeHandled.value = false;
+};
+
+const handleGalleryTouchStart = (event: TouchEvent) => {
+  const [touch] = event.changedTouches;
+  if (!touch || slideCount <= 1) {
+    return;
+  }
+
+  galleryTouchStartX.value = touch.clientX;
+  galleryTouchStartY.value = touch.clientY;
+  gallerySwipeHandled.value = false;
+  stopTimer();
+};
+
+const handleGalleryTouchMove = (event: TouchEvent) => {
+  const [touch] = event.changedTouches;
+  if (
+    !touch ||
+    gallerySwipeHandled.value ||
+    galleryTouchStartX.value === null ||
+    galleryTouchStartY.value === null
+  ) {
+    return;
+  }
+
+  const deltaX = touch.clientX - galleryTouchStartX.value;
+  const deltaY = touch.clientY - galleryTouchStartY.value;
+
+  if (Math.abs(deltaX) < gallerySwipeThreshold) {
+    return;
+  }
+
+  if (Math.abs(deltaX) <= Math.abs(deltaY)) {
+    return;
+  }
+
+  gallerySwipeHandled.value = true;
+
+  if (deltaX < 0) {
+    nextSlide();
+    return;
+  }
+
+  prevSlide();
+};
+
+const handleGalleryTouchEnd = () => {
+  resetGallerySwipe();
+  startTimer();
+};
+
 onMounted(() => {
   startTimer();
 });
@@ -241,10 +277,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.stadion-mobile-intro {
-  display: none;
-}
-
 .stadion-section {
   width: min(1120px, calc(100dvw - 48px));
   margin: 0 auto clamp(40px, 7vw, 88px);
@@ -307,6 +339,7 @@ onBeforeUnmount(() => {
   height: clamp(600px, 80vw, 700px);
   border-radius: 22px;
   overflow: hidden;
+  touch-action: pan-y;
   background: var(--sv-card-bg);
   border: 1px solid var(--sv-card-border);
   box-shadow: 0 18px 36px rgba(2, 43, 121, 0.22);
@@ -418,94 +451,6 @@ onBeforeUnmount(() => {
 @media (max-width: 720px) {
   .stadion-page-hero {
     display: none;
-  }
-
-  .stadion-mobile-intro {
-    display: grid;
-    align-content: center;
-    gap: 1rem;
-    width: calc(100dvw - 24px);
-    min-height: 100svh;
-    margin: 0 auto;
-    padding: 1.25rem 0 1rem;
-  }
-
-  .stadion-mobile-intro-copy {
-    padding: 1.35rem 1.1rem 1.2rem;
-    border-radius: 1.5rem;
-    background:
-      linear-gradient(180deg, rgba(7, 18, 44, 0.98), rgba(12, 31, 75, 0.96));
-    color: #fff;
-    box-shadow: 0 1rem 2.6rem rgba(2, 43, 121, 0.24);
-  }
-
-  .stadion-mobile-section-header {
-    padding: 0 0.15rem;
-  }
-
-  .stadion-mobile-kicker {
-    margin: 0 0 0.6rem;
-    color: var(--sv-secondary-color);
-    font-size: 0.7rem;
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  .stadion-mobile-title {
-    margin: 0;
-    font-size: clamp(2rem, 10vw, 3rem);
-    line-height: 0.94;
-    letter-spacing: -0.05em;
-  }
-
-  .stadion-mobile-text,
-  .stadion-mobile-note {
-    margin: 0.85rem 0 0;
-    line-height: 1.55;
-  }
-
-  .stadion-mobile-text {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.98rem;
-  }
-
-  .stadion-mobile-note {
-    color: rgba(255, 255, 255, 0.64);
-    font-size: 0.82rem;
-  }
-
-  .stadion-facts-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  .stadion-fact-card {
-    min-height: 8.8rem;
-    display: grid;
-    align-content: space-between;
-    gap: 0.8rem;
-    padding: 1rem;
-    border-radius: 1.25rem;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 242, 220, 0.94));
-    border: 1px solid rgba(2, 43, 121, 0.08);
-    box-shadow: 0 0.8rem 2rem rgba(2, 43, 121, 0.1);
-  }
-
-  .stadion-fact-label {
-    color: var(--sv-primary-color);
-    font-size: 0.66rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .stadion-fact-value {
-    align-self: end;
-    color: #111;
-    font-size: 1.02rem;
-    line-height: 1.2;
   }
 
   .stadion-section {

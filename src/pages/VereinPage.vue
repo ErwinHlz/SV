@@ -9,7 +9,7 @@
 				</div>
 
 				<div class="welcome-actions">
-					<RouterLink class="action-btn primary" to="/contact">
+					<RouterLink class="action-btn primary" to="/mitglied-werden">
 						{{ cta.primaryLabel }}
 					</RouterLink>
 					<RouterLink class="action-btn secondary" to="/contact">
@@ -143,7 +143,7 @@
 					<p class="section-text section-text--narrow">{{ cta.text }}</p>
 
 					<div class="cta-actions">
-						<RouterLink class="action-btn primary" to="/contact">
+						<RouterLink class="action-btn primary" to="/mitglied-werden">
 							{{ cta.primaryLabel }}
 						</RouterLink>
 						<RouterLink class="action-btn secondary" to="/contact">

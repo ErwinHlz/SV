@@ -16,6 +16,7 @@ const isJugendPage = computed(() => route.path.startsWith("/teams/jugend"));
 const isStadionPage = computed(() => route.path === "/stadion");
 const isVereinPage = computed(() => route.path === "/verein");
 const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
+const isMembershipPage = computed(() => route.path === "/mitglied-werden");
 const isDatenschutzPage = computed(() => route.path === "/datenschutz");
 const isContactPage = computed(() => route.path === "/contact");
 const isContentDetailPage = computed(() =>
@@ -35,6 +36,7 @@ const disablePageSnap = computed(
     isStadionPage.value ||
     isVereinPage.value ||
     isSponsorPage.value ||
+    isMembershipPage.value ||
     isContactPage.value ||
     isDatenschutzPage.value ||
     isContentDetailPage.value,
