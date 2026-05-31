@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 
 const token = process.env.IG_ACCESS_TOKEN;
 const limit = process.env.IG_LIMIT || 6;
-const outputFile = process.env.IG_OUTPUT_FILE || "instagram.json";
+const outputFile = process.env.IG_OUTPUT_FILE || "../content/instagram-posts.json";
 
 if (!token) {
   throw new Error("IG_ACCESS_TOKEN fehlt in .env");

@@ -63,37 +63,7 @@
   },
   "people": {
     "title": "Vorstand & Ansprechpartner",
-    "lead": "Hinter der FSG stehen Menschen, die organisieren, mitdenken und ansprechbar sind.",
-    "items": [
-      {
-        "id": "vorstand-1",
-        "name": "Max Mustermann",
-        "role": "1. Vorsitzender",
-        "image": "vereinHero",
-        "imageAlt": "1. Vorsitzender"
-      },
-      {
-        "id": "vorstand-2",
-        "name": "Erika Mustermann",
-        "role": "2. Vorsitzende",
-        "image": "vereinHero",
-        "imageAlt": "2. Vorsitzende"
-      },
-      {
-        "id": "kasse",
-        "name": "Julia Beispiel",
-        "role": "Kassenwartin",
-        "image": "vereinHero",
-        "imageAlt": "Kassenwartin"
-      },
-      {
-        "id": "jugendleitung",
-        "name": "Lea Muster",
-        "role": "Jugendleitung",
-        "image": "vereinHero",
-        "imageAlt": "Jugendleitung"
-      }
-    ]
+    "lead": "Hinter der FSG stehen Menschen, die organisieren, mitdenken und ansprechbar sind."
   },
   "cta": {
     "title": "Mitglied werden",

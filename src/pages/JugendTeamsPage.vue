@@ -217,7 +217,7 @@
 								/>
 
 								<span v-else class="coach-photo-fallback">
-									{{ getInitials(member.name) }}
+									<DummySilhouette />
 								</span>
 							</div>
 
@@ -353,10 +353,12 @@
 <script setup lang="ts">
 	import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 	import { ChevronLeft, ChevronRight } from "@lucide/vue";
+	import DummySilhouette from "@/components/DummySilhouette.vue";
 	import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 	import PageHero from "@/components/PageHero.vue";
 	import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 	import youthHero from "@/assets/header/background.png";
+	import rawJugendtrainer from "@/content/jugendtrainer.json";
 	import rawYouthContent from "@/content/jugend.json";
 
 	type YouthTeamWidget = {
@@ -416,7 +418,6 @@
 		coachSection: {
 			title: string;
 			lead: string;
-			members: CoachMember[];
 		};
 		contact: {
 			title: string;
@@ -446,6 +447,9 @@
 		youthHero,
 	};
 
+	const isCoachPortraitImage = (image?: string) =>
+		Boolean(image && image !== "youthHero");
+
 	type YouthTeamCard = YouthTeam & {
 		tableUrl: string;
 	};
@@ -465,9 +469,9 @@
 		imageAlt: string;
 	};
 
-	const coachCards: CoachCard[] = coachSection.members.map((member) => ({
+	const coachCards: CoachCard[] = (rawJugendtrainer as CoachMember[]).map((member) => ({
 		...member,
-		image: member.image
+		image: isCoachPortraitImage(member.image)
 			? (coachImageMap[member.image] ?? member.image)
 			: undefined,
 		imageAlt: member.imageAlt ?? member.name,
@@ -545,14 +549,6 @@
 		team.training?.[0]?.location ??
 		trainingLocation?.name ??
 		"Sportplatz Ottweiler";
-
-	const getInitials = (value?: string) =>
-		(value ?? "")
-			.split(" ")
-			.filter(Boolean)
-			.slice(0, 2)
-			.map((part) => part.charAt(0).toUpperCase())
-			.join("");
 
 	const handleContactSubmit = () => {
 		if (!contact.email) return;

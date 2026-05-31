@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ExternalLink, Pin } from "@lucide/vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
@@ -80,8 +80,16 @@ import newsHero from "@/assets/news/stock_news_1.png";
 import { formatDate } from "@/utils/date";
 import { getNewsItems, type NewsEntry } from "@/utils/contentEntries";
 
-const newsItems = computed(() => getNewsItems());
+const mobileNewsItemLimit = 10;
 const newsScrollStorageKey = "sv-news-scroll-position";
+const isMobileNewsViewport = ref(false);
+
+const allNewsItems = computed(() => getNewsItems());
+const newsItems = computed(() =>
+  isMobileNewsViewport.value
+    ? allNewsItems.value.slice(0, mobileNewsItemLimit)
+    : allNewsItems.value,
+);
 
 const getRandomTilt = (seedSource: string, index: number) => {
   const seed = `${seedSource}-${index}`;
@@ -102,6 +110,10 @@ const getNewsCardStyle = (item: NewsEntry, index: number) => ({
 const isMobileNewsLayout = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(max-width: 700px)").matches;
+
+const syncMobileNewsViewport = () => {
+  isMobileNewsViewport.value = isMobileNewsLayout();
+};
 
 const getAppScrollContainer = () =>
   typeof document === "undefined"
@@ -158,6 +170,7 @@ const restoreNewsScrollPosition = async () => {
 };
 
 onMounted(() => {
+  syncMobileNewsViewport();
   restoreNewsScrollPosition();
   getAppScrollContainer()?.addEventListener("scroll", persistNewsScrollPosition, {
     passive: true,
@@ -165,12 +178,14 @@ onMounted(() => {
   window.addEventListener("scroll", persistNewsScrollPosition, {
     passive: true,
   });
+  window.addEventListener("resize", syncMobileNewsViewport, { passive: true });
 });
 
 onBeforeUnmount(() => {
   persistNewsScrollPosition();
   getAppScrollContainer()?.removeEventListener("scroll", persistNewsScrollPosition);
   window.removeEventListener("scroll", persistNewsScrollPosition);
+  window.removeEventListener("resize", syncMobileNewsViewport);
 });
 </script>
 
@@ -511,10 +526,6 @@ onBeforeUnmount(() => {
     margin: 0;
   }
 
-  .news-inline-ad {
-    display: flex;
-  }
-
   .news-card {
     height: 100dvh;
     min-height: 100dvh;
@@ -619,8 +630,7 @@ onBeforeUnmount(() => {
   }
 
   .news-sponsor-band {
-    width: calc(100% - 24px);
-    padding: 8px 0 28px;
+    display: none;
   }
 }
 

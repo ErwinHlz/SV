@@ -15,7 +15,7 @@ import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .home-sponsors-mobile {
     min-height: 100dvh;
     display: flex;

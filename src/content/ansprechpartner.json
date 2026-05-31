@@ -1,0 +1,79 @@
+[
+  {
+    "id": "vorstand-1",
+    "name": "Sascha Gutheiler ",
+    "role": "1. Vorsitzender",
+    "image": "vereinHero",
+    "imageAlt": "1. Vorsitzender"
+  },
+  {
+    "id": "vorstand-2",
+    "name": "Mathias Thull",
+    "role": "2. Vorsitzende",
+    "image": "vereinHero",
+    "imageAlt": "2. Vorsitzende"
+  },
+  {
+    "id": "kasse",
+    "name": "Jochen Kranz",
+    "role": "Kassierer",
+    "image": "vereinHero",
+    "imageAlt": "Kassierer"
+  },
+  {
+    "id": "jugendleitung",
+    "name": "Benjamin Hollemeyer",
+    "role": "Jugendleitung",
+    "image": "vereinHero",
+    "imageAlt": "Jugendleitung"
+  },
+  {
+    "id": "jugendleitung-2",
+    "name": "Zedan Acer",
+    "role": "stellvertretende Jugendleitung",
+    "image": "vereinHero",
+    "imageAlt": "Jugendleitung"
+  },
+  {
+    "id": "sportlicher-leiter",
+    "name": "Dirk Matheis",
+    "role": "Sportlicher Leiter",
+    "image": "vereinHero",
+    "imageAlt": "Sportlicher Leiter"
+  },
+  {
+    "id": "sportlicher-leiter-2",
+    "name": "Dominik Forster",
+    "role": "Sportlicher Leiter",
+    "image": "vereinHero",
+    "imageAlt": "Sportlicher Leiter"
+  },
+  {
+    "id": "Schriftführer",
+    "name": "Claus Cornelius",
+    "role": "Schriftführer",
+    "image": "vereinHero",
+    "imageAlt": "Schriftführer"
+  },
+  {
+    "id": "Beisitzer-1",
+    "name": "Markus Hans",
+    "role": "Beisitzer",
+    "image": "vereinHero",
+    "imageAlt": "Beisitzer"
+  },
+  {
+    "id": "Beisitzer-2",
+    "name": "Patrik Clos",
+    "role": "Beisitzer",
+    "image": "vereinHero",
+    "imageAlt": "Beisitzer"
+  },
+  {
+    "id": "Beisitzer-3",
+    "name": "Niklas Hans",
+    "role": "Beisitzer",
+    "image": "vereinHero",
+    "imageAlt": "Beisitzer"
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "coach-giuseppe",
+    "name": "Giuseppe Sardo",
+    "role": "G-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam E-Jugend"
+  },
+  {
+    "id": "coach-angelo",
+    "name": "Angelo di Giovanni",
+    "role": "G-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam D-Jugend"
+  },
+  {
+    "id": "coach-jochen",
+    "name": "Jochen Schneider",
+    "role": "F-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainer Jochen"
+  },
+  {
+    "id": "coach-zedan",
+    "name": "Zedan Acer",
+    "role": "F-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam Zedan"
+  },
+  {
+    "id": "coach-hollemeyer",
+    "name": "Benjamin Hollemeyer",
+    "role": "E-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam C-Jugend"
+  },
+  {
+    "id": "coach-erwin",
+    "name": "Erwin Holzhauser",
+    "role": "E-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-steven",
+    "name": "Steven Bubel",
+    "role": "E-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-Levin",
+    "name": "Levin Alles",
+    "role": "D-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-sergej",
+    "name": "Sergej Schrefer",
+    "role": "D-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-michael",
+    "name": "Michael Klomann",
+    "role": "D-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-eugen",
+    "name": "Eugen Felberg",
+    "role": "C-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-waldi",
+    "name": "Waltraud \"Waldi\" Gleich",
+    "role": "C-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  },
+  {
+    "id": "coach-thorsten",
+    "name": "Thorsten Würtz",
+    "role": "A-Jugend",
+    "image": "youthHero",
+    "imageAlt": "Trainerteam A-Jugend"
+  }
+]

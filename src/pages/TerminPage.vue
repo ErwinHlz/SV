@@ -95,21 +95,31 @@
 
 				<InlineSponsorAdSection v-if="index === 1" class="termine-inline-ad" />
 			</template>
-		</section>
+	</section>
+		<HomeSponsorsMobileSection />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
+	import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 	import { ExternalLink, Pin } from "@lucide/vue";
+	import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 	import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 	import PageHero from "@/components/PageHero.vue";
 	import termineHero from "@/assets/header/background.png";
 	import { formatDate } from "@/utils/date";
 	import { getTerminItems, type TerminEntry } from "@/utils/contentEntries";
 
-	const termineItems = computed(() => getTerminItems());
+	const mobileTermineItemLimit = 10;
 	const termineScrollStorageKey = "sv-termine-scroll-position";
+	const isMobileTermineViewport = ref(false);
+
+	const allTermineItems = computed(() => getTerminItems());
+	const termineItems = computed(() =>
+		isMobileTermineViewport.value
+			? allTermineItems.value.slice(0, mobileTermineItemLimit)
+			: allTermineItems.value,
+	);
 
 	const getRandomTilt = (seedSource: string, index: number) => {
 		const seed = `${seedSource}-${index}`;
@@ -130,6 +140,10 @@
 	const isMobileTermineLayout = () =>
 		typeof window !== "undefined" &&
 		window.matchMedia("(max-width: 700px)").matches;
+
+	const syncMobileTermineViewport = () => {
+		isMobileTermineViewport.value = isMobileTermineLayout();
+	};
 
 	const getAppScrollContainer = () =>
 		typeof document === "undefined"
@@ -189,6 +203,7 @@
 	};
 
 	onMounted(() => {
+		syncMobileTermineViewport();
 		restoreTerminScrollPosition();
 		getAppScrollContainer()?.addEventListener(
 			"scroll",
@@ -200,6 +215,9 @@
 		window.addEventListener("scroll", persistTerminScrollPosition, {
 			passive: true,
 		});
+		window.addEventListener("resize", syncMobileTermineViewport, {
+			passive: true,
+		});
 	});
 
 	onBeforeUnmount(() => {
@@ -209,6 +227,7 @@
 			persistTerminScrollPosition,
 		);
 		window.removeEventListener("scroll", persistTerminScrollPosition);
+		window.removeEventListener("resize", syncMobileTermineViewport);
 	});
 </script>
 
@@ -572,10 +591,6 @@
 			padding: 0;
 			gap: 0;
 			margin: 0;
-		}
-
-		.termine-inline-ad {
-			display: flex;
 		}
 
 		.termine-card {

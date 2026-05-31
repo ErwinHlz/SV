@@ -6,7 +6,7 @@ import spielberichtImageTwo from "@/assets/spielberichte/stock_spielberichte_2.j
 import spielberichtImageThree from "@/assets/spielberichte/stock_spielberichte_3.png";
 import externalContentNotAllowedImage from "@/assets/placeholder/extern_content_not_allowed.png";
 import rawNews from "@/content/news.json";
-import rawInstagramPosts from "@/content/instagram-posts.json";
+import rawInstagramPostsJson from "@/content/instagram-posts.json?raw";
 import rawSpielberichte from "@/content/spielberichte.json";
 import rawSpielTermine from "@/content/spiel-termine.json";
 import rawVereinslogos from "@/content/vereinslogos.json";
@@ -370,7 +370,13 @@ const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
   return items;
 };
 
-const instagramPosts = rawInstagramPosts.posts as InstagramPostSource[];
+const rawInstagramPosts = JSON.parse(rawInstagramPostsJson) as {
+  posts?: InstagramPostSource[];
+};
+
+const instagramPosts = Array.isArray(rawInstagramPosts.posts)
+  ? rawInstagramPosts.posts
+  : [];
 
 export const getNewsItems = (): NewsEntry[] => {
   const { hasExternalMediaConsent } = useCookieConsent();

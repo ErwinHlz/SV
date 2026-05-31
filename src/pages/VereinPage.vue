@@ -108,7 +108,7 @@
 
 				<div class="people-grid">
 					<article
-						v-for="person in personCards"
+						v-for="person in visiblePeopleCards"
 						:key="person.id"
 						class="people-card"
 					>
@@ -120,7 +120,7 @@
 								loading="lazy"
 							/>
 							<span v-else class="people-photo-fallback">
-								{{ getInitials(person.name) }}
+								<DummySilhouette />
 							</span>
 						</div>
 						<div class="people-caption">
@@ -128,6 +128,40 @@
 							<p class="people-role">{{ person.role }}</p>
 						</div>
 					</article>
+				</div>
+
+				<div
+					v-if="isDesktopPeopleLayout && peopleDesktopPageCount > 1"
+					class="people-toolbar"
+				>
+					<button
+						type="button"
+						class="people-control-button"
+						@click="goToPreviousPeoplePage"
+						:disabled="activePeoplePage === 0"
+						aria-label="Vorherige Ansprechpartnerseite"
+					>
+						<ChevronLeft :size="18" :stroke-width="2.4" />
+					</button>
+
+					<div class="people-page-indicator" aria-label="Ansprechpartnerseiten">
+						<span
+							v-for="page in peopleDesktopPageCount"
+							:key="page"
+							class="people-page-indicator__dot"
+							:class="{ 'is-active': page - 1 === activePeoplePage }"
+						></span>
+					</div>
+
+					<button
+						type="button"
+						class="people-control-button"
+						@click="goToNextPeoplePage"
+						:disabled="activePeoplePage >= peopleDesktopPageCount - 1"
+						aria-label="Nächste Ansprechpartnerseite"
+					>
+						<ChevronRight :size="18" :stroke-width="2.4" />
+					</button>
 				</div>
 			</div>
 		</section>
@@ -157,7 +191,11 @@
 </template>
 
 <script setup lang="ts">
+	import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+	import { ChevronLeft, ChevronRight } from "@lucide/vue";
+	import DummySilhouette from "@/components/DummySilhouette.vue";
 	import vereinHero from "@/assets/header/background.png";
+	import rawAnsprechpartner from "@/content/ansprechpartner.json";
 	import rawVerein from "@/content/verein.json";
 
 	type VereinsPerson = {
@@ -204,7 +242,6 @@
 		people: {
 			title: string;
 			lead: string;
-			items: VereinsPerson[];
 		};
 		cta: {
 			title: string;
@@ -222,19 +259,78 @@
 		vereinHero,
 	};
 
-	const personCards = people.items.map((person) => ({
+	const isPortraitImage = (image?: string) =>
+		Boolean(image && image !== "vereinHero");
+
+	const personCards = (rawAnsprechpartner as VereinsPerson[]).map((person) => ({
 		...person,
-		image: person.image ? (imageMap[person.image] ?? person.image) : undefined,
+		image: isPortraitImage(person.image)
+			? (imageMap[person.image as string] ?? person.image)
+			: undefined,
 		imageAlt: person.imageAlt ?? person.name,
 	}));
 
-	const getInitials = (value?: string) =>
-		(value ?? "")
-			.split(" ")
-			.filter(Boolean)
-			.slice(0, 2)
-			.map((part) => part.charAt(0).toUpperCase())
-			.join("");
+	const peoplePerDesktopPage = 5;
+	const activePeoplePage = ref(0);
+	const isDesktopPeopleLayout = ref(false);
+	let desktopPeopleMediaQuery: MediaQueryList | null = null;
+
+	const peopleDesktopPageCount = computed(() =>
+		Math.ceil(personCards.length / peoplePerDesktopPage),
+	);
+
+	const visiblePeopleCards = computed(() => {
+		if (!isDesktopPeopleLayout.value) {
+			return personCards;
+		}
+
+		const startIndex = activePeoplePage.value * peoplePerDesktopPage;
+		return personCards.slice(startIndex, startIndex + peoplePerDesktopPage);
+	});
+
+	const syncDesktopPeopleLayout = () => {
+		const matches = desktopPeopleMediaQuery?.matches ?? false;
+		isDesktopPeopleLayout.value = matches;
+
+		if (!matches) {
+			activePeoplePage.value = 0;
+			return;
+		}
+
+		activePeoplePage.value = Math.min(
+			activePeoplePage.value,
+			Math.max(peopleDesktopPageCount.value - 1, 0),
+		);
+	};
+
+	const goToPreviousPeoplePage = () => {
+		activePeoplePage.value = Math.max(activePeoplePage.value - 1, 0);
+	};
+
+	const goToNextPeoplePage = () => {
+		activePeoplePage.value = Math.min(
+			activePeoplePage.value + 1,
+			Math.max(peopleDesktopPageCount.value - 1, 0),
+		);
+	};
+
+	onMounted(() => {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+		desktopPeopleMediaQuery = window.matchMedia("(min-width: 981px)");
+		syncDesktopPeopleLayout();
+		desktopPeopleMediaQuery.addEventListener("change", syncDesktopPeopleLayout);
+	});
+
+	onBeforeUnmount(() => {
+		desktopPeopleMediaQuery?.removeEventListener(
+			"change",
+			syncDesktopPeopleLayout,
+		);
+	});
+
 </script>
 
 <style scoped>
@@ -650,37 +746,36 @@
 		color: rgba(255, 255, 255, 0.11);
 	}
 
-	/* Ansprechpartner als Polaroid-Board */
+	/* Ansprechpartner im Stil des Trainerteams */
 	.people-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 1.5rem;
+		grid-template-columns: repeat(5, minmax(0, 180px));
+		justify-content: center;
+		gap: 0.7rem;
 		margin-top: 3rem;
-		padding: 0.2rem 0 0;
 		align-items: start;
 	}
 
 	.people-card {
-		padding: 0.75rem 0.75rem 1rem;
-		background: #fffdf7;
-		border: 1px solid rgba(17, 17, 17, 0.08);
-		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.18);
-		transform: rotate(-1.6deg);
+		padding: 0.8rem 0.8rem 1.2rem;
+		background: var(--primary-soft);
+		color: var(--ink);
+		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
+		transform: rotate(-1deg);
 	}
 
 	.people-card:nth-child(even) {
-		transform: rotate(1.4deg);
+		transform: rotate(1.2deg);
 	}
 
 	.people-card:nth-child(3n) {
-		transform: rotate(-0.55deg);
+		transform: rotate(-0.4deg);
 	}
 
 	.people-photo {
-		aspect-ratio: 4 / 4.7;
-		border-radius: 0;
+		aspect-ratio: 4 / 5;
 		overflow: hidden;
-		background: #e9e5da;
+		background: #dfe6f1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -696,31 +791,81 @@
 	.people-photo-fallback {
 		width: 100%;
 		height: 100%;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		background: #f1ede4;
-		color: var(--green);
-		font-size: 2.3rem;
-		font-weight: 900;
+		display: grid;
+		place-items: center;
+		color: var(--primary);
 	}
 
 	.people-caption {
-		padding-top: 0.8rem;
+		padding-top: 0.9rem;
 		text-align: center;
 	}
 
 	.people-name {
 		margin: 0;
-		font-size: 1.25rem;
 		font-weight: 900;
-		letter-spacing: -0.04em;
-		color: var(--ink);
 	}
 
 	.people-role {
-		margin: 0.3rem 0 0;
-		color: var(--muted);
+		margin: 0.25rem 0 0;
+		color: rgba(17, 17, 17, 0.6);
+		font-size: 0.92rem;
+	}
+
+	.people-toolbar {
+		margin-top: 1.2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.85rem;
+	}
+
+	.people-control-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid rgba(17, 17, 17, 0.08);
+		background: #fffdf7;
+		color: var(--ink);
+		cursor: pointer;
+		box-shadow: 0 0.8rem 1.9rem rgba(0, 0, 0, 0.12);
+		transition:
+			transform 0.18s ease,
+			opacity 0.18s ease,
+			background-color 0.18s ease;
+	}
+
+	.people-control-button:hover:not(:disabled) {
+		transform: translateY(-1px);
+		background: #ffffff;
+	}
+
+	.people-control-button:disabled {
+		opacity: 0.45;
+		cursor: default;
+	}
+
+	.people-page-indicator {
+		display: flex;
+		justify-content: center;
+		gap: 0.4rem;
+	}
+
+	.people-page-indicator__dot {
+		width: 0.42rem;
+		height: 0.42rem;
+		border-radius: 999px;
+		background: rgba(2, 43, 121, 0.18);
+		transition:
+			transform 0.2s ease,
+			background-color 0.2s ease;
+	}
+
+	.people-page-indicator__dot.is-active {
+		background: var(--sv-secondary-color);
+		transform: scale(1.15);
 	}
 
 	/* CTA */
@@ -908,27 +1053,34 @@
 
 		.people-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 0.7rem;
+			gap: 1rem;
 			width: 100%;
 		}
 
-		.people-photo {
-			aspect-ratio: 3 / 3.7;
+		.people-toolbar {
+			display: none;
+		}
+
+		.people-card,
+		.people-card:nth-child(even),
+		.people-card:nth-child(3n) {
+			transform: none;
 		}
 
 		.people-card {
-			padding: 0.35rem 0.35rem 0.65rem;
-			box-shadow: 0 0.7rem 1.4rem rgba(0, 0, 0, 0.2);
+			padding: 0.45rem 0.45rem 0.65rem;
+			border-radius: 0;
+			border: 1px solid rgba(17, 17, 17, 0.08);
+			background: #fffdf7;
+			box-shadow: 0 0.8rem 1.9rem rgba(0, 0, 0, 0.15);
 		}
 
 		.people-name {
-			font-size: 0.84rem;
-			line-height: 1.15;
+			font-size: 0.95rem;
 		}
 
 		.people-role {
-			font-size: 0.68rem;
-			line-height: 1.2;
+			font-size: 0.76rem;
 		}
 
 		.verein-section--cta,
@@ -954,7 +1106,32 @@
 		}
 
 		.people-grid {
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.people-card {
+			padding: 0.35rem 0.35rem 0.65rem;
+			box-shadow: 0 0.7rem 1.4rem rgba(0, 0, 0, 0.2);
+		}
+
+		.people-card:nth-child(even),
+		.people-card:nth-child(odd) {
+			transform: none;
+		}
+
+		.people-photo {
+			aspect-ratio: 3 / 4;
+		}
+
+		.people-name {
+			font-size: 0.78rem;
+			line-height: 1.15;
+		}
+
+		.people-role {
+			font-size: 0.68rem;
+			line-height: 1.2;
 		}
 	}
 
