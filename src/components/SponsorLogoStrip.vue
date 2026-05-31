@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="advertisingEnabled"
     class="sponsor-strip"
     :class="{ 'sponsor-strip--mobile-grid': mobileGrid }"
     aria-label="Unsere Sponsoren">
@@ -23,6 +24,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { getSponsors } from "@/utils/sponsors";
+import { advertisingEnabled } from "@/utils/advertising";
 
 withDefaults(
   defineProps<{

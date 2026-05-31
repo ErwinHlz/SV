@@ -2,6 +2,7 @@
 import { computed, onMounted, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { X } from "@lucide/vue";
+import { advertisingEnabled } from "@/utils/advertising";
 
 const route = useRoute();
 const isOverlayAdOpen = ref(false);
@@ -13,7 +14,7 @@ let overlayMediaQuery: MediaQueryList | null = null;
 const overlayAdPageviewKey = "sv-overlay-ad-pageviews";
 const swipeDismissThreshold = 72;
 
-const usesOverlayAd = () => overlayMediaQuery?.matches ?? false;
+const usesOverlayAd = () => advertisingEnabled && (overlayMediaQuery?.matches ?? false);
 const mobilePanelStyle = computed(() => ({
   transform: `translateY(${swipeOffsetY.value}px)`,
   opacity: String(Math.max(0, 1 - Math.abs(swipeOffsetY.value) / 220)),
@@ -110,6 +111,10 @@ const handlePanelClick = (event: MouseEvent) => {
 };
 
 onMounted(() => {
+  if (!advertisingEnabled) {
+    return;
+  }
+
   if (typeof window !== "undefined") {
     overlayMediaQuery = window.matchMedia("(max-width: 1240px)");
     syncOverlayAdState();
@@ -130,7 +135,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <aside class="global-sponsor-ad" aria-label="Werbefläche">
+  <aside v-if="advertisingEnabled" class="global-sponsor-ad" aria-label="Werbefläche">
     <a class="global-sponsor-ad__link" href="/sponsor/werden">
       <span class="global-sponsor-ad__eyebrow">Werbung</span>
       <strong class="global-sponsor-ad__title">Dein Sponsor hier</strong>
@@ -139,7 +144,7 @@ onBeforeUnmount(() => {
   </aside>
 
   <div
-    v-if="isOverlayAdOpen"
+    v-if="advertisingEnabled && isOverlayAdOpen"
     class="global-sponsor-ad-mobile"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"

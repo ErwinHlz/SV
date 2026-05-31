@@ -1,5 +1,5 @@
 <template>
-  <section class="inline-sponsor-ad">
+  <section v-if="advertisingEnabled" class="inline-sponsor-ad">
     <div class="inline-sponsor-ad__panel">
       <span class="inline-sponsor-ad__eyebrow">Werbung</span>
       <h2 class="inline-sponsor-ad__title">Dein Sponsor hier</h2>
@@ -10,6 +10,10 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { advertisingEnabled } from "@/utils/advertising";
+</script>
 
 <style scoped>
 .inline-sponsor-ad {

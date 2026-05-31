@@ -1,5 +1,5 @@
 <template>
-  <section class="home-sponsors-mobile">
+  <section v-if="advertisingEnabled" class="home-sponsors-mobile">
     <div class="home-sponsors-mobile__inner">
       <SponsorLogoStrip class="home-sponsors-mobile__grid" :mobile-grid="true" />
     </div>
@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
+import { advertisingEnabled } from "@/utils/advertising";
 </script>
 
 <style scoped>
