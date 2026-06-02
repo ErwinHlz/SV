@@ -105,7 +105,11 @@ import { ChevronLeft, ChevronRight, MapPinned } from "@lucide/vue";
 import ExternalContentPlaceholder from "@/components/ExternalContentPlaceholder.vue";
 import PageHero from "@/components/PageHero.vue";
 import { useCookieConsent } from "@/composables/useCookieConsent";
-import stadionHero from "@/assets/header/background.png";
+import stadionHero from "@/assets/spielberichte/stock_spielberichte_2.jpg";
+import stadionCrowd from "@/assets/header/background.png";
+import stadionTeam from "@/assets/Kader/1440x810.webp";
+import stadionDetail from "@/assets/spielberichte/stock_spielberichte_1.png";
+import stadionClubhouse from "@/assets/spielberichte/stock_spielberichte_3.png";
 import rawStadion from "@/content/stadion.json";
 
 type StadiumFact = {
@@ -150,6 +154,10 @@ const { hasExternalMediaConsent } = useCookieConsent();
 
 const imageMap: Record<string, string> = {
   stadionHero,
+  stadionCrowd,
+  stadionTeam,
+  stadionDetail,
+  stadionClubhouse,
 };
 
 const galleryItems = gallery.items.map((item, index) => ({

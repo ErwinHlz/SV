@@ -41,21 +41,21 @@
       },
       {
         "id": "stadion-2",
-        "image": "stadionHero",
-        "imageAlt": "Tribünenbereich am Sportplatz",
-        "caption": "Steh- und Sitzplätze am Spielfeldrand."
+        "image": "stadionDetail",
+        "imageAlt": "Ball und Schuhe am Spielfeldrand",
+        "caption": "Nahaufnahme direkt an der Seitenlinie."
       },
       {
         "id": "stadion-3",
-        "image": "stadionHero",
-        "imageAlt": "Vereinsheim am Stadion",
-        "caption": "Vereinsheim mit Bewirtung an Spieltagen."
+        "image": "stadionClubhouse",
+        "imageAlt": "Vereinsheim und Platzanlage",
+        "caption": "Blick über den Rasen Richtung Vereinsheim."
       },
       {
         "id": "stadion-4",
-        "image": "stadionHero",
-        "imageAlt": "Flutlichtanlage am Sportplatz",
-        "caption": "Training und Spiele unter Flutlicht."
+        "image": "stadionTeam",
+        "imageAlt": "Mannschaftsfoto auf dem Sportplatz",
+        "caption": "Die Mannschaft auf heimischem Rasen."
       }
     ]
   },
