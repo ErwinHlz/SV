@@ -268,7 +268,7 @@ onBeforeUnmount(() => {
 
 .history-intro,
 .timeline-section {
-  width: min(1240px, calc(100dvw - 32px));
+  width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
 }
 
@@ -484,7 +484,7 @@ onBeforeUnmount(() => {
 }
 
 .history-gallery {
-  width: min(1240px, calc(100dvw - 32px));
+  width: min(1240px, calc(100% - 32px));
   margin: clamp(28px, 5vw, 56px) auto 0;
 }
 
@@ -596,11 +596,13 @@ onBeforeUnmount(() => {
 
   .timeline-item {
     grid-template-columns: 44px minmax(0, 1fr);
-    gap: 12px;
+    gap: 10px 12px;
   }
 
   .timeline-item__center {
     grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
     padding-top: 28px;
   }
 
@@ -611,14 +613,16 @@ onBeforeUnmount(() => {
     justify-content: stretch;
   }
 
-  .timeline-item--left .timeline-item__side--right,
-  .timeline-item--right .timeline-item__side--left {
-    display: none;
+  .timeline-item--left .timeline-item__side--left,
+  .timeline-item--right .timeline-item__side--right {
+    grid-row: 1;
   }
 
-  .timeline-item__side--left:empty,
-  .timeline-item__side--right:empty {
-    display: none;
+  .timeline-item--left .timeline-item__side--right,
+  .timeline-item--right .timeline-item__side--left {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: stretch;
   }
 
   .timeline-card {
@@ -646,8 +650,13 @@ onBeforeUnmount(() => {
     direction: ltr;
   }
 
+  .timeline-photo__placeholder,
+  .timeline-photo__image {
+    min-height: 220px;
+  }
+
   .history-gallery {
-    width: calc(100dvw - 32px);
+    width: calc(100% - 32px);
   }
 
   .history-gallery__shell {
@@ -666,7 +675,7 @@ onBeforeUnmount(() => {
 @media (max-width: 640px) {
   .history-intro,
   .timeline-section {
-    width: calc(100dvw - 22px);
+    width: calc(100% - 24px);
   }
 
   .timeline-list {
@@ -696,7 +705,7 @@ onBeforeUnmount(() => {
   }
 
   .history-gallery {
-    width: calc(100dvw - 22px);
+    width: calc(100% - 24px);
   }
 
   .history-gallery__grid {

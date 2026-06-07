@@ -890,6 +890,7 @@ const printableFamilyMembers = computed(() => {
 .membership-header,
 .membership-notice,
 .membership-block {
+  box-sizing: border-box;
   background: rgba(7, 18, 44, 0.86);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
@@ -913,6 +914,8 @@ const printableFamilyMembers = computed(() => {
   font-size: clamp(2rem, 4.4vw, 3.3rem);
   line-height: 1;
   letter-spacing: -0.03em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .membership-header__lead,
@@ -1004,6 +1007,7 @@ const printableFamilyMembers = computed(() => {
   font-size: 0.95rem;
   font-weight: 600;
   color: #ffffff;
+  min-width: 0;
 }
 
 .membership-label__text {
@@ -1069,12 +1073,13 @@ const printableFamilyMembers = computed(() => {
 
 .membership-option {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   min-height: 44px;
   padding: 0;
   font-weight: 500;
   color: #ffffff;
+  line-height: 1.45;
 }
 
 .membership-option input,
@@ -1457,6 +1462,15 @@ const printableFamilyMembers = computed(() => {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .membership-submit-actions {
+    width: 100%;
+  }
+
+  .membership-submit-actions .membership-secondary-btn,
+  .membership-submit-actions .membership-primary-btn {
+    flex: 1 1 100%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1472,6 +1486,26 @@ const printableFamilyMembers = computed(() => {
 
   .membership-header__title {
     font-size: clamp(1.7rem, 9vw, 2.4rem);
+  }
+
+  .membership-section-title {
+    font-size: clamp(1.1rem, 6vw, 1.5rem);
+  }
+
+  .membership-rule-item,
+  .membership-check {
+    grid-template-columns: 22px 1fr;
+    gap: 8px;
+  }
+
+  .membership-option {
+    min-height: auto;
+  }
+
+  .membership-secondary-btn,
+  .membership-primary-btn {
+    width: 100%;
+    padding: 0 16px;
   }
 }
 

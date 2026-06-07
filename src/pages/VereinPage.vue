@@ -414,7 +414,7 @@ onBeforeUnmount(() => {
 .verein-timeline,
 .verein-people,
 .verein-cta {
-  width: min(1240px, calc(100dvw - 32px));
+  width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
 }
 
@@ -755,11 +755,13 @@ onBeforeUnmount(() => {
 
   .verein-timeline__item {
     grid-template-columns: 44px minmax(0, 1fr);
-    gap: 12px;
+    gap: 10px 12px;
   }
 
   .verein-timeline__center {
     grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
     padding-top: 28px;
   }
 
@@ -770,9 +772,16 @@ onBeforeUnmount(() => {
     justify-content: stretch;
   }
 
+  .verein-timeline__item--left .verein-timeline__side--left,
+  .verein-timeline__item--right .verein-timeline__side--right {
+    grid-row: 1;
+  }
+
   .verein-timeline__item--left .verein-timeline__side--right,
   .verein-timeline__item--right .verein-timeline__side--left {
-    display: none;
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: stretch;
   }
 
   .verein-timeline__content,
@@ -794,6 +803,13 @@ onBeforeUnmount(() => {
 
   .verein-timeline__item--left .verein-timeline__points li {
     direction: ltr;
+  }
+
+  .verein-timeline__item--left .verein-timeline__counterpart,
+  .verein-timeline__item--right .verein-timeline__counterpart {
+    min-height: 200px;
+    margin: 0;
+    margin-left: 10px;
   }
 
   .verein-people__grid {
@@ -834,7 +850,7 @@ onBeforeUnmount(() => {
   .verein-timeline,
   .verein-people,
   .verein-cta {
-    width: calc(100dvw - 22px);
+    width: calc(100% - 24px);
   }
 
   .verein-timeline__list {
@@ -853,7 +869,19 @@ onBeforeUnmount(() => {
 
   .verein-people__grid {
     grid-template-columns: 1fr;
-    grid-auto-columns: minmax(230px, 82vw);
+    grid-auto-columns: minmax(240px, 84vw);
+  }
+
+  .verein-people__card {
+    padding: 0.7rem 0.7rem 1rem;
+  }
+
+  .verein-cta__actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
   }
 }
 
