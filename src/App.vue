@@ -16,6 +16,7 @@ const isJugendPage = computed(() => route.path.startsWith("/teams/jugend"));
 const isStadionPage = computed(() => route.path === "/stadion");
 const isVereinPage = computed(() => route.path === "/verein");
 const isHistoryPage = computed(() => route.path === "/historie");
+const isGalleryPage = computed(() => route.path === "/galerie");
 const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
 const isMembershipPage = computed(() => route.path === "/mitglied-werden");
 const isDatenschutzPage = computed(() => route.path === "/datenschutz");
@@ -38,9 +39,11 @@ const keepPageContents = computed(
 const disablePageSnap = computed(
   () =>
     disableGlobalSnap.value ||
+    isJugendPage.value ||
     isStadionPage.value ||
     isVereinPage.value ||
     isHistoryPage.value ||
+    isGalleryPage.value ||
     isSponsorPage.value ||
     isMembershipPage.value ||
     isContactPage.value ||

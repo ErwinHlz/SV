@@ -194,7 +194,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import PageHero from "@/components/PageHero.vue";
@@ -361,6 +361,10 @@ const syncDesktopPeopleLayout = () => {
 
   if (!matches) {
     activeDesktopPeoplePage.value = 0;
+    nextTick(() => {
+      centerActivePeopleCard();
+      updateActivePeoplePage();
+    });
     return;
   }
 
@@ -382,6 +386,28 @@ const goToNextPeoplePage = () => {
     activeDesktopPeoplePage.value + 1,
     Math.max(peopleDesktopPageCount.value - 1, 0),
   );
+};
+
+const centerActivePeopleCard = () => {
+  const element = peopleGridRef.value;
+
+  if (!element || isDesktopPeopleLayout.value) {
+    return;
+  }
+
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".verein-people__card"),
+  );
+  const activeCard = cards[activePeoplePage.value];
+
+  if (!activeCard) {
+    return;
+  }
+
+  const targetLeft =
+    activeCard.offsetLeft - (element.clientWidth - activeCard.offsetWidth) / 2;
+
+  element.scrollLeft = Math.max(0, targetLeft);
 };
 
 const updateActivePeoplePage = () => {
@@ -438,7 +464,13 @@ onMounted(() => {
     syncDesktopPeopleLayout();
     desktopPeopleMediaQuery.addEventListener("change", syncDesktopPeopleLayout);
     window.addEventListener("resize", updateActivePeoplePage);
+    window.addEventListener("resize", centerActivePeopleCard);
   }
+
+  nextTick(() => {
+    centerActivePeopleCard();
+    updateActivePeoplePage();
+  });
 });
 
 onBeforeUnmount(() => {
@@ -449,12 +481,14 @@ onBeforeUnmount(() => {
     syncDesktopPeopleLayout,
   );
   window.removeEventListener("resize", updateActivePeoplePage);
+  window.removeEventListener("resize", centerActivePeopleCard);
 });
 </script>
 
 <style scoped>
 .verein-page {
   padding-bottom: clamp(56px, 8vw, 96px);
+  overflow-x: clip;
 }
 
 .verein-intro,
@@ -870,6 +904,11 @@ onBeforeUnmount(() => {
     scroll-padding-inline: calc(50% - (var(--people-card-width) / 2));
     padding: 0 calc(50% - (var(--people-card-width) / 2)) 10px;
     justify-content: start;
+    scrollbar-width: none;
+  }
+
+  .verein-people__grid::-webkit-scrollbar {
+    display: none;
   }
 
   .verein-people__card {

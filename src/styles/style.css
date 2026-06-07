@@ -76,6 +76,7 @@ h1 {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  background-color: var(--sv-bg-base);
 }
 
 .app-page {
@@ -115,6 +116,7 @@ h1 {
     scroll-snap-type: y mandatory;
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
+    background-color: var(--sv-bg-base);
   }
 
   .app-page {

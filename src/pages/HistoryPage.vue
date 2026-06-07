@@ -298,6 +298,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .history-page {
   padding-bottom: clamp(56px, 8vw, 96px);
+  overflow-x: clip;
 }
 
 .history-intro,

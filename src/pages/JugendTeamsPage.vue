@@ -100,9 +100,10 @@
           @scroll.passive="handleTeamsGridScroll"
         >
           <article
-            v-for="team in visibleTeamCards"
+            v-for="(team, index) in visibleTeamCards"
             :key="team.id"
             class="youth-team-card"
+            :class="{ 'is-active': !isDesktopTeamLayout && index === activeTeamPage }"
           >
             <div class="youth-team-card__media">
               <img :src="team.image" :alt="team.imageAlt" loading="lazy" />
@@ -205,9 +206,10 @@
           @scroll.passive="handleCoachGridScroll"
         >
           <article
-            v-for="member in visibleCoachCards"
+            v-for="(member, index) in visibleCoachCards"
             :key="member.id"
             class="youth-coach-card"
+            :class="{ 'is-active': !isDesktopCoachLayout && index === activeCoachPage }"
           >
             <div class="youth-coach-card__photo">
               <img
@@ -324,7 +326,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
@@ -440,7 +442,7 @@ const activeDesktopTeamPage = ref(0);
 const isDesktopTeamLayout = ref(false);
 let desktopTeamMediaQuery: MediaQueryList | null = null;
 
-const teamMobilePageCount = computed(() => Math.ceil(teamCards.length / 3));
+const teamMobilePageCount = computed(() => teamCards.length);
 const teamDesktopPageCount = computed(() => Math.ceil(teamCards.length / 3));
 
 const visibleTeamCards = computed(() => {
@@ -467,7 +469,7 @@ const activeDesktopCoachPage = ref(0);
 const isDesktopCoachLayout = ref(false);
 let desktopCoachMediaQuery: MediaQueryList | null = null;
 
-const coachMobilePageCount = computed(() => Math.ceil(coachCards.length / 4));
+const coachMobilePageCount = computed(() => coachCards.length);
 const coachDesktopPageCount = computed(() => Math.ceil(coachCards.length / 5));
 
 const visibleCoachCards = computed(() => {
@@ -522,6 +524,10 @@ const syncDesktopTeamLayout = () => {
 
   if (!matches) {
     activeDesktopTeamPage.value = 0;
+    nextTick(() => {
+      centerActiveTeamCard();
+      updateActiveTeamPage();
+    });
     return;
   }
 
@@ -542,6 +548,28 @@ const goToNextTeamPage = () => {
   );
 };
 
+const centerActiveTeamCard = () => {
+  const element = teamsGridRef.value;
+
+  if (!element || isDesktopTeamLayout.value) {
+    return;
+  }
+
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".youth-team-card"),
+  );
+  const activeCard = cards[activeTeamPage.value];
+
+  if (!activeCard) {
+    return;
+  }
+
+  const targetLeft =
+    activeCard.offsetLeft - (element.clientWidth - activeCard.offsetWidth) / 2;
+
+  element.scrollLeft = Math.max(0, targetLeft);
+};
+
 const updateActiveTeamPage = () => {
   const element = teamsGridRef.value;
 
@@ -549,20 +577,30 @@ const updateActiveTeamPage = () => {
     return;
   }
 
-  const pageWidth = element.clientWidth;
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".youth-team-card"),
+  );
 
-  if (!pageWidth) {
+  if (!cards.length) {
     activeTeamPage.value = 0;
     return;
   }
 
-  activeTeamPage.value = Math.max(
-    0,
-    Math.min(
-      teamMobilePageCount.value - 1,
-      Math.round(element.scrollLeft / pageWidth),
-    ),
-  );
+  const viewportCenter = element.scrollLeft + element.clientWidth / 2;
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  cards.forEach((card, index) => {
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    const distance = Math.abs(cardCenter - viewportCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  activeTeamPage.value = closestIndex;
 };
 
 const handleTeamsGridScroll = () => {
@@ -575,6 +613,10 @@ const syncDesktopCoachLayout = () => {
 
   if (!matches) {
     activeDesktopCoachPage.value = 0;
+    nextTick(() => {
+      centerActiveCoachCard();
+      updateActiveCoachPage();
+    });
     return;
   }
 
@@ -595,6 +637,28 @@ const goToNextCoachPage = () => {
   );
 };
 
+const centerActiveCoachCard = () => {
+  const element = coachGridRef.value;
+
+  if (!element || isDesktopCoachLayout.value) {
+    return;
+  }
+
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".youth-coach-card"),
+  );
+  const activeCard = cards[activeCoachPage.value];
+
+  if (!activeCard) {
+    return;
+  }
+
+  const targetLeft =
+    activeCard.offsetLeft - (element.clientWidth - activeCard.offsetWidth) / 2;
+
+  element.scrollLeft = Math.max(0, targetLeft);
+};
+
 const updateActiveCoachPage = () => {
   const element = coachGridRef.value;
 
@@ -602,20 +666,30 @@ const updateActiveCoachPage = () => {
     return;
   }
 
-  const pageWidth = element.clientWidth;
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".youth-coach-card"),
+  );
 
-  if (!pageWidth) {
+  if (!cards.length) {
     activeCoachPage.value = 0;
     return;
   }
 
-  activeCoachPage.value = Math.max(
-    0,
-    Math.min(
-      coachMobilePageCount.value - 1,
-      Math.round(element.scrollLeft / pageWidth),
-    ),
-  );
+  const viewportCenter = element.scrollLeft + element.clientWidth / 2;
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  cards.forEach((card, index) => {
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    const distance = Math.abs(cardCenter - viewportCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  activeCoachPage.value = closestIndex;
 };
 
 const handleCoachGridScroll = () => {
@@ -624,6 +698,19 @@ const handleCoachGridScroll = () => {
 
 const timelineRef = ref<HTMLElement | null>(null);
 const timelineProgress = ref(0);
+let scrollContainer: Window | HTMLElement | null = null;
+
+const getElementTopWithin = (element: HTMLElement, ancestor: HTMLElement) => {
+  let current: HTMLElement | null = element;
+  let offset = 0;
+
+  while (current && current !== ancestor) {
+    offset += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return offset;
+};
 
 const updateTimelineProgress = () => {
   const element = timelineRef.value;
@@ -632,17 +719,37 @@ const updateTimelineProgress = () => {
     return;
   }
 
-  const rect = element.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const total = rect.height + viewportHeight * 0.3;
-  const passed = viewportHeight * 0.72 - rect.top;
+  if (!scrollContainer || scrollContainer instanceof Window) {
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const absoluteTop = window.scrollY + rect.top;
+    const start = absoluteTop - viewportHeight * 0.72;
+    const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+    const range = Math.max(end - start, 1);
+    const current = window.scrollY;
 
-  timelineProgress.value = Math.min(1, Math.max(0, passed / total));
+    timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
+    return;
+  }
+
+  const viewportHeight = scrollContainer.clientHeight;
+  const absoluteTop = getElementTopWithin(element, scrollContainer);
+  const start = absoluteTop - viewportHeight * 0.72;
+  const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+  const range = Math.max(end - start, 1);
+  const current = scrollContainer.scrollTop;
+
+  timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
 };
 
 onMounted(() => {
+  const appContent = timelineRef.value?.closest(".app-content");
+  scrollContainer = appContent instanceof HTMLElement ? appContent : window;
+
   updateTimelineProgress();
-  window.addEventListener("scroll", updateTimelineProgress, { passive: true });
+  scrollContainer.addEventListener("scroll", updateTimelineProgress, {
+    passive: true,
+  });
   window.addEventListener("resize", updateTimelineProgress);
   updateActiveTeamPage();
   updateActiveCoachPage();
@@ -656,22 +763,34 @@ onMounted(() => {
     desktopCoachMediaQuery.addEventListener("change", syncDesktopCoachLayout);
     window.addEventListener("resize", updateActiveTeamPage);
     window.addEventListener("resize", updateActiveCoachPage);
+    window.addEventListener("resize", centerActiveTeamCard);
+    window.addEventListener("resize", centerActiveCoachCard);
   }
+
+  nextTick(() => {
+    centerActiveTeamCard();
+    centerActiveCoachCard();
+    updateActiveTeamPage();
+    updateActiveCoachPage();
+  });
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("scroll", updateTimelineProgress);
+  scrollContainer?.removeEventListener("scroll", updateTimelineProgress);
   window.removeEventListener("resize", updateTimelineProgress);
   desktopTeamMediaQuery?.removeEventListener("change", syncDesktopTeamLayout);
   desktopCoachMediaQuery?.removeEventListener("change", syncDesktopCoachLayout);
   window.removeEventListener("resize", updateActiveTeamPage);
   window.removeEventListener("resize", updateActiveCoachPage);
+  window.removeEventListener("resize", centerActiveTeamCard);
+  window.removeEventListener("resize", centerActiveCoachCard);
 });
 </script>
 
 <style scoped>
 .youth-page {
   padding-bottom: clamp(56px, 8vw, 96px);
+  overflow-x: clip;
 }
 
 .youth-intro,
@@ -679,7 +798,7 @@ onBeforeUnmount(() => {
 .youth-teams,
 .youth-coaches,
 .youth-contact {
-  width: min(1240px, calc(100dvw - 32px));
+  width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
 }
 
@@ -1116,11 +1235,13 @@ onBeforeUnmount(() => {
 
   .youth-timeline__item {
     grid-template-columns: 44px minmax(0, 1fr);
-    gap: 12px;
+    gap: 10px 12px;
   }
 
   .youth-timeline__center {
     grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
     padding-top: 28px;
   }
 
@@ -1131,9 +1252,16 @@ onBeforeUnmount(() => {
     justify-content: stretch;
   }
 
+  .youth-timeline__item--left .youth-timeline__side--left,
+  .youth-timeline__item--right .youth-timeline__side--right {
+    grid-row: 1;
+  }
+
   .youth-timeline__item--left .youth-timeline__side--right,
   .youth-timeline__item--right .youth-timeline__side--left {
-    display: none;
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: stretch;
   }
 
   .youth-timeline__content,
@@ -1157,6 +1285,13 @@ onBeforeUnmount(() => {
     direction: ltr;
   }
 
+  .youth-timeline__item--left .youth-timeline__counterpart,
+  .youth-timeline__item--right .youth-timeline__counterpart {
+    min-height: 200px;
+    margin: 0;
+    margin-left: 10px;
+  }
+
   .youth-contact__layout {
     grid-template-columns: 1fr;
   }
@@ -1164,15 +1299,37 @@ onBeforeUnmount(() => {
   .youth-teams__grid {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(250px, 270px);
+    --team-card-width: clamp(248px, 72vw, 292px);
+    grid-auto-columns: var(--team-card-width);
+    gap: 18px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 6px;
+    scroll-padding-inline: calc(50% - (var(--team-card-width) / 2));
+    padding: 0 calc(50% - (var(--team-card-width) / 2)) 10px;
     justify-content: start;
+    scrollbar-width: none;
   }
 
   .youth-team-card {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    min-height: 100%;
+    opacity: 0.38;
+    filter: grayscale(1);
+    transform: scale(0.9);
+    transition:
+      opacity 0.24s ease,
+      filter 0.24s ease,
+      transform 0.24s ease;
+  }
+
+  .youth-team-card.is-active {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: scale(1);
+  }
+
+  .youth-teams__grid::-webkit-scrollbar {
+    display: none;
   }
 
   .youth-teams__indicator {
@@ -1196,15 +1353,37 @@ onBeforeUnmount(() => {
   .youth-coaches__grid {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(220px, 240px);
+    --coach-card-width: clamp(248px, 72vw, 292px);
+    grid-auto-columns: var(--coach-card-width);
+    gap: 18px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 6px;
+    scroll-padding-inline: calc(50% - (var(--coach-card-width) / 2));
+    padding: 0 calc(50% - (var(--coach-card-width) / 2)) 10px;
     justify-content: start;
+    scrollbar-width: none;
   }
 
   .youth-coach-card {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    min-height: 100%;
+    opacity: 0.38;
+    filter: grayscale(1);
+    transform: scale(0.9);
+    transition:
+      opacity 0.24s ease,
+      filter 0.24s ease,
+      transform 0.24s ease;
+  }
+
+  .youth-coach-card.is-active {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: scale(1);
+  }
+
+  .youth-coaches__grid::-webkit-scrollbar {
+    display: none;
   }
 
   .youth-coaches__indicator {
@@ -1232,7 +1411,7 @@ onBeforeUnmount(() => {
   .youth-teams,
   .youth-coaches,
   .youth-contact {
-    width: calc(100dvw - 22px);
+    width: calc(100% - 24px);
   }
 
   .youth-timeline__list {
@@ -1255,11 +1434,13 @@ onBeforeUnmount(() => {
   }
 
   .youth-teams__grid {
-    grid-auto-columns: minmax(240px, 84vw);
+    --team-card-width: min(280px, 82vw);
+    grid-auto-columns: var(--team-card-width);
   }
 
   .youth-coaches__grid {
-    grid-auto-columns: minmax(230px, 82vw);
+    --coach-card-width: min(280px, 82vw);
+    grid-auto-columns: var(--coach-card-width);
   }
 }
 

@@ -50,7 +50,12 @@ const router = createRouter({
     },
     { path: "/contact", name: "contact", component: Contact },
     { path: "/news", name: "news", component: NewsPage, meta: { snap: true } },
-    { path: "/news/:slug", name: "news-detail", component: NewsDetailPage },
+    {
+      path: "/news/:slug",
+      name: "news-detail",
+      component: NewsDetailPage,
+      meta: { resetAppScroll: true },
+    },
     {
       path: "/spielberichte",
       name: "spielberichte",
@@ -61,6 +66,7 @@ const router = createRouter({
       path: "/spielberichte/:slug",
       name: "spielbericht-detail",
       component: SpielberichtDetailPage,
+      meta: { resetAppScroll: true },
     },
     {
       path: "/termine",
@@ -72,6 +78,7 @@ const router = createRouter({
       path: "/termine/:slug",
       name: "termine-detail",
       component: TerminDetailPage,
+      meta: { resetAppScroll: true },
     },
     { path: "/datenschutz", name: "datenschutz", component: DatenschutzPage },
     { path: "/impressum", name: "impressum", component: ImpressumPage },
@@ -130,6 +137,22 @@ const router = createRouter({
   ],
   linkActiveClass: "is-active",
   linkExactActiveClass: "is-exact-active",
+});
+
+router.afterEach((to) => {
+  if (!to.meta.resetAppScroll || to.hash) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    const appContent = document.querySelector(".app-content");
+
+    if (appContent instanceof HTMLElement) {
+      appContent.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
 });
 
 export default router;
