@@ -26,7 +26,11 @@ const isContentDetailPage = computed(() =>
   ),
 );
 const useInlineFooter = computed(
-  () => isJugendPage.value || isVereinPage.value || isContactPage.value,
+  () =>
+    isJugendPage.value ||
+    isVereinPage.value ||
+    isContactPage.value ||
+    isMembershipPage.value,
 );
 const keepPageContents = computed(
   () => isJugendPage.value,

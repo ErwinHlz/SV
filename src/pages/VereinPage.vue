@@ -103,9 +103,12 @@
           class="verein-people__grid"
           @scroll.passive="handlePeopleGridScroll">
           <article
-            v-for="person in visiblePeopleCards"
+            v-for="(person, index) in visiblePeopleCards"
             :key="person.id"
-            class="verein-people__card">
+            class="verein-people__card"
+            :class="{
+              'is-active': !isDesktopPeopleLayout && index === activePeoplePage,
+            }">
             <div class="verein-people__photo">
               <img
                 v-if="person.image"
@@ -290,7 +293,7 @@ const activeDesktopPeoplePage = ref(0);
 const isDesktopPeopleLayout = ref(false);
 let desktopPeopleMediaQuery: MediaQueryList | null = null;
 
-const peopleMobilePageCount = computed(() => Math.ceil(personCards.length / 4));
+const peopleMobilePageCount = computed(() => personCards.length);
 const peopleDesktopPageCount = computed(() =>
   Math.ceil(personCards.length / 5),
 );
@@ -308,6 +311,19 @@ const timelineEntries = rawTimelineEntries as TimelineEntry[];
 
 const timelineRef = ref<HTMLElement | null>(null);
 const timelineProgress = ref(0);
+let scrollContainer: Window | HTMLElement | null = null;
+
+const getElementTopWithin = (element: HTMLElement, ancestor: HTMLElement) => {
+  let current: HTMLElement | null = element;
+  let offset = 0;
+
+  while (current && current !== ancestor) {
+    offset += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return offset;
+};
 
 const updateTimelineProgress = () => {
   const element = timelineRef.value;
@@ -316,12 +332,27 @@ const updateTimelineProgress = () => {
     return;
   }
 
-  const rect = element.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const total = rect.height + viewportHeight * 0.3;
-  const passed = viewportHeight * 0.72 - rect.top;
+  if (!scrollContainer || scrollContainer instanceof Window) {
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const absoluteTop = window.scrollY + rect.top;
+    const start = absoluteTop - viewportHeight * 0.72;
+    const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+    const range = Math.max(end - start, 1);
+    const current = window.scrollY;
 
-  timelineProgress.value = Math.min(1, Math.max(0, passed / total));
+    timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
+    return;
+  }
+
+  const viewportHeight = scrollContainer.clientHeight;
+  const absoluteTop = getElementTopWithin(element, scrollContainer);
+  const start = absoluteTop - viewportHeight * 0.72;
+  const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+  const range = Math.max(end - start, 1);
+  const current = scrollContainer.scrollTop;
+
+  timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
 };
 
 const syncDesktopPeopleLayout = () => {
@@ -360,20 +391,30 @@ const updateActivePeoplePage = () => {
     return;
   }
 
-  const pageWidth = element.clientWidth;
+  const cards = Array.from(
+    element.querySelectorAll<HTMLElement>(".verein-people__card"),
+  );
 
-  if (!pageWidth) {
+  if (!cards.length) {
     activePeoplePage.value = 0;
     return;
   }
 
-  activePeoplePage.value = Math.max(
-    0,
-    Math.min(
-      peopleMobilePageCount.value - 1,
-      Math.round(element.scrollLeft / pageWidth),
-    ),
-  );
+  const viewportCenter = element.scrollLeft + element.clientWidth / 2;
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  cards.forEach((card, index) => {
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    const distance = Math.abs(cardCenter - viewportCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  activePeoplePage.value = closestIndex;
 };
 
 const handlePeopleGridScroll = () => {
@@ -381,8 +422,14 @@ const handlePeopleGridScroll = () => {
 };
 
 onMounted(() => {
+  const appContent = timelineRef.value?.closest(".app-content");
+  scrollContainer =
+    appContent instanceof HTMLElement ? appContent : window;
+
   updateTimelineProgress();
-  window.addEventListener("scroll", updateTimelineProgress, { passive: true });
+  scrollContainer.addEventListener("scroll", updateTimelineProgress, {
+    passive: true,
+  });
   window.addEventListener("resize", updateTimelineProgress);
   updateActivePeoplePage();
 
@@ -395,7 +442,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("scroll", updateTimelineProgress);
+  scrollContainer?.removeEventListener("scroll", updateTimelineProgress);
   window.removeEventListener("resize", updateTimelineProgress);
   desktopPeopleMediaQuery?.removeEventListener(
     "change",
@@ -815,15 +862,32 @@ onBeforeUnmount(() => {
   .verein-people__grid {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(220px, 240px);
+    --people-card-width: clamp(248px, 72vw, 292px);
+    grid-auto-columns: var(--people-card-width);
+    gap: 18px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 6px;
+    scroll-padding-inline: calc(50% - (var(--people-card-width) / 2));
+    padding: 0 calc(50% - (var(--people-card-width) / 2)) 10px;
     justify-content: start;
   }
 
   .verein-people__card {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    min-height: 100%;
+    opacity: 0.38;
+    filter: grayscale(1);
+    transform: scale(0.9);
+    transition:
+      opacity 0.24s ease,
+      filter 0.24s ease,
+      transform 0.24s ease;
+  }
+
+  .verein-people__card.is-active {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: scale(1);
   }
 
   .verein-people__indicator {
@@ -869,7 +933,8 @@ onBeforeUnmount(() => {
 
   .verein-people__grid {
     grid-template-columns: 1fr;
-    grid-auto-columns: minmax(240px, 84vw);
+    --people-card-width: min(280px, 82vw);
+    grid-auto-columns: var(--people-card-width);
   }
 
   .verein-people__card {
