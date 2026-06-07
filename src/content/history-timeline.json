@@ -1,0 +1,113 @@
+[
+  {
+    "year": "1919",
+    "eyebrow": "Gruendung",
+    "title": "Der SV Ottweiler wird in Ottweiler gegruendet",
+    "points": [
+      "eigenstaendiger Fussballverein der Stadt Ottweiler",
+      "Gruendung unmittelbar nach dem Ersten Weltkrieg",
+      "Vereinsfarben: Blau-Gelb",
+      "Heimstaette bis heute: Im Alten Weiher"
+    ],
+    "photoLabel": "Foto Gruendung",
+    "imageSrc": "/sv_logo_farbe.svg",
+    "imageAlt": "Platzhalterbild zur Gruendung des SV Ottweiler"
+  },
+  {
+    "year": "Nach 1945",
+    "eyebrow": "Wiederaufbau",
+    "title": "Rueckkehr in den regionalen Spielbetrieb",
+    "points": [
+      "Neustart nach dem Zweiten Weltkrieg",
+      "fester Bestandteil der saarlaendischen Ligen",
+      "sportliches Fundament fuer spaetere Erfolgsjahre"
+    ],
+    "photoLabel": "Foto Wiederaufbau",
+    "imageSrc": "/historie/djk_vs_sv.jpg",
+    "imageAlt": "Platzhalterbild zur Wiederaufbauphase"
+  },
+  {
+    "year": "1977/78",
+    "eyebrow": "DFB-Pokal",
+    "title": "Einzige Teilnahme im DFB-Pokal",
+    "points": [
+      "Qualifikation ueber den Saarlandpokal",
+      "1:1 im ersten Duell gegen TuRa Harksheide",
+      "2:1 im Wiederholungsspiel vor heimischer Kulisse",
+      "Einzug in die 2. Runde des DFB-Pokals",
+      "Torschuetzen: Harald Schmitzer und Giacomo Cumbo",
+      "0:4 in Runde 2 beim BSV Schwenningen"
+    ],
+    "photoLabel": "Foto DFB-Pokal",
+    "imageSrc": "/historie/verbandsliga_1979.jpg",
+    "imageAlt": "Platzhalterbild zur DFB-Pokal-Saison"
+  },
+  {
+    "year": "1978",
+    "eyebrow": "Aufstieg",
+    "title": "Sprung in die neue Saarlandliga",
+    "points": [
+      "Aufstieg in die damalige Verbandsliga Saar",
+      "Reform des Ligensystems im Saarland",
+      "Spiele gegen die staerksten Amateurvereine der Region",
+      "hoeherer Zuspruch und groessere Aufmerksamkeit",
+      "sportlicher Hoehepunkt der Vereinsgeschichte"
+    ],
+    "photoLabel": "Foto Aufstieg",
+    "imageSrc": "/historie/historie_4.jpg",
+    "imageAlt": "Platzhalterbild zum Aufstieg in die Saarlandliga"
+  },
+  {
+    "year": "Ende 70er / Anfang 80er",
+    "eyebrow": "Erfolgsphase",
+    "title": "Das staerkste Jahrzehnt des Vereins",
+    "points": [
+      "mehrere Jahre auf hohem saarlaendischem Niveau",
+      "vier Spielzeiten in der ewigen Tabelle der Verbandsliga/Saarlandliga",
+      "bis heute praegende Mannschaft fuer viele Vereinsmitglieder"
+    ],
+    "photoLabel": "Foto Erfolgsphase",
+    "imageSrc": "/historie/historie_5.jpg",
+    "imageAlt": "Platzhalterbild zur Erfolgsphase"
+  },
+  {
+    "year": "2008",
+    "eyebrow": "SG 08",
+    "title": "Beginn der Spielgemeinschaft mit der DJK Ottweiler",
+    "points": [
+      "aktive Mannschaften als SG 08 Ottweiler",
+      "Stammverein bleibt eigenstaendig bestehen",
+      "zwei Meisterschaften im Aktivenbereich in dieser Phase"
+    ],
+    "photoLabel": "Foto SG 08",
+    "imageSrc": "/historie/historie_7.jpg",
+    "imageAlt": "Platzhalterbild zur SG 08 Ottweiler"
+  },
+  {
+    "year": "2017",
+    "eyebrow": "FSG",
+    "title": "Entstehung der FSG Ottweiler/Steinbach",
+    "points": [
+      "gemeinsamer Weg mit DJK Ottweiler und TuS Steinbach 1898",
+      "breitere sportliche Zusammenarbeit im Aktivenbereich",
+      "Tradition des Stammvereins bleibt erhalten"
+    ],
+    "photoLabel": "Foto FSG",
+    "imageSrc": "/historie/historie_11.jpg",
+    "imageAlt": "Platzhalterbild zur FSG Ottweiler-Steinbach"
+  },
+  {
+    "year": "Heute",
+    "eyebrow": "Gegenwart",
+    "title": "Tradition, Erinnerung und neue Eigenstaendigkeit",
+    "points": [
+      "mehr als 100 Jahre Vereinsgeschichte",
+      "historische Erfolge bleiben Teil der Vereinsidentitaet",
+      "Geschichten vom Alten Weiher leben bis heute weiter",
+      "zur kommenden Saison wieder allein mit zwei Mannschaften im Spielbetrieb"
+    ],
+    "photoLabel": "Foto Gegenwart",
+    "imageSrc": "/historie/historie_19.jpg",
+    "imageAlt": "Platzhalterbild zur Gegenwart des Vereins"
+  }
+]

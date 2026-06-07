@@ -6,7 +6,15 @@ export type NavItem = {
 
 export const NAV: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Verein", to: "/verein" },
+  {
+    label: "Verein",
+    to: "/verein",
+    children: [
+      { label: "Verein", to: "/verein" },
+      { label: "Historie", to: "/historie" },
+      { label: "Mitgliedsantrag", to: "/mitglied-werden" },
+    ],
+  },
   {
     label: "Teams",
     to: "/teams/one/kader",
@@ -49,5 +57,13 @@ export const NAV: NavItem[] = [
       { label: "Spielberichte", to: "/spielberichte" },
     ],
   },
-  { label: "Sponsoren", to: "/sponsor" },
+  {
+    label: "Sponsoren",
+    to: "/sponsor",
+    children: [
+      { label: "Sponsoren", to: "/sponsor" },
+      { label: "Sponsor werden", to: "/sponsor/werden" },
+    ],
+  },
+  { label: "Galerie", to: "/galerie" },
 ];

@@ -12,41 +12,6 @@
         </p>
       </header>
 
-      <section class="membership-notice" aria-labelledby="membership-notice-title">
-        <div class="membership-notice__intro">
-          <h2 id="membership-notice-title" class="membership-section-title">
-            DER SPORTVEREIN OTTWEILER 1919 e.V. HEISST SIE ALS NEUES
-            VEREINSMITGLIED HERZLICH WILLKOMMEN!
-          </h2>
-          <p class="membership-copy">
-            Bitte beachten Sie beim Ausfüllen des Antrages folgende Punkte:
-          </p>
-        </div>
-
-        <div class="membership-rules">
-          <div class="membership-rule-item"><span class="membership-rule-number">1.</span><span>Bei den Beitragszahlungen handelt es sich um Jahresbeiträge. Diese beziehen sich auf ein Kalenderjahr.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">2.</span><span>Der Sportverein Ottweiler 1919 e.V. kassiert seine Mitgliedsbeiträge jährlich im Voraus ein. Dies geschieht im Januar/Februar auf dem Wege des unbaren Zahlungsverkehrs durch das Banklastschriftverfahren. Hierfür wird eine Einzugsermächtigung und ein SEPA-Lastschriftmandat benötigt (siehe Seite 1). Bei den Jugendlichen, die das 18. Lebensjahr noch nicht vollendet haben, verpflichtet sich der den Antrag bestätigende Vertretungsbevollmächtigte neben dem Minderjährigen zur Zahlung des Mitgliedsbeitrages.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">3.</span><span>Die Mindestmitgliedschaft beträgt ein Jahr.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">4.</span><span>Aktive Mitglieder sind alle Erwachsene/Jugendliche, die aktiv am Spiel- und Trainingsbetrieb teilnehmen: Spieler, Trainer, Betreuer, Schiedsrichter</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">5.</span><span>Die Beitragsgruppen: Erwachsene ab vollendeten 18. Lebensjahr, Jugendliche bis zum vollendeten 18. Lebensjahr, Fördermitgliedschaft, Familienmitgliedschaft</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">6.</span><span>Für eine Familienmitgliedschaft gilt folgende Regelung: 1 oder 2 Erziehungsberechtigte UND mindestens 1 Kind, das 18. Lebensjahr noch nicht vollendet hat. Die Familienmitgliedschaft geht für alle Personen ab dem 18. Lebensjahr des jüngsten Kindes automatisch in eine reguläre Mitgliedschaft über.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">7.</span><span>Ehrenmitglieder und Schiedsrichter können gem. Satzung auf eigenen Wunsch beitragsfrei gestellt werden. Wir bitten um entsprechende, schriftliche Mitteilung an den Vorstand des Sportverein Ottweiler 1919 e.V.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">8.</span><span>Für aktive Jugendliche erteilen mit diesem Antrag die Erziehungsberechtigten ihr Einverständnis, dass ihr(e) im Antrage genanntes/n Kind(er) beim Sportverein Ottweiler 1919 e.V. an Sport- und Übungsveranstaltungen des Vereins im Heimatort und außerhalb teilnehmen darf. Diese Einverständniserklärung bleibt gültig bis auf einen schriftlichen Widerruf an den Verein.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">9.</span><span>Wir möchten Sie bitten der Geschäftsstelle alle Änderungen unaufgefordert mitzuteilen: Änderung der Bankverbindung oder Wechsel des Geldinstitutes, Adressänderung, Änderung von Telefon und Email</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">10.</span><span>Eine Kündigung der Mitgliedschaft muss schriftlich mit vierwöchiger Frist zum 31.12 des laufenden Jahres über die Geschäftsstelle an den Vorstand erfolgen. Bei Kündigung, Vereinswechsel oder anderweitigem Vereinsaustritt wird der Jahresbeitrag NICHT anteilig erstattet.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">11.</span><span>Die Abmeldung vom Spielbetrieb bedeutet nicht die Kündigung beim Sportverein Ottweiler 1919 e.V. Die Kündigung muss zusätzlich, wie in Punkt 9. beschrieben, schriftlich an den Vorstand erfolgen.</span></div>
-          <div class="membership-rule-item"><span class="membership-rule-number">12.</span><span>Alle personenbezogenen Daten werden grundsätzlich vertraulich behandelt. Die für die Geschäftsabwicklung notwendigen Daten werden gespeichert. Ferner werden Adress- und Bestelldaten für eigene Marketingzwecke erhoben und verarbeitet.</span></div>
-        </div>
-
-        <div class="membership-notice__meta">
-          <p><strong>SEPA-Glaeubiger-ID:</strong> DE86SVO00000775603</p>
-          <p>
-            <strong>Hinweis:</strong> Innerhalb von acht Wochen kann ab
-            Belastungsdatum die Erstattung des belasteten Betrags verlangt werden.
-          </p>
-        </div>
-      </section>
-
       <form
         class="membership-form"
         novalidate
@@ -458,6 +423,41 @@
           </p>
         </section>
       </form>
+
+      <section class="membership-notice" aria-labelledby="membership-notice-title">
+        <div class="membership-notice__intro">
+          <h2 id="membership-notice-title" class="membership-section-title">
+            DER SPORTVEREIN OTTWEILER 1919 e.V. HEISST SIE ALS NEUES
+            VEREINSMITGLIED HERZLICH WILLKOMMEN!
+          </h2>
+          <p class="membership-copy">
+            Bitte beachten Sie beim Ausfüllen des Antrages folgende Punkte:
+          </p>
+        </div>
+
+        <div class="membership-rules">
+          <div class="membership-rule-item"><span class="membership-rule-number">1.</span><span>Bei den Beitragszahlungen handelt es sich um Jahresbeiträge. Diese beziehen sich auf ein Kalenderjahr.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">2.</span><span>Der Sportverein Ottweiler 1919 e.V. kassiert seine Mitgliedsbeiträge jährlich im Voraus ein. Dies geschieht im Januar/Februar auf dem Wege des unbaren Zahlungsverkehrs durch das Banklastschriftverfahren. Hierfür wird eine Einzugsermächtigung und ein SEPA-Lastschriftmandat benötigt (siehe Seite 1). Bei den Jugendlichen, die das 18. Lebensjahr noch nicht vollendet haben, verpflichtet sich der den Antrag bestätigende Vertretungsbevollmächtigte neben dem Minderjährigen zur Zahlung des Mitgliedsbeitrages.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">3.</span><span>Die Mindestmitgliedschaft beträgt ein Jahr.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">4.</span><span>Aktive Mitglieder sind alle Erwachsene/Jugendliche, die aktiv am Spiel- und Trainingsbetrieb teilnehmen: Spieler, Trainer, Betreuer, Schiedsrichter</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">5.</span><span>Die Beitragsgruppen: Erwachsene ab vollendeten 18. Lebensjahr, Jugendliche bis zum vollendeten 18. Lebensjahr, Fördermitgliedschaft, Familienmitgliedschaft</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">6.</span><span>Für eine Familienmitgliedschaft gilt folgende Regelung: 1 oder 2 Erziehungsberechtigte UND mindestens 1 Kind, das 18. Lebensjahr noch nicht vollendet hat. Die Familienmitgliedschaft geht für alle Personen ab dem 18. Lebensjahr des jüngsten Kindes automatisch in eine reguläre Mitgliedschaft über.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">7.</span><span>Ehrenmitglieder und Schiedsrichter können gem. Satzung auf eigenen Wunsch beitragsfrei gestellt werden. Wir bitten um entsprechende, schriftliche Mitteilung an den Vorstand des Sportverein Ottweiler 1919 e.V.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">8.</span><span>Für aktive Jugendliche erteilen mit diesem Antrag die Erziehungsberechtigten ihr Einverständnis, dass ihr(e) im Antrage genanntes/n Kind(er) beim Sportverein Ottweiler 1919 e.V. an Sport- und Übungsveranstaltungen des Vereins im Heimatort und außerhalb teilnehmen darf. Diese Einverständniserklärung bleibt gültig bis auf einen schriftlichen Widerruf an den Verein.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">9.</span><span>Wir möchten Sie bitten der Geschäftsstelle alle Änderungen unaufgefordert mitzuteilen: Änderung der Bankverbindung oder Wechsel des Geldinstitutes, Adressänderung, Änderung von Telefon und Email</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">10.</span><span>Eine Kündigung der Mitgliedschaft muss schriftlich mit vierwöchiger Frist zum 31.12 des laufenden Jahres über die Geschäftsstelle an den Vorstand erfolgen. Bei Kündigung, Vereinswechsel oder anderweitigem Vereinsaustritt wird der Jahresbeitrag NICHT anteilig erstattet.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">11.</span><span>Die Abmeldung vom Spielbetrieb bedeutet nicht die Kündigung beim Sportverein Ottweiler 1919 e.V. Die Kündigung muss zusätzlich, wie in Punkt 9. beschrieben, schriftlich an den Vorstand erfolgen.</span></div>
+          <div class="membership-rule-item"><span class="membership-rule-number">12.</span><span>Alle personenbezogenen Daten werden grundsätzlich vertraulich behandelt. Die für die Geschäftsabwicklung notwendigen Daten werden gespeichert. Ferner werden Adress- und Bestelldaten für eigene Marketingzwecke erhoben und verarbeitet.</span></div>
+        </div>
+
+        <div class="membership-notice__meta">
+          <p><strong>SEPA-Glaeubiger-ID:</strong> DE86SVO00000775603</p>
+          <p>
+            <strong>Hinweis:</strong> Innerhalb von acht Wochen kann ab
+            Belastungsdatum die Erstattung des belasteten Betrags verlangt werden.
+          </p>
+        </div>
+      </section>
     </div>
 
     <div class="membership-print-root" :class="{ 'membership-print-root--active': printMode !== null }">

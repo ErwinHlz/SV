@@ -1,15 +1,5 @@
 {
-  "last": {
-    "heimmannschaft": "FSG Ottweiler-Steinbach II",
-    "gastmannschaft": "Bubach-C.",
-    "ergebnis": "4:0",
-    "bild_heim": "/team-logos/fsg-ottweiler-steinbach.png",
-    "bild_gast": "/team-logos/bubach-c.png",
-    "ort": "Stadion Im Alten Weiher",
-    "datum": "2026-05-24",
-    "uhrzeit": "15:00",
-    "match_url": "https://www.fupa.net/match/fsg-ottweiler-steinbach-m2-sv-bubach-calmesweiler-m1-260524"
-  },
+  "last": null,
   "live": null,
   "next": null
 }

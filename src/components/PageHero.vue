@@ -22,7 +22,7 @@ withDefaults(
     compact?: boolean;
   }>(),
   {
-    kicker: "FSG Ottweiler-Steinbach",
+    kicker: "SV Ottweiler",
     compact: false,
   },
 );

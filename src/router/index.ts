@@ -18,7 +18,9 @@ import TeamTwoSpielplan from "@/pages/TeamTwoSpielplan.vue";
 import TeamTwoTabelle from "@/pages/TeamTwoTabelle.vue";
 import JugendTeamsPage from "@/pages/JugendTeamsPage.vue";
 import StadionPage from "@/pages/StadionPage.vue";
+import HistoryPage from "@/pages/HistoryPage.vue";
 import VereinPage from "@/pages/VereinPage.vue";
+import GaleriePage from "@/pages/GaleriePage.vue";
 import SponsorPage from "@/pages/SponsorPage.vue";
 import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
 import MembershipPage from "@/pages/MembershipPage.vue";
@@ -110,7 +112,9 @@ const router = createRouter({
       component: JugendTeamsPage,
     },
     { path: "/stadion", name: "stadion", component: StadionPage },
+    { path: "/historie", name: "historie", component: HistoryPage },
     { path: "/verein", name: "verein", component: VereinPage },
+    { path: "/galerie", name: "galerie", component: GaleriePage },
     {
       path: "/mitglied-werden",
       name: "mitglied-werden",
