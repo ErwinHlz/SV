@@ -233,6 +233,19 @@ const selectedGalleryImage = ref<(typeof galleryImages)[number] | null>(null);
 
 const timelineRef = ref<HTMLElement | null>(null);
 const timelineProgress = ref(0);
+let scrollContainer: Window | HTMLElement | null = null;
+
+const getElementTopWithin = (element: HTMLElement, ancestor: HTMLElement) => {
+  let current: HTMLElement | null = element;
+  let offset = 0;
+
+  while (current && current !== ancestor) {
+    offset += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return offset;
+};
 
 const updateTimelineProgress = () => {
   const element = timelineRef.value;
@@ -241,22 +254,43 @@ const updateTimelineProgress = () => {
     return;
   }
 
-  const rect = element.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const total = rect.height + viewportHeight * 0.3;
-  const passed = viewportHeight * 0.72 - rect.top;
+  if (!scrollContainer || scrollContainer instanceof Window) {
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const absoluteTop = window.scrollY + rect.top;
+    const start = absoluteTop - viewportHeight * 0.72;
+    const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+    const range = Math.max(end - start, 1);
+    const current = window.scrollY;
 
-  timelineProgress.value = Math.min(1, Math.max(0, passed / total));
+    timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
+    return;
+  }
+
+  const viewportHeight = scrollContainer.clientHeight;
+  const absoluteTop = getElementTopWithin(element, scrollContainer);
+  const start = absoluteTop - viewportHeight * 0.72;
+  const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+  const range = Math.max(end - start, 1);
+  const current = scrollContainer.scrollTop;
+
+  timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
 };
 
 onMounted(() => {
+  const appContent = timelineRef.value?.closest(".app-content");
+  scrollContainer =
+    appContent instanceof HTMLElement ? appContent : window;
+
   updateTimelineProgress();
-  window.addEventListener("scroll", updateTimelineProgress, { passive: true });
+  scrollContainer.addEventListener("scroll", updateTimelineProgress, {
+    passive: true,
+  });
   window.addEventListener("resize", updateTimelineProgress);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("scroll", updateTimelineProgress);
+  scrollContainer?.removeEventListener("scroll", updateTimelineProgress);
   window.removeEventListener("resize", updateTimelineProgress);
 });
 </script>
