@@ -415,7 +415,7 @@ type TimelineEntry = {
 };
 
 const youthContent = rawYouthContent as YouthContent;
-const { hero, intro, teamsSection, coachSection, contact } = youthContent;
+const { hero, teamsSection, coachSection, contact } = youthContent;
 
 const teamImageMap: Record<string, string> = {
   youthHero,
@@ -430,7 +430,7 @@ const isCoachPortraitImage = (image?: string) =>
 
 const teamCards = youthContent.teams.map((team) => ({
   ...team,
-  image: teamImageMap[team.image] ?? team.image,
+  image: team.image ? (teamImageMap[team.image] ?? team.image) : "",
   tableUrl: team.tableUrl?.trim() || "https://next.fussball.de/",
 }));
 
@@ -454,9 +454,10 @@ const visibleTeamCards = computed(() => {
 
 const coachCards = (rawJugendtrainer as CoachMember[]).map((member) => ({
   ...member,
-  image: isCoachPortraitImage(member.image)
-    ? (coachImageMap[member.image] ?? member.image)
-    : undefined,
+  image:
+    member.image && isCoachPortraitImage(member.image)
+      ? (coachImageMap[member.image] ?? member.image)
+      : undefined,
   imageAlt: member.imageAlt ?? member.name,
 }));
 

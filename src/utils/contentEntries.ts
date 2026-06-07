@@ -378,6 +378,8 @@ const instagramPosts = Array.isArray(rawInstagramPosts.posts)
   ? rawInstagramPosts.posts
   : [];
 
+const spielTermine = rawSpielTermine as TerminEntry[];
+
 export const getNewsItems = (): NewsEntry[] => {
   const { hasExternalMediaConsent } = useCookieConsent();
   const mappedNews: Array<Omit<NewsEntry, "slug"> & { time?: string }> = [
@@ -408,7 +410,7 @@ export const getNewsItems = (): NewsEntry[] => {
 export const getTerminItems = (): TerminEntry[] =>
   withUniqueSlugs(
     withResolvedAssets(
-      sortByDateTimeDesc(rawSpielTermine).map((item) => {
+      sortByDateTimeDesc(spielTermine).map((item) => {
         const opponent = getOpponentFromTerminTitle(item.title);
         const isHome = isHomeTermin(item.title, item.location);
         const homeTeam = isHome ? ownClubName : opponent;

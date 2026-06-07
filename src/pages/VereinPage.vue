@@ -266,7 +266,7 @@ type TimelineEntry = {
 };
 
 const vereinContent = rawVerein as VereinContent;
-const { hero, intro, values, activities, history, people, cta } = vereinContent;
+const { hero, people, cta } = vereinContent;
 
 const imageMap: Record<string, string> = {
   vereinHero,
@@ -277,9 +277,10 @@ const isPortraitImage = (image?: string) =>
 
 const personCards = (rawAnsprechpartner as VereinsPerson[]).map((person) => ({
   ...person,
-  image: isPortraitImage(person.image)
-    ? (imageMap[person.image as string] ?? person.image)
-    : undefined,
+  image:
+    person.image && isPortraitImage(person.image)
+      ? (imageMap[person.image] ?? person.image)
+      : undefined,
   imageAlt: person.imageAlt ?? person.name,
 }));
 
