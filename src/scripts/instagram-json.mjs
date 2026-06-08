@@ -6,7 +6,7 @@ const limit = process.env.IG_LIMIT || 6;
 const outputFile = process.env.IG_OUTPUT_FILE || "../content/instagram-posts.json";
 
 if (!token) {
-  throw new Error("IG_ACCESS_TOKEN fehlt in .env");
+  throw new Error("IG_ACCESS_TOKEN fehlt in den Umgebungsvariablen.");
 }
 
 const fields = [

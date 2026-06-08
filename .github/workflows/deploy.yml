@@ -3,8 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
-  schedule:
-    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -31,36 +29,6 @@ jobs:
 
       - name: Install deps
         run: npm ci
-
-      - name: Install script deps
-        if: github.event_name != 'push'
-        run: npm ci
-        working-directory: src/scripts
-
-      - name: Install Playwright Chromium
-        if: github.event_name != 'push'
-        run: npx playwright install --with-deps chromium
-        working-directory: src/scripts
-
-      - name: Refresh weekly content
-        if: github.event_name != 'push'
-        run: npm run refresh-weekly-content
-        working-directory: src/scripts
-        env:
-          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-
-      - name: Commit refreshed content
-        if: github.event_name != 'push'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/content/match-highlights.json src/content/spielberichte.json src/content/instagram-posts.json src/content/spiel-termine.json
-          if git diff --cached --quiet; then
-            echo "No content changes to commit."
-            exit 0
-          fi
-          git commit -m "chore: refresh weekly content"
-          git push origin HEAD:main
 
       - name: Build
         run: npm run build

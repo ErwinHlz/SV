@@ -336,6 +336,7 @@ import rawJugendtrainer from "@/content/jugendtrainer.json";
 import rawTimelineEntries from "@/content/jugend-timeline.json";
 import rawYouthContent from "@/content/jugend.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
+import { resolveScrollContainer } from "@/utils/scrollContainer";
 
 type YouthTraining = {
   day: string;
@@ -743,8 +744,7 @@ const updateTimelineProgress = () => {
 };
 
 onMounted(() => {
-  const appContent = timelineRef.value?.closest(".app-content");
-  scrollContainer = appContent instanceof HTMLElement ? appContent : window;
+  scrollContainer = resolveScrollContainer(timelineRef.value);
 
   updateTimelineProgress();
   scrollContainer.addEventListener("scroll", updateTimelineProgress, {
@@ -1003,6 +1003,7 @@ onBeforeUnmount(() => {
 .youth-team-card,
 .youth-coach-card {
   display: grid;
+  box-sizing: border-box;
   gap: 12px;
 }
 
@@ -1313,19 +1314,25 @@ onBeforeUnmount(() => {
   .youth-team-card {
     scroll-snap-align: center;
     min-height: 100%;
+    height: 100%;
     opacity: 0.38;
     filter: grayscale(1);
-    transform: scale(0.9);
+    transform: none;
     transition:
       opacity 0.24s ease,
       filter 0.24s ease,
-      transform 0.24s ease;
+      box-shadow 0.24s ease;
+  }
+
+  .youth-team-card:nth-child(even),
+  .youth-team-card:nth-child(3n) {
+    transform: none;
   }
 
   .youth-team-card.is-active {
     opacity: 1;
     filter: grayscale(0);
-    transform: scale(1);
+    box-shadow: 0 1.15rem 2.8rem rgba(0, 0, 0, 0.26);
   }
 
   .youth-teams__grid::-webkit-scrollbar {
@@ -1367,19 +1374,25 @@ onBeforeUnmount(() => {
   .youth-coach-card {
     scroll-snap-align: center;
     min-height: 100%;
+    height: 100%;
     opacity: 0.38;
     filter: grayscale(1);
-    transform: scale(0.9);
+    transform: none;
     transition:
       opacity 0.24s ease,
       filter 0.24s ease,
-      transform 0.24s ease;
+      box-shadow 0.24s ease;
+  }
+
+  .youth-coach-card:nth-child(even),
+  .youth-coach-card:nth-child(3n) {
+    transform: none;
   }
 
   .youth-coach-card.is-active {
     opacity: 1;
     filter: grayscale(0);
-    transform: scale(1);
+    box-shadow: 0 1.15rem 2.8rem rgba(0, 0, 0, 0.26);
   }
 
   .youth-coaches__grid::-webkit-scrollbar {

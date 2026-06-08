@@ -203,6 +203,7 @@ import rawAnsprechpartner from "@/content/ansprechpartner.json";
 import rawTimelineEntries from "@/content/verein-timeline.json";
 import rawVerein from "@/content/verein.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
+import { resolveScrollContainer } from "@/utils/scrollContainer";
 
 type VereinsPerson = {
   id: string;
@@ -271,6 +272,23 @@ type TimelineEntry = {
 const vereinContent = rawVerein as VereinContent;
 const { hero, people, cta } = vereinContent;
 
+const galleryImageModules = import.meta.glob(
+  "../assets/galerie/*.{png,jpg,jpeg,webp,avif}",
+  {
+    eager: true,
+    import: "default",
+  },
+) as Record<string, string>;
+
+const galleryPlaceholderImages = Object.entries(galleryImageModules)
+  .sort(([left], [right]) =>
+    left.localeCompare(right, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    }),
+  )
+  .map(([, src]) => src);
+
 const imageMap: Record<string, string> = {
   vereinHero,
 };
@@ -307,7 +325,20 @@ const visiblePeopleCards = computed(() => {
   return personCards.slice(startIndex, startIndex + 5);
 });
 
-const timelineEntries = rawTimelineEntries as TimelineEntry[];
+const timelineEntries = (rawTimelineEntries as TimelineEntry[]).map(
+  (entry, index) => {
+    const isPlaceholderImage = entry.imageSrc === "/timeline/placeholder-photo.svg";
+    const galleryImage =
+      galleryPlaceholderImages.length > 0
+        ? galleryPlaceholderImages[index % galleryPlaceholderImages.length]
+        : undefined;
+
+    return {
+      ...entry,
+      imageSrc: isPlaceholderImage ? galleryImage : entry.imageSrc,
+    };
+  },
+);
 
 const timelineRef = ref<HTMLElement | null>(null);
 const timelineProgress = ref(0);
@@ -448,9 +479,7 @@ const handlePeopleGridScroll = () => {
 };
 
 onMounted(() => {
-  const appContent = timelineRef.value?.closest(".app-content");
-  scrollContainer =
-    appContent instanceof HTMLElement ? appContent : window;
+  scrollContainer = resolveScrollContainer(timelineRef.value);
 
   updateTimelineProgress();
   scrollContainer.addEventListener("scroll", updateTimelineProgress, {
@@ -711,6 +740,7 @@ onBeforeUnmount(() => {
 
 .verein-people__card {
   display: grid;
+  box-sizing: border-box;
   gap: 12px;
   width: 100%;
   padding: 0.8rem 0.8rem 1.2rem;
@@ -898,7 +928,7 @@ onBeforeUnmount(() => {
     grid-auto-flow: column;
     --people-card-width: clamp(248px, 72vw, 292px);
     grid-auto-columns: var(--people-card-width);
-    gap: 18px;
+    gap: 25px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: calc(50% - (var(--people-card-width) / 2));
@@ -914,19 +944,27 @@ onBeforeUnmount(() => {
   .verein-people__card {
     scroll-snap-align: center;
     min-height: 100%;
+    height: 100%;
+    width: 70dvw;
+    max-width: var(--people-card-width);
     opacity: 0.38;
     filter: grayscale(1);
-    transform: scale(0.9);
+    transform: none;
     transition:
       opacity 0.24s ease,
       filter 0.24s ease,
-      transform 0.24s ease;
+      box-shadow 0.24s ease;
+  }
+
+  .verein-people__card:nth-child(even),
+  .verein-people__card:nth-child(3n) {
+    transform: none;
   }
 
   .verein-people__card.is-active {
     opacity: 1;
     filter: grayscale(0);
-    transform: scale(1);
+    box-shadow: 0 1.15rem 2.8rem rgba(0, 0, 0, 0.26);
   }
 
   .verein-people__indicator {

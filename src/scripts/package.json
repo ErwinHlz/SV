@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "refresh-weekly-content": "node weekly-content-refresh.mjs",
+    "refresh-daily-content": "node daily-content-refresh.mjs",
+    "refresh-weekly-content": "node daily-content-refresh.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -145,6 +145,7 @@ import PageHero from "@/components/PageHero.vue";
 import historyHero from "@/assets/header/background.png";
 import rawTimelineEntries from "@/content/history-timeline.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
+import { resolveScrollContainer } from "@/utils/scrollContainer";
 
 type TimelineEntry = {
   year: string;
@@ -278,9 +279,7 @@ const updateTimelineProgress = () => {
 };
 
 onMounted(() => {
-  const appContent = timelineRef.value?.closest(".app-content");
-  scrollContainer =
-    appContent instanceof HTMLElement ? appContent : window;
+  scrollContainer = resolveScrollContainer(timelineRef.value);
 
   updateTimelineProgress();
   scrollContainer.addEventListener("scroll", updateTimelineProgress, {

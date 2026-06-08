@@ -1,0 +1,54 @@
+name: Refresh Content
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_LIMIT: ${{ secrets.IG_LIMIT }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: |
+            package-lock.json
+            src/scripts/package-lock.json
+
+      - name: Install script deps
+        run: npm ci
+        working-directory: src/scripts
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: src/scripts
+
+      - name: Refresh content
+        run: npm run refresh-daily-content
+        working-directory: src/scripts
+
+      - name: Commit refreshed content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/match-highlights.json src/content/spielberichte.json src/content/instagram-posts.json src/content/spiel-termine.json
+          if git diff --cached --quiet; then
+            echo "No content changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh content"
+          git push origin HEAD:main
