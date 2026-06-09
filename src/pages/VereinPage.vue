@@ -695,11 +695,6 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   min-height: 220px;
-  padding: 20px;
-  border-radius: 26px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(2, 43, 121, 0.16)),
-    rgba(8, 20, 45, 0.74);
   color: rgba(245, 247, 252, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.12em;
