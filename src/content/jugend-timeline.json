@@ -1,29 +1,29 @@
-[
+﻿[
   {
     "id": "focus",
     "eyebrow": "Jugend im Fokus",
     "title": "Jugend im Fokus",
-    "lead": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir foerdern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spass.",
+    "lead": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir fördern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spass.",
     "counterpart": "Ausbildung",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer die Jugendausbildung",
+    "imageAlt": "Platzhalterbild für die Jugendausbildung",
     "points": [
-      "sicherer Einstieg in den Fussball fuer alle Altersklassen",
-      "Foerderung von Technik, Spielintelligenz und Teamgeist",
+      "sicherer Einstieg in den Fussball für alle Altersklassen",
+      "Förderung von Technik, Spielintelligenz und Teamgeist",
       "altersgerechtes Training mit viel Freude am Spiel"
     ]
   },
   {
     "id": "facts",
-    "eyebrow": "Ueberblick",
+    "eyebrow": "Überblick",
     "title": "Jugend auf einen Blick",
     "counterpart": "Struktur",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer die Jugendstruktur",
+    "imageAlt": "Platzhalterbild für die Jugendstruktur",
     "points": [
       "6 Jugendteams im Spielbetrieb",
       "Trainingsort: Sportplatz Ottweiler",
-      "Probetraining jederzeit nach Absprache moeglich",
+      "Probetraining jederzeit nach Absprache möglich",
       "klare Werte: Technik, Spielfreude und Teamgeist"
     ]
   },
@@ -32,16 +32,16 @@
     "eyebrow": "Jugendteams",
     "title": "Unsere Jugendteams",
     "lead": "Von den Kleinsten bis zur A-Jugend: jede Mannschaft hat ihren eigenen Charakter und klare Schwerpunkte.",
-    "counterpart": "Jahrgaenge",
+    "counterpart": "Jahrgänge",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer die Jugendteams",
+    "imageAlt": "Platzhalterbild für die Jugendteams",
     "points": [
-      "G-Jugend (U7): Jahrgaenge 2018/2019 · Kreisturnier",
-      "F-Jugend (U9): Jahrgaenge 2016/2017 · Kreisturnier",
-      "E-Jugend (U11): Jahrgaenge 2014/2015 · Kreisliga",
-      "D-Jugend (U13): Jahrgaenge 2012/2013 · Kreisliga",
-      "C-Jugend (U15): Jahrgaenge 2010/2011 · Kreisliga",
-      "A-Jugend (U19): Jahrgaenge 2007/2008 · Kreisliga"
+      "G-Jugend (U7): Jahrgänge 2018/2019 · Kreisturnier",
+      "F-Jugend (U9): Jahrgänge 2016/2017 · Kreisturnier",
+      "E-Jugend (U11): Jahrgänge 2014/2015 · Kreisliga",
+      "D-Jugend (U13): Jahrgänge 2012/2013 · Kreisliga",
+      "C-Jugend (U15): Jahrgänge 2010/2011 · Kreisliga",
+      "A-Jugend (U19): Jahrgänge 2007/2008 · Kreisliga"
     ]
   },
   {
@@ -50,11 +50,11 @@
     "title": "Trainerteam Jugend",
     "counterpart": "Begleitung",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer das Jugendtrainerteam",
+    "imageAlt": "Platzhalterbild für das Jugendtrainerteam",
     "points": [
       "13 Trainer und Betreuer im Jugendbereich",
-      "enge Begleitung der Mannschaften ueber alle Altersklassen hinweg",
-      "Ansprechpartner fuer Training, Entwicklung und Probetraining"
+      "enge Begleitung der Mannschaften über alle Altersklassen hinweg",
+      "Ansprechpartner für Training, Entwicklung und Probetraining"
     ]
   },
   {
@@ -64,12 +64,12 @@
     "lead": "Interesse am Probetraining oder Fragen zu einem Team? Melde dich gerne.",
     "counterpart": "Einstieg",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer den Einstieg in die Jugendabteilung",
+    "imageAlt": "Platzhalterbild für den Einstieg in die Jugendabteilung",
     "points": [
       "Ansprechpartner: Jugendleitung FSG",
       "Funktion: Koordination Jugend",
       "E-Mail: jugend@fsg-ottweiler-steinbach.de",
-      "schneller Einstieg ueber Probetraining oder direkte Anfrage"
+      "schneller Einstieg über Probetraining oder direkte Anfrage"
     ]
   }
 ]

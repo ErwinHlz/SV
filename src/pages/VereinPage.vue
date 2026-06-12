@@ -12,11 +12,6 @@
         <h2 class="verein-intro__title"
           >Gemeinschaft, Ehrenamt und Fussball an einem Ort</h2
         >
-        <p class="verein-intro__lead">
-          Die Vereinsseite folgt jetzt demselben Zeitstrahl-Prinzip wie die
-          Historie und fuehrt durch Selbstverstaendnis, Werte, Vereinsleben und
-          die Menschen hinter der FSG.
-        </p>
       </div>
     </section>
 
@@ -49,7 +44,13 @@
                 entry.lead
               }}</p>
               <ul class="verein-timeline__points">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point.label" class="verein-timeline__point">
+                  <span class="verein-timeline__point-dot" aria-hidden="true"></span>
+                  <span class="verein-timeline__point-body">
+                    <strong class="verein-timeline__point-label">{{ point.label }}</strong>
+                    <span class="verein-timeline__point-detail">{{ point.detail }}</span>
+                  </span>
+                </li>
               </ul>
             </div>
             <div v-else class="verein-timeline__counterpart">
@@ -75,7 +76,13 @@
                 entry.lead
               }}</p>
               <ul class="verein-timeline__points">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point.label" class="verein-timeline__point">
+                  <span class="verein-timeline__point-dot" aria-hidden="true"></span>
+                  <span class="verein-timeline__point-body">
+                    <strong class="verein-timeline__point-label">{{ point.label }}</strong>
+                    <span class="verein-timeline__point-detail">{{ point.detail }}</span>
+                  </span>
+                </li>
               </ul>
             </div>
             <div v-else class="verein-timeline__counterpart">
@@ -96,7 +103,7 @@
       <div class="verein-people__shell">
         <p class="verein-people__kicker">Ansprechpartner</p>
         <h2 class="verein-people__title">{{ people.title }}</h2>
-        <p class="verein-people__lead">{{ people.lead }}</p>
+        
 
         <div
           ref="peopleGridRef"
@@ -266,7 +273,7 @@ type TimelineEntry = {
   counterpart: string;
   imageSrc?: string;
   imageAlt?: string;
-  points: string[];
+  points: Array<{ label: string; detail: string }>;
 };
 
 const vereinContent = rawVerein as VereinContent;
@@ -605,7 +612,7 @@ onBeforeUnmount(() => {
 .verein-timeline__item {
   display: grid;
   grid-template-columns: 1fr 80px 1fr;
-  align-items: start;
+  align-items: stretch;
 }
 
 .verein-timeline__side {
@@ -636,6 +643,7 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: center;
   padding-top: 30px;
+  align-self: start;
 }
 
 .verein-timeline__dot {
@@ -665,12 +673,44 @@ onBeforeUnmount(() => {
 
 .verein-timeline__points {
   margin: 16px 0 0;
-  padding-left: 18px;
-  color: rgba(245, 247, 252, 0.92);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.verein-timeline__points li + li {
-  margin-top: 10px;
+.verein-timeline__point {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.verein-timeline__point-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 208, 82, 0.85);
+  margin-top: 8px;
+}
+
+.verein-timeline__point-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.verein-timeline__point-label {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: rgba(245, 247, 252, 0.95);
+}
+
+.verein-timeline__point-detail {
+  font-size: 0.9rem;
+  color: rgba(245, 247, 252, 0.58);
+  line-height: 1.45;
 }
 
 .verein-timeline__item--left .verein-timeline__content {
@@ -678,13 +718,12 @@ onBeforeUnmount(() => {
   text-align: right;
 }
 
-.verein-timeline__item--left .verein-timeline__points {
-  padding-left: 0;
-  padding-right: 18px;
+.verein-timeline__item--left .verein-timeline__point {
+  flex-direction: row-reverse;
 }
 
-.verein-timeline__item--left .verein-timeline__points li {
-  direction: rtl;
+.verein-timeline__item--left .verein-timeline__point-body {
+  text-align: right;
 }
 
 .verein-timeline__item--right .verein-timeline__content {
@@ -692,9 +731,12 @@ onBeforeUnmount(() => {
 }
 
 .verein-timeline__counterpart {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 220px;
+  max-height: clamp(260px, 36vw, 380px);
   color: rgba(245, 247, 252, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -703,7 +745,9 @@ onBeforeUnmount(() => {
 
 .verein-timeline__counterpart-image {
   width: 100%;
+  flex: 1;
   min-height: 220px;
+  max-height: clamp(260px, 36vw, 380px);
   display: block;
   object-fit: cover;
   border-radius: 26px;
@@ -901,14 +945,12 @@ onBeforeUnmount(() => {
     text-align: left;
   }
 
-  .verein-timeline__item--left .verein-timeline__points,
-  .verein-timeline__item--right .verein-timeline__points {
-    padding-left: 18px;
-    padding-right: 0;
+  .verein-timeline__item--left .verein-timeline__point {
+    flex-direction: row;
   }
 
-  .verein-timeline__item--left .verein-timeline__points li {
-    direction: ltr;
+  .verein-timeline__item--left .verein-timeline__point-body {
+    text-align: left;
   }
 
   .verein-timeline__item--left .verein-timeline__counterpart,

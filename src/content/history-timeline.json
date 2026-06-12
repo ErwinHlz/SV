@@ -1,26 +1,26 @@
 [
   {
     "year": "1919",
-    "eyebrow": "Gruendung",
-    "title": "Der SV Ottweiler wird in Ottweiler gegruendet",
+    "eyebrow": "Gründung",
+    "title": "Der SV Ottweiler wird in Ottweiler gegründet",
     "points": [
-      "eigenstaendiger Fussballverein der Stadt Ottweiler",
-      "Gruendung unmittelbar nach dem Ersten Weltkrieg",
-      "Vereinsfarben: Blau-Gelb",
-      "Heimstaette bis heute: Im Alten Weiher"
+      { "label": "Eigenständiger Verein", "detail": "Gegründet als Fussballverein der Stadt Ottweiler" },
+      { "label": "Gründungsjahr 1919", "detail": "Unmittelbar nach dem Ende des Ersten Weltkriegs" },
+      { "label": "Vereinsfarben: Blau-Gelb", "detail": "Bis heute die Farben des SV Ottweiler" },
+      { "label": "Im Alten Weiher", "detail": "Heimstätte des Vereins bis heute" }
     ],
-    "photoLabel": "Foto Gruendung",
+    "photoLabel": "Foto Gründung",
     "imageSrc": "/sv_logo_farbe.svg",
-    "imageAlt": "Platzhalterbild zur Gruendung des SV Ottweiler"
+    "imageAlt": "Platzhalterbild zur Gründung des SV Ottweiler"
   },
   {
     "year": "Nach 1945",
     "eyebrow": "Wiederaufbau",
-    "title": "Rueckkehr in den regionalen Spielbetrieb",
+    "title": "Rückkehr in den regionalen Spielbetrieb",
     "points": [
-      "Neustart nach dem Zweiten Weltkrieg",
-      "fester Bestandteil der saarlaendischen Ligen",
-      "sportliches Fundament fuer spaetere Erfolgsjahre"
+      { "label": "Neustart nach 1945", "detail": "Wiederaufnahme des Spielbetriebs nach dem Krieg" },
+      { "label": "Saarländische Ligen", "detail": "Fester Bestandteil des regionalen Spielbetriebs" },
+      { "label": "Fundament für die Zukunft", "detail": "Grundstein für die sportlichen Erfolge der Folgejahre" }
     ],
     "photoLabel": "Foto Wiederaufbau",
     "imageSrc": "/historie/djk_vs_sv.jpg",
@@ -31,12 +31,11 @@
     "eyebrow": "DFB-Pokal",
     "title": "Einzige Teilnahme im DFB-Pokal",
     "points": [
-      "Qualifikation ueber den Saarlandpokal",
-      "1:1 im ersten Duell gegen TuRa Harksheide",
-      "2:1 im Wiederholungsspiel vor heimischer Kulisse",
-      "Einzug in die 2. Runde des DFB-Pokals",
-      "Torschuetzen: Harald Schmitzer und Giacomo Cumbo",
-      "0:4 in Runde 2 beim BSV Schwenningen"
+      { "label": "Qualifikation über Saarlandpokal", "detail": "Der Weg in den nationalen Wettbewerb" },
+      { "label": "1:1 & 2:1 gegen TuRa Harksheide", "detail": "Sieg im Wiederholungsspiel vor heimischer Kulisse" },
+      { "label": "Einzug in Runde 2", "detail": "Historischer Erfolg für den SV Ottweiler" },
+      { "label": "Torschützen", "detail": "Harald Schmitzer und Giacomo Cumbo" },
+      { "label": "0:4 in Runde 2", "detail": "Ausscheiden beim BSV Schwenningen" }
     ],
     "photoLabel": "Foto DFB-Pokal",
     "imageSrc": "/historie/verbandsliga_1979.jpg",
@@ -47,11 +46,10 @@
     "eyebrow": "Aufstieg",
     "title": "Sprung in die neue Saarlandliga",
     "points": [
-      "Aufstieg in die damalige Verbandsliga Saar",
-      "Reform des Ligensystems im Saarland",
-      "Spiele gegen die staerksten Amateurvereine der Region",
-      "hoeherer Zuspruch und groessere Aufmerksamkeit",
-      "sportlicher Hoehepunkt der Vereinsgeschichte"
+      { "label": "Aufstieg in die Verbandsliga Saar", "detail": "Nach Reform des saarländischen Ligensystems" },
+      { "label": "Stärkste Amateurvereine", "detail": "Spiele gegen die Besten der Region" },
+      { "label": "Höherer Zuspruch", "detail": "Mehr Zuschauer und grössere regionale Aufmerksamkeit" },
+      { "label": "Sportlicher Höhepunkt", "detail": "Die stärkste Phase der Vereinsgeschichte" }
     ],
     "photoLabel": "Foto Aufstieg",
     "imageSrc": "/historie/historie_4.jpg",
@@ -60,11 +58,11 @@
   {
     "year": "Ende 70er / Anfang 80er",
     "eyebrow": "Erfolgsphase",
-    "title": "Das staerkste Jahrzehnt des Vereins",
+    "title": "Das stärkste Jahrzehnt des Vereins",
     "points": [
-      "mehrere Jahre auf hohem saarlaendischem Niveau",
-      "vier Spielzeiten in der ewigen Tabelle der Verbandsliga/Saarlandliga",
-      "bis heute praegende Mannschaft fuer viele Vereinsmitglieder"
+      { "label": "Mehrere Jahre Spitzenklasse", "detail": "Durchgehend auf hohem saarländischem Niveau" },
+      { "label": "Vier Spielzeiten in der ewigen Tabelle", "detail": "Verbandsliga/Saarlandliga als dauerhafter Massstab" },
+      { "label": "Prägende Generation", "detail": "Bis heute unvergessene Mannschaft für viele Vereinsmitglieder" }
     ],
     "photoLabel": "Foto Erfolgsphase",
     "imageSrc": "/historie/historie_5.jpg",
@@ -75,9 +73,9 @@
     "eyebrow": "SG 08",
     "title": "Beginn der Spielgemeinschaft mit der DJK Ottweiler",
     "points": [
-      "aktive Mannschaften als SG 08 Ottweiler",
-      "Stammverein bleibt eigenstaendig bestehen",
-      "zwei Meisterschaften im Aktivenbereich in dieser Phase"
+      { "label": "SG 08 Ottweiler", "detail": "Aktive Mannschaften unter gemeinsamem Namen" },
+      { "label": "Stammverein bleibt eigenständig", "detail": "Vereinsstruktur des SV Ottweiler bleibt erhalten" },
+      { "label": "Zwei Meisterschaften", "detail": "Erfolge im Aktivenbereich während dieser Phase" }
     ],
     "photoLabel": "Foto SG 08",
     "imageSrc": "/historie/historie_7.jpg",
@@ -88,9 +86,9 @@
     "eyebrow": "FSG",
     "title": "Entstehung der FSG Ottweiler/Steinbach",
     "points": [
-      "gemeinsamer Weg mit DJK Ottweiler und TuS Steinbach 1898",
-      "breitere sportliche Zusammenarbeit im Aktivenbereich",
-      "Tradition des Stammvereins bleibt erhalten"
+      { "label": "FSG mit DJK & TuS Steinbach 1898", "detail": "Gemeinsamer Weg im Aktivenbereich" },
+      { "label": "Breitere Zusammenarbeit", "detail": "Sportliche Kooperation über die SG 08 hinaus" },
+      { "label": "Tradition bleibt erhalten", "detail": "Stammverein SV Ottweiler weiterhin eigenständig" }
     ],
     "photoLabel": "Foto FSG",
     "imageSrc": "/historie/historie_11.jpg",
@@ -99,12 +97,12 @@
   {
     "year": "Heute",
     "eyebrow": "Gegenwart",
-    "title": "Tradition, Erinnerung und neue Eigenstaendigkeit",
+    "title": "Tradition, Erinnerung und neue Eigenständigkeit",
     "points": [
-      "mehr als 100 Jahre Vereinsgeschichte",
-      "historische Erfolge bleiben Teil der Vereinsidentitaet",
-      "Geschichten vom Alten Weiher leben bis heute weiter",
-      "zur kommenden Saison wieder allein mit zwei Mannschaften im Spielbetrieb"
+      { "label": "Über 100 Jahre Vereinsgeschichte", "detail": "Eine der ältesten Fussballtraditionen der Region" },
+      { "label": "Historische Erfolge als Identität", "detail": "DFB-Pokal und Verbandsliga als bleibende Meilensteine" },
+      { "label": "Geschichten vom Alten Weiher", "detail": "Erinnerungen leben in der Vereinsgemeinschaft weiter" },
+      { "label": "Neue Eigenständigkeit", "detail": "Ab kommender Saison wieder allein mit zwei Mannschaften" }
     ],
     "photoLabel": "Foto Gegenwart",
     "imageSrc": "/historie/historie_19.jpg",

@@ -1,72 +1,69 @@
-[
+﻿[
   {
     "id": "intro",
     "eyebrow": "Wer wir sind",
     "title": "Wer wir sind",
-    "lead": "Die FSG Ottweiler-Steinbach ist mehr als nur ein Fussballverein. Wir sind ein Ort fuer Teamgeist, ehrenamtliches Engagement und gemeinsame Erlebnisse im Alltag, im Training und an Spieltagen. Bei uns kommen Kinder, Jugendliche, Erwachsene und Unterstuetzer zusammen, um Fussball und Vereinsleben aktiv zu gestalten.",
     "counterpart": "Vereinsprofil",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer das Vereinsprofil",
+    "imageAlt": "Platzhalterbild für das Vereinsprofil",
     "points": [
-      "Ort fuer Teamgeist, Ehrenamt und gemeinsame Erlebnisse",
-      "Kinder, Jugendliche, Erwachsene und Unterstuetzer gestalten den Alltag aktiv mit",
-      "Fussball ist bei uns immer auch Gemeinschaft"
+      { "label": "Teamgeist & Ehrenamt", "detail": "Gemeinsam anpacken, gemeinsam spielen, gemeinsam feiern" },
+      { "label": "Für alle Altersgruppen", "detail": "Kinder, Jugendliche und Erwachsene sind willkommen" },
+      { "label": "Mehr als nur Fussball", "detail": "Sport, Gemeinschaft und echtes Miteinander" }
     ]
   },
   {
-    "id": "values",
+    "id": "valüs",
     "eyebrow": "Werte",
     "title": "Was uns ausmacht",
     "counterpart": "Vereinskultur",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer die Vereinskultur",
+    "imageAlt": "Platzhalterbild für die Vereinskultur",
     "points": [
-      "Gemeinschaft: Wir schaffen einen Ort, an dem sich Menschen willkommen fuehlen und zusammen wachsen.",
-      "Engagement: Unsere Mitglieder, Trainer und Helfer bringen Ideen ein und praegen den Verein aktiv.",
-      "Tradition & Zukunft: Wir bauen auf Vereinskultur auf und entwickeln gleichzeitig neue Angebote und Projekte.",
-      "Spass & Zusammenhalt: Neben Leistung zaehlen bei uns vor allem Freude, Respekt und echtes Miteinander."
+      { "label": "Gemeinschaft", "detail": "Ein Ort, an dem sich alle willkommen fühlen und zusammen wachsen" },
+      { "label": "Ehrenamtliches Engagement", "detail": "Mitglieder, Trainer und Helfer prägen den Verein aktiv" },
+      { "label": "Tradition & Zukunft", "detail": "Vereinskultur bewahren und neue Angebote entwickeln" },
+      { "label": "Freude & Respekt", "detail": "Spaß und Respekt stehen im Vordergrund" }
     ]
   },
   {
     "id": "activities",
     "eyebrow": "Vereinsleben",
-    "title": "Unsere Aktivitaeten",
+    "title": "Unsere Aktivitäten",
     "counterpart": "Alltag im Verein",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer das Vereinsleben",
+    "imageAlt": "Platzhalterbild für das Vereinsleben",
     "points": [
-      "Regelmaessige Treffen: Trainings, Besprechungen und gemeinsame Vereinsmomente gehoeren fest zu unserem Alltag.",
-      "Veranstaltungen: Spieltage, Vereinsaktionen und besondere Events machen die FSG auch abseits des Platzes lebendig.",
-      "Jugendarbeit: Wir foerdern junge Spielerinnen und Spieler mit Teamgeist, Verantwortung und Freude am Fussball.",
-      "Projekte & Vereinshilfe: Ob Organisation, Platzpflege oder Aktionen fuer den Ort: Viele Aufgaben werden gemeinsam getragen."
+      { "label": "Training & Besprechungen", "detail": "Regelmässige Treffen als fester Teil des Alltags" },
+      { "label": "Spieltage & Events", "detail": "Vereinsaktionen machen den SVO abseits des Platzes lebendig" },
+      { "label": "Jugendförderung", "detail": "Junge Spieler mit Teamgeist und Verantwortung entwickeln" },
+      { "label": "Vereinsprojekte", "detail": "Platzpflege, Organisation und gemeinsame Aktionen" }
     ]
   },
   {
     "id": "history",
     "eyebrow": "Verankerung",
     "title": "Vereinsgeschichte",
-    "lead": "Unsere Vereinsarbeit ist ueber Jahre gewachsen und fest in der Region verankert. Was Menschen bei uns verbindet, ist die Begeisterung fuer Fussball, das Ehrenamt und das gute Gefuehl, Teil einer starken Gemeinschaft zu sein.",
-    "counterpart": "Region & Identitaet",
+    "counterpart": "Region & Identität",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer Region und Identitaet",
+    "imageAlt": "Platzhalterbild für Region und Identität",
     "points": [
-      "Vereinsarbeit ist ueber Jahre gewachsen",
-      "stark in der Region verankert",
-      "Begeisterung fuer Fussball und Ehrenamt verbindet die Menschen im Verein"
+      { "label": "Über Jahre gewachsen", "detail": "Kontinuierlicher Aufbau einer starken Vereinsstruktur" },
+      { "label": "Regional verankert", "detail": "Fest verwurzelt in Ottweiler und der Umgebung" },
+      { "label": "Fußball & Ehrenamt", "detail": "Begeisterung verbindet die Menschen im Verein" }
     ]
   },
   {
     "id": "people",
     "eyebrow": "Menschen",
-    "title": "Vorstand & Ansprechpartner",
-    "lead": "Hinter der FSG stehen Menschen, die organisieren, mitdenken und ansprechbar sind.",
+    "title": "Menschen im Verein",
     "counterpart": "Vorstand & Organisation",
     "imageSrc": "/timeline/placeholder-photo.svg",
-    "imageAlt": "Platzhalterbild fuer Vorstand und Ansprechpartner",
+    "imageAlt": "Platzhalterbild für Vorstand und Ansprechpartner",
     "points": [
-      "ansprechbar, nahbar und direkt vor Ort",
-      "Organisation, Jugend, Sport und Vereinsleben greifen ineinander",
-      "viele Aufgaben werden gemeinschaftlich getragen"
+      { "label": "Nahbar & direkt", "detail": "Immer ansprechbar und vor Ort präsent" },
+      { "label": "Breite Aufstellung", "detail": "Organisation, Jugend, Sport und Vereinsleben greifen ineinander" },
+      { "label": "Gemeinschaftlich getragen", "detail": "Viele Aufgaben werden zusammen gestemmt" }
     ]
   }
 ]

@@ -13,11 +13,11 @@
       <div class="history-intro__shell">
         <p class="history-intro__kicker">Zeitstrahl</p>
         <h2 class="history-intro__title"
-          >Meilensteine aus ueber 100 Jahren Vereinsgeschichte</h2
+          >Meilensteine aus über 100 Jahren Vereinsgeschichte</h2
         >
         <p class="history-intro__lead">
           Die wichtigsten Kapitel des SV Ottweiler werden hier kompakt und klar
-          entlang einer zentralen Timeline erzaehlt.
+          entlang einer zentralen Timeline erzählt.
         </p>
       </div>
     </section>
@@ -47,7 +47,13 @@
               <p class="timeline-card__eyebrow">{{ entry.eyebrow }}</p>
               <h3 class="timeline-card__title">{{ entry.title }}</h3>
               <ul class="timeline-card__list">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point.label" class="timeline-card__point">
+                  <span class="timeline-card__point-dot" aria-hidden="true"></span>
+                  <span class="timeline-card__point-body">
+                    <strong class="timeline-card__point-label">{{ point.label }}</strong>
+                    <span class="timeline-card__point-detail">{{ point.detail }}</span>
+                  </span>
+                </li>
               </ul>
             </div>
             <figure v-else class="timeline-photo">
@@ -73,7 +79,13 @@
               <p class="timeline-card__eyebrow">{{ entry.eyebrow }}</p>
               <h3 class="timeline-card__title">{{ entry.title }}</h3>
               <ul class="timeline-card__list">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point.label" class="timeline-card__point">
+                  <span class="timeline-card__point-dot" aria-hidden="true"></span>
+                  <span class="timeline-card__point-body">
+                    <strong class="timeline-card__point-label">{{ point.label }}</strong>
+                    <span class="timeline-card__point-detail">{{ point.detail }}</span>
+                  </span>
+                </li>
               </ul>
             </div>
             <figure v-else class="timeline-photo">
@@ -151,7 +163,7 @@ type TimelineEntry = {
   year: string;
   eyebrow: string;
   title: string;
-  points: string[];
+  points: Array<{ label: string; detail: string }>;
   photoLabel: string;
   imageSrc?: string;
   imageAlt?: string;
@@ -478,12 +490,44 @@ onBeforeUnmount(() => {
 
 .timeline-card__list {
   margin: 16px 0 0;
-  padding-left: 18px;
-  color: rgba(245, 247, 252, 0.92);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.timeline-card__list li + li {
-  margin-top: 10px;
+.timeline-card__point {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.timeline-card__point-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 208, 82, 0.85);
+  margin-top: 8px;
+}
+
+.timeline-card__point-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timeline-card__point-label {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: rgba(245, 247, 252, 0.95);
+}
+
+.timeline-card__point-detail {
+  font-size: 0.9rem;
+  color: rgba(245, 247, 252, 0.58);
+  line-height: 1.45;
 }
 
 .timeline-item--left .timeline-card {
@@ -491,18 +535,12 @@ onBeforeUnmount(() => {
   text-align: right;
 }
 
-.timeline-item--left .timeline-card__list {
-  padding-left: 0;
-  padding-right: 18px;
-  list-style-position: outside;
+.timeline-item--left .timeline-card__point {
+  flex-direction: row-reverse;
 }
 
-.timeline-item--left .timeline-card__list li {
-  direction: rtl;
-}
-
-.timeline-item--left .timeline-card__list li > * {
-  direction: ltr;
+.timeline-item--left .timeline-card__point-body {
+  text-align: right;
 }
 
 .timeline-item--right .timeline-card {
@@ -674,14 +712,12 @@ onBeforeUnmount(() => {
     text-align: left;
   }
 
-  .timeline-item--left .timeline-card__list,
-  .timeline-item--right .timeline-card__list {
-    padding-left: 18px;
-    padding-right: 0;
+  .timeline-item--left .timeline-card__point {
+    flex-direction: row;
   }
 
-  .timeline-item--left .timeline-card__list li {
-    direction: ltr;
+  .timeline-item--left .timeline-card__point-body {
+    text-align: left;
   }
 
   .timeline-photo__placeholder,
