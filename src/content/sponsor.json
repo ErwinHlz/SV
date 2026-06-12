@@ -1,44 +1,23 @@
 [
   {
     "id": 1,
-    "name": "Sponsor Alpha",
-    "url": "https://example.com/sponsor-alpha",
-    "image": "sponsor-alpha.svg",
-    "imageAlt": "Logo Sponsor Alpha"
+    "name": "Gölz Paletten",
+    "url": "https://goelz-paletten.de/",
+    "image": "Logo_gölz_paletten.webp",
+    "imageAlt": "Gölz Paletten Logo"
   },
   {
     "id": 2,
-    "name": "Sponsor Beta",
-    "url": "https://example.com/sponsor-beta",
-    "image": "sponsor-beta.svg",
-    "imageAlt": "Logo Sponsor Beta"
+    "name": "La Passione Del Gelato",
+    "url": "https://eismanufakturlapassionedelgelato.de",
+    "image": "passione.png",
+    "imageAlt": "La Passione Del Gelato Logo"
   },
   {
     "id": 3,
-    "name": "Sponsor Gamma",
-    "url": "https://example.com/sponsor-gamma",
-    "image": "sponsor-gamma.svg",
-    "imageAlt": "Logo Sponsor Gamma"
-  },
-  {
-    "id": 4,
-    "name": "Sponsor Delta",
-    "url": "https://example.com/sponsor-delta",
-    "image": "sponsor-delta.svg",
-    "imageAlt": "Logo Sponsor Delta"
-  },
-  {
-    "id": 5,
-    "name": "Sponsor Epsilon",
-    "url": "https://example.com/sponsor-epsilon",
-    "image": "sponsor-epsilon.svg",
-    "imageAlt": "Logo Sponsor Epsilon"
-  },
-  {
-    "id": 6,
-    "name": "Sponsor Zeta",
-    "url": "https://example.com/sponsor-zeta",
-    "image": "sponsor-zeta.svg",
-    "imageAlt": "Logo Sponsor Zeta"
+    "name": "Modehaus Neufang-Rennwald",
+    "url": "https://www.nr-mode.de",
+    "image": "modehaus-neufang-rennwald.png",
+    "imageAlt": "Modehaus Neufang-Rennwald Logo"
   }
 ]
