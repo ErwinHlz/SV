@@ -1,9 +1,7 @@
 <template>
   <header class="header-container">
-    <RouterLink to="/" class="logo">
-      <svg class="flex items-start fill-current">
-        <use :href="logo" />
-      </svg>
+    <RouterLink to="/" class="logo" aria-label="SV Ottweiler 1919 Startseite">
+      <span class="logo-svg" v-html="logo"></span>
     </RouterLink>
     <nav class="nav">
       <ul class="nav-list">
@@ -248,7 +246,7 @@
 import { onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { ChevronDown, ChevronUp } from "@lucide/vue";
-import logo from "@/assets/sv_logo.svg";
+import logo from "@/assets/sv_logo.svg?raw";
 
 const isMenuOpen = ref(false);
 
@@ -823,10 +821,15 @@ onBeforeUnmount(() => {
   border-radius: 50%;
 }
 
-.logo svg {
+.logo :deep(svg) {
   width: 98%;
   height: 98%;
   align-self: center;
+  display: block;
+}
+
+.logo :deep(path) {
+  fill: currentColor;
 }
 
 @media (max-width: 427px) {

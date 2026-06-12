@@ -126,6 +126,25 @@ import TermineSection from "../components/TermineSection.vue";
 }
 
 @media (max-width: 640px) {
+  .section--matches::before {
+    content: "AKTUELLE SPIELE";
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-family: "Marker Felt", "Brush Script MT", "Segoe Print", cursive;
+    font-size: 7.4dvh;
+    line-height: 0.9;
+    font-weight: 800;
+    color: var(--sv-secondary-color);
+    opacity: 0.42;
+    z-index: 3;
+    pointer-events: none;
+  }
+
   .section {
     padding: 0;
   }
