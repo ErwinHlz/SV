@@ -11,12 +11,11 @@
         <h2>1. Anbieter</h2>
         <p>
           SV Ottweiler 1919 e. V.<br />
-          Bitte vollständigen Vereinsnamen prüfen und ggf. anpassen.
+          Im Alten Weiher 13<br />
+          66564 Ottweiler
+        
         </p>
-        <p>
-          Strasse und Hausnummer<br />
-          Postleitzahl Ort
-        </p>
+       
       </section>
 
       <section class="legal-section">
@@ -26,8 +25,8 @@
           vertretungsberechtigten Personen gemäß Satzung.
         </p>
         <p>
-          Bitte hier die vollständigen Namen der vertretungsberechtigten
-          Personen eintragen.
+          Sascha Gutheil<br />
+
         </p>
       </section>
 
@@ -36,8 +35,8 @@
         <p>
           Telefon: Bitte Telefonnummer eintragen<br />
           E-Mail:
-          <a href="mailto:erwinholzhauser.eh@gmail.com">
-            erwinholzhauser.eh@gmail.com
+          <a href="mailto:">
+            svottweiler@ottweiler.de
           </a>
         </p>
       </section>
