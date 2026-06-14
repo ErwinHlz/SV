@@ -45,7 +45,10 @@
               <h3 class="youth-timeline__title">{{ entry.title }}</h3>
               <p v-if="entry.lead" class="youth-timeline__lead">{{ entry.lead }}</p>
               <ul class="youth-timeline__points">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point" class="youth-timeline__point">
+                  <span class="youth-timeline__point-dot" aria-hidden="true"></span>
+                  <span class="youth-timeline__point-body">{{ point }}</span>
+                </li>
               </ul>
             </div>
             <div v-else class="youth-timeline__counterpart">
@@ -70,7 +73,10 @@
               <h3 class="youth-timeline__title">{{ entry.title }}</h3>
               <p v-if="entry.lead" class="youth-timeline__lead">{{ entry.lead }}</p>
               <ul class="youth-timeline__points">
-                <li v-for="point in entry.points" :key="point">{{ point }}</li>
+                <li v-for="point in entry.points" :key="point" class="youth-timeline__point">
+                  <span class="youth-timeline__point-dot" aria-hidden="true"></span>
+                  <span class="youth-timeline__point-body">{{ point }}</span>
+                </li>
               </ul>
             </div>
             <div v-else class="youth-timeline__counterpart">
@@ -929,12 +935,31 @@ onBeforeUnmount(() => {
 
 .youth-timeline__points {
   margin: 16px 0 0;
-  padding-left: 18px;
-  color: rgba(245, 247, 252, 0.92);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.youth-timeline__points li + li {
-  margin-top: 10px;
+.youth-timeline__point {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.youth-timeline__point-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 208, 82, 0.85);
+  margin-top: 8px;
+}
+
+.youth-timeline__point-body {
+  line-height: 1.5;
+  color: rgba(245, 247, 252, 0.78);
 }
 
 .youth-timeline__item--left .youth-timeline__content {
@@ -943,12 +968,15 @@ onBeforeUnmount(() => {
 }
 
 .youth-timeline__item--left .youth-timeline__points {
-  padding-left: 0;
-  padding-right: 18px;
+  align-items: flex-end;
 }
 
-.youth-timeline__item--left .youth-timeline__points li {
-  direction: rtl;
+.youth-timeline__item--left .youth-timeline__point {
+  flex-direction: row-reverse;
+}
+
+.youth-timeline__item--left .youth-timeline__point-body {
+  text-align: right;
 }
 
 .youth-timeline__item--right .youth-timeline__content {
@@ -956,14 +984,11 @@ onBeforeUnmount(() => {
 }
 
 .youth-timeline__counterpart {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 220px;
-  padding: 20px;
-  border-radius: 26px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(2, 43, 121, 0.16)),
-    rgba(8, 20, 45, 0.74);
   color: rgba(245, 247, 252, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -972,7 +997,9 @@ onBeforeUnmount(() => {
 
 .youth-timeline__counterpart-image {
   width: 100%;
+  flex: 1;
   min-height: 220px;
+  max-height: clamp(260px, 36vw, 380px);
   display: block;
   object-fit: cover;
   border-radius: 26px;
@@ -996,8 +1023,9 @@ onBeforeUnmount(() => {
 .youth-coaches__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
+  gap: clamp(1rem, 2vw, 1.5rem);
   margin-top: 28px;
+  align-items: start;
 }
 
 .youth-team-card,
@@ -1005,14 +1033,29 @@ onBeforeUnmount(() => {
   display: grid;
   box-sizing: border-box;
   gap: 12px;
+  width: 100%;
+  padding: 0.8rem 0.8rem 1.2rem;
+  background: rgba(255, 253, 248, 0.94);
+  color: #101828;
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
+  transform: rotate(-1deg);
+}
+
+.youth-team-card:nth-child(even),
+.youth-coach-card:nth-child(even) {
+  transform: rotate(1.2deg);
+}
+
+.youth-team-card:nth-child(3n),
+.youth-coach-card:nth-child(3n) {
+  transform: rotate(-0.4deg);
 }
 
 .youth-team-card__media,
 .youth-coach-card__photo {
   overflow: hidden;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(2, 43, 121, 0.16)),
-    rgba(8, 20, 45, 0.74);
+  border-radius: 0;
+  background: #f0e9d9;
 }
 
 .youth-team-card__media {
@@ -1040,42 +1083,25 @@ onBeforeUnmount(() => {
 .youth-team-card__body,
 .youth-coach-card__caption {
   display: grid;
-  gap: 6px;
-  text-align: left;
+  gap: 4px;
+  padding-top: 0.9rem;
+  text-align: center;
 }
 
 .youth-team-card__age,
 .youth-team-card__league {
   margin: 0;
-  color: rgba(245, 247, 252, 0.72);
+  color: rgba(17, 17, 17, 0.6);
 }
 
 .youth-team-card__name,
 .youth-coach-card__name {
   margin: 0;
-  font-size: 1.2rem;
   font-weight: 800;
 }
 
 .youth-team-card__name {
   font-size: clamp(1.25rem, 2vw, 1.6rem);
-}
-
-.youth-team-card {
-  width: 100%;
-  padding: 0.8rem 0.8rem 1.2rem;
-  background: rgba(255, 253, 248, 0.94);
-  color: #101828;
-  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
-  transform: rotate(-1deg);
-}
-
-.youth-team-card:nth-child(even) {
-  transform: rotate(1.2deg);
-}
-
-.youth-team-card:nth-child(3n) {
-  transform: rotate(-0.4deg);
 }
 
 .youth-coaches {
@@ -1105,27 +1131,8 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-.youth-coach-card {
-  width: 100%;
-  padding: 0.8rem 0.8rem 1.2rem;
-  background: rgba(255, 253, 248, 0.94);
-  color: #101828;
-  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
-  transform: rotate(-1deg);
-}
-
-.youth-coach-card:nth-child(even) {
-  transform: rotate(1.2deg);
-}
-
-.youth-coach-card:nth-child(3n) {
-  transform: rotate(-0.4deg);
-}
-
 .youth-coach-card__photo {
   aspect-ratio: 4 / 5;
-  border-radius: 0;
-  background: #f0e9d9;
 }
 
 .youth-coach-card__fallback {
@@ -1134,31 +1141,21 @@ onBeforeUnmount(() => {
   font-weight: 900;
 }
 
-.youth-coach-card__caption {
-  padding-top: 0.9rem;
-  text-align: center;
-}
-
 .youth-coach-card__role {
   margin: 0.25rem 0 0;
   color: rgba(17, 17, 17, 0.6);
   font-size: 0.92rem;
 }
 
-.youth-team-card__media {
-  border-radius: 0;
-  background: #f0e9d9;
-}
-
 .youth-team-card__body {
-  padding-top: 0.35rem;
-  gap: 4px;
+  text-align: left;
 }
 
 .youth-team-card__training {
   margin: 6px 0 0;
   padding-left: 18px;
   line-height: 1.6;
+  text-align: left;
 }
 
 .youth-team-card__links {
@@ -1196,12 +1193,18 @@ onBeforeUnmount(() => {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 28px;
   text-align: left;
+  align-items: start;
 }
 
 .youth-contact__details {
   display: grid;
   gap: 10px;
   margin-top: 20px;
+  padding: 24px;
+  border-radius: 26px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(2, 43, 121, 0.16)),
+    rgba(8, 20, 45, 0.74);
 }
 
 .youth-contact__details p {
@@ -1211,6 +1214,11 @@ onBeforeUnmount(() => {
 .youth-contact__form {
   display: grid;
   gap: 14px;
+  padding: 24px;
+  border-radius: 26px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(2, 43, 121, 0.16)),
+    rgba(8, 20, 45, 0.74);
 }
 
 .youth-contact__form label {
@@ -1278,12 +1286,15 @@ onBeforeUnmount(() => {
 
   .youth-timeline__item--left .youth-timeline__points,
   .youth-timeline__item--right .youth-timeline__points {
-    padding-left: 18px;
-    padding-right: 0;
+    align-items: stretch;
   }
 
-  .youth-timeline__item--left .youth-timeline__points li {
-    direction: ltr;
+  .youth-timeline__item--left .youth-timeline__point {
+    flex-direction: row;
+  }
+
+  .youth-timeline__item--left .youth-timeline__point-body {
+    text-align: left;
   }
 
   .youth-timeline__item--left .youth-timeline__counterpart,
@@ -1315,6 +1326,8 @@ onBeforeUnmount(() => {
     scroll-snap-align: center;
     min-height: 100%;
     height: 100%;
+    width: 70dvw;
+    max-width: var(--team-card-width);
     opacity: 0.38;
     filter: grayscale(1);
     transform: none;
@@ -1325,7 +1338,9 @@ onBeforeUnmount(() => {
   }
 
   .youth-team-card:nth-child(even),
-  .youth-team-card:nth-child(3n) {
+  .youth-team-card:nth-child(3n),
+  .youth-coach-card:nth-child(even),
+  .youth-coach-card:nth-child(3n) {
     transform: none;
   }
 
@@ -1375,6 +1390,8 @@ onBeforeUnmount(() => {
     scroll-snap-align: center;
     min-height: 100%;
     height: 100%;
+    width: 70dvw;
+    max-width: var(--coach-card-width);
     opacity: 0.38;
     filter: grayscale(1);
     transform: none;
@@ -1433,7 +1450,6 @@ onBeforeUnmount(() => {
 
   .youth-timeline__counterpart {
     min-height: 180px;
-    border-radius: 18px;
   }
 
   .youth-timeline__counterpart-image {
