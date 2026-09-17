@@ -160,3 +160,15 @@ export const ensureExternalMediaScriptsLoaded = () => {
 
   return externalScriptsPromise;
 };
+
+let instagramEmbedScriptPromise: Promise<void> | null = null;
+
+export const ensureInstagramEmbedScriptLoaded = () => {
+  if (!instagramEmbedScriptPromise) {
+    instagramEmbedScriptPromise = loadExternalScript(
+      externalLinks.instagramApi.embedScriptUrl,
+    );
+  }
+
+  return instagramEmbedScriptPromise;
+};

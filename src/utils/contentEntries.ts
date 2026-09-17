@@ -82,7 +82,10 @@ export type NewsEntry = {
 
 export type NewsMediaItem = {
   id: string;
-  type: "image" | "video";
+  // "instagram-embed": Instagram liefert für dieses Medium keine media_url
+  // (typischerweise Reels mit urheberrechtlich geschützter Musik). Statt eines
+  // kaputten <video> wird hier über Instagrams eigenes Embed-Widget abgespielt.
+  type: "image" | "video" | "instagram-embed";
   src: string;
   poster?: string;
   alt: string;
@@ -349,9 +352,39 @@ const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
   const items: NewsMediaItem[] = [];
 
   mediaItems.forEach((media) => {
-    const mediaType = mapInstagramMediaType(media.media_type, media.typ);
-    const src = media.media_url || media.bild || media.thumbnail_url;
+    const isVideoLike = mapInstagramMediaType(media.media_type, media.typ) === "video";
+    const permalink = media.permalink || post.permalink;
     const poster = media.thumbnail_url || media.bild || media.media_url;
+
+    // Instagram liefert für manche Videos/Reels keine media_url zurück,
+    // insbesondere bei urheberrechtlich geschützter Musik. In dem Fall gibt es
+    // keine abspielbare Videodatei - stattdessen über Instagrams eigenes
+    // Embed-Widget abspielen (das lädt das Video direkt von Instagram).
+    const mediaType: NewsMediaItem["type"] = !isVideoLike
+      ? "image"
+      : media.media_url
+        ? "video"
+        : "instagram-embed";
+
+    if (mediaType === "instagram-embed") {
+      if (!permalink) {
+        return;
+      }
+
+      items.push({
+        id: String(media.id),
+        type: mediaType,
+        src: poster || "",
+        alt: `Instagram-Beitrag von @${post.username}`,
+        permalink,
+      });
+      return;
+    }
+
+    const src =
+      mediaType === "video"
+        ? media.media_url
+        : media.bild || media.thumbnail_url || media.media_url;
 
     if (!src) {
       return;
@@ -363,7 +396,7 @@ const getInstagramMediaItems = (post: InstagramPostSource): NewsMediaItem[] => {
       src,
       poster: mediaType === "video" ? poster : undefined,
       alt: `Instagram-Beitrag von @${post.username}`,
-      permalink: media.permalink || post.permalink,
+      permalink,
     });
   });
 

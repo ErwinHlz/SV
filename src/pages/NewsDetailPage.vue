@@ -21,6 +21,15 @@
             class="news-inline-image"
             :src="activeMedia.src"
             :alt="activeMedia.alt" />
+          <blockquote
+            v-else-if="activeMedia?.type === 'instagram-embed'"
+            class="instagram-media news-inline-embed"
+            :data-instgrm-permalink="activeMedia.permalink"
+            data-instgrm-version="14">
+            <a :href="activeMedia.permalink" target="_blank" rel="noreferrer">
+              Beitrag auf Instagram ansehen
+            </a>
+          </blockquote>
           <video
             v-else-if="activeMedia"
             class="news-inline-video"
@@ -77,6 +86,15 @@
               class="news-inline-image"
               :src="media.src"
               :alt="media.alt" />
+            <blockquote
+              v-else-if="media.type === 'instagram-embed'"
+              class="instagram-media news-inline-embed"
+              :data-instgrm-permalink="media.permalink"
+              data-instgrm-version="14">
+              <a :href="media.permalink" target="_blank" rel="noreferrer">
+                Beitrag auf Instagram ansehen
+              </a>
+            </blockquote>
             <video
               v-else
               class="news-inline-video"
@@ -109,6 +127,15 @@
             class="news-inline-image"
             :src="newsMedia[0].src"
             :alt="newsMedia[0].alt" />
+          <blockquote
+            v-else-if="newsMedia[0]?.type === 'instagram-embed'"
+            class="instagram-media news-inline-embed"
+            :data-instgrm-permalink="newsMedia[0].permalink"
+            data-instgrm-version="14">
+            <a :href="newsMedia[0].permalink" target="_blank" rel="noreferrer">
+              Beitrag auf Instagram ansehen
+            </a>
+          </blockquote>
           <video
             v-else-if="newsMedia[0]"
             class="news-inline-video"
@@ -154,13 +181,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
 import newsDetailHero from "@/assets/news/stock_news_2.png";
 import { findNewsBySlug, type NewsMediaItem } from "@/utils/contentEntries";
 import { formatDate } from "@/utils/date";
+import { ensureInstagramEmbedScriptLoaded } from "@/composables/useCookieConsent";
 import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink } from "@lucide/vue";
+
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: {
+        process: () => void;
+      };
+    };
+  }
+}
 
 const route = useRoute();
 const router = useRouter();
@@ -266,6 +304,31 @@ watch(
     mobileSwipeSlides.value = [];
   },
 );
+
+// Reels ohne media_url werden über Instagrams eigenes Embed-Widget
+// abgespielt. Dessen Skript verarbeitet neu eingefügte Blockquotes nicht
+// automatisch, daher nach jeder DOM-Änderung erneut anstoßen.
+const processInstagramEmbeds = async () => {
+  const hasInstagramEmbed = newsMedia.value.some(
+    (media) => media.type === "instagram-embed",
+  );
+
+  if (!hasInstagramEmbed) {
+    return;
+  }
+
+  await ensureInstagramEmbedScriptLoaded();
+  await nextTick();
+  window.instgrm?.Embeds.process();
+};
+
+watch([newsMedia, activeMediaIndex], () => {
+  processInstagramEmbeds();
+}, { flush: "post" });
+
+onMounted(() => {
+  processInstagramEmbeds();
+});
 </script>
 
 <style scoped>
@@ -335,6 +398,18 @@ watch(
 
 .news-inline-video {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.news-inline-embed {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.news-inline-embed :deep(iframe) {
+  max-width: 100% !important;
 }
 
 .news-inline-caption {

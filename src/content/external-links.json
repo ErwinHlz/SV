@@ -67,7 +67,8 @@
     }
   },
   "instagramApi": {
-    "mediaEndpoint": "https://graph.instagram.com/me/media"
+    "mediaEndpoint": "https://graph.instagram.com/me/media",
+    "embedScriptUrl": "https://www.instagram.com/embed.js"
   },
   "googleMaps": {
     "searchBaseUrl": "https://www.google.com/maps/search/?api=1"
