@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
+import { externalLinks } from "./lib/external-links.mjs";
 
 const CONFIG = {
-  sourceUrl:
-    "https://www.fussball.de/ugc.news/-/object-ref/01VUVFGMV0000000VS548984VU8N0U3U#!/",
+  sourceUrl: externalLinks.fussballde.spielberichteSourceUrl,
 
   team: "FSG Ottweiler/Steinbach 2",
 

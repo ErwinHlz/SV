@@ -1,12 +1,13 @@
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
+import { externalLinks } from "./lib/external-links.mjs";
 
 const CONFIG = {
-  clubMatchesUrl: "https://www.fupa.net/club/fsg-ottweiler-steinbach/matches",
+  clubMatchesUrl: externalLinks.fupa.clubMatchesUrl,
 
   // Für die 2. Mannschaft:
   // In FuPa-Match-URLs steht die zweite Mannschaft mit "...fsg-ottweiler-steinbach-m2..."
-  teamUrlPart: "fsg-ottweiler-steinbach-m2",
+  teamUrlPart: externalLinks.fupa.teamTwoSlug,
 
   timezone: "Europe/Berlin",
 

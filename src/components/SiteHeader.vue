@@ -99,7 +99,7 @@
       </ul>
     </nav>
     <div class="social-links-desktop hidden md:flex">
-      <a href="https://www.instagram.com/sv_ottweiler1919/">
+      <a :href="externalLinks.social.instagram.url">
         <svg
           role="img"
           viewBox="0 0 24 24"
@@ -111,7 +111,7 @@
         </svg>
       </a>
       <a
-        href="https://www.facebook.com/people/SV-Ottweiler-1919/61582646983437/"
+        :href="externalLinks.social.facebook.url"
         ><svg
           role="img"
           viewBox="0 0 24 24"
@@ -211,7 +211,7 @@
               </div>
             </li>
             <li class="mobile-nav-item mobile-nav-item--social">
-              <a href="https://www.instagram.com/sv_ottweiler1919/">
+              <a :href="externalLinks.social.instagram.url">
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
@@ -223,7 +223,7 @@
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/people/SV-Ottweiler-1919/61582646983437/">
+                :href="externalLinks.social.facebook.url">
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
@@ -247,6 +247,7 @@ import { onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { ChevronDown, ChevronUp } from "@lucide/vue";
 import logo from "@/assets/sv_logo.svg?raw";
+import externalLinks from "@/content/external-links.json";
 
 const isMenuOpen = ref(false);
 

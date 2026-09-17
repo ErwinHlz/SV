@@ -49,10 +49,10 @@
         <p>
           Datenschutzerklärung:
           <a
-            href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement"
+            :href="externalLinks.privacyReferences.githubPrivacyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement
+            {{ externalLinks.privacyReferences.githubPrivacyUrl }}
           </a>
         </p>
       </section>
@@ -145,10 +145,10 @@
         <p>
           Datenschutzerklärung von fussball.de:
           <a
-            href="https://www.fussball.de/privacy"
+            :href="externalLinks.fussballde.privacyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://www.fussball.de/privacy
+            {{ externalLinks.fussballde.privacyUrl }}
           </a>
         </p>
 
@@ -166,10 +166,10 @@
         <p>
           Datenschutzerklärung von FuPa:
           <a
-            href="https://www.fupa.net/about/privacy-policy"
+            :href="externalLinks.fupa.privacyPolicyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://www.fupa.net/about/privacy-policy
+            {{ externalLinks.fupa.privacyPolicyUrl }}
           </a>
         </p>
 
@@ -194,10 +194,10 @@
         <p>
           Datenschutzerklärung von Meta bzw. Instagram:
           <a
-            href="https://www.facebook.com/privacy/policy/"
+            :href="externalLinks.privacyReferences.facebookPrivacyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://www.facebook.com/privacy/policy/
+            {{ externalLinks.privacyReferences.facebookPrivacyUrl }}
           </a>
         </p>
       </section>
@@ -224,18 +224,18 @@
         <p>
           Weitere Informationen:
           <a
-            href="https://developers.google.com/fonts/faq"
+            :href="externalLinks.privacyReferences.googleFontsFaqUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://developers.google.com/fonts/faq
+            {{ externalLinks.privacyReferences.googleFontsFaqUrl }}
           </a>
           <br />
           Datenschutzerklärung:
           <a
-            href="https://policies.google.com/privacy?hl=de"
+            :href="externalLinks.privacyReferences.googlePrivacyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://policies.google.com/privacy?hl=de
+            {{ externalLinks.privacyReferences.googlePrivacyUrl }}
           </a>
         </p>
       </section>
@@ -262,10 +262,10 @@
         <p>
           Weitere Informationen:
           <a
-            href="https://policies.google.com/privacy?hl=de"
+            :href="externalLinks.privacyReferences.googlePrivacyUrl"
             target="_blank"
             rel="noopener noreferrer">
-            https://policies.google.com/privacy?hl=de
+            {{ externalLinks.privacyReferences.googlePrivacyUrl }}
           </a>
         </p>
       </section>
@@ -325,6 +325,10 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import externalLinks from "@/content/external-links.json";
+</script>
 
 <style scoped>
 .legal-page {

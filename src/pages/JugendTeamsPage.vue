@@ -341,6 +341,7 @@ import youthHero from "@/assets/header/background.png";
 import rawJugendtrainer from "@/content/jugendtrainer.json";
 import rawTimelineEntries from "@/content/jugend-timeline.json";
 import rawYouthContent from "@/content/jugend.json";
+import externalLinks from "@/content/external-links.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
 
@@ -440,7 +441,7 @@ const isCoachPortraitImage = (image?: string) =>
 const teamCards = youthContent.teams.map((team) => ({
   ...team,
   image: team.image ? (teamImageMap[team.image] ?? team.image) : "",
-  tableUrl: team.tableUrl?.trim() || "https://next.fussball.de/",
+  tableUrl: team.tableUrl?.trim() || externalLinks.fussballde.homepageUrl,
 }));
 
 const teamsGridRef = ref<HTMLElement | null>(null);
@@ -493,7 +494,7 @@ const trainingLocation = youthContent.trainingLocation;
 const mapsHref =
   trainingLocation?.mapsUrl ??
   (trainingLocation?.address
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    ? `${externalLinks.googleMaps.searchBaseUrl}&query=${encodeURIComponent(
         trainingLocation.address,
       )}`
     : "");

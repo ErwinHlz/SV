@@ -14,20 +14,20 @@
 		<TeamOneNav base-path="/teams/two" team-label="2. Mannschaft" />
 		<ConsentControlledWidget
 			provider="fupa"
-			widget-id="fp-widget_root-37aqKSilbQ7bjar6peFCZK5GfeX"
+			:widget-id="externalLinks.fupa.widgets.teamTwo.kader.desktop"
 			widget-class="fupa-widget"
-			fallback-url="https://www.fupa.net/club/fsg-ottweiler-steinbach"
-			fallback-label="FSG Ottweiler-Steinbach auf FuPa"
+			:fallback-url="externalLinks.fupa.clubUrl"
+			:fallback-label="externalLinks.fupa.fallbackLabel"
 			placeholder-title="FuPa Kaderansicht"
 			placeholder-description="Die FuPa-Kaderansicht wird erst geladen, wenn du externe Inhalte zulässt."
 		/>
 
 		<ConsentControlledWidget
 			provider="fupa"
-			widget-id="fp-widget_root-3DIVtXz6mJl4c8t2DogIHCKgiqW"
+			:widget-id="externalLinks.fupa.widgets.teamTwo.kader.mobile"
 			widget-class="fupa-widget-mobile"
-			fallback-url="https://www.fupa.net/club/fsg-ottweiler-steinbach"
-			fallback-label="FSG Ottweiler-Steinbach auf FuPa"
+			:fallback-url="externalLinks.fupa.clubUrl"
+			:fallback-label="externalLinks.fupa.fallbackLabel"
 			placeholder-title="FuPa Kaderansicht"
 			placeholder-description="Die mobile FuPa-Kaderansicht wird erst geladen, wenn du externe Inhalte zulässt."
 		/>
@@ -41,6 +41,7 @@
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
 	import newsHero from "@/assets/header/background.png";
+	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
 
 	const { onTouchEnd, onTouchStart } = useTeamViewSwipe("/teams/two");

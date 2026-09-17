@@ -1,9 +1,9 @@
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { externalLinks } from "./lib/external-links.mjs";
 
-const LEAGUE_STANDING_URL =
-  "https://www.fupa.net/league/bezirksliga-ill/standing";
+const LEAGUE_STANDING_URL = externalLinks.fupa.leagueStandingUrl;
 
 const OUTPUT_DIR = "../assets/vereinslogos";
 const OUTPUT_JSON = "../content/vereinslogos.json";
@@ -36,7 +36,7 @@ async function downloadImage(url, filepath) {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome Safari",
-      Referer: "https://www.fupa.net/",
+      Referer: externalLinks.fupa.baseUrl,
     },
   });
 

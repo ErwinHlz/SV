@@ -1,9 +1,10 @@
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
+import { externalLinks } from "./lib/external-links.mjs";
 
-const CLUB_URL = "https://www.fupa.net/club/fsg-ottweiler-steinbach/matches";
+const CLUB_URL = externalLinks.fupa.clubMatchesUrl;
 const TEAM_NAME = "FSG Ottweiler-Steinbach II";
-const TEAM_SLUG = "fsg-ottweiler-steinbach-m2";
+const TEAM_SLUG = externalLinks.fupa.teamTwoSlug;
 
 const HOME_LOCATION = "Sportplatz Ottweiler";
 const OUTPUT_FILE = process.argv[2] ?? "../content/spiel-termine.json";
@@ -85,7 +86,7 @@ function buildGoogleMapsSearchUrl(query) {
     return "";
   }
 
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  return `${externalLinks.googleMaps.searchBaseUrl}&query=${encodeURIComponent(query)}`;
 }
 
 async function extractMapsUrl(page) {

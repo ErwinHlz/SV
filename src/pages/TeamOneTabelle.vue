@@ -14,10 +14,10 @@
 		<TeamOneNav />
 		<ConsentControlledWidget
 			provider="fupa"
-			widget-id="fp-widget_root-3DIT44DmEUZtco9bQ4FO27yvKVP"
+			:widget-id="externalLinks.fupa.widgets.teamOne.tabelle.desktop"
 			widget-class="fupa-widget"
-			fallback-url="https://www.fupa.net/club/fsg-ottweiler-steinbach"
-			fallback-label="FSG Ottweiler-Steinbach auf FuPa"
+			:fallback-url="externalLinks.fupa.clubUrl"
+			:fallback-label="externalLinks.fupa.fallbackLabel"
 			placeholder-title="FuPa Tabelle"
 			placeholder-description="Die FuPa-Tabelle wird erst geladen, wenn du externe Inhalte zulässt."
 		/>
@@ -31,6 +31,7 @@
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
 	import newsHero from "@/assets/header/background.png";
+	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
 
 	const { onTouchEnd, onTouchStart } = useTeamViewSwipe("/teams/one");

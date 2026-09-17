@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import { openCookieSettings } from "@/composables/useCookieConsent";
+	import externalLinks from "@/content/external-links.json";
 </script>
 
 <template>
@@ -7,7 +8,7 @@
 		<div class="footer-content">
 			<div class="footer-social">
 				<a
-					href="https://www.instagram.com/sv_ottweiler1919/"
+					:href="externalLinks.social.instagram.url"
 					aria-label="Instagram"
 				>
 					<svg
@@ -21,7 +22,7 @@
 					</svg>
 				</a>
 				<a
-					href="https://www.facebook.com/people/SV-Ottweiler-1919/61582646983437/"
+					:href="externalLinks.social.facebook.url"
 					aria-label="Facebook"
 				>
 					<svg
@@ -49,11 +50,11 @@
 			</nav>
 			<a
 				class="footer-credit"
-				href="https://www.erwinholzhauser.de"
+				:href="externalLinks.developer.url"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				Made by Erwin Holzhauser
+				{{ externalLinks.developer.label }}
 			</a>
 		</div>
 	</footer>

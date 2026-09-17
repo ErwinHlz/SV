@@ -1,4 +1,5 @@
 import { computed, ref } from "vue";
+import externalLinks from "@/content/external-links.json";
 
 export type CookieConsentState = {
   necessary: true;
@@ -152,8 +153,8 @@ const loadExternalScript = (src: string) =>
 export const ensureExternalMediaScriptsLoaded = () => {
   if (!externalScriptsPromise) {
     externalScriptsPromise = Promise.all([
-      loadExternalScript("https://www.fussball.de/widgets.js"),
-      loadExternalScript("https://widget-api.fupa.net/vendor/widget.js?v1"),
+      loadExternalScript(externalLinks.fussballde.widgetScriptUrl),
+      loadExternalScript(externalLinks.fupa.widgetScriptUrl),
     ]).then(() => undefined);
   }
 

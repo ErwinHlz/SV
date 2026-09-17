@@ -1,5 +1,6 @@
 import "dotenv/config";
 import fs from "node:fs/promises";
+import { externalLinks } from "./lib/external-links.mjs";
 
 const token = process.env.IG_ACCESS_TOKEN;
 const limit = process.env.IG_LIMIT || 6;
@@ -91,7 +92,7 @@ function getPostMedia(post) {
 }
 
 async function fetchInstagramPosts() {
-  const url = new URL("https://graph.instagram.com/me/media");
+  const url = new URL(externalLinks.instagramApi.mediaEndpoint);
 
   url.searchParams.set("fields", fields);
   url.searchParams.set("limit", limit);
@@ -158,7 +159,7 @@ await fs.writeFile(
   JSON.stringify(
     {
       generated_at: new Date().toISOString(),
-      source: "https://www.instagram.com/sv_ottweiler1919/",
+      source: externalLinks.social.instagram.url,
       count: posts.length,
       posts,
     },

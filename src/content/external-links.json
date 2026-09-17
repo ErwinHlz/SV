@@ -1,0 +1,81 @@
+{
+  "social": {
+    "instagram": {
+      "url": "https://www.instagram.com/sv_ottweiler1919/",
+      "label": "Instagram"
+    },
+    "facebook": {
+      "url": "https://www.facebook.com/people/SV-Ottweiler-1919/61582646983437/",
+      "label": "Facebook"
+    }
+  },
+  "developer": {
+    "url": "https://www.erwinholzhauser.de",
+    "label": "Made by Erwin Holzhauser"
+  },
+  "fupa": {
+    "baseUrl": "https://www.fupa.net/",
+    "clubSlug": "fsg-ottweiler-steinbach",
+    "teamTwoSlug": "fsg-ottweiler-steinbach-m2",
+    "clubUrl": "https://www.fupa.net/club/fsg-ottweiler-steinbach",
+    "clubMatchesUrl": "https://www.fupa.net/club/fsg-ottweiler-steinbach/matches",
+    "leagueStandingUrl": "https://www.fupa.net/league/bezirksliga-ill/standing",
+    "privacyPolicyUrl": "https://www.fupa.net/about/privacy-policy",
+    "widgetScriptUrl": "https://widget-api.fupa.net/vendor/widget.js?v1",
+    "fallbackLabel": "SV Ottweiler auf FuPa",
+    "widgets": {
+      "teamOne": {
+        "tabelle": {
+          "desktop": "fp-widget_root-3JQjBRZHcSAjuYT8t6TwKqVyPE2"
+        },
+        "spielplan": {
+          "desktop": "fp-widget_root-3JQh143SvapyxH4QhIeqyujapYY",
+          "mobile": "fp-widget_root-3JQiRsgZCFC23z1zqfKoI9a12Ar"
+        },
+        "kader": {
+          "desktop": "fp-widget_root-3JQc9iLhZarvTqUeWcRT8NVJ1U4",
+          "mobile": "fp-widget_root-3JQdoDbuAQjKYUETu4dx5YUpfzz"
+        }
+      },
+      "teamTwo": {
+        "tabelle": {
+          "desktop": "fp-widget_root-3JQjKSG3nPvU6J0cdqucJmFSuYH"
+        },
+        "spielplan": {
+          "desktop": "fp-widget_root-3JQidPoEP0fhhWi0dDV7Y2Mn1hP",
+          "mobile": "fp-widget_root-3JQisR8bQ9j9t40CxxAwkZMKO6k"
+        },
+        "kader": {
+          "desktop": "fp-widget_root-3JQcUVkelLABiXQkX8vfzEDQPBb",
+          "mobile": "fp-widget_root-3JQe3QLzHrTnVtVtttSDjzUvmvq"
+        }
+      }
+    }
+  },
+  "fussballde": {
+    "homepageUrl": "https://www.fussball.de/",
+    "privacyUrl": "https://www.fussball.de/privacy",
+    "widgetScriptUrl": "https://www.fussball.de/widgets.js",
+    "fallbackLabel": "fussball.de öffnen",
+    "spielberichteSourceUrl": "https://www.fussball.de/ugc.news/-/object-ref/01VUVFGMV0000000VS548984VU8N0U3U#!/",
+    "widgets": {
+      "about": {
+        "tabelle": "6bdd5140-b8f6-4e0f-b8df-b098fee30e6e",
+        "spiele": "3bddcced-1dbc-4f7b-baf1-ed4126600967",
+        "spielberichte": "add4de41-6c00-4bcc-b8a4-fbfe9ba93ff0"
+      }
+    }
+  },
+  "instagramApi": {
+    "mediaEndpoint": "https://graph.instagram.com/me/media"
+  },
+  "googleMaps": {
+    "searchBaseUrl": "https://www.google.com/maps/search/?api=1"
+  },
+  "privacyReferences": {
+    "githubPrivacyUrl": "https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement",
+    "facebookPrivacyUrl": "https://www.facebook.com/privacy/policy/",
+    "googleFontsFaqUrl": "https://developers.google.com/fonts/faq",
+    "googlePrivacyUrl": "https://policies.google.com/privacy?hl=de"
+  }
+}
