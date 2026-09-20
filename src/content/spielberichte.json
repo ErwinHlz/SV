@@ -1,10 +1,8 @@
 {
-  "generated_at": "2026-09-17T14:59:09.568Z",
-  "sources": [
-    "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
-    "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
-  ],
-  "count": 8,
+  "generated_at": "2026-09-20T04:21:34.030Z",
+  "source": "https://www.fussball.de/ugc.news/-/object-ref/01VUVFGMV0000000VS548984VU8N0U3U#!/",
+  "team": "FSG Ottweiler/Steinbach 2",
+  "count": 10,
   "reports": [
     {
       "id": "031V7NGLEG000000VS5489BVVS9PGJMA",
