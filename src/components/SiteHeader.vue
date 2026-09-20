@@ -25,6 +25,11 @@
               @mouseenter="showDropdown(item.label)"
               @mouseleave="scheduleCloseDropdown"
               @click="open = null">
+              <img
+                v-if="item.label === 'Oktoberfest'"
+                :src="brezelIcon"
+                alt=""
+                class="nav-item-icon" />
               <span>{{ item.label }}</span>
               <span class="dropdown-chevron" aria-hidden="true">
                 <ChevronUp
@@ -98,6 +103,12 @@
         </li>
       </ul>
     </nav>
+    <RouterLink
+      to="/oktoberfest"
+      class="oktoberfest-badge"
+      aria-label="Oktoberfest">
+      <img :src="brezelIcon" alt="" class="oktoberfest-badge-icon" />
+    </RouterLink>
     <div class="social-links-desktop hidden md:flex">
       <a :href="externalLinks.social.instagram.url">
         <svg
@@ -160,6 +171,11 @@
                   class="mobile-nav-toggle"
                   :class="{ active: isItemActive(item) }"
                   @click="toggleMobileSection(item.label)">
+                  <img
+                    v-if="item.label === 'Oktoberfest'"
+                    :src="brezelIcon"
+                    alt=""
+                    class="nav-item-icon" />
                   <span>{{ item.label }}</span>
                   <span class="mobile-nav-toggle-icon" aria-hidden="true">
                     <ChevronUp
@@ -247,6 +263,7 @@ import { onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { ChevronDown, ChevronUp } from "@lucide/vue";
 import logo from "@/assets/sv_logo.svg?raw";
+import brezelIcon from "@/assets/oktoberfest/brezel_pixelart.svg";
 import externalLinks from "@/content/external-links.json";
 
 const isMenuOpen = ref(false);
@@ -421,6 +438,13 @@ onBeforeUnmount(() => {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.nav-item-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .link,
@@ -844,6 +868,57 @@ onBeforeUnmount(() => {
   .logo {
     width: 9dvw;
     height: 9dvw;
+  }
+}
+
+/* Oktoberfest Badge */
+.oktoberfest-badge {
+  position: fixed;
+  top: 6px;
+  right: 16px;
+  z-index: 130;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(48px, 6vw, 68px);
+  height: clamp(48px, 6vw, 68px);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  animation: oktoberfest-wiggle 2.8s ease-in-out infinite;
+  transform-origin: 50% 85%;
+}
+
+.oktoberfest-badge:hover {
+  animation-play-state: paused;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 0 10px var(--sv-secondary-color));
+}
+
+.oktoberfest-badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+@keyframes oktoberfest-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .oktoberfest-badge {
+    display: none;
   }
 }
 

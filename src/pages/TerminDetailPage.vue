@@ -8,6 +8,7 @@
 		compact
 	/>
 	<section v-if="terminItem" class="termin-detail-layout">
+    <MatchTerminPoster v-if="terminItem.isMatchTemplate" :item="terminItem" class="termin-detail-poster" />
 		<article
 			v-if="terminItem.source || terminItem.externalUrl"
 			class="termin-detail-meta"
@@ -51,6 +52,8 @@
 		<EntryDetailContent
 			:excerpt="terminItem.excerpt"
 			:content="terminItem.content"
+			:image="terminItem.isMatchTemplate ? undefined : terminItem.image"
+			:image-alt="terminItem.imageAlt"
 		/>
 		<button
 			type="button"
@@ -70,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import MatchTerminPoster from "@/components/MatchTerminPoster.vue";
 	import { computed } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 	import { ArrowLeft, ExternalLink } from "@lucide/vue";
@@ -241,4 +245,5 @@
 			z-index: 30;
 		}
 	}
+.termin-detail-poster { width: min(640px, calc(100% - 32px)); margin: 0 auto; border-radius: 18px; }
 </style>

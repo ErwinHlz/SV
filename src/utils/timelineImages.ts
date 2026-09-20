@@ -1,3 +1,8 @@
+import galerie3 from "@/assets/galerie/galerie_3.jpeg";
+import galerie4 from "@/assets/galerie/galerie_4.jpeg";
+import galerie6 from "@/assets/galerie/galerie_6.jpeg";
+import galerie10 from "@/assets/galerie/galerie_10.jpeg";
+import galerie22 from "@/assets/galerie/galerie_22.webp";
 import svLogoFarbe from "@/assets/sv_logo_farbe.svg";
 import djkVsSv from "@/assets/historie/djk_vs_sv.jpg";
 import historie10 from "@/assets/historie/historie_10.jpg";
@@ -18,6 +23,11 @@ import historie8 from "@/assets/historie/historie_8.jpg";
 import verbandsliga1979 from "@/assets/historie/verbandsliga_1979.jpg";
 
 const timelineAssetMap: Record<string, string> = {
+  "/galerie/galerie_3.jpeg": galerie3,
+  "/galerie/galerie_4.jpeg": galerie4,
+  "/galerie/galerie_6.jpeg": galerie6,
+  "/galerie/galerie_10.jpeg": galerie10,
+  "/galerie/galerie_22.webp": galerie22,
   "/sv_logo_farbe.svg": svLogoFarbe,
   "/historie/djk_vs_sv.jpg": djkVsSv,
   "/historie/historie_3.jpg": historie3,

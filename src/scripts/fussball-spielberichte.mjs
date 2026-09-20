@@ -1,11 +1,18 @@
 import fs from "node:fs/promises";
 import { externalLinks } from "./lib/external-links.mjs";
 
+const SOURCES = [
+  {
+    sourceUrl: externalLinks.fussballde.spielberichteSourceUrls.teamOne,
+    team: "FSG Ottweiler/Steinbach",
+  },
+  {
+    sourceUrl: externalLinks.fussballde.spielberichteSourceUrls.teamTwo,
+    team: "FSG Ottweiler/Steinbach 2",
+  },
+];
+
 const CONFIG = {
-  sourceUrl: externalLinks.fussballde.spielberichteSourceUrl,
-
-  team: "FSG Ottweiler/Steinbach 2",
-
   outputFile: "../content/spielberichte.json",
 
   // true = nur Spielberichte, keine Vorberichte
@@ -100,7 +107,7 @@ function makeExcerpt(text, maxLength = 220) {
   return `${clean.slice(0, maxLength).trim()}...`;
 }
 
-function extractNewsLinksFromOverview(html) {
+function extractNewsLinksFromOverview(html, baseUrl) {
   const links = [];
   const seen = new Set();
 
@@ -110,7 +117,7 @@ function extractNewsLinksFromOverview(html) {
   let match;
 
   while ((match = anchorRegex.exec(html)) !== null) {
-    const href = absoluteUrl(match[1], CONFIG.sourceUrl);
+    const href = absoluteUrl(match[1], baseUrl);
     const anchorHtml = match[2];
     const text = normalizeText(stripTags(anchorHtml));
 
@@ -140,12 +147,19 @@ function parseOverviewText(text) {
   const clean = normalizeText(text);
 
   const typeMatch = clean.match(/\b(Spielbericht|Vorbericht)\b/);
-  const dateMatch = clean.match(/(\d{2}\.\d{2}\.\d{4})\s*\|\s*(\d{1,2}:\d{2})/);
+
+  // Manche Übersichtsseiten zeigen "Datum | Uhrzeit", andere nur "Datum | Typ"
+  // ohne Uhrzeit. Erst auf Datum+Uhrzeit prüfen, sonst auf reines Datum.
+  const dateTimeMatch = clean.match(
+    /(\d{2}\.\d{2}\.\d{4})\s*\|\s*(\d{1,2}:\d{2})/,
+  );
+  const dateOnlyMatch = clean.match(/(\d{2}\.\d{2}\.\d{4})/);
+  const dateMatch = dateTimeMatch || dateOnlyMatch;
 
   const typ = typeMatch ? typeMatch[1] : "";
   const datum_de = dateMatch ? dateMatch[1] : "";
   const datum = datum_de ? toISODateGerman(datum_de) : "";
-  const uhrzeit = dateMatch ? dateMatch[2] : "";
+  const uhrzeit = dateTimeMatch ? dateTimeMatch[2] : "";
 
   let rest = clean;
 
@@ -285,7 +299,7 @@ function extractZumSpielUrl(html, baseUrl) {
   return absoluteUrl(match[1], baseUrl);
 }
 
-async function readArticle(item) {
+async function readArticle(item, team) {
   const html = await fetchHtml(item.url);
   const lines = htmlToLines(html);
 
@@ -298,7 +312,7 @@ async function readArticle(item) {
 
   const result = {
     id: item.id,
-    team: CONFIG.team,
+    team,
     typ: item.typ,
     datum: item.datum,
     datum_de: item.datum_de,
@@ -325,24 +339,24 @@ async function readArticle(item) {
   return result;
 }
 
-async function main() {
-  console.log("Lade Übersicht...");
-  const overviewHtml = await fetchHtml(CONFIG.sourceUrl);
+async function readReportsForSource(source) {
+  console.log(`Lade Übersicht (${source.team})...`);
+  const overviewHtml = await fetchHtml(source.sourceUrl);
 
-  let items = extractNewsLinksFromOverview(overviewHtml);
+  let items = extractNewsLinksFromOverview(overviewHtml, source.sourceUrl);
 
   if (CONFIG.limit !== null) {
     items = items.slice(0, CONFIG.limit);
   }
 
-  console.log(`Gefundene sichtbare Spielberichte: ${items.length}`);
+  console.log(`Gefundene sichtbare Spielberichte (${source.team}): ${items.length}`);
 
   const reports = [];
 
   for (const item of items) {
     try {
       console.log(`Lese: ${item.datum_de} - ${item.titel}`);
-      const report = await readArticle(item);
+      const report = await readArticle(item, source.team);
       reports.push(report);
     } catch (error) {
       console.warn(`Konnte Bericht nicht lesen: ${item.url}`);
@@ -353,7 +367,7 @@ async function main() {
 
       reports.push({
         id: item.id,
-        team: CONFIG.team,
+        team: source.team,
         typ: item.typ,
         datum: item.datum,
         datum_de: item.datum_de,
@@ -375,6 +389,18 @@ async function main() {
     }
   }
 
+  return reports;
+}
+
+async function main() {
+  const reportsBySource = [];
+
+  for (const source of SOURCES) {
+    reportsBySource.push(await readReportsForSource(source));
+  }
+
+  const reports = reportsBySource.flat();
+
   reports.sort((a, b) => {
     const dateA = `${a.datum || "0000-00-00"}T${a.uhrzeit || "00:00"}`;
     const dateB = `${b.datum || "0000-00-00"}T${b.uhrzeit || "00:00"}`;
@@ -383,8 +409,7 @@ async function main() {
 
   const output = {
     generated_at: new Date().toISOString(),
-    source: CONFIG.sourceUrl,
-    team: CONFIG.team,
+    sources: SOURCES.map((source) => source.sourceUrl),
     count: reports.length,
     reports,
   };

@@ -115,18 +115,9 @@ const syncMobileNewsViewport = () => {
   isMobileNewsViewport.value = isMobileNewsLayout();
 };
 
-const getAppScrollContainer = () =>
-  typeof document === "undefined"
-    ? null
-    : (document.querySelector(".app-content") as HTMLElement | null);
-
 const readNewsScrollPosition = () => {
   if (typeof window === "undefined") {
     return 0;
-  }
-
-  if (isMobileNewsLayout()) {
-    return getAppScrollContainer()?.scrollTop ?? 0;
   }
 
   return window.scrollY;
@@ -160,11 +151,6 @@ const restoreNewsScrollPosition = async () => {
 
   await nextTick();
   window.requestAnimationFrame(() => {
-    if (isMobileNewsLayout()) {
-      getAppScrollContainer()?.scrollTo({ top: nextScrollTop, behavior: "auto" });
-      return;
-    }
-
     window.scrollTo({ top: nextScrollTop, behavior: "auto" });
   });
 };
@@ -172,9 +158,6 @@ const restoreNewsScrollPosition = async () => {
 onMounted(() => {
   syncMobileNewsViewport();
   restoreNewsScrollPosition();
-  getAppScrollContainer()?.addEventListener("scroll", persistNewsScrollPosition, {
-    passive: true,
-  });
   window.addEventListener("scroll", persistNewsScrollPosition, {
     passive: true,
   });
@@ -183,7 +166,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   persistNewsScrollPosition();
-  getAppScrollContainer()?.removeEventListener("scroll", persistNewsScrollPosition);
   window.removeEventListener("scroll", persistNewsScrollPosition);
   window.removeEventListener("resize", syncMobileNewsViewport);
 });

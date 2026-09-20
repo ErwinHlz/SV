@@ -37,6 +37,10 @@ jobs:
         run: npx playwright install --with-deps chromium
         working-directory: src/scripts
 
+      - name: Check match template data
+        run: node --test lib/match-termin.test.mjs
+        working-directory: src/scripts
+
       - name: Refresh content
         run: npm run refresh-daily-content
         working-directory: src/scripts

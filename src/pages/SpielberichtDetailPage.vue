@@ -14,6 +14,7 @@
     </div>
   </PageHero>
   <section v-if="spielbericht" class="spielbericht-detail-layout">
+    <MatchSpielberichtPoster v-if="spielbericht.isMatchTemplate" :item="spielbericht" class="spielbericht-detail-poster" />
     <article class="spielbericht-facts">
       <p><strong>Ort:</strong> {{ spielbericht.location }}</p>
       <p v-if="spielbericht.halfTime">
@@ -53,6 +54,7 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ArrowLeft } from "@lucide/vue";
 import EntryDetailContent from "@/components/EntryDetailContent.vue";
+import MatchSpielberichtPoster from "@/components/MatchSpielberichtPoster.vue";
 import PageHero from "@/components/PageHero.vue";
 import { formatDate } from "@/utils/date";
 import { findSpielberichtBySlug } from "@/utils/contentEntries";
@@ -79,6 +81,12 @@ const goBack = () => {
   display: grid;
   gap: 24px;
   margin-bottom: clamp(48px, 8vw, 96px);
+}
+
+.spielbericht-detail-poster {
+  width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
+  border-radius: 18px;
 }
 
 .spielbericht-detail-back {

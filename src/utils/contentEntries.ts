@@ -1,15 +1,17 @@
+import matchTemplate from "@/assets/Spieltag Template.png";
+import spielberichtTemplate from "@/assets/Spielberichte_template.png";
+import { getGalleryPlaceholder, galleryPlaceholderAlt } from "@/utils/galleryPlaceholders";
 import newsImage from "@/assets/home/news.svg";
 import termineImage from "@/assets/home/termine.svg";
 import ergebnisseImage from "@/assets/home/ergebnisse.svg";
-import spielberichtImageOne from "@/assets/spielberichte/stock_spielberichte_1.png";
-import spielberichtImageTwo from "@/assets/spielberichte/stock_spielberichte_2.jpg";
-import spielberichtImageThree from "@/assets/spielberichte/stock_spielberichte_3.png";
 import externalContentNotAllowedImage from "@/assets/placeholder/extern_content_not_allowed.png";
 import rawNews from "@/content/news.json";
 import rawInstagramPostsJson from "@/content/instagram-posts.json?raw";
 import rawSpielberichte from "@/content/spielberichte.json";
 import rawSpielTermine from "@/content/spiel-termine.json";
+import rawVereinstermine from "@/content/vereinstermine.json";
 import rawVereinslogos from "@/content/vereinslogos.json";
+import ownClubCrest from "@/assets/sv_logo_farbe.svg";
 import { useCookieConsent } from "@/composables/useCookieConsent";
 
 const imageMap: Record<string, string> = {
@@ -18,17 +20,27 @@ const imageMap: Record<string, string> = {
   ergebnisseImage,
 };
 
-const spielberichtImages = [
-  spielberichtImageOne,
-  spielberichtImageTwo,
-  spielberichtImageThree,
-];
 const instagramPlaceholderImage = externalContentNotAllowedImage;
 
 const vereinslogoAssets = import.meta.glob("../assets/vereinslogos/*", {
   eager: true,
   import: "default",
 }) as Record<string, string>;
+
+// Manuell gepflegte Termin-Bilder (z.B. Vereinsfeste), die nicht vom
+// FuPa-Scraper (spiele-als-termine.mjs) stammen.
+const termineEventAssets = import.meta.glob("../assets/termine/*", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+const resolveTermineEventImage = (image: string) => {
+  const assetPath = Object.entries(termineEventAssets).find(
+    ([path]) => path.split("/").pop() === image,
+  )?.[1];
+
+  return assetPath ?? image;
+};
 
 type VereinslogoEntry = {
   name: string;
@@ -106,6 +118,9 @@ export type TerminEntry = {
   source?: string;
   externalUrl?: string;
   mapsUrl?: string;
+  competition?: string;
+  matchday?: string;
+  isMatchTemplate?: boolean;
   homeTeam?: string;
   awayTeam?: string;
   homeLogo?: string;
@@ -131,6 +146,9 @@ export type SpielberichtEntry = {
   sourceUrl: string;
   matchUrl: string;
   author: string;
+  isMatchTemplate?: boolean;
+  homeLogo?: string;
+  awayLogo?: string;
 };
 
 export const slugifyTitle = (title: string) =>
@@ -141,11 +159,17 @@ export const slugifyTitle = (title: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const withResolvedAssets = <T extends { image: string }>(items: T[]) =>
-  items.map((item) => ({
-    ...item,
-    image: imageMap[item.image] ?? item.image,
-  }));
+const withResolvedAssets = <T extends { id: number | string; image: string; imageAlt: string }>(items: T[]) =>
+  items.map((item) => {
+    const isPlaceholder = !item.image || Object.prototype.hasOwnProperty.call(imageMap, item.image);
+    return {
+      ...item,
+      image: isPlaceholder
+        ? getGalleryPlaceholder(`content:${item.image}:${item.id}`)
+        : item.image,
+      imageAlt: isPlaceholder ? galleryPlaceholderAlt : item.imageAlt,
+    };
+  });
 
 const withUniqueSlugs = <T extends { id: number | string; title: string }>(
   items: T[],
@@ -168,9 +192,18 @@ const sortByDateTimeDesc = <T extends { date: string; time?: string }>(
   items: T[],
 ) =>
   [...items].sort((a, b) => {
-    const left = Date.parse(`${a.date}T${a.time ?? "00:00"}:00`);
-    const right = Date.parse(`${b.date}T${b.time ?? "00:00"}:00`);
+    const left = Date.parse(`${a.date}T${a.time || "00:00"}:00`);
+    const right = Date.parse(`${b.date}T${b.time || "00:00"}:00`);
     return right - left;
+  });
+
+const sortByDateTimeAsc = <T extends { date: string; time?: string }>(
+  items: T[],
+) =>
+  [...items].sort((a, b) => {
+    const left = Date.parse(`${a.date}T${a.time || "00:00"}:00`);
+    const right = Date.parse(`${b.date}T${b.time || "00:00"}:00`);
+    return left - right;
   });
 
 const normalizeClubName = (value: string) =>
@@ -183,6 +216,7 @@ const normalizeClubName = (value: string) =>
     .replace(/\bsv\b/g, "")
     .replace(/\bsc\b/g, "")
     .replace(/\bvfb\b/g, "")
+    .replace(/\bvfr\b/g, "")
     .replace(/\bsg\b/g, "")
     .replace(/\bfsg\b/g, "")
     .replace(/\b08\b/g, "")
@@ -192,10 +226,25 @@ const normalizeClubName = (value: string) =>
     .trim();
 
 const vereinslogos = rawVereinslogos as VereinslogoEntry[];
-const ownClubName = "FSG Ottweiler-Steinbach II";
-const ownClubLogo = Object.entries(vereinslogoAssets).find(([path]) =>
-  path.endsWith("/fsg_logo.svg"),
-)?.[1];
+
+// Namensvarianten des eigenen Vereins (alt: FSG Ottweiler-Steinbach, neu:
+// SV Ottweiler) - alle bekommen immer das eigene Wappen, unabhängig davon,
+// was für sie in vereinslogos.json gescraped wurde.
+const ownClubNames = new Set(
+  [
+    "FSG Ottweiler-Steinbach",
+    "FSG Ottweiler-Steinbach II",
+    "FSG Ottweiler-Steinbach 2",
+    "SV Ottweiler",
+    "SV Ottweiler II",
+    "Ottweiler",
+    "Ottweiler II",
+  ].map(normalizeClubName),
+);
+
+// Anzeigename der 2. Mannschaft für die "Termine" (spiele-als-termine.mjs
+// scraped nur für die 2. Mannschaft).
+const terminOwnClubName = "Ottweiler II";
 const clubLogoFiles = new Map<string, string>([
   ["Alsweiler", "alsweiler.png"],
   ["Bubach-C.", "bubach.png"],
@@ -215,10 +264,10 @@ const clubLogoFiles = new Map<string, string>([
 ]);
 
 const logoAliases = new Map<string, string>([
-  ["fsg ottweiler steinbach 2", ownClubName],
-  ["ottweiler steinbach 2", ownClubName],
-  ["fsg ottweiler steinbach ii", ownClubName],
-  ["ottweiler steinbach ii", ownClubName],
+  ["fsg ottweiler steinbach 2", "Ottweiler II"],
+  ["ottweiler steinbach 2", "Ottweiler II"],
+  ["fsg ottweiler steinbach ii", "Ottweiler II"],
+  ["ottweiler steinbach ii", "Ottweiler II"],
   ["saubach 2", "Saubach II"],
   ["sg saubach 2", "Saubach II"],
   ["sv merchweiler 2", "Merchweiler II"],
@@ -238,20 +287,39 @@ const logoAliases = new Map<string, string>([
   ["marpingen urexweiler 2", "SG Marpingen-Urexweiler II"],
   ["hettigweiler", "Hüttigweiler"],
   ["huettigweiler", "Hüttigweiler"],
+  // fussball.de nennt Vereine bei den Spielberichten mit vollem Namen statt
+  // der bei FuPa (vereinslogos.json) üblichen Kurzform.
+  ["nohfelden-wolfersweiler 2", "SG Nohfelden-Wolfersw. II"],
+  ["fc niederlinxweiler", "Niederlinxw."],
+  ["oberkirchen grugelborn 2", "SG Oberkirchen-Grügelb. II"],
+  ["fc blau-weiß st wendel 2", "St. Wendel II"],
+  ["leitersweiler", "Leitersw."],
+  ["victoria st wendel", "Vict. WND"],
 ]);
 
 const clubLogoMap = new Map(
   vereinslogos.map((club) => {
-    if (club.name === ownClubName && ownClubLogo) {
-      return [normalizeClubName(club.name), ownClubLogo] as const;
+    if (ownClubNames.has(normalizeClubName(club.name))) {
+      return [normalizeClubName(club.name), ownClubCrest] as const;
     }
 
     const expectedFile = clubLogoFiles.get(club.name);
-    const assetPath = Object.entries(vereinslogoAssets).find(([path]) =>
-      expectedFile ? path.endsWith(`/${expectedFile}`) : false,
+    const curatedAssetPath = expectedFile
+      ? Object.entries(vereinslogoAssets).find(([path]) =>
+          path.endsWith(`/${expectedFile}`),
+        )?.[1]
+      : undefined;
+
+    // Fallback für Vereine ohne manuellen Eintrag in clubLogoFiles: das
+    // Scraper-Skript legt Logos bereits unter ihrem eigenen slug ab.
+    const slugAssetPath = Object.entries(vereinslogoAssets).find(([path]) =>
+      path.split("/").pop()?.startsWith(`${club.slug}.`),
     )?.[1];
 
-    return [normalizeClubName(club.name), assetPath ?? club.logo] as const;
+    return [
+      normalizeClubName(club.name),
+      curatedAssetPath ?? slugAssetPath ?? club.logo,
+    ] as const;
   }),
 );
 
@@ -268,6 +336,11 @@ export const getClubLogo = (clubName?: string) => {
   }
 
   const normalized = normalizeClubName(clubName);
+
+  if (ownClubNames.has(normalized)) {
+    return ownClubCrest;
+  }
+
   const aliasTarget = logoAliases.get(normalized);
   const lookupKey = aliasTarget ? normalizeClubName(aliasTarget) : normalized;
   return clubLogoMap.get(lookupKey);
@@ -292,13 +365,11 @@ const getOpponentFromTerminTitle = (title: string) => {
 const isHomeTermin = (title: string, location: string) =>
   /^heimspiel/i.test(title) || /ottweiler/i.test(location);
 
-const pickSpielberichtImage = (seed: string): string => {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-  }
-  return spielberichtImages[hash % spielberichtImages.length] ?? spielberichtImageOne;
-};
+// Nur Titel im Schema von createTermin() (match-termin.mjs) sind echte
+// Spiele - alles andere (z.B. manuell gepflegte Vereinsfeste in
+// vereinstermine.json) soll keine Heim-/Auswärtsteam-Zuordnung erfinden,
+// nur weil der Ort zufällig "Ottweiler" enthält.
+const MATCH_TITLE_PATTERN = /^(heimspiel|auswärtsspiel)\s+gegen\s+/i;
 
 const getInstagramPostTitle = (caption: string, fallback: string) => {
   const firstLine = caption
@@ -412,6 +483,7 @@ const instagramPosts = Array.isArray(rawInstagramPosts.posts)
   : [];
 
 const spielTermine = rawSpielTermine as TerminEntry[];
+const vereinstermine = rawVereinstermine as TerminEntry[];
 
 export const getNewsItems = (): NewsEntry[] => {
   const { hasExternalMediaConsent } = useCookieConsent();
@@ -443,14 +515,18 @@ export const getNewsItems = (): NewsEntry[] => {
 export const getTerminItems = (): TerminEntry[] =>
   withUniqueSlugs(
     withResolvedAssets(
-      sortByDateTimeDesc(spielTermine).map((item) => {
-        const opponent = getOpponentFromTerminTitle(item.title);
-        const isHome = isHomeTermin(item.title, item.location);
-        const homeTeam = isHome ? ownClubName : opponent;
-        const awayTeam = isHome ? opponent : ownClubName;
+      sortByDateTimeAsc([...spielTermine, ...vereinstermine]).map((item) => {
+        const isMatchTitle = MATCH_TITLE_PATTERN.test(item.title);
+        const opponent = isMatchTitle ? getOpponentFromTerminTitle(item.title) : undefined;
+        const isHome = isMatchTitle && isHomeTermin(item.title, item.location);
+        const homeTeam = item.homeTeam || (isMatchTitle ? (isHome ? terminOwnClubName : opponent) : undefined);
+        const awayTeam = item.awayTeam || (isMatchTitle ? (isHome ? opponent : terminOwnClubName) : undefined);
+        const isMatchTemplateImage = item.image === "matchTemplate" || item.image === "termineImage";
 
         return {
           ...item,
+          isMatchTemplate: isMatchTemplateImage,
+          image: isMatchTemplateImage ? matchTemplate : resolveTermineEventImage(item.image),
           homeTeam,
           awayTeam,
           homeLogo: getClubLogo(homeTeam),
@@ -461,26 +537,34 @@ export const getTerminItems = (): TerminEntry[] =>
   );
 
 export const getSpielberichtItems = (): SpielberichtEntry[] => {
-  const mappedReports: SpielberichtEntry[] = rawSpielberichte.reports.map((report) => ({
-    id: report.id,
-    title: report.titel,
-    excerpt: report.kurztext,
-    content: report.text,
-    date: report.datum,
-    time: report.uhrzeit,
-    image: pickSpielberichtImage(report.id),
-    imageAlt: `${report.spiel.heimmannschaft} gegen ${report.spiel.gastmannschaft}`,
-    competition: report.wettbewerb,
-    location: report.spiel.ort,
-    result: report.spiel.ergebnis,
-    halfTime: report.spiel.halbzeit,
-    homeTeam: report.spiel.heimmannschaft,
-    awayTeam: report.spiel.gastmannschaft,
-    sourceUrl: report.url,
-    matchUrl: report.spiel_url,
-    author: report.autor,
-    slug: "",
-  }));
+  const mappedReports: SpielberichtEntry[] = rawSpielberichte.reports.map((report) => {
+    const homeTeam = report.spiel.heimmannschaft;
+    const awayTeam = report.spiel.gastmannschaft;
+
+    return {
+      id: report.id,
+      title: report.titel,
+      excerpt: report.kurztext,
+      content: report.text,
+      date: report.datum,
+      time: report.uhrzeit,
+      image: spielberichtTemplate,
+      imageAlt: `${homeTeam} ${report.spiel.ergebnis} ${awayTeam}`.trim(),
+      competition: report.wettbewerb,
+      location: report.spiel.ort,
+      result: report.spiel.ergebnis,
+      halfTime: report.spiel.halbzeit,
+      homeTeam,
+      awayTeam,
+      sourceUrl: report.url,
+      matchUrl: report.spiel_url,
+      author: report.autor,
+      slug: "",
+      isMatchTemplate: true,
+      homeLogo: getClubLogo(homeTeam),
+      awayLogo: getClubLogo(awayTeam),
+    };
+  });
 
   return withUniqueSlugs(withResolvedAssets(sortByDateTimeDesc(mappedReports)));
 };

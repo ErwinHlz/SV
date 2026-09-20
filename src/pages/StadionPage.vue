@@ -107,7 +107,7 @@ import PageHero from "@/components/PageHero.vue";
 import { useCookieConsent } from "@/composables/useCookieConsent";
 import stadionHero from "@/assets/spielberichte/stock_spielberichte_2.jpg";
 import stadionCrowd from "@/assets/header/background.png";
-import stadionTeam from "@/assets/Kader/1440x810.webp";
+import stadionTeam from "@/assets/Kader/gesamtkader.jpg";
 import stadionDetail from "@/assets/spielberichte/stock_spielberichte_1.png";
 import stadionClubhouse from "@/assets/spielberichte/stock_spielberichte_3.png";
 import rawStadion from "@/content/stadion.json";

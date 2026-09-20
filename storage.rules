@@ -1,0 +1,25 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Dateiname == deviceId(+Endung): "create" greift nur, wenn unter
+    // diesem Pfad noch nichts liegt - ein zweiter Upload desselben Geraets
+    // ist serverseitig ein "update", was hier nicht erlaubt ist, also
+    // automatisch "ein Foto pro Geraet".
+    match /fotocontest/{fileName} {
+      allow read: if true;
+
+      allow create:
+        if request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow delete: if true;
+
+      allow update: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

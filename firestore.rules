@@ -1,0 +1,85 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Dokument-ID == deviceId: das erzwingt "ein Foto pro Geraet", weil ein
+    // zweiter Upload-Versuch serverseitig ein "update" ist (der Dokument
+    // existiert ja schon) und unten nur Stimmen-Aenderungen als Update
+    // erlaubt sind - ein zweites Foto wird also automatisch abgelehnt.
+    match /fotocontest/{photoId} {
+      allow read: if true;
+
+      allow create:
+        if photoId == request.resource.data.deviceId
+        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'votes', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.imageUrl is string
+        && request.resource.data.imageUrl.size() > 0
+        && request.resource.data.storagePath is string
+        && request.resource.data.storagePath.matches('fotocontest/.*')
+        && request.resource.data.deviceId is string
+        && request.resource.data.deviceId.size() > 0
+        && request.resource.data.votes == 0
+        && request.resource.data.createdAt == request.time;
+
+      // Nur die Stimmenzahl darf sich aendern, und immer nur um genau +-1
+      // (Voten bzw. eine Stimme wieder zurueckziehen), nie unter 0.
+      allow update:
+        if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes'])
+        && request.resource.data.votes >= 0
+        && (
+          request.resource.data.votes == resource.data.votes + 1
+          || request.resource.data.votes == resource.data.votes - 1
+        );
+
+      // Nur das Geraet, dessen ID der Dokument-ID entspricht, kann sein
+      // eigenes Foto wieder entfernen (gleiches Prinzip wie bei /votes).
+      allow delete: if photoId == resource.data.deviceId;
+    }
+
+    // Eine Stimme pro Foto und Geraet: die Dokument-ID kodiert beides, ein
+    // zweiter Versuch mit derselben ID ist serverseitig ein "update" und
+    // wird unten abgelehnt. Loeschen (Stimme zurueckziehen) ist erlaubt -
+    // die zufaellige deviceId im Pfad ist der einzige "Schluessel" dafuer.
+    match /votes/{voteId} {
+      allow read: if false;
+
+      allow create:
+        if request.resource.data.keys().hasOnly(['photoId', 'deviceId', 'createdAt'])
+        && request.resource.data.photoId is string
+        && request.resource.data.deviceId is string
+        && voteId == request.resource.data.photoId + '_' + request.resource.data.deviceId
+        && request.resource.data.createdAt == request.time
+        && get(/databases/$(database)/documents/fotocontest/$(request.resource.data.photoId)).data.deviceId != request.resource.data.deviceId;
+
+      allow delete: if voteId == resource.data.photoId + '_' + resource.data.deviceId;
+
+      allow update: if false;
+    }
+
+    // Zaehlt, wie viele der insgesamt 3 Stimmen ein Geraet schon vergeben hat.
+    match /deviceVoteBudget/{deviceId} {
+      allow read: if false;
+
+      allow create:
+        if request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count == 1;
+
+      allow update:
+        if request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count >= 0
+        && (
+          (request.resource.data.count == resource.data.count + 1 && resource.data.count < 3)
+          || request.resource.data.count == resource.data.count - 1
+        );
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

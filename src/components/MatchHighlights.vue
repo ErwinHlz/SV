@@ -65,13 +65,29 @@ type MatchEntry = {
   match_url?: string;
 };
 
-type MatchHighlightsContent = {
+type TeamMatchHighlights = {
   last: MatchEntry | null;
   live: MatchEntry | null;
   next: MatchEntry | null;
 };
 
-const matchHighlights = rawMatchHighlights as MatchHighlightsContent;
+type MatchHighlightsContent = {
+  teamOne: TeamMatchHighlights;
+  teamTwo: TeamMatchHighlights;
+};
+
+const props = withDefaults(
+  defineProps<{
+    team?: "teamOne" | "teamTwo";
+  }>(),
+  {
+    team: "teamOne",
+  },
+);
+
+const matchHighlights = (rawMatchHighlights as MatchHighlightsContent)[
+  props.team
+];
 
 const toCard = (
   key: "last" | "live" | "next",
@@ -124,7 +140,7 @@ const onMatchClick = (event: MouseEvent) => {
   background-color: rgb(20, 20, 20);
 
   overflow: hidden;
-  height: 15dvh;
+  height: 100%;
   color: inherit;
   text-decoration: none;
   transition:

@@ -36,8 +36,8 @@
         "type": "team-matches"
       },
       "tableUrl": "https://next.fussball.de/",
-      "image": "youthHero",
-      "imageAlt": "Bambini im Training"
+      "image": "youthTeamG",
+      "imageAlt": "Mannschaftsfoto der G-Jugend"
     },
     {
       "id": "u9",
@@ -62,8 +62,8 @@
         "id": ""
       },
       "tableUrl": "https://next.fussball.de/",
-      "image": "youthHero",
-      "imageAlt": "F-Jugend im Training"
+      "image": "youthTeamF",
+      "imageAlt": "Mannschaftsfoto der F-Jugend"
     },
     {
       "id": "u11",
@@ -88,8 +88,8 @@
         "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b"
       },
       "tableUrl": "https://next.fussball.de/",
-      "image": "youthHero",
-      "imageAlt": "E-Jugend beim Training"
+      "image": "youthTeamE",
+      "imageAlt": "Mannschaftsfoto der E-Jugend"
     },
     {
       "id": "u13",
@@ -114,8 +114,8 @@
         "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe"
       },
       "tableUrl": "https://next.fussball.de/",
-      "image": "youthHero",
-      "imageAlt": "D-Jugend in Aktion"
+      "image": "youthTeamD",
+      "imageAlt": "Mannschaftsfoto der D-Jugend"
     },
     {
       "id": "u15",
@@ -140,8 +140,8 @@
         "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2"
       },
       "tableUrl": "https://next.fussball.de/mannschaft/-/02TET5EQ9S000000VS5489BSVTA87VEB/tabelle",
-      "image": "youthHero",
-      "imageAlt": "C-Jugend im Spiel"
+      "image": "youthGalleryFallback",
+      "imageAlt": "Spielszene aus der Vereinsgalerie"
     },
     {
       "id": "u19",
@@ -166,8 +166,8 @@
         "id": "db8a345c-91e9-47ef-8197-1a6922273d73"
       },
       "tableUrl": "https://next.fussball.de/",
-      "image": "youthHero",
-      "imageAlt": "A-Jugend Mannschaft"
+      "image": "youthTeamA",
+      "imageAlt": "Mannschaftsfoto der A-Jugend"
     }
   ],
   "coachSection": {

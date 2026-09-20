@@ -16,6 +16,14 @@
           Uebergang in den Aktivenbereich. Im Mittelpunkt stehen altersgerechte
           Entwicklung, klare Werte und ein starkes Miteinander.
         </p>
+        <aside class="youth-intro__notice" aria-label="Hinweis zum Schutz der Kinder">
+          <strong>Der Schutz unserer Kinder steht an erster Stelle.</strong>
+          <p>
+            Zum Schutz ihrer Privatsphäre veröffentlichen wir auf unserer Website
+            keine Fotos unserer Kinder und Jugendlichen. Stattdessen verwenden wir
+            Illustrationen und allgemeine Aufnahmen aus unserer Vereinsgalerie.
+          </p>
+        </aside>
       </div>
     </section>
 
@@ -338,6 +346,12 @@ import DummySilhouette from "@/components/DummySilhouette.vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 import PageHero from "@/components/PageHero.vue";
 import youthHero from "@/assets/header/background.png";
+import { getGalleryPlaceholder, galleryPlaceholderAlt } from "@/utils/galleryPlaceholders";
+import youthTeamG from "@/assets/Jugend/g_jugend.png";
+import youthTeamF from "@/assets/Jugend/f_jugend.png";
+import youthTeamE from "@/assets/Jugend/e_jugend.png";
+import youthTeamD from "@/assets/Jugend/d_jugend.png";
+import youthTeamA from "@/assets/Jugend/a_jugend.png";
 import rawJugendtrainer from "@/content/jugendtrainer.json";
 import rawTimelineEntries from "@/content/jugend-timeline.json";
 import rawYouthContent from "@/content/jugend.json";
@@ -428,7 +442,13 @@ const youthContent = rawYouthContent as YouthContent;
 const { hero, teamsSection, coachSection, contact } = youthContent;
 
 const teamImageMap: Record<string, string> = {
+  youthGalleryFallback: getGalleryPlaceholder("youth:team-fallback"),
   youthHero,
+  youthTeamG,
+  youthTeamF,
+  youthTeamE,
+  youthTeamD,
+  youthTeamA,
 };
 
 const coachImageMap: Record<string, string> = {
@@ -499,7 +519,14 @@ const mapsHref =
       )}`
     : "");
 
-const timelineEntries = rawTimelineEntries as TimelineEntry[];
+const timelineEntries = (rawTimelineEntries as TimelineEntry[]).map((entry) => {
+  const isPlaceholder = entry.imageSrc?.startsWith("/galerie/") || entry.imageSrc === "/timeline/placeholder-photo.svg";
+  return {
+    ...entry,
+    imageSrc: isPlaceholder ? getGalleryPlaceholder(`youth:${entry.id}`) : entry.imageSrc,
+    imageAlt: isPlaceholder ? galleryPlaceholderAlt : entry.imageAlt,
+  };
+});
 
 const contactForm = ref({
   name: "",
@@ -842,6 +869,26 @@ onBeforeUnmount(() => {
   margin: 18px auto 0;
   line-height: 1.7;
   color: rgba(245, 247, 252, 0.88);
+}
+
+.youth-intro__notice {
+  box-sizing: border-box;
+  width: min(760px, 100%);
+  margin: 24px auto 0;
+  padding: 18px 22px;
+  border: 1px solid rgba(242, 208, 82, 0.3);
+  border-radius: 12px;
+  background: rgba(242, 208, 82, 0.06);
+  color: rgba(245, 247, 252, 0.88);
+  line-height: 1.7;
+}
+
+.youth-intro__notice strong {
+  color: #f2d052;
+}
+
+.youth-intro__notice p {
+  margin: 8px 0 0;
 }
 
 .youth-timeline {

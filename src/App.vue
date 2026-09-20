@@ -3,7 +3,7 @@ import SiteHeader from "./components/SiteHeader.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 import CookieConsentPopup from "./components/CookieConsentPopup.vue";
 import GlobalSponsorAd from "./components/GlobalSponsorAd.vue";
-import { computed } from "vue";
+import { computed, onBeforeUnmount, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -18,6 +18,8 @@ const isVereinPage = computed(() => route.path === "/verein");
 const isHistoryPage = computed(() => route.path === "/historie");
 const isGalleryPage = computed(() => route.path === "/galerie");
 const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
+const isOktoberfestPage = computed(() => route.path === "/oktoberfest");
+const isFotocontestPage = computed(() => route.path === "/fotocontest");
 const isMembershipPage = computed(() => route.path === "/mitglied-werden");
 const isDatenschutzPage = computed(() => route.path === "/datenschutz");
 const isContactPage = computed(() => route.path === "/contact");
@@ -45,11 +47,25 @@ const disablePageSnap = computed(
     isHistoryPage.value ||
     isGalleryPage.value ||
     isSponsorPage.value ||
+    isOktoberfestPage.value ||
+    isFotocontestPage.value ||
     isMembershipPage.value ||
     isContactPage.value ||
     isDatenschutzPage.value ||
     isContentDetailPage.value,
 );
+// Snap on the document so mobile Safari owns the vertical scroll gesture.
+watch(
+  disablePageSnap,
+  (disabled) => {
+    document.documentElement.classList.toggle("sv-page-snap", !disabled);
+  },
+  { immediate: true, flush: "sync" },
+);
+
+onBeforeUnmount(() => {
+  document.documentElement.classList.remove("sv-page-snap");
+});
 </script>
 
 <template>
@@ -83,10 +99,6 @@ const disablePageSnap = computed(
 :global(.app-footer.app-footer--inline) {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-}
-
-:global(.app-content.app-content--no-snap) {
-  scroll-snap-type: none;
 }
 
 :global(.app-content.app-content--inline-flow .app-page) {

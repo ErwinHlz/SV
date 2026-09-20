@@ -22,7 +22,7 @@ const steps = [
     },
   },
   {
-    name: "Spieltermine",
+    name: "Spieltermine mit Liga, Spieltag und Teams für die Vorlage",
     script: "spiele-als-termine.mjs",
   },
 ];

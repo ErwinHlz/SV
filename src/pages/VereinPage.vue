@@ -201,6 +201,8 @@
 </template>
 
 <script setup lang="ts">
+import { getGalleryPlaceholder, galleryPlaceholderAlt } from "@/utils/galleryPlaceholders";
+
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
@@ -279,23 +281,6 @@ type TimelineEntry = {
 const vereinContent = rawVerein as VereinContent;
 const { hero, people, cta } = vereinContent;
 
-const galleryImageModules = import.meta.glob(
-  "../assets/galerie/*.{png,jpg,jpeg,webp,avif}",
-  {
-    eager: true,
-    import: "default",
-  },
-) as Record<string, string>;
-
-const galleryPlaceholderImages = Object.entries(galleryImageModules)
-  .sort(([left], [right]) =>
-    left.localeCompare(right, undefined, {
-      numeric: true,
-      sensitivity: "base",
-    }),
-  )
-  .map(([, src]) => src);
-
 const imageMap: Record<string, string> = {
   vereinHero,
 };
@@ -332,20 +317,14 @@ const visiblePeopleCards = computed(() => {
   return personCards.slice(startIndex, startIndex + 5);
 });
 
-const timelineEntries = (rawTimelineEntries as TimelineEntry[]).map(
-  (entry, index) => {
-    const isPlaceholderImage = entry.imageSrc === "/timeline/placeholder-photo.svg";
-    const galleryImage =
-      galleryPlaceholderImages.length > 0
-        ? galleryPlaceholderImages[index % galleryPlaceholderImages.length]
-        : undefined;
-
-    return {
-      ...entry,
-      imageSrc: isPlaceholderImage ? galleryImage : entry.imageSrc,
-    };
-  },
-);
+const timelineEntries = (rawTimelineEntries as TimelineEntry[]).map((entry) => {
+  const isPlaceholder = entry.imageSrc === "/timeline/placeholder-photo.svg";
+  return {
+    ...entry,
+    imageSrc: isPlaceholder ? getGalleryPlaceholder(`verein:${entry.id}`) : entry.imageSrc,
+    imageAlt: isPlaceholder ? galleryPlaceholderAlt : entry.imageAlt,
+  };
+});
 
 const timelineRef = ref<HTMLElement | null>(null);
 const timelineProgress = ref(0);

@@ -12,6 +12,7 @@
         v-for="(item, index) in spielberichteItems"
         :key="item.id"
         class="spielbericht-card"
+        :class="{ 'has-match-poster': item.isMatchTemplate }"
         :style="getSpielberichtCardStyle(item.id, item.title, index)">
         <span class="spielbericht-card-pin" aria-hidden="true">
           <Pin :size="26" :stroke-width="2.1" />
@@ -21,13 +22,15 @@
           :to="{ name: 'spielbericht-detail', params: { slug: item.slug } }"
           :aria-label="`Zum Spielbericht ${item.title}`">
           <div class="spielbericht-card-sheet">
-            <div class="spielbericht-entry-media">
+            <div class="spielbericht-entry-media" :class="{ 'has-match-poster': item.isMatchTemplate }">
+              <MatchSpielberichtPoster v-if="item.isMatchTemplate" :item="item" />
               <img
+                v-else
                 class="spielbericht-entry-image"
                 :src="item.image"
                 :alt="item.imageAlt"
                 loading="lazy" />
-              <div class="spielbericht-entry-overlay" aria-hidden="true">
+              <div v-if="!item.isMatchTemplate" class="spielbericht-entry-overlay" aria-hidden="true">
                 <svg
                   class="spielbericht-entry-icon"
                   viewBox="0 0 48 48"
@@ -75,6 +78,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted } from "vue";
 import { ExternalLink, Pin } from "@lucide/vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
+import MatchSpielberichtPoster from "@/components/MatchSpielberichtPoster.vue";
 import PageHero from "@/components/PageHero.vue";
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 import spielberichteHero from "@/assets/header/background.png";
@@ -107,22 +111,9 @@ const getSpielberichtCardStyle = (
   "--pin-tilt": getRandomTilt(`${id}-${title}`, index),
 });
 
-const isMobileSpielberichteLayout = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(max-width: 700px)").matches;
-
-const getAppScrollContainer = () =>
-  typeof document === "undefined"
-    ? null
-    : (document.querySelector(".app-content") as HTMLElement | null);
-
 const readSpielberichteScrollPosition = () => {
   if (typeof window === "undefined") {
     return 0;
-  }
-
-  if (isMobileSpielberichteLayout()) {
-    return getAppScrollContainer()?.scrollTop ?? 0;
   }
 
   return window.scrollY;
@@ -156,22 +147,12 @@ const restoreSpielberichteScrollPosition = async () => {
 
   await nextTick();
   window.requestAnimationFrame(() => {
-    if (isMobileSpielberichteLayout()) {
-      getAppScrollContainer()?.scrollTo({ top: nextScrollTop, behavior: "auto" });
-      return;
-    }
-
     window.scrollTo({ top: nextScrollTop, behavior: "auto" });
   });
 };
 
 onMounted(() => {
   restoreSpielberichteScrollPosition();
-  getAppScrollContainer()?.addEventListener(
-    "scroll",
-    persistSpielberichteScrollPosition,
-    { passive: true },
-  );
   window.addEventListener("scroll", persistSpielberichteScrollPosition, {
     passive: true,
   });
@@ -179,10 +160,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   persistSpielberichteScrollPosition();
-  getAppScrollContainer()?.removeEventListener(
-    "scroll",
-    persistSpielberichteScrollPosition,
-  );
   window.removeEventListener("scroll", persistSpielberichteScrollPosition);
 });
 </script>
@@ -307,6 +284,11 @@ onBeforeUnmount(() => {
   overflow: hidden;
   background: #dfe6f1;
   border-radius: 18px 18px 0 0;
+}
+
+.spielbericht-entry-media.has-match-poster {
+  height: auto;
+  aspect-ratio: 1;
 }
 
 .spielbericht-entry-image {
@@ -582,6 +564,18 @@ onBeforeUnmount(() => {
   .spielbericht-entry-media {
     height: 44dvh;
     border-radius: 0;
+  }
+
+  .spielbericht-entry-media.has-match-poster {
+    aspect-ratio: auto;
+    display: flex;
+    justify-content: center;
+    background: #07122c;
+  }
+
+  .spielbericht-entry-media.has-match-poster :deep(.match-spielbericht-poster) {
+    width: auto;
+    height: 100%;
   }
 
   .spielbericht-entry-body {

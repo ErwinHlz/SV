@@ -1,1148 +1,752 @@
 <template>
-	<div class="sponsor-become-page">
-		<section class="sponsor-become-hero" aria-labelledby="sponsor-hero-title">
-			<div class="sponsor-become-hero__media" aria-hidden="true">
-				<img :src="sponsorHero" alt="" />
-			</div>
-			<div class="sponsor-become-hero__overlay" aria-hidden="true"></div>
-			<div class="sponsor-become-hero__content">
-				<p class="sponsor-become-hero__eyebrow">Partner werden</p>
-				<h1 id="sponsor-hero-title" class="sponsor-become-hero__title">
-					Sponsor werden
-				</h1>
-				<p class="sponsor-become-hero__lead">
-					Gemeinsam stärken wir den Verein und den Fußball vor Ort.
-				</p>
-			</div>
-			<p class="sponsor-mobile-scroll-hint"><ChevronDown /></p>
-		</section>
+  <main class="sponsor-become-page">
+    <PageHero
+      :image="sponsorHero"
+      title="Sponsor werden"
+      lead="Gemeinsam stärken wir den Verein und den Fußball vor Ort."
+      kicker="Partner werden" />
 
-		<section
-			class="sponsor-intro sponsor-intro--offers"
-			aria-labelledby="offers-title"
-		>
-			<div class="sponsor-intro__inner">
-				<p class="sponsor-eyebrow">Was wir bieten</p>
-				<h2 id="offers-title" class="sponsor-section-title">
-					Sichtbarkeit, Nähe zum Verein und eine partnerschaftliche
-					Zusammenarbeit.
-				</h2>
-				<ul class="sponsor-points">
-					<li v-for="item in offerPoints" :key="item">{{ item }}</li>
-				</ul>
-			</div>
-		</section>
+    <section class="sponsor-intro" aria-label="Warum Sponsor werden">
+      <div class="sponsor-intro__shell">
+        <p class="sponsor-intro__kicker">Warum Sponsor werden</p>
+        <h2 class="sponsor-intro__title">
+          Sichtbarkeit, Nähe zum Verein und eine partnerschaftliche
+          Zusammenarbeit
+        </h2>
+      </div>
 
-		<section
-			class="sponsor-intro sponsor-intro--needs"
-			aria-labelledby="needs-title"
-		>
-			<div class="sponsor-intro__inner">
-				<p class="sponsor-eyebrow">Was wir suchen</p>
-				<h2 id="needs-title" class="sponsor-section-title">
-					Partner, die lokale Vereinsarbeit mittragen und gemeinsam etwas
-					bewegen wollen.
-				</h2>
-				<ul class="sponsor-points">
-					<li v-for="item in searchPoints" :key="item">{{ item }}</li>
-				</ul>
-			</div>
-		</section>
+      <div class="sponsor-intro__columns">
+        <div class="sponsor-intro__column">
+          <p class="sponsor-intro__column-title">Was wir bieten</p>
+          <ul class="sponsor-intro__points">
+            <li v-for="item in offerPoints" :key="item">
+              <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+        </div>
 
-		<section class="sponsor-packages" aria-labelledby="packages-title">
-			<div class="sponsor-packages__intro">
-				<p
-					class="sponsor-eyebrow"
-					style="text-align: center; transform: translateX(-3rem)"
-				>
-					Möglichkeiten
-				</p>
-				<h2 id="packages-title" class="sponsor-section-title individuell">
-					Sechs direkte Wege, wie du unseren Verein sinnvoll unterstützen
-					kannst.
-				</h2>
-			</div>
+        <div class="sponsor-intro__column">
+          <p class="sponsor-intro__column-title">Was wir suchen</p>
+          <ul class="sponsor-intro__points">
+            <li v-for="item in searchPoints" :key="item">
+              <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-			<article
-				v-for="(pkg, index) in sponsorPackages"
-				:key="pkg.title"
-				class="sponsor-package"
-			>
-				<div class="sponsor-package__inner">
-					<span class="sponsor-package__index" aria-hidden="true">
-						{{ String(index + 1).padStart(2, "0") }}
-					</span>
-					<p class="sponsor-package__label">{{ pkg.label }}</p>
-					<h3 class="sponsor-package__title">{{ pkg.title }}</h3>
-					<p class="sponsor-package__lead">{{ pkg.lead }}</p>
-					<ul class="sponsor-package__points">
-						<li v-for="point in pkg.points" :key="point">{{ point }}</li>
-					</ul>
-				</div>
-			</article>
-		</section>
+    <section
+      ref="timelineRef"
+      class="sponsor-timeline"
+      aria-label="Möglichkeiten der Unterstützung">
+      <div class="sponsor-timeline__line" aria-hidden="true">
+        <div class="sponsor-timeline__line-base"></div>
+        <div
+          class="sponsor-timeline__line-progress"
+          :style="{ transform: `scaleY(${timelineProgress})` }"></div>
+      </div>
 
-		<section
-			class="sponsor-contact-section"
-			aria-labelledby="sponsor-contact-title"
-		>
-			<div class="sponsor-contact-panel">
-				<div class="sponsor-contact-copy">
-					<p class="sponsor-eyebrow">Kontakt</p>
-					<h2 id="sponsor-contact-title" class="sponsor-section-title">
-						Schreib uns deine Anfrage.
-					</h2>
-					<p class="sponsor-contact-text">
-						Wir gehen auf jede individuelle Anfrage ein.
-					</p>
-				</div>
+      <div class="sponsor-timeline__list">
+        <article
+          v-for="(pkg, index) in sponsorPackages"
+          :key="pkg.title"
+          class="sponsor-timeline__item"
+          :class="
+            index % 2 === 0
+              ? 'sponsor-timeline__item--left'
+              : 'sponsor-timeline__item--right'
+          ">
+          <div class="sponsor-timeline__side sponsor-timeline__side--left">
+            <div v-if="index % 2 === 0" class="sponsor-timeline__content">
+              <p class="sponsor-timeline__eyebrow">{{ pkg.label }}</p>
+              <h3 class="sponsor-timeline__title">{{ pkg.title }}</h3>
+              <p v-if="pkg.lead" class="sponsor-timeline__lead">{{ pkg.lead }}</p>
+              <ul class="sponsor-timeline__points">
+                <li
+                  v-for="point in pkg.points"
+                  :key="point"
+                  class="sponsor-timeline__point">
+                  <span
+                    class="sponsor-timeline__point-dot"
+                    aria-hidden="true"></span>
+                  <span class="sponsor-timeline__point-detail">{{
+                    point
+                  }}</span>
+                </li>
+                <li v-if="pkg.link" class="sponsor-timeline__point">
+                  <span
+                    class="sponsor-timeline__point-dot"
+                    aria-hidden="true"></span>
+                  <a
+                    :href="pkg.link.href"
+                    class="sponsor-timeline__point-detail sponsor-timeline__link"
+                    target="_blank"
+                    rel="noopener noreferrer">{{ pkg.link.label }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-				<form
-					class="sponsor-contact-form"
-					@submit.prevent="handleSponsorSubmit"
-				>
-					<div class="sponsor-form-row">
-						<label>
-							Name
-							<input
-								v-model="sponsorForm.name"
-								type="text"
-								name="name"
-								autocomplete="name"
-								required
-							/>
-						</label>
+          <div class="sponsor-timeline__center">
+            <span class="sponsor-timeline__dot">{{
+              String(index + 1).padStart(2, "0")
+            }}</span>
+          </div>
 
-						<label>
-							E-Mail
-							<input
-								v-model="sponsorForm.email"
-								type="email"
-								name="email"
-								autocomplete="email"
-								required
-							/>
-						</label>
-					</div>
+          <div class="sponsor-timeline__side sponsor-timeline__side--right">
+            <div v-if="index % 2 === 1" class="sponsor-timeline__content">
+              <p class="sponsor-timeline__eyebrow">{{ pkg.label }}</p>
+              <h3 class="sponsor-timeline__title">{{ pkg.title }}</h3>
+              <p v-if="pkg.lead" class="sponsor-timeline__lead">{{ pkg.lead }}</p>
+              <ul class="sponsor-timeline__points">
+                <li
+                  v-for="point in pkg.points"
+                  :key="point"
+                  class="sponsor-timeline__point">
+                  <span
+                    class="sponsor-timeline__point-dot"
+                    aria-hidden="true"></span>
+                  <span class="sponsor-timeline__point-detail">{{
+                    point
+                  }}</span>
+                </li>
+                <li v-if="pkg.link" class="sponsor-timeline__point">
+                  <span
+                    class="sponsor-timeline__point-dot"
+                    aria-hidden="true"></span>
+                  <a
+                    :href="pkg.link.href"
+                    class="sponsor-timeline__point-detail sponsor-timeline__link"
+                    target="_blank"
+                    rel="noopener noreferrer">{{ pkg.link.label }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
 
-					<div class="sponsor-form-row">
-						<label>
-							Unternehmen
-							<input
-								v-model="sponsorForm.company"
-								type="text"
-								name="company"
-								autocomplete="organization"
-							/>
-						</label>
+    <section
+      class="sponsor-contact"
+      aria-labelledby="sponsor-contact-title">
+      <div class="sponsor-contact__shell">
+        <p class="sponsor-contact__kicker">Kontakt</p>
+        <h2 id="sponsor-contact-title" class="sponsor-contact__title">
+          Schreib uns deine Anfrage
+        </h2>
+        <p class="sponsor-contact__text">
+          Wir gehen auf jede individuelle Anfrage ein.
+        </p>
 
-						<label>
-							Interesse
-							<input
-								v-model="sponsorForm.interest"
-								type="text"
-								name="interest"
-								placeholder="z. B. Jugend"
-							/>
-						</label>
-					</div>
+        <form class="sponsor-contact-form" @submit.prevent="handleSponsorSubmit">
+          <div class="sponsor-form-row">
+            <label>
+              Name
+              <input
+                v-model="sponsorForm.name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                required />
+            </label>
 
-					<label>
-						Nachricht
-						<textarea
-							v-model="sponsorForm.message"
-							name="message"
-							rows="6"
-							required
-							placeholder="Deine Nachricht"
-						/>
-					</label>
+            <label>
+              E-Mail
+              <input
+                v-model="sponsorForm.email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                required />
+            </label>
+          </div>
 
-					<button type="submit" class="sponsor-submit">Anfrage senden</button>
-				</form>
-			</div>
-		</section>
-	</div>
+          <div class="sponsor-form-row">
+            <label>
+              Unternehmen
+              <input
+                v-model="sponsorForm.company"
+                type="text"
+                name="company"
+                autocomplete="organization" />
+            </label>
+
+            <label>
+              Interesse
+              <input
+                v-model="sponsorForm.interest"
+                type="text"
+                name="interest"
+                placeholder="z. B. Jugend" />
+            </label>
+          </div>
+
+          <label>
+            Nachricht
+            <textarea
+              v-model="sponsorForm.message"
+              name="message"
+              rows="6"
+              required
+              placeholder="Deine Nachricht" />
+          </label>
+
+          <button type="submit" class="sponsor-submit">Anfrage senden</button>
+        </form>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
-	import sponsorHero from "@/assets/header/background.png";
-	import { ChevronDown } from "@lucide/vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import PageHero from "@/components/PageHero.vue";
+import sponsorHero from "@/assets/header/background.png";
+import { resolveScrollContainer } from "@/utils/scrollContainer";
 
-	const offerPoints = [
-		"Sichtbarkeit auf Website, Social Media und im Stadion",
-		"Individuelle Platzierung passend zu deinem Unternehmen",
-		"Eine direkte Verbindung zur Region und zu unseren Teams",
-	];
+const offerPoints = [
+  "Sichtbarkeit auf Website, Social Media und im Stadion",
+  "Individuelle Platzierung passend zu deinem Unternehmen",
+  "Eine direkte Verbindung zur Region und zu unseren Teams",
+];
 
-	const searchPoints = [
-		"Lokale Unternehmen und engagierte Unterstützer",
-		"Sach- und Geldspenden für Vereinsleben und Ausstattung",
-		"Partnerschaften, die langfristig zu uns passen",
-	];
+const searchPoints = [
+  "Lokale Unternehmen und engagierte Unterstützer",
+  "Sach- und Geldspenden für Vereinsleben und Ausstattung",
+  "Partnerschaften, die langfristig zu uns passen",
+];
 
-	const sponsorPackages = [
-		{
-			label: "Möglichkeit 01",
-			title: "Ballspende",
-			lead: "Direkt im Trainings- und Spielalltag sichtbar helfen.",
-			points: [
-				"Unterstützt die Teams bei Training und Spielbetrieb",
-				"Einfacher Einstieg in ein lokales Sponsoring",
-				"Ideal für eine konkrete, direkte Hilfe",
-			],
-		},
-		{
-			label: "Möglichkeit 02",
-			title: "Vereinskleidung",
-			lead: "Ausstattung für Trainer, Jugend oder Mannschaften ermöglichen.",
-			points: [
-				"Unterstützung für Jacken, Shirts oder Trainingsmaterial",
-				"Präsenz im direkten Vereinsumfeld",
-				"Besonders passend für sichtbare Sachspenden",
-			],
-		},
-		{
-			label: "Möglichkeit 03",
-			title: "Eventunterstützung",
-			lead: "Gemeinsam Veranstaltungen, Turniere und Vereinsmomente tragen.",
-			points: [
-				"Unterstützung für Feste, Aktionen oder Heimspieltage",
-				"Sichtbarkeit bei Veranstaltungen vor Ort",
-				"Perfekt für regionale Partner mit Community-Bezug",
-			],
-		},
-		{
-			label: "Möglichkeit 04",
-			title: "Jugendunterstützung",
-			lead: "Nachwuchsarbeit gezielt und nachhaltig stärken.",
-			points: [
-				"Hilfe für Trainingsmaterial, Fahrten oder gemeinsame Aktionen",
-				"Direkte Unterstützung für Kinder- und Jugendbereiche",
-				"Besonders wertvoll für langfristige Vereinsentwicklung",
-			],
-		},
-		{
-			label: "Möglichkeit 05",
-			title: "Individuelle Spende",
-			lead: "Flexible Hilfe genau dort, wo sie gerade gebraucht wird.",
-			points: [
-				"Frei anpassbar an deinen Wunschbetrag oder Anlass",
-				"Sinnvoll für spontane oder projektbezogene Unterstützung",
-				"Gemeinsam stimmen wir den Einsatz transparent ab",
-			],
-		},
-		{
-			label: "Möglichkeit 06",
-			title: "Mannschaftskasse unterstützen",
-			lead: "Ein Team gezielt im Alltag, auf Reisen oder bei Aktionen begleiten.",
-			points: [
-				"Direkte Hilfe für gemeinsame Teamaktivitäten",
-				"Unterstützung für Jugend- oder Aktiventeams möglich",
-				"Nahbar, unkompliziert und sehr konkret",
-			],
-		},
-	];
+const sponsorPackages = [
+  {
+    label: "Möglichkeit 01",
+    title: "Ballspende",
+    lead: "Direkt im Trainings- und Spielalltag sichtbar helfen.",
+    points: [
+      "Unterstützt die Teams bei Training und Spielbetrieb",
+      "Einfacher Einstieg in ein lokales Sponsoring",
+      "Ideal für eine konkrete, direkte Hilfe",
+    ],
+  },
+  {
+    label: "Möglichkeit 02",
+    title: "Vereinskleidung",
+    lead: "Ausstattung für Trainer, Jugend oder Mannschaften ermöglichen.",
+    points: [
+      "Unterstützung für Jacken, Shirts oder Trainingsmaterial",
+      "Präsenz im direkten Vereinsumfeld",
+      "Besonders passend für sichtbare Sachspenden",
+    ],
+  },
+  {
+    label: "Möglichkeit 03",
+    title: "Eventunterstützung",
+    lead: "Gemeinsam Veranstaltungen, Turniere und Vereinsmomente tragen.",
+    points: [
+      "Unterstützung für Feste, Aktionen oder Heimspieltage",
+      "Sichtbarkeit bei Veranstaltungen vor Ort",
+      "Perfekt für regionale Partner mit Community-Bezug",
+    ],
+  },
+  {
+    label: "Möglichkeit 04",
+    title: "Jugendunterstützung",
+    lead: "Nachwuchsarbeit gezielt und nachhaltig stärken.",
+    points: [
+      "Hilfe für Trainingsmaterial, Fahrten oder gemeinsame Aktionen",
+      "Direkte Unterstützung für Kinder- und Jugendbereiche",
+      "Besonders wertvoll für langfristige Vereinsentwicklung",
+    ],
+  },
+  {
+    label: "Möglichkeit 05",
+    title: "Individuelle Spende",
+    lead: "Flexible Hilfe genau dort, wo sie gerade gebraucht wird.",
+    points: [
+      "Frei anpassbar an deinen Wunschbetrag oder Anlass",
+      "Sinnvoll für spontane oder projektbezogene Unterstützung",
+      "Gemeinsam stimmen wir den Einsatz transparent ab",
+    ],
+  },
+  {
+    label: "Möglichkeit 06",
+    title: "Mannschaftskasse unterstützen",
+    points: [
+      "Direkte Hilfe für gemeinsame Teamaktivitäten",
+    ],
+    link: {
+      href: "https://paypal.me/FSGOTW",
+      label: "Per PayPal einzahlen: paypal.me/FSGOTW",
+    },
+  },
+];
 
-	const sponsorContactEmail = "platzhalter@example.de";
+const sponsorContactEmail = "platzhalter@example.de";
 
-	const sponsorForm = ref({
-		name: "",
-		email: "",
-		company: "",
-		interest: "",
-		message: "",
-	});
+const sponsorForm = ref({
+  name: "",
+  email: "",
+  company: "",
+  interest: "",
+  message: "",
+});
 
-	const handleSponsorSubmit = () => {
-		const subject = `Sponsoring-Anfrage${sponsorForm.value.interest ? ` - ${sponsorForm.value.interest}` : ""}`;
-		const body = [
-			`Name: ${sponsorForm.value.name}`,
-			`E-Mail: ${sponsorForm.value.email}`,
-			`Unternehmen: ${sponsorForm.value.company || "-"}`,
-			`Interesse: ${sponsorForm.value.interest || "-"}`,
-			"",
-			"Nachricht:",
-			sponsorForm.value.message,
-		].join("\n");
+const handleSponsorSubmit = () => {
+  const subject = `Sponsoring-Anfrage${sponsorForm.value.interest ? ` - ${sponsorForm.value.interest}` : ""}`;
+  const body = [
+    `Name: ${sponsorForm.value.name}`,
+    `E-Mail: ${sponsorForm.value.email}`,
+    `Unternehmen: ${sponsorForm.value.company || "-"}`,
+    `Interesse: ${sponsorForm.value.interest || "-"}`,
+    "",
+    "Nachricht:",
+    sponsorForm.value.message,
+  ].join("\n");
 
-		window.location.href = `mailto:${sponsorContactEmail}?subject=${encodeURIComponent(
-			subject,
-		)}&body=${encodeURIComponent(body)}`;
-	};
+  window.location.href = `mailto:${sponsorContactEmail}?subject=${encodeURIComponent(
+    subject,
+  )}&body=${encodeURIComponent(body)}`;
+};
+
+const timelineRef = ref<HTMLElement | null>(null);
+const timelineProgress = ref(0);
+let scrollContainer: Window | HTMLElement | null = null;
+
+const getElementTopWithin = (element: HTMLElement, ancestor: HTMLElement) => {
+  let current: HTMLElement | null = element;
+  let offset = 0;
+
+  while (current && current !== ancestor) {
+    offset += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return offset;
+};
+
+const updateTimelineProgress = () => {
+  const element = timelineRef.value;
+
+  if (!element) {
+    return;
+  }
+
+  if (!scrollContainer || scrollContainer instanceof Window) {
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const absoluteTop = window.scrollY + rect.top;
+    const start = absoluteTop - viewportHeight * 0.72;
+    const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+    const range = Math.max(end - start, 1);
+    const current = window.scrollY;
+
+    timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
+    return;
+  }
+
+  const viewportHeight = scrollContainer.clientHeight;
+  const absoluteTop = getElementTopWithin(element, scrollContainer);
+  const start = absoluteTop - viewportHeight * 0.72;
+  const end = absoluteTop + element.offsetHeight - viewportHeight * 0.42;
+  const range = Math.max(end - start, 1);
+  const current = scrollContainer.scrollTop;
+
+  timelineProgress.value = Math.min(1, Math.max(0, (current - start) / range));
+};
+
+onMounted(() => {
+  scrollContainer = resolveScrollContainer(timelineRef.value);
+
+  updateTimelineProgress();
+  scrollContainer.addEventListener("scroll", updateTimelineProgress, {
+    passive: true,
+  });
+  window.addEventListener("resize", updateTimelineProgress);
+});
+
+onBeforeUnmount(() => {
+  scrollContainer?.removeEventListener("scroll", updateTimelineProgress);
+  window.removeEventListener("resize", updateTimelineProgress);
+});
 </script>
 
 <style scoped>
-	.sponsor-become-page {
-		--sv-primary-color: #022b79;
-		--sv-secondary-color: #f4d047;
-
-		--sponsor-bg: #061123;
-		--sponsor-bg-soft: #081a36;
-		--sponsor-card: rgba(255, 255, 255, 0.08);
-		--sponsor-card-strong: rgba(255, 255, 255, 0.13);
-		--sponsor-border: rgba(255, 255, 255, 0.16);
-		--sponsor-text: #f8f6ee;
-		--sponsor-muted: rgba(248, 246, 238, 0.74);
-		--sponsor-primary: var(--sv-primary-color);
-		--sponsor-secondary: var(--sv-secondary-color);
-		--sponsor-primary-soft: rgba(2, 43, 121, 0.34);
-		--sponsor-secondary-soft: rgba(244, 208, 71, 0.22);
-		--sponsor-radius: 28px;
-
-		position: relative;
-		overflow-x: clip;
-		color: var(--sponsor-text);
-		background:
-			radial-gradient(
-				circle at 20% 10%,
-				rgba(2, 43, 121, 0.52),
-				transparent 30rem
-			),
-			radial-gradient(
-				circle at 82% 38%,
-				rgba(244, 208, 71, 0.18),
-				transparent 28rem
-			),
-			linear-gradient(180deg, #030916 0%, var(--sponsor-bg) 45%, #02050b 100%);
-	}
-
-	.sponsor-become-page::before {
-		content: "";
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: 0;
-		background-image:
-			linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-		background-size: 44px 44px;
-		mask-image: linear-gradient(to bottom, black, transparent 78%);
-	}
-
-	.sponsor-become-page > * {
-		position: relative;
-		z-index: 1;
-	}
-
-	/* HERO */
-
-	.sponsor-become-hero {
-		position: relative;
-		min-height: 100svh;
-		isolation: isolate;
-		display: grid;
-		place-items: center;
-		overflow: hidden;
-	}
-
-	.sponsor-become-hero__media {
-		position: absolute;
-		inset: 0;
-	}
-
-	.sponsor-become-hero__media img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-		filter: saturate(0.92) brightness(0.72);
-		transform: scale(1.03);
-	}
-
-	.sponsor-become-hero__overlay {
-		position: absolute;
-		inset: 0;
-		background:
-			radial-gradient(
-				circle at 50% 38%,
-				rgba(244, 208, 71, 0.12),
-				transparent 24rem
-			),
-			linear-gradient(
-				180deg,
-				rgba(3, 9, 22, 0.44) 0%,
-				rgba(6, 17, 35, 0.68) 54%,
-				var(--sponsor-bg) 100%
-			);
-		z-index: 1;
-		box-shadow: inset 0 -50px 30px -3px #011944;
-	}
-
-	.sponsor-become-hero__content {
-		position: relative;
-		z-index: 3;
-		min-height: 100svh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		gap: 0.75rem;
-		padding: calc(var(--sv-header-height) + 2.5rem) clamp(1rem, 4vw, 2rem)
-			clamp(7rem, 14vw, 9rem);
-		box-sizing: border-box;
-	}
-
-	.sponsor-become-hero__eyebrow {
-		margin: 0;
-		color: rgba(244, 208, 71, 0.92);
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-	}
-
-	.sponsor-become-hero__title {
-		margin: 0;
-		max-width: 9ch;
-		font-size: clamp(3.1rem, 10vw, 6.2rem);
-		line-height: 0.92;
-		letter-spacing: -0.08em;
-		text-align: center;
-	}
-
-	.sponsor-become-hero__lead {
-		margin: 0;
-		max-width: 28ch;
-		font-size: clamp(1rem, 2.8vw, 1.25rem);
-		line-height: 1.55;
-		color: rgba(248, 246, 238, 0.82);
-		text-align: center;
-	}
-
-	.sponsor-become-hero::after {
-		content: "";
-		position: absolute;
-		inset: auto 0 0;
-		height: 42%;
-		pointer-events: none;
-
-		z-index: 2;
-	}
-
-	.sponsor-mobile-scroll-hint {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 3rem;
-		z-index: 5;
-		margin: 0;
-		padding: 0;
-		color: var(--sponsor-text);
-		font-size: 0.78rem;
-		line-height: 0;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-
-		animation: sponsorHintFloat 1.7s ease-in-out infinite;
-	}
-
-	.sponsor-mobile-scroll-hint :deep(svg) {
-		display: block;
-		flex: 0 0 auto;
-	}
-
-	/* INTRO-SEKTIONEN */
-
-	.sponsor-intro {
-		min-height: 82svh;
-		display: grid;
-		place-items: center;
-		padding: clamp(4rem, 14vw, 8rem) 1rem;
-	}
-
-	.sponsor-intro__inner,
-	.sponsor-packages__intro {
-		width: min(100%, 980px);
-		margin-inline: auto;
-	}
-
-	.sponsor-intro__inner {
-		position: relative;
-		overflow: hidden;
-		padding: clamp(1.4rem, 6vw, 3.5rem);
-	}
-
-	.sponsor-eyebrow {
-		margin: 0 0 0.9rem;
-		color: var(--sponsor-secondary);
-		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-	}
-
-	.sponsor-section-title {
-		max-width: 13ch;
-		margin: 0;
-		font-size: clamp(2.25rem, 11vw, 5.6rem);
-		line-height: 0.94;
-		letter-spacing: -0.07em;
-		text-align: center;
-		margin-inline: auto;
-	}
-
-	.sponsor-points {
-		display: grid;
-		gap: 1rem;
-		margin: clamp(1.6rem, 6vw, 2.5rem) 0 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.sponsor-points li {
-		position: relative;
-		padding: 1rem 1rem 1rem 3rem;
-
-		color: var(--sponsor-muted);
-	}
-
-	.sponsor-points li::before {
-		content: "";
-		position: absolute;
-		left: 1rem;
-		top: 1.15rem;
-		width: 0.85rem;
-		aspect-ratio: 1;
-		border-radius: 999px;
-		background: var(--sponsor-secondary);
-		box-shadow: 0 0 0 7px var(--sponsor-secondary-soft);
-		transform: translateY(0.85rem);
-	}
-
-	/* PACKAGE-SCROLL */
-
-	.sponsor-packages {
-		position: relative;
-		padding: 5rem 1rem 7rem;
-	}
-
-	.sponsor-packages__intro {
-		position: relative;
-		z-index: 1;
-		min-height: 58svh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		pointer-events: auto;
-	}
-
-	.sponsor-packages__intro .sponsor-section-title {
-		max-width: 10ch;
-	}
-
-	.sponsor-packages__intro .sponsor-eyebrow {
-		padding-inline: 0.35rem;
-	}
-
-	/*
-	  Natürlicher Ablauf:
-	  1. Erst normal zur ersten Karte scrollen.
-	  2. Danach bleiben Karten sticky.
-	  3. Jede neue Karte kommt von unten und überdeckt die alte.
-	  4. Keine Opacity-Reduzierung bei den Karten.
-	*/
-
-	.sponsor-package {
-		position: sticky;
-		top: 0;
-		z-index: 2;
-		min-height: 100svh;
-		display: flex;
-		align-items: center;
-		padding-block: 1rem;
-	}
-
-	.sponsor-package:nth-of-type(1) {
-		z-index: 2;
-	}
-
-	.sponsor-package:nth-of-type(2) {
-		z-index: 3;
-	}
-
-	.sponsor-package:nth-of-type(3) {
-		z-index: 4;
-	}
-
-	.sponsor-package:nth-of-type(4) {
-		z-index: 5;
-	}
-
-	.sponsor-package:nth-of-type(5) {
-		z-index: 6;
-	}
-
-	.sponsor-package:nth-of-type(6) {
-		z-index: 7;
-	}
-
-	.sponsor-package__inner {
-		position: relative;
-		overflow: hidden;
-		min-width: 0;
-		width: min(100%, 760px);
-		margin-inline: auto;
-		padding: clamp(1.25rem, 6vw, 2.5rem);
-		border: 1px solid var(--sv-primary-color);
-		border-radius: 32px;
-		opacity: 1;
-		background:
-			linear-gradient(145deg, var(--sv-primary-color), black), #091728;
-		box-shadow:
-			0 24px 60px rgba(0, 0, 0, 0.34),
-			inset 0 1px 0 rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(14px);
-		transform-origin: center bottom;
-	}
-
-	.sponsor-package__inner::before {
-		content: none;
-	}
-
-	.sponsor-package__index {
-		position: absolute;
-		right: 1rem;
-		top: 0.65rem;
-		color: rgba(255, 255, 255, 0.08);
-		font-size: clamp(5.5rem, 24vw, 11rem);
-		font-weight: 900;
-		line-height: 1;
-		letter-spacing: -0.1em;
-	}
-
-	.sponsor-package__label {
-		position: relative;
-		z-index: 1;
-		width: fit-content;
-		margin: 0 0 1.2rem;
-		padding: 0.5rem 0.75rem;
-		color: var(--sponsor-secondary);
-		font-size: 0.72rem;
-		font-weight: 800;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-	}
-
-	.sponsor-package__title {
-		position: relative;
-		z-index: 1;
-		width: 100%;
-		max-width: 11ch;
-		margin: 0;
-		padding-right: clamp(1.2rem, 4vw, 2.8rem);
-		box-sizing: border-box;
-		font-size: clamp(2.35rem, 4.8vw, 4.6rem);
-		line-height: 0.94;
-		letter-spacing: -0.05em;
-		text-align: left;
-		text-wrap: balance;
-		overflow-wrap: normal;
-		word-break: normal;
-		hyphens: manual;
-	}
-
-	.sponsor-package__lead {
-		position: relative;
-		z-index: 1;
-		min-width: 0;
-		max-width: 34rem;
-		margin: 1.2rem 0 0;
-		color: var(--sponsor-muted);
-		font-size: clamp(1.05rem, 4.6vw, 1.35rem);
-		line-height: 1.45;
-	}
-
-	.sponsor-package__points {
-		position: relative;
-		z-index: 1;
-		min-width: 0;
-		display: grid;
-		gap: 0.7rem;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.sponsor-package__points li {
-		position: relative;
-		padding-left: 1.6rem;
-		color: rgba(248, 246, 238, 0.82);
-		line-height: 1.45;
-	}
-
-	.sponsor-package__points li::before {
-		content: "";
-		position: absolute;
-		left: 0;
-		top: 0.55em;
-		width: 0.55rem;
-		aspect-ratio: 1;
-		border-radius: 999px;
-		background: var(--sponsor-secondary);
-	}
-
-	.sponsor-contact-section {
-		padding: 2rem 1rem 6rem;
-	}
-
-	.sponsor-contact-panel {
-		width: min(100%, 1080px);
-		margin: 0 auto;
-		display: grid;
-		gap: 1.5rem;
-		padding: clamp(1.4rem, 4vw, 2.6rem);
-		border: 1px solid var(--sv-primary-color);
-		border-radius: 32px;
-		background:
-			linear-gradient(145deg, var(--sv-primary-color), black), #091728;
-		box-shadow: 0 26px 72px rgba(0, 0, 0, 0.28);
-		backdrop-filter: blur(14px);
-	}
-
-	.sponsor-contact-copy {
-		display: grid;
-		gap: 0.9rem;
-	}
-
-	.sponsor-contact-text {
-		margin: 0;
-		max-width: 42rem;
-		color: var(--sponsor-muted);
-		line-height: 1.6;
-	}
-
-	.sponsor-contact-form {
-		display: grid;
-		gap: 1rem;
-	}
-
-	.sponsor-form-row {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1rem;
-	}
-
-	.sponsor-contact-form label {
-		display: grid;
-		gap: 0.45rem;
-		font-size: 0.84rem;
-		font-weight: 800;
-		color: rgba(248, 246, 238, 0.72);
-	}
-
-	.sponsor-contact-form input,
-	.sponsor-contact-form textarea {
-		width: 100%;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		border-radius: 16px;
-		padding: 0.9rem 1rem;
-		background: rgba(255, 255, 255, 0.05);
-		color: var(--sponsor-text);
-		font: inherit;
-	}
-
-	.sponsor-contact-form input::placeholder,
-	.sponsor-contact-form textarea::placeholder {
-		color: rgba(248, 246, 238, 0.34);
-	}
-
-	.sponsor-contact-form input:focus,
-	.sponsor-contact-form textarea:focus {
-		outline: 3px solid rgba(244, 208, 71, 0.14);
-		border-color: rgba(244, 208, 71, 0.34);
-	}
-
-	.sponsor-submit {
-		border: 0;
-		border-radius: 999px;
-		padding: 1rem 1.4rem;
-		background: rgba(244, 208, 71, 0.9);
-		color: #081326;
-		font: inherit;
-		font-weight: 900;
-		cursor: pointer;
-		transition:
-			transform 180ms ease,
-			filter 180ms ease;
-	}
-
-	.sponsor-submit:hover {
-		transform: translateY(-2px);
-		filter: brightness(1.03);
-	}
-
-	.sponsor-form-note {
-		margin: 0;
-		color: rgba(248, 246, 238, 0.54);
-		line-height: 1.55;
-	}
-
-	/* MODERNE SCROLL-ANIMATION */
-
-	@supports (animation-timeline: view()) {
-		.sponsor-intro__inner {
-			animation: sponsorReveal both ease-out;
-			animation-timeline: view();
-			animation-range: entry 10% cover 42%;
-		}
-	}
-
-	/* TABLET / DESKTOP */
-
-	@media (min-width: 760px) {
-		.sponsor-become-hero {
-			min-height: clamp(220px, 18vh, 340px);
-			display: flex;
-			align-items: flex-end;
-			justify-content: center;
-			padding: clamp(20px, 4vw, 48px) clamp(18px, 8vw, 80px);
-			margin-bottom: 3dvh;
-		}
-
-		.sponsor-become-hero__overlay {
-			background: linear-gradient(
-				180deg,
-				rgba(2, 43, 121, 0.2) 0%,
-				rgba(2, 43, 121, 0.78) 70%,
-				rgba(2, 43, 121, 0.92) 100%
-			);
-		}
-
-		.sponsor-become-hero::after {
-			display: none;
-		}
-
-		.sponsor-intro .sponsor-section-title {
-			font-size: clamp(2.25rem, 4.8vw, 4.2rem);
-			line-height: 0.98;
-			max-width: 12ch;
-			text-align: left;
-			margin-inline: 0;
-		}
-
-		.sponsor-become-hero__content {
-			width: min(900px, 100%);
-			min-height: auto;
-			align-items: flex-start;
-			justify-content: flex-end;
-			text-align: left;
-			gap: 0.5rem;
-			padding: calc(var(--sv-header-height) + 0.25rem) 0 0;
-			padding-bottom: 1.5rem;
-		}
-
-		.sponsor-become-hero__eyebrow,
-		.sponsor-become-hero__title {
-			text-align: left;
-		}
-
-		.sponsor-become-hero__title {
-			max-width: none;
-			font-size: clamp(24px, 4.2vw, 58px);
-			letter-spacing: 0.02em;
-			line-height: 1;
-		}
-
-		.sponsor-become-hero__lead {
-			max-width: 60ch;
-			text-align: left;
-		}
-
-		.sponsor-mobile-scroll-hint {
-			display: none;
-		}
-
-		.sponsor-intro {
-			min-height: auto;
-			padding: 5rem 2rem 0;
-		}
-
-		.sponsor-intro__inner {
-			display: grid;
-			grid-template-columns: 1.05fr 0.95fr;
-			grid-template-areas:
-				"kicker points"
-				"title points";
-			gap: clamp(2rem, 5vw, 5rem);
-			align-items: start;
-			padding: 0;
-			border: 0;
-			border-radius: 0;
-			background: transparent;
-			box-shadow: none;
-			backdrop-filter: none;
-		}
-
-		.sponsor-intro--needs .sponsor-intro__inner {
-			grid-template-columns: 0.95fr 1.05fr;
-			grid-template-areas:
-				"points kicker"
-				"points title";
-		}
-
-		.sponsor-intro .sponsor-eyebrow {
-			grid-area: kicker;
-			margin-bottom: 0.4rem;
-		}
-
-		.sponsor-intro .sponsor-section-title {
-			grid-area: title;
-		}
-
-		.sponsor-points {
-			grid-area: points;
-			margin-top: 0;
-			align-self: center;
-		}
-
-		.sponsor-packages {
-			width: min(1180px, calc(100dvw - 64px));
-			margin: 0 auto;
-			padding: 5rem 0 8rem;
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 1.5rem;
-			align-items: stretch;
-		}
-
-		.sponsor-packages__intro {
-			grid-column: 1 / -1;
-			min-height: auto;
-			text-align: center;
-			margin-bottom: 2rem;
-		}
-
-		.sponsor-package {
-			position: relative;
-			top: auto;
-			min-height: auto;
-			padding-block: 0;
-			margin-bottom: 0;
-		}
-
-		.sponsor-package__inner {
-			width: 100%;
-			min-height: 100%;
-			display: grid;
-			grid-template-columns: 1fr;
-			grid-template-areas:
-				"label"
-				"title"
-				"lead"
-				"points"
-				"cta";
-			column-gap: 0;
-			row-gap: 1rem;
-			align-items: start;
-			padding: 2rem;
-			border-radius: 32px;
-			box-shadow:
-				0 30px 72px rgba(0, 0, 0, 0.34),
-				inset 0 1px 0 rgba(255, 255, 255, 0.12);
-		}
-
-		.sponsor-package:nth-of-type(even) .sponsor-package__inner {
-			grid-template-columns: 1fr;
-			grid-template-areas:
-				"label"
-				"title"
-				"lead"
-				"points"
-				"cta";
-		}
-
-		.sponsor-package__label {
-			grid-area: label;
-			margin-bottom: 0;
-		}
-
-		.sponsor-package__title {
-			grid-area: title;
-			width: 100%;
-			max-width: 9ch;
-			padding-right: 2.8rem;
-			font-size: clamp(2.1rem, 3vw, 3.15rem);
-			line-height: 0.95;
-		}
-
-		.sponsor-package__lead {
-			grid-area: lead;
-			margin-top: 0;
-			max-width: 30rem;
-			font-size: 1rem;
-		}
-
-		.sponsor-package__points {
-			grid-area: points;
-			margin-top: 0.3rem;
-		}
-
-		.sponsor-contact-panel {
-			grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-			align-items: start;
-			gap: clamp(2rem, 4vw, 4rem);
-		}
-
-		.sponsor-contact-copy .sponsor-section-title {
-			text-align: left;
-			margin-inline: 0;
-			max-width: 10ch;
-		}
-
-		.sponsor-contact-copy .sponsor-eyebrow {
-			margin-bottom: 0;
-		}
-	}
-
-	@media (min-width: 1080px) {
-		.sponsor-packages {
-			width: min(1280px, calc(100dvw - 96px));
-			padding-bottom: 10rem;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-
-		.sponsor-package__inner {
-			width: 100%;
-			padding: 2.4rem;
-		}
-
-		.sponsor-package__title {
-			max-width: 8.5ch;
-			padding-right: 3.4rem;
-			font-size: clamp(1.95rem, 2.45vw, 2.75rem);
-		}
-
-		.sponsor-package__points {
-			grid-template-columns: 1fr;
-			gap: 0.85rem;
-			margin-top: 0.75rem;
-		}
-
-		.sponsor-package__points li {
-			padding-left: 1.6rem;
-		}
-
-		.sponsor-contact-section {
-			padding-inline: 2rem;
-		}
-	}
-
-	@media (max-width: 759px) {
-		.sponsor-become-hero {
-			min-height: 100dvh;
-		}
-
-		.sponsor-become-hero__content {
-			min-height: 100dvh;
-			padding: calc(var(--sv-header-height) + 1.5rem) 1.25rem 5.25rem;
-		}
-
-		.sponsor-become-hero__title {
-			max-width: 8ch;
-		}
-
-		.sponsor-contact-section {
-			padding: 1.25rem 0.85rem 3.5rem;
-		}
-
-		.sponsor-contact-panel {
-			width: min(100%, 560px);
-			border-radius: 24px;
-			padding: 1rem 0.9rem 1.1rem;
-			gap: 1rem;
-		}
-
-		.sponsor-contact-copy {
-			gap: 0.55rem;
-		}
-
-		.sponsor-contact-copy .sponsor-section-title {
-			font-size: clamp(1.55rem, 8vw, 2rem);
-		}
-
-		.sponsor-contact-text {
-			font-size: 0.95rem;
-			line-height: 1.5;
-		}
-
-		.sponsor-contact-form {
-			gap: 0.85rem;
-		}
-
-		.sponsor-form-row {
-			grid-template-columns: 1fr;
-		}
-
-		.sponsor-contact-form label {
-			font-size: 0.78rem;
-		}
-
-		.sponsor-contact-form input,
-		.sponsor-contact-form textarea {
-			border-radius: 14px;
-			padding: 0.8rem 0.9rem;
-		}
-
-		.sponsor-submit {
-			padding: 0.9rem 1.2rem;
-		}
-	}
-
-	/* ANIMATIONEN */
-
-	@keyframes sponsorHintFloat {
-		0%,
-		100% {
-			transform: translateY(0);
-			opacity: 0.82;
-		}
-
-		50% {
-			transform: translateY(8px);
-			opacity: 1;
-		}
-	}
-
-	@keyframes sponsorReveal {
-		from {
-			opacity: 0;
-			transform: translateY(44px) scale(0.96);
-		}
-
-		to {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
-	}
-
-	/* ACCESSIBILITY */
-
-	@media (prefers-reduced-motion: reduce) {
-		*,
-		*::before,
-		*::after {
-			scroll-behavior: auto !important;
-			animation-duration: 0.001ms !important;
-			animation-iteration-count: 1 !important;
-			transition-duration: 0.001ms !important;
-		}
-
-		.sponsor-package {
-			position: relative;
-			top: auto;
-			min-height: auto;
-		}
-
-		.sponsor-package {
-			padding-block: 1rem;
-		}
-	}
+.sponsor-become-page {
+  padding-bottom: clamp(56px, 8vw, 96px);
+  overflow-x: clip;
+}
+
+.sponsor-intro,
+.sponsor-timeline,
+.sponsor-contact {
+  width: min(1240px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.sponsor-intro {
+  margin-bottom: clamp(30px, 5vw, 60px);
+}
+
+.sponsor-intro__shell {
+  text-align: center;
+}
+
+.sponsor-intro__kicker,
+.sponsor-contact__kicker,
+.sponsor-timeline__eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.74rem;
+  color: rgba(242, 208, 82, 0.92);
+}
+
+.sponsor-intro__title,
+.sponsor-contact__title {
+  margin: 0;
+  font-size: clamp(2.1rem, 4.8vw, 4.2rem);
+  line-height: 0.98;
+}
+
+.sponsor-intro__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.sponsor-intro__column-title {
+  margin: 0 0 0.9rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: rgba(245, 247, 252, 0.95);
+}
+
+.sponsor-intro__points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.sponsor-intro__points li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: rgba(245, 247, 252, 0.72);
+  line-height: 1.5;
+}
+
+.sponsor-intro__point-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 208, 82, 0.85);
+  margin-top: 8px;
+}
+
+.sponsor-timeline {
+  position: relative;
+  padding-top: 8px;
+}
+
+.sponsor-timeline__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.sponsor-timeline__line-base,
+.sponsor-timeline__line-progress {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  transform-origin: top;
+}
+
+.sponsor-timeline__line-base {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.sponsor-timeline__line-progress {
+  background: linear-gradient(180deg, #f2d052 0%, #e3aa1d 42%, #2d7ff9 100%);
+  box-shadow: 0 0 26px rgba(242, 208, 82, 0.28);
+}
+
+.sponsor-timeline__list {
+  display: grid;
+  gap: 28px;
+}
+
+.sponsor-timeline__item {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: stretch;
+}
+
+.sponsor-timeline__side {
+  display: flex;
+}
+
+.sponsor-timeline__item--left .sponsor-timeline__side--left {
+  justify-content: flex-end;
+}
+
+.sponsor-timeline__item--right .sponsor-timeline__side--right {
+  justify-content: flex-start;
+}
+
+.sponsor-timeline__center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  align-self: start;
+}
+
+.sponsor-timeline__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #09162f;
+  border: 4px solid rgba(242, 208, 82, 0.95);
+  box-shadow: 0 0 0 10px rgba(242, 208, 82, 0.08);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--sv-secondary-color);
+}
+
+.sponsor-timeline__content {
+  width: min(100%, 500px);
+  padding: 12px 0;
+}
+
+.sponsor-timeline__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.sponsor-timeline__lead {
+  margin: 10px 0 0;
+  color: rgba(245, 247, 252, 0.78);
+  line-height: 1.55;
+}
+
+.sponsor-timeline__points {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sponsor-timeline__point {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.sponsor-timeline__point-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 208, 82, 0.85);
+  margin-top: 8px;
+}
+
+.sponsor-timeline__point-detail {
+  font-size: 0.9rem;
+  color: rgba(245, 247, 252, 0.62);
+  line-height: 1.5;
+}
+
+.sponsor-timeline__link {
+  color: #f2d052;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sponsor-timeline__item--left .sponsor-timeline__content {
+  padding-right: clamp(18px, 3vw, 42px);
+  text-align: right;
+}
+
+.sponsor-timeline__item--left .sponsor-timeline__point {
+  flex-direction: row-reverse;
+}
+
+.sponsor-timeline__item--right .sponsor-timeline__content {
+  padding-left: clamp(18px, 3vw, 42px);
+}
+
+.sponsor-contact {
+  margin-top: clamp(52px, 8vw, 96px);
+}
+
+.sponsor-contact__shell {
+  text-align: center;
+}
+
+.sponsor-contact__text {
+  width: min(600px, 100%);
+  margin: 18px auto 0;
+  line-height: 1.7;
+  color: rgba(245, 247, 252, 0.88);
+}
+
+.sponsor-contact-form {
+  width: min(720px, 100%);
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  display: grid;
+  gap: 1rem;
+  text-align: left;
+}
+
+.sponsor-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.sponsor-contact-form label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: rgba(245, 247, 252, 0.72);
+}
+
+.sponsor-contact-form input,
+.sponsor-contact-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sv-text-color);
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.sponsor-contact-form input::placeholder,
+.sponsor-contact-form textarea::placeholder {
+  color: rgba(245, 247, 252, 0.34);
+}
+
+.sponsor-contact-form input:focus,
+.sponsor-contact-form textarea:focus {
+  outline: 3px solid rgba(244, 208, 71, 0.14);
+  border-color: rgba(244, 208, 71, 0.5);
+}
+
+.sponsor-submit {
+  justify-self: start;
+  border: 0;
+  border-radius: 999px;
+  padding: 1rem 1.6rem;
+  background: var(--sv-secondary-color);
+  color: #171a1f;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform 0.22s ease;
+}
+
+.sponsor-submit:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .sponsor-intro__columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-timeline__line {
+    left: 22px;
+    transform: none;
+  }
+
+  .sponsor-timeline__item {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px 12px;
+  }
+
+  .sponsor-timeline__center {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    padding-top: 8px;
+  }
+
+  .sponsor-timeline__dot {
+    width: 32px;
+    height: 32px;
+    font-size: 0.6rem;
+  }
+
+  .sponsor-timeline__side,
+  .sponsor-timeline__item--left .sponsor-timeline__side--left,
+  .sponsor-timeline__item--right .sponsor-timeline__side--right {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: stretch;
+  }
+
+  .sponsor-timeline__item--left .sponsor-timeline__side--right,
+  .sponsor-timeline__item--right .sponsor-timeline__side--left {
+    display: none;
+  }
+
+  .sponsor-timeline__content {
+    width: 100%;
+  }
+
+  .sponsor-timeline__item--left .sponsor-timeline__content,
+  .sponsor-timeline__item--right .sponsor-timeline__content {
+    padding: 0 0 0 10px;
+    text-align: left;
+  }
+
+  .sponsor-timeline__item--left .sponsor-timeline__point {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 640px) {
+  .sponsor-intro,
+  .sponsor-timeline,
+  .sponsor-contact {
+    width: calc(100% - 24px);
+  }
+
+  .sponsor-timeline__list {
+    gap: 20px;
+  }
+
+  .sponsor-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-submit {
+    width: 100%;
+  }
+}
 </style>

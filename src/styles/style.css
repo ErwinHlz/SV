@@ -108,15 +108,21 @@ h1 {
 }
 
 @media (max-width: 767px) {
-  .app-content {
-    height: 100dvh;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
+  /* Keep the document as the scroll container for native pull-to-refresh. */
+  html {
+    overscroll-behavior-y: auto;
+  }
+
+  html.sv-page-snap {
     scroll-snap-type: y mandatory;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    background-color: var(--sv-bg-base);
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  .app-content {
+    overflow-x: clip;
   }
 
   .app-page {

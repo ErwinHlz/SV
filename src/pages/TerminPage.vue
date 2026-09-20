@@ -23,14 +23,14 @@
 						:aria-label="`Zum Termin ${item.title}`"
 					>
 						<div class="termine-card-sheet">
-							<div class="termine-card-media">
-								<img
-									class="termine-card-image"
+							<div class="termine-card-media" :class="{ 'has-match-poster': item.isMatchTemplate }">
+								<MatchTerminPoster v-if="item.isMatchTemplate" :item="item" />
+<img v-else class="termine-card-image"
 									:src="item.image"
 									:alt="item.imageAlt"
 									loading="lazy"
 								/>
-								<div class="termine-card-overlay" aria-hidden="true">
+								<div v-if="!item.isMatchTemplate" class="termine-card-overlay" aria-hidden="true">
 									<svg
 										class="termine-card-icon"
 										viewBox="0 0 48 48"
@@ -101,6 +101,7 @@
 </template>
 
 <script setup lang="ts">
+import MatchTerminPoster from "@/components/MatchTerminPoster.vue";
 	import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 	import { ExternalLink, Pin } from "@lucide/vue";
 	import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
@@ -145,18 +146,9 @@
 		isMobileTermineViewport.value = isMobileTermineLayout();
 	};
 
-	const getAppScrollContainer = () =>
-		typeof document === "undefined"
-			? null
-			: (document.querySelector(".app-content") as HTMLElement | null);
-
 	const readTerminScrollPosition = () => {
 		if (typeof window === "undefined") {
 			return 0;
-		}
-
-		if (isMobileTermineLayout()) {
-			return getAppScrollContainer()?.scrollTop ?? 0;
 		}
 
 		return window.scrollY;
@@ -190,14 +182,6 @@
 
 		await nextTick();
 		window.requestAnimationFrame(() => {
-			if (isMobileTermineLayout()) {
-				getAppScrollContainer()?.scrollTo({
-					top: nextScrollTop,
-					behavior: "auto",
-				});
-				return;
-			}
-
 			window.scrollTo({ top: nextScrollTop, behavior: "auto" });
 		});
 	};
@@ -205,13 +189,6 @@
 	onMounted(() => {
 		syncMobileTermineViewport();
 		restoreTerminScrollPosition();
-		getAppScrollContainer()?.addEventListener(
-			"scroll",
-			persistTerminScrollPosition,
-			{
-				passive: true,
-			},
-		);
 		window.addEventListener("scroll", persistTerminScrollPosition, {
 			passive: true,
 		});
@@ -222,10 +199,6 @@
 
 	onBeforeUnmount(() => {
 		persistTerminScrollPosition();
-		getAppScrollContainer()?.removeEventListener(
-			"scroll",
-			persistTerminScrollPosition,
-		);
 		window.removeEventListener("scroll", persistTerminScrollPosition);
 		window.removeEventListener("resize", syncMobileTermineViewport);
 	});
@@ -687,4 +660,5 @@
 			transform: scale(0.98);
 		}
 	}
+.termine-card-media.has-match-poster { height: auto; aspect-ratio: 1; }
 </style>

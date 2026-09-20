@@ -1,5 +1,10 @@
 <template>
   <article class="entry-detail-body">
+    <img
+      v-if="image"
+      class="entry-detail-image"
+      :src="image"
+      :alt="imageAlt" />
     <p v-if="title" class="entry-detail-lead">{{ title }}</p>
     <div v-if="content" class="entry-detail-text">
       {{ content }}
@@ -11,6 +16,8 @@
 defineProps<{
   title?: string;
   content?: string;
+  image?: string;
+  imageAlt?: string;
 }>();
 </script>
 
@@ -19,6 +26,19 @@ defineProps<{
   width: min(920px, calc(100dvw - 48px));
   margin: 0 auto clamp(48px, 8vw, 96px);
   padding: clamp(28px, 4vw, 48px);
+}
+
+.entry-detail-image {
+  float: right;
+  width: min(340px, 38%);
+  margin: 0 0 20px 28px;
+  border-radius: 14px;
+}
+
+.entry-detail-body::after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 .entry-detail-lead {
@@ -45,6 +65,12 @@ defineProps<{
   .entry-detail-text {
     font-size: 16px;
     line-height: 1.75;
+  }
+
+  .entry-detail-image {
+    float: none;
+    width: 100%;
+    margin: 0 0 20px;
   }
 }
 </style>

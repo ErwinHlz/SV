@@ -3,7 +3,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { externalLinks } from "./lib/external-links.mjs";
 
-const LEAGUE_STANDING_URL = externalLinks.fupa.leagueStandingUrl;
+const LEAGUE_STANDING_URLS = [
+  externalLinks.fupa.leagueStandingUrls.teamOne,
+  externalLinks.fupa.leagueStandingUrls.teamTwo,
+];
 
 const OUTPUT_DIR = "../assets/vereinslogos";
 const OUTPUT_JSON = "../content/vereinslogos.json";
@@ -58,8 +61,10 @@ async function acceptCookiesIfVisible(page) {
     "Zustimmen",
   ];
 
+  // Der Consent-Button auf fupa.net ist kein <button role="button">, sondern
+  // ein Element ohne ARIA-Rolle - deshalb per Text statt per Rolle suchen.
   for (const label of buttons) {
-    const button = page.getByRole("button", { name: label }).first();
+    const button = page.getByText(label, { exact: false }).first();
 
     if (await button.isVisible().catch(() => false)) {
       await button.click().catch(() => {});
@@ -84,20 +89,27 @@ async function main() {
 
   const page = await context.newPage();
 
-  await page.goto(LEAGUE_STANDING_URL, {
-    waitUntil: "domcontentloaded",
-    timeout: 60_000,
-  });
+  const teams = [];
 
-  await acceptCookiesIfVisible(page);
-  await page.waitForLoadState("networkidle").catch(() => {});
+  for (const url of LEAGUE_STANDING_URLS) {
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 60_000,
+    });
 
-  const teams = await page.$$eval('a[href*="/team/"]', (links) => {
-    return links.map((a) => ({
-      name: a.innerText.replace(/\s+/g, " ").trim(),
-      url: new URL(a.getAttribute("href"), window.location.origin).href,
-    }));
-  });
+    await acceptCookiesIfVisible(page);
+    await page.waitForLoadState("networkidle").catch(() => {});
+
+    const leagueTeams = await page.$$eval('a[href*="/team/"]', (links) => {
+      return links.map((a) => ({
+        name: a.innerText.replace(/\s+/g, " ").trim(),
+        url: new URL(a.getAttribute("href"), window.location.origin).href,
+      }));
+    });
+
+    console.log(`Gefundene Teams (${url}): ${leagueTeams.length}`);
+    teams.push(...leagueTeams);
+  }
 
   const uniqueTeams = Array.from(
     new Map(

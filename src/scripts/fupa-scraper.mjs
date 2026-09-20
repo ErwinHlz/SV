@@ -3,20 +3,34 @@ import fs from "node:fs/promises";
 import { externalLinks } from "./lib/external-links.mjs";
 
 const CONFIG = {
-  clubMatchesUrl: externalLinks.fupa.clubMatchesUrl,
-
-  // Für die 2. Mannschaft:
-  // In FuPa-Match-URLs steht die zweite Mannschaft mit "...fsg-ottweiler-steinbach-m2..."
-  teamUrlPart: externalLinks.fupa.teamTwoSlug,
+  // Jede Mannschaft hat auf FuPa eine eigene Spielplan-Seite, die bereits die
+  // komplette Saison zeigt (keine ?pointer=prev/next-Pagination mehr nötig).
+  sources: [
+    {
+      team: "teamOne",
+      matchesUrl: externalLinks.fupa.matchesUrls.teamOne,
+      teamSlug: externalLinks.fupa.clubSlug,
+    },
+    {
+      team: "teamTwo",
+      matchesUrl: externalLinks.fupa.matchesUrls.teamTwo,
+      teamSlug: externalLinks.fupa.teamTwoSlug,
+    },
+  ],
 
   timezone: "Europe/Berlin",
 
   outputFile: "../content/match-highlights.json",
 
+  // FuPa hat für dieses Team bei Heimspielen kein Stadion hinterlegt (zeigt
+  // immer "-"). Fallback auf die bekannte Heimspielstätte.
+  homeLocation: "Stadion Im Alten Weiher",
+
   logos: {
-    "FSG Ottweiler-Steinbach 2": "/team-logos/fsg-ottweiler-steinbach.png",
-    "FSG Ottweiler-Steinbach II": "/team-logos/fsg-ottweiler-steinbach.png",
-    "FSG Ottweiler-Steinbach": "/team-logos/fsg-ottweiler-steinbach.png",
+    "SV Ottweiler": "/images/sv_logo_farbe.svg",
+    "SV Ottweiler II": "/images/sv_logo_farbe.svg",
+    Ottweiler: "/images/sv_logo_farbe.svg",
+    "Ottweiler II": "/images/sv_logo_farbe.svg",
 
     // Weitere Logos kannst du hier fest eintragen:
     // "SC Alsweiler": "/team-logos/sc-alsweiler.png",
@@ -83,7 +97,10 @@ function extractVenue(bodyText) {
     }
   }
 
-  return venueParts.join(", ");
+  const venue = venueParts.join(", ");
+
+  // FuPa zeigt "-" an, wenn für das Spiel kein Stadion hinterlegt ist.
+  return venue === "-" ? "" : venue;
 }
 
 function toISODateGerman(dateStr) {
@@ -162,6 +179,13 @@ function isInRange(date, start, end) {
   return date >= start && date < end;
 }
 
+function isHomeMatch(href, teamSlug) {
+  // FuPa-Match-URLs sind "{heim-slug}-{gast-slug}-{datum}" - das eigene Team
+  // steht also nur bei Heimspielen direkt am Anfang des Pfads.
+  const path = new URL(href).pathname;
+  return path.startsWith(`/match/${teamSlug}-`);
+}
+
 function matchDateTime(match) {
   return new Date(`${match.datum}T${match.uhrzeit || "00:00"}:00`);
 }
@@ -214,37 +238,51 @@ function pickGamesByWeek(matches) {
   };
 }
 
+async function acceptCookiesIfVisible(page) {
+  const possibleTexts = [
+    "Alle akzeptieren",
+    "Akzeptieren",
+    "Einverstanden",
+    "Zustimmen",
+  ];
+
+  // Der Consent-Button auf fupa.net ist kein <button role="button">, sondern
+  // ein Element ohne ARIA-Rolle - deshalb per Text statt per Rolle suchen.
+  for (const text of possibleTexts) {
+    const button = page.getByText(text, { exact: false }).first();
+    if (await button.isVisible().catch(() => false)) {
+      await button.click().catch(() => {});
+      return;
+    }
+  }
+}
+
 async function collectMatchLinks(page, url) {
   await page.goto(url, {
     waitUntil: "domcontentloaded",
     timeout: 60000,
   });
 
+  await acceptCookiesIfVisible(page);
   await page.waitForTimeout(1500);
 
-  const links = await page.$$eval(
-    'a[href*="/match/"]',
-    (anchors, teamUrlPart) => {
-      const unique = new Map();
+  const links = await page.$$eval('a[href*="/match/"]', (anchors) => {
+    const unique = new Map();
 
-      for (const anchor of anchors) {
-        const hrefValue = anchor.getAttribute("href");
-        if (!hrefValue) continue;
+    for (const anchor of anchors) {
+      const hrefValue = anchor.getAttribute("href");
+      if (!hrefValue) continue;
 
-        const href = new URL(hrefValue, location.href).href;
+      const href = new URL(hrefValue, location.href).href;
 
-        if (!href.includes(teamUrlPart)) continue;
+      unique.set(href, {
+        href,
+        text: anchor.innerText.replace(/\s+/g, " ").trim(),
+      });
+    }
 
-        unique.set(href, {
-          href,
-          text: anchor.innerText.replace(/\s+/g, " ").trim(),
-        });
-      }
-
-      return [...unique.values()];
-    },
-    CONFIG.teamUrlPart,
-  );
+    return [...unique.values()];
+  });
 
   return links;
 }
@@ -330,6 +368,49 @@ async function readMatch(page, matchUrl) {
   };
 }
 
+async function readMatchesForSource(page, source) {
+  const links = await collectMatchLinks(page, source.matchesUrl);
+
+  if (links.length === 0) {
+    console.warn(
+      `Keine Match-Links gefunden für ${source.team} (${source.matchesUrl}).`,
+    );
+  }
+
+  const matches = [];
+
+  for (const link of links) {
+    try {
+      const match = await readMatch(page, link.href);
+
+      if (!match.ort && isHomeMatch(link.href, source.teamSlug)) {
+        match.ort = CONFIG.homeLocation;
+      }
+
+      matches.push(match);
+
+      await page.waitForTimeout(800);
+    } catch (error) {
+      console.warn(`Spiel übersprungen: ${link.href}`);
+      console.warn(error.message);
+    }
+  }
+
+  console.log(`\nGefundene Spiele (${source.team}): ${matches.length}`);
+  console.table(
+    matches.map((match) => ({
+      datum: match.datum,
+      uhrzeit: match.uhrzeit,
+      heim: match.heimmannschaft,
+      gast: match.gastmannschaft,
+      ergebnis: match.ergebnis,
+      ort: match.ort,
+    })),
+  );
+
+  return matches;
+}
+
 async function main() {
   const browser = await chromium.launch({
     headless: true,
@@ -340,61 +421,14 @@ async function main() {
       "Mozilla/5.0 FSG-Ottweiler-Steinbach-WebsiteBot/1.0; contact=webmaster@example.com",
   });
 
-  const urlsToScan = [
-    CONFIG.clubMatchesUrl,
-    `${CONFIG.clubMatchesUrl}?pointer=prev`,
-    `${CONFIG.clubMatchesUrl}?pointer=next`,
-  ];
+  const output = {};
 
-  const allLinks = [];
-
-  for (const url of urlsToScan) {
-    try {
-      const links = await collectMatchLinks(page, url);
-      allLinks.push(...links);
-    } catch (error) {
-      console.warn(`Konnte Seite nicht lesen: ${url}`);
-      console.warn(error.message);
-    }
-  }
-
-  const uniqueLinks = [
-    ...new Map(allLinks.map((item) => [item.href, item])).values(),
-  ];
-
-  if (uniqueLinks.length === 0) {
-    console.warn("Keine Match-Links gefunden.");
-    console.warn("Prüfe CONFIG.teamUrlPart:", CONFIG.teamUrlPart);
-  }
-
-  const matches = [];
-
-  for (const link of uniqueLinks) {
-    try {
-      const match = await readMatch(page, link.href);
-      matches.push(match);
-
-      await page.waitForTimeout(800);
-    } catch (error) {
-      console.warn(`Spiel übersprungen: ${link.href}`);
-      console.warn(error.message);
-    }
+  for (const source of CONFIG.sources) {
+    const matches = await readMatchesForSource(page, source);
+    output[source.team] = pickGamesByWeek(matches);
   }
 
   await browser.close();
-
-  console.log("\nGefundene Spiele:");
-  console.table(
-    matches.map((match) => ({
-      datum: match.datum,
-      uhrzeit: match.uhrzeit,
-      heim: match.heimmannschaft,
-      gast: match.gastmannschaft,
-      ergebnis: match.ergebnis,
-    })),
-  );
-
-  const output = pickGamesByWeek(matches);
 
   await fs.writeFile(
     CONFIG.outputFile,

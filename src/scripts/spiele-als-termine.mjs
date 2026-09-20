@@ -1,14 +1,21 @@
+import { createTermin, parseCompetitionHeading } from "./lib/match-termin.mjs";
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
 import { externalLinks } from "./lib/external-links.mjs";
 
-const CLUB_URL = externalLinks.fupa.clubMatchesUrl;
-const TEAM_NAME = "FSG Ottweiler-Steinbach II";
-const TEAM_SLUG = externalLinks.fupa.teamTwoSlug;
+const TEAMS = [
+  {
+    clubUrl: externalLinks.fupa.matchesUrls.teamOne,
+    teamSlug: externalLinks.fupa.teamOneSlug,
+  },
+  {
+    clubUrl: externalLinks.fupa.matchesUrls.teamTwo,
+    teamSlug: externalLinks.fupa.teamTwoSlug,
+  },
+];
 
-const HOME_LOCATION = "Sportplatz Ottweiler";
 const OUTPUT_FILE = process.argv[2] ?? "../content/spiel-termine.json";
-const MAX_GAMES = 3;
+const MAX_GAMES_PER_TEAM = 3;
 
 function dateFromFuPaMatchUrl(url) {
   // Beispiel: .../vfb-heusweiler-m2-fsg-ottweiler-steinbach-m2-260510
@@ -34,12 +41,13 @@ function todayInBerlinDateOnly() {
   return formatter.format(new Date()); // YYYY-MM-DD
 }
 
-function normalizeTeamName(name) {
-  return name
-    .replace(/\s+/g, " ")
-    .replace("Ottweiler-Steinbach", "Ottweiler-Steinbach")
-    .trim()
-    .toLowerCase();
+function isHomeMatch(href, teamSlug) {
+  // FuPa-Match-URLs sind "{heim-slug}-{gast-slug}-{datum}" - das eigene Team
+  // steht also nur bei Heimspielen direkt am Anfang des Pfads. Robuster als
+  // ein Abgleich der angezeigten Teamnamen, die FuPa je nach Seite abgekürzt
+  // oder unterschiedlich benannt anzeigt.
+  const path = new URL(href).pathname;
+  return path.startsWith(`/match/${teamSlug}-`);
 }
 
 function extractVenue(bodyText) {
@@ -78,7 +86,10 @@ function extractVenue(bodyText) {
     }
   }
 
-  return venueParts.join(", ");
+  const venue = venueParts.join(", ");
+
+  // FuPa zeigt "-" an, wenn für das Spiel kein Stadion hinterlegt ist.
+  return venue === "-" ? "" : venue;
 }
 
 function buildGoogleMapsSearchUrl(query) {
@@ -110,39 +121,18 @@ async function extractMapsUrl(page) {
   });
 }
 
-function createTermin(match, id) {
-  const isHome =
-    normalizeTeamName(match.homeTeam) === normalizeTeamName(TEAM_NAME);
-  const opponent = isHome ? match.awayTeam : match.homeTeam;
-  const location = match.venue || (isHome ? HOME_LOCATION : `Auswärts bei ${opponent}`);
-
-  return {
-    id,
-    title: `${isHome ? "Heimspiel" : "Auswärtsspiel"} gegen ${opponent}`,
-    excerpt: `${isHome ? "Heimspiel" : "Auswärtsspiel"} der FSG Ottweiler-Steinbach II. Kommt vorbei und unterstützt das Team.`,
-    date: match.date,
-    time: match.time,
-    location,
-    content: isHome
-      ? `Anpfiff ist um ${match.time} Uhr. Kommt vorbei und unterstützt die FSG Ottweiler-Steinbach II am ${location}.`
-      : `Anpfiff ist um ${match.time} Uhr. Die FSG Ottweiler-Steinbach II spielt auswärts bei ${opponent} in ${location}.`,
-    image: "termineImage",
-    imageAlt: "Symbol fuer Termin",
-    externalUrl: match.matchUrl,
-    mapsUrl: match.mapsUrl,
-  };
-}
-
 async function acceptCookiesIfVisible(page) {
-  const possibleButtons = [
+  const possibleTexts = [
     "Alle akzeptieren",
     "Akzeptieren",
     "Einverstanden",
     "Zustimmen",
   ];
 
-  for (const text of possibleButtons) {
-    const button = page.getByRole("button", { name: text }).first();
+  // Der Consent-Button auf fupa.net ist kein <button role="button">, sondern
+  // ein Element ohne ARIA-Rolle - deshalb per Text statt per Rolle suchen.
+  for (const text of possibleTexts) {
+    const button = page.getByText(text, { exact: false }).first();
     if (await button.isVisible().catch(() => false)) {
       await button.click().catch(() => {});
       return;
@@ -150,22 +140,10 @@ async function acceptCookiesIfVisible(page) {
   }
 }
 
-async function main() {
-  const browser = await chromium.launch({
-    headless: true,
-  });
-
-  const context = await browser.newContext({
-    locale: "de-DE",
-    timezoneId: "Europe/Berlin",
-    userAgent:
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-      "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-  });
-
+async function scrapeTeamMatches(context, team) {
   const page = await context.newPage();
 
-  await page.goto(CLUB_URL, {
+  await page.goto(team.clubUrl, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
@@ -187,8 +165,10 @@ async function main() {
           );
         });
     },
-    TEAM_SLUG,
+    team.teamSlug,
   );
+
+  await page.close();
 
   const uniqueLinks = Array.from(
     new Map(rawLinks.map((link) => [link.href, link])).values(),
@@ -216,7 +196,7 @@ async function main() {
   const matches = [];
 
   for (const candidate of candidates) {
-    if (matches.length >= MAX_GAMES) break;
+    if (matches.length >= MAX_GAMES_PER_TEAM) break;
 
     await detailPage.goto(candidate.href, {
       waitUntil: "domcontentloaded",
@@ -240,29 +220,60 @@ async function main() {
     }
 
     const [homeTeam, awayTeam] = parts;
+    const competitionHeading = await detailPage
+      .locator('a[href*="/league/"] h2, a[href*="/cup/"] h2')
+      .first().innerText().catch(() => "");
+    const { competition, matchday } = parseCompetitionHeading(competitionHeading);
+    if (!competition || !matchday) {
+      console.warn(`Liga oder Spieltag nicht verfügbar: ${candidate.href}`);
+    }
     const bodyText = await detailPage.locator("body").innerText().catch(() => "");
     const venue = extractVenue(bodyText);
     const scrapedMapsUrl = await extractMapsUrl(detailPage).catch(() => "");
-
-    if (
-      normalizeTeamName(homeTeam) !== normalizeTeamName(TEAM_NAME) &&
-      normalizeTeamName(awayTeam) !== normalizeTeamName(TEAM_NAME)
-    ) {
-      continue;
-    }
 
     matches.push({
       date: candidate.date,
       time: candidate.time,
       homeTeam,
       awayTeam,
+      competition,
+      matchday,
+      isHome: isHomeMatch(candidate.href, team.teamSlug),
       venue,
       matchUrl: candidate.href,
       mapsUrl: scrapedMapsUrl || buildGoogleMapsSearchUrl(venue),
     });
   }
 
+  await detailPage.close();
+
+  return matches;
+}
+
+async function main() {
+  const browser = await chromium.launch({
+    headless: true,
+  });
+
+  const context = await browser.newContext({
+    locale: "de-DE",
+    timezoneId: "Europe/Berlin",
+    userAgent:
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+      "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  });
+
+  const matchesByTeam = [];
+
+  for (const team of TEAMS) {
+    matchesByTeam.push(await scrapeTeamMatches(context, team));
+  }
+
   await browser.close();
+
+  const matches = matchesByTeam
+    .flat()
+    .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
 
   const termine = matches.map((match, index) => createTermin(match, index + 1));
 

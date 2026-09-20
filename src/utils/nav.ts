@@ -66,4 +66,12 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: "Galerie", to: "/galerie" },
+  {
+    label: "Oktoberfest",
+    to: "/oktoberfest",
+    children: [
+      { label: "Glücksrad", to: "/oktoberfest" },
+      { label: "Fotocontest", to: "/fotocontest" },
+    ],
+  },
 ];

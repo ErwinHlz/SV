@@ -1,5 +1,72 @@
 {
-  "last": null,
-  "live": null,
-  "next": null
+  "teamOne": {
+    "last": {
+      "heimmannschaft": "Ottweiler",
+      "gastmannschaft": "Otzenhausen",
+      "ergebnis": "4:2",
+      "bild_heim": "/team-logos/sv-ottweiler.svg",
+      "bild_gast": "/team-logos/otzenhausen.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-09-11",
+      "uhrzeit": "19:15",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-vfr-otzenhausen-m1-260911"
+    },
+    "live": {
+      "heimmannschaft": "SG Nahe",
+      "gastmannschaft": "Ottweiler",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/sg-nahe.png",
+      "bild_gast": "/team-logos/sv-ottweiler.svg",
+      "ort": "Matz-Arena Neunkirchen/Nahe",
+      "datum": "2026-09-20",
+      "uhrzeit": "15:00",
+      "match_url": "https://www.fupa.net/match/sg-neunkirchen-selbach-m1-sv-ottweiler-m1-260920"
+    },
+    "next": {
+      "heimmannschaft": "Ottweiler",
+      "gastmannschaft": "Freisen II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/sv-ottweiler.svg",
+      "bild_gast": "/team-logos/freisen-2.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-09-27",
+      "uhrzeit": "15:00",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-fc-freisen-m2-260927"
+    }
+  },
+  "teamTwo": {
+    "last": {
+      "heimmannschaft": "Ottweiler II",
+      "gastmannschaft": "SG Hirstein-Mosberg",
+      "ergebnis": "1:1",
+      "bild_heim": "/team-logos/sv-ottweiler.svg",
+      "bild_gast": "/team-logos/sg-hirstein-mosberg.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-09-13",
+      "uhrzeit": "13:15",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-tus-hirstein-m1-260913"
+    },
+    "live": {
+      "heimmannschaft": "Hofeld",
+      "gastmannschaft": "Ottweiler II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/hofeld.png",
+      "bild_gast": "/team-logos/sv-ottweiler.svg",
+      "ort": "Stadion Hofeld",
+      "datum": "2026-09-20",
+      "uhrzeit": "15:00",
+      "match_url": "https://www.fupa.net/match/sv-hofeld-m1-sv-ottweiler-m2-260920"
+    },
+    "next": {
+      "heimmannschaft": "Ottweiler II",
+      "gastmannschaft": "Hoof-Osterbr II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/sv-ottweiler.svg",
+      "bild_gast": "/team-logos/hoof-osterbr-2.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-09-22",
+      "uhrzeit": "19:00",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sg-hoof-osterbruecken-m2-260922"
+    }
+  }
 }

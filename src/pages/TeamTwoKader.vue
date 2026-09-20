@@ -6,7 +6,7 @@
 	>
 		<PageHero
 			class="team-page-hero"
-			:image="newsHero"
+			:image="teamTwoImage"
 			title="Unsere 2. Mannschaft"
 			lead="Kreisklasse A"
 			compact
@@ -40,7 +40,7 @@
 	import PageHero from "@/components/PageHero.vue";
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
-	import newsHero from "@/assets/header/background.png";
+	import teamTwoImage from "@/assets/Kader/team-2-kader.jpg";
 	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
 

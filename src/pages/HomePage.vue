@@ -3,13 +3,26 @@
     <section class="section section--hero">
       <div class="home-stage">
         <HeroComponent class="home-hero" />
-        <MatchHighlights class="home-highlights" />
+        <div class="home-highlights-group">
+          <MatchHighlights
+            class="home-highlights home-highlights--team-one"
+            team="teamOne" />
+          <MatchHighlights
+            class="home-highlights home-highlights--team-two"
+            team="teamTwo" />
+        </div>
       </div>
     </section>
 
-    <section class="section section--matches">
+    <section class="section section--matches section--matches-one">
       <div class="match-stage">
-        <MatchHighlights class="matches-page" />
+        <MatchHighlights class="matches-page" team="teamOne" />
+      </div>
+    </section>
+
+    <section class="section section--matches section--matches-two">
+      <div class="match-stage">
+        <MatchHighlights class="matches-page" team="teamTwo" />
       </div>
     </section>
 
@@ -55,19 +68,108 @@ import TermineSection from "../components/TermineSection.vue";
 
 .home-stage {
   width: 100%;
-  height: min(70dvh, calc(100dvh - var(--sv-header-height) - 32px));
+  height: min(82dvh, calc(100dvh - var(--sv-header-height) - 16px));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5dvh;
+  gap: 2.4dvh;
   position: relative;
-  top: -5dvh;
+  top: -2dvh;
 }
 
-.home-hero :deep(.heroRow) {
-  height: clamp(240px, 46dvh, 420px);
+:deep(.home-hero) {
+  height: clamp(280px, 46dvh, 460px);
   min-height: 0;
+}
+
+.home-highlights-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 80dvw;
+  max-width: 1400px;
+  align-items: center;
+}
+
+/* 1. Mannschaft: Letztes/Nächstes in Grau-Schwarz, Aktuell im
+   Original-Ton (siehe MatchHighlights.vue). 2. Mannschaft: Letztes/Nächstes
+   in Grau-Weiß, Aktuell im kräftigen Original-Gelb. */
+.home-highlights--team-one :deep(.match-card--last),
+.home-highlights--team-one :deep(.match-card--next),
+.section--matches-one :deep(.match-card--last),
+.section--matches-one :deep(.match-card--next) {
+  background: linear-gradient(135deg, #4a4a4a, #161616);
+}
+
+.home-highlights--team-two :deep(.match-card--last),
+.home-highlights--team-two :deep(.match-card--next),
+.section--matches-two :deep(.match-card--last),
+.section--matches-two :deep(.match-card--next) {
+  background: linear-gradient(135deg, #f2f2f2, #d4d4d4);
+  color: #1a1a1a;
+}
+
+.home-highlights--team-two :deep(.match-card--last) .match-label,
+.home-highlights--team-two :deep(.match-card--next) .match-label,
+.section--matches-two :deep(.match-card--last) .match-label,
+.section--matches-two :deep(.match-card--next) .match-label {
+  color: #1a1a1a;
+}
+
+.home-highlights--team-two :deep(.match-card--live),
+.section--matches-two :deep(.match-card--live) {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(147, 197, 253, 0.45),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #f7d84a, #e0b420);
+  color: #0a1330;
+}
+
+.home-highlights--team-two :deep(.match-card--live) .match-label,
+.section--matches-two :deep(.match-card--live) .match-label {
+  color: #0a1330;
+}
+
+/* Zwei gestapelte Streifen brauchen deutlich kompaktere Karten als der
+   ursprüngliche Einzel-Streifen, sonst passt der Inhalt nicht in die
+   verfügbare Höhe der Hero-Bühne. */
+.home-highlights-group :deep(.match-strip) {
+  width: 100%;
+  height: clamp(88px, 10dvh, 108px);
+}
+
+.home-highlights-group :deep(.match-card) {
+  padding: 5px 10px;
+}
+
+.home-highlights-group :deep(.match-label) {
+  font-size: 9px;
+}
+
+.home-highlights-group :deep(.team-logo) {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+}
+
+.home-highlights-group :deep(.team-name) {
+  font-size: 10px;
+}
+
+.home-highlights-group :deep(.match-score) {
+  font-size: 22px;
+}
+
+.home-highlights-group :deep(.match-center) {
+  min-width: 64px;
+}
+
+.home-highlights-group :deep(.match-meta) {
+  font-size: 9px;
 }
 
 .match-stage {
@@ -126,8 +228,15 @@ import TermineSection from "../components/TermineSection.vue";
 }
 
 @media (max-width: 640px) {
+  .section--matches-one::before {
+    content: "1. MANNSCHAFT";
+  }
+
+  .section--matches-two::before {
+    content: "2. MANNSCHAFT";
+  }
+
   .section--matches::before {
-    content: "AKTUELLE SPIELE";
     position: absolute;
     left: -6px;
     top: 50%;

@@ -15,11 +15,18 @@
   },
   "fupa": {
     "baseUrl": "https://www.fupa.net/",
-    "clubSlug": "fsg-ottweiler-steinbach",
-    "teamTwoSlug": "fsg-ottweiler-steinbach-m2",
-    "clubUrl": "https://www.fupa.net/club/fsg-ottweiler-steinbach",
-    "clubMatchesUrl": "https://www.fupa.net/club/fsg-ottweiler-steinbach/matches",
-    "leagueStandingUrl": "https://www.fupa.net/league/bezirksliga-ill/standing",
+    "clubSlug": "sv-ottweiler",
+    "teamOneSlug": "sv-ottweiler-m1",
+    "teamTwoSlug": "sv-ottweiler-m2",
+    "clubUrl": "https://www.fupa.net/club/sv-ottweiler",
+    "matchesUrls": {
+      "teamOne": "https://www.fupa.net/team/sv-ottweiler-m1-2026-27/matches",
+      "teamTwo": "https://www.fupa.net/team/sv-ottweiler-m2-2026-27/matches"
+    },
+    "leagueStandingUrls": {
+      "teamOne": "https://www.fupa.net/league/bezirksliga-blies/standing",
+      "teamTwo": "https://www.fupa.net/league/kreisliga-blies/standing"
+    },
     "privacyPolicyUrl": "https://www.fupa.net/about/privacy-policy",
     "widgetScriptUrl": "https://widget-api.fupa.net/vendor/widget.js?v1",
     "fallbackLabel": "SV Ottweiler auf FuPa",
@@ -57,7 +64,10 @@
     "privacyUrl": "https://www.fussball.de/privacy",
     "widgetScriptUrl": "https://www.fussball.de/widgets.js",
     "fallbackLabel": "fussball.de öffnen",
-    "spielberichteSourceUrl": "https://www.fussball.de/ugc.news/-/object-ref/01VUVFGMV0000000VS548984VU8N0U3U#!/",
+    "spielberichteSourceUrls": {
+      "teamOne": "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
+      "teamTwo": "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
+    },
     "widgets": {
       "about": {
         "tabelle": "6bdd5140-b8f6-4e0f-b8df-b098fee30e6e",
