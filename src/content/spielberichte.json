@@ -1,9 +1,55 @@
 {
-  "generated_at": "2026-09-20T22:31:59.885Z",
-  "source": "https://www.fussball.de/ugc.news/-/object-ref/01VUVFGMV0000000VS548984VU8N0U3U#!/",
-  "team": "FSG Ottweiler/Steinbach 2",
+  "generated_at": "2026-09-20T22:40:49.610Z",
+  "sources": [
+    "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
+    "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
+  ],
   "count": 10,
   "reports": [
+    {
+      "id": "03259TLAS8000000VS5489C0VSHMK3LU",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-09-20",
+      "datum_de": "20.09.2026",
+      "uhrzeit": "",
+      "titel": "SG Nahe bringt SV Ottweiler herbe Pleite bei",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SG Nahe",
+        "gastmannschaft": "SV Ottweiler",
+        "ergebnis": "5:2",
+        "halbzeit": "2:1",
+        "ort": "Nohfelden"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SG Nahe – SV Ottweiler, 5:2 (2:1), Nohfelden Einen klaren Sieger gab es in der Partie von SG Nahe gegen SV Ottweiler in Nohfelden, die 5:2 endete. Im Vorfeld war eine ausgeglichene Partie erwartet...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/03259TLAS8000000VS5489C0VSHMK3LU",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BOMG000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 20.09.2026 um 18:04 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SG Nahe – SV Ottweiler, 5:2 (2:1), Nohfelden\n\nEinen klaren Sieger gab es in der Partie von SG Nahe gegen SV Ottweiler in Nohfelden, die 5:2 endete. Im Vorfeld war eine ausgeglichene Partie erwartet worden, doch SG Nahe wusste zu überraschen.\n\nDas 1:0 in der ersten Minute brachte SV Ottweiler vermeintlich auf die Siegerstraße. SG Nahe gelang mithilfe von SV Ottweiler der Ausgleich, als Jan Axel Stürmer das Leder in das eigene Tor lenkte (3.). Das letzte Tor der turbulenten Startphase markierte Lukas Dewes in der 14. Minute. Bis zur Pause fiel kein weiteres Tor, sodass es schließlich mit unverändertem Ergebnis in die Kabinen ging. Eine starke Leistung zeigte Nicolas Huwig , der sich mit einem Doppelpack für SG Nahe beim Trainer empfahl (49./51.). Alessio Santalucia , der von der Bank für Jonas Hans kam, sollte für neue Impulse bei SV Ottweiler sorgen (50.). Der bisherige Spielverlauf lief nach dem Geschmack von Christopher Knapp, sodass die Situation es hergab, einen Doppelwechsel vorzunehmen: Nicolas Grafe und Christopher Knapp kamen für Dewes und Joshua Hartmann ins Spiel (61.). In der 67. Minute lenkte Stefan Fell den Ball zugunsten von SG Nahe ins eigene Netz. Kurz vor Ultimo war noch Santalucia zur Stelle und zeichnete für das zweite Tor von SV Ottweiler verantwortlich (85.). Am Ende stand SG Nahe als Sieger da und behielt die drei Punkte verdient zu Hause.\n\nMit drei Punkten im Gepäck schob sich das Heimteam in der Tabelle nach vorne und belegt jetzt den sechsten Tabellenplatz. Sechs Siege und zwei Niederlagen schmücken die aktuelle Bilanz von SG Nahe. In den letzten fünf Partien rief SG Nahe konsequent Leistung ab und holte zwölf Punkte.\n\nSV Ottweiler bekleidet mit 15 Zählern Tabellenposition sieben. Die letzten Resultate von SV Ottweiler konnten sich sehen lassen – zwölf Punkte aus fünf Partien.\n\nSG Nahe tritt am Freitag, den 25.09.2026, um 19:30 Uhr, bei 1. FC Niederkirchen an. Zwei Tage später (15:00 Uhr) empfängt SV Ottweiler FC Freisen 2 ."
+    },
+    {
+      "id": "0325AKHN9C000000VS5489BVVU7OHUMA",
+      "team": "FSG Ottweiler/Steinbach 2",
+      "typ": "Spielbericht",
+      "datum": "2026-09-20",
+      "datum_de": "20.09.2026",
+      "uhrzeit": "",
+      "titel": "Loch belohnt SV Hofeld – und schockt SV Ottweiler 2",
+      "wettbewerb": "Kreisliga A Blies",
+      "spiel": {
+        "heimmannschaft": "SV Hofeld",
+        "gastmannschaft": "SV Ottweiler 2",
+        "ergebnis": "3:2",
+        "halbzeit": "2:2",
+        "ort": "Namborn"
+      },
+      "kurztext": "Kreisliga A Blies: SV Hofeld – SV Ottweiler 2, 3:2 (2:2), Namborn Nichts zu holen gab es für SV Ottweiler 2 bei SV Hofeld . Das Team von Coach Thorsten Kunz erfreute seine Fans mit einem 3:2. Auf dem Papier hatte sich ei...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/0325AKHN9C000000VS5489BVVU7OHUMA",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316CE640K000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 20.09.2026 um 19:44 Uhr automatisch generiert)",
+      "text": "Kreisliga A Blies: SV Hofeld – SV Ottweiler 2, 3:2 (2:2), Namborn\n\nNichts zu holen gab es für SV Ottweiler 2 bei SV Hofeld . Das Team von Coach Thorsten Kunz erfreute seine Fans mit einem 3:2. Auf dem Papier hatte sich ein enges Match bereits abgezeichnet. Beim Blick auf das knappe Endergebnis wurde diese Erwartung letztlich bestätigt.\n\nFelix Benjamin Geis brachte den SV Hofeld in der vierten Minute ins Hintertreffen. SV Ottweiler 2 musste den Treffer von Christoph Baltes zum 1:1 hinnehmen (11.). Simon Fehr stellte die Weichen für den SV Hofeld auf Sieg, als er in Minute 16 mit dem 2:1 zur Stelle war. Joshua Collmar schoss für SV Ottweiler 2 in der 31. Minute das zweite Tor. In Durchgang zwei lief Julian Krämer anstelle von Jonas Pascal Paul für die Elf von Christian Stefan Eckstein auf. Der Schiedsrichter schickte schließlich beide Mannschaften ohne weitere Änderung am Spielstand in die Kabinen. Marius Loch brachte dem SV Hofeld nach 84 Minuten die 3:2-Führung. Als der Unparteiische Andreas Kaleja die Begegnung beim Stand von 3:2 letztlich abpfiff, hatte das Heimteam die drei Zähler unter Dach und Fach.\n\nIm Tableau hatte der Sieg des SV Hofeld keine Auswirkungen, es bleibt bei Platz fünf. In dieser Saison sammelte der SV Hofeld bisher drei Siege und kassierte vier Niederlagen.\n\nSV Ottweiler 2 nimmt mit acht Punkten den achten Tabellenplatz ein. Der Gast bleibt weiterhin ohne Niederlage. Bisher hat SV Ottweiler 2 zwei Siege und zwei Unentschieden auf dem Konto.\n\nNach dem dritten Fehlschlag am Stück ist der SV Hofeld weiter in Bedrängnis geraten. Gegen SV Ottweiler 2 war am Ende kein Kraut gewachsen.\n\nDer SV Hofeld ist am Sonntag (13:15 Uhr) bei SV Baltersweiler 2 zu Gast. Für SV Ottweiler 2 geht es am Dienstag zu Hause gegen SG Hoof/Osterbrücken 2 weiter."
+    },
     {
       "id": "031V7NGLEG000000VS5489BVVS9PGJMA",
       "team": "FSG Ottweiler/Steinbach",
