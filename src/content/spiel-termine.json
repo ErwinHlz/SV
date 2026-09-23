@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Heimspiel gegen Hoof-Osterbr II",
-    "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-09-22",
-    "time": "19:00",
-    "location": "Stadion Im Alten Weiher",
-    "content": "Anpfiff ist um 19:00 Uhr. Ottweiler II spielt gegen Hoof-Osterbr II. Spielort: Stadion Im Alten Weiher.",
-    "image": "matchTemplate",
-    "imageAlt": "Ottweiler II gegen Hoof-Osterbr II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "6. Spieltag",
-    "homeTeam": "Ottweiler II",
-    "awayTeam": "Hoof-Osterbr II",
-    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sg-hoof-osterbruecken-m2-260922",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Heimspiel gegen Namborn",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-09-27",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Heimspiel gegen Freisen II",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-09-27",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Auswärtsspiel gegen SG Bliesen-Winterbach",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-04",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Auswärtsspiel gegen Furschweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-04",
@@ -82,6 +65,23 @@
     "homeTeam": "Furschweiler",
     "awayTeam": "Ottweiler II",
     "externalUrl": "https://www.fupa.net/match/sv-furschweiler-m1-sv-ottweiler-m2-261004",
+    "mapsUrl": ""
+  },
+  {
+    "id": 5,
+    "title": "Auswärtsspiel gegen SG Eintracht Ostertal II",
+    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-10-10",
+    "time": "15:00",
+    "location": "Auswärts bei SG Eintracht Ostertal II",
+    "content": "Anpfiff ist um 15:00 Uhr. SG Eintracht Ostertal II spielt gegen Ottweiler II. Spielort: Auswärts bei SG Eintracht Ostertal II.",
+    "image": "matchTemplate",
+    "imageAlt": "SG Eintracht Ostertal II gegen Ottweiler II",
+    "competition": "Kreisliga A Blies",
+    "matchday": "11. Spieltag",
+    "homeTeam": "SG Eintracht Ostertal II",
+    "awayTeam": "Ottweiler II",
+    "externalUrl": "https://www.fupa.net/match/tus-fuerth-m2-sv-ottweiler-m2-261010",
     "mapsUrl": ""
   },
   {
