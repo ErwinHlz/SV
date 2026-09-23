@@ -35,17 +35,7 @@
     }
   },
   "teamTwo": {
-    "last": {
-      "heimmannschaft": "Hofeld",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "3:2",
-      "bild_heim": "/team-logos/hofeld.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Stadion Hofeld",
-      "datum": "2026-09-20",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/sv-hofeld-m1-sv-ottweiler-m2-260920"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Namborn",
