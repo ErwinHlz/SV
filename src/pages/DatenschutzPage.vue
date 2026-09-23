@@ -17,8 +17,8 @@
         </p>
         <p>
           E-Mail:
-          <a href="mailto:erwinholzhauser.eh@gmail.com">
-            erwinholzhauser.eh@gmail.com
+          <a href="mailto:info@svottweiler.de">
+            info@svottweiler.de
           </a>
         </p>
         <p>

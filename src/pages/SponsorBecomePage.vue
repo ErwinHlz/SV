@@ -282,7 +282,7 @@ const sponsorPackages = [
   },
 ];
 
-const sponsorContactEmail = "platzhalter@example.de";
+const sponsorContactEmail = "info@svottweiler.de";
 
 const sponsorForm = ref({
   name: "",

@@ -42,15 +42,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>4. Vereinsregister</h2>
-        <p>
-          Eingetragen im Vereinsregister.<br />
-          Bitte Registergericht und Registernummer ergänzen.
-        </p>
-      </section>
-
-      <section class="legal-section">
-        <h2>5. Verantwortlich für den Inhalt</h2>
+        <h2>4. Verantwortlich für den Inhalt</h2>
         <p>
           Verantwortlich für die redaktionellen Inhalte nach Paragraf 18 Abs. 2
           MStV:
@@ -63,7 +55,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>6. Haftung für Inhalte</h2>
+        <h2>5. Haftung für Inhalte</h2>
         <p>
           Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt
           erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der
@@ -79,7 +71,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>7. Haftung für Links</h2>
+        <h2>6. Haftung für Links</h2>
         <p>
           Diese Website enthält Links zu externen Websites Dritter. Auf deren
           Inhalte haben wir keinen Einfluss. Deshalb können wir für diese
@@ -90,7 +82,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>8. Urheberrecht</h2>
+        <h2>7. Urheberrecht</h2>
         <p>
           Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen
           dem deutschen Urheberrecht. Jede Verwertung ausserhalb der Grenzen des
@@ -101,12 +93,11 @@
       </section>
 
       <section class="legal-section">
-        <h2>9. Hinweis</h2>
+        <h2>8. Hinweis</h2>
         <p>
-          Bitte prüfe vor dem Livegang insbesondere Vereinsname, Anschrift,
-          Vertretungsregelung, Registergericht, Registernummer und
-          Kontaktangaben. Diese Platzhalter müssen durch die tatsächlichen
-          Angaben des Vereins ersetzt werden.
+          Sobald das Registergericht und die Registernummer des Vereins
+          bekannt sind, muss ein Abschnitt "Vereinsregister" mit diesen
+          Angaben ergänzt werden.
         </p>
       </section>
     </div>

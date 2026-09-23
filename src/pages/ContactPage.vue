@@ -80,7 +80,7 @@
 
 	const contactHero = getGalleryPlaceholder("hero:/contact");
 
-	const contactEmail = "erwinholzhauser.eh@gmail.com";
+	const contactEmail = "info@svottweiler.de";
 
 	const contactForm = ref({
 		name: "",
