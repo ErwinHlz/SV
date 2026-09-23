@@ -1,7 +1,6 @@
 <template>
 	<PageHero
 		v-if="terminItem"
-		:image="terminItem.image"
 		:title="terminItem.title"
 		:lead="`${formatDate(terminItem.date)} | ${terminItem.time} | ${terminItem.location}`"
 		kicker="Termin"

@@ -1,7 +1,10 @@
 <template>
 	<div class="news-stage">
 		<div class="section-header">
-			<h2 class="section-title">Neuste News</h2>
+			<h2 class="section-title">
+				<span class="section-title-desktop">Neuste News</span>
+				<span class="section-title-mobile">News</span>
+			</h2>
 			<RouterLink to="/news" class="section-cta" aria-label="Alle News">
 				<Newspaper :size="22" :stroke-width="2.2" aria-hidden="true" />
 			</RouterLink>
@@ -53,6 +56,10 @@
 		text-transform: uppercase;
 	}
 
+	.section-title-mobile {
+		display: none;
+	}
+
 	.section-cta {
 		display: inline-flex;
 		align-items: center;
@@ -87,38 +94,72 @@
 
 	@media (max-width: 900px) {
 		.news-stage {
+			position: relative;
 			height: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			padding-top: calc(var(--sv-header-height) + 18px);
-			box-sizing: border-box;
 		}
 
 		.section-header {
-			width: calc(100dvw - 32px);
-			flex: 0 0 auto;
+			position: absolute;
+			top: calc(var(--sv-header-height) + 18px);
+			left: 16px;
+			right: 16px;
+			z-index: 2;
+			width: auto;
+			margin: 0;
+			pointer-events: none;
+		}
+
+		.section-title {
+			text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+		}
+
+		.section-cta {
+			pointer-events: auto;
 		}
 
 		:deep(.news-row) {
-			flex: 1;
-			height: auto;
+			width: 100%;
+			max-width: none;
+			height: 100%;
 			min-height: 0;
 		}
 	}
 
 	@media (max-width: 640px) {
-		.news-stage {
-			padding-top: calc(var(--sv-header-height) + 14px);
-		}
-
 		.section-header {
-			width: calc(100dvw - 28px);
-			margin-bottom: 14px;
+			display: contents;
 		}
 
 		.section-title {
-			font-size: 22px;
+			position: absolute;
+			left: -6px;
+			top: 50%;
+			transform: translateY(-50%) rotate(180deg);
+			writing-mode: vertical-rl;
+			letter-spacing: 0.04em;
+			font-family: "Marker Felt", "Brush Script MT", "Segoe Print", cursive;
+			font-size: 7.4dvh;
+			line-height: 0.9;
+			font-weight: 800;
+			opacity: 0.42;
+			z-index: 3;
+			text-shadow: none;
+			pointer-events: none;
+		}
+
+		.section-title-desktop {
+			display: none;
+		}
+
+		.section-title-mobile {
+			display: inline;
+		}
+
+		.section-cta {
+			position: absolute;
+			top: calc(var(--sv-header-height) + 14px);
+			right: 14px;
+			z-index: 2;
 		}
 	}
 </style>

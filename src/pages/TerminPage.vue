@@ -2,7 +2,6 @@
 	<div class="termine-page-flow">
 		<PageHero
 			class="termine-page-hero"
-			:image="termineHero"
 			title="Termine"
 			lead="Alle Spiele, Events und Vereinsaktivitäten auf einen Blick."
 		>
@@ -107,7 +106,6 @@ import MatchTerminPoster from "@/components/MatchTerminPoster.vue";
 	import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 	import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 	import PageHero from "@/components/PageHero.vue";
-	import termineHero from "@/assets/header/background.png";
 	import { formatDate } from "@/utils/date";
 	import { getTerminItems, type TerminEntry } from "@/utils/contentEntries";
 

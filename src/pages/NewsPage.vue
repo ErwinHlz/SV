@@ -2,7 +2,6 @@
   <div class="news-page-flow">
     <PageHero
       class="news-page-hero"
-      :image="newsHero"
       title="News"
       lead="Aktuelle Meldungen rund um den Verein, die Teams und Events.">
       <p class="news-mobile-scroll-hint">Nach unten scrollen</p>
@@ -76,7 +75,6 @@ import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vu
 import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 import PageHero from "@/components/PageHero.vue";
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
-import newsHero from "@/assets/news/stock_news_1.png";
 import { formatDate } from "@/utils/date";
 import { getNewsItems, type NewsEntry } from "@/utils/contentEntries";
 

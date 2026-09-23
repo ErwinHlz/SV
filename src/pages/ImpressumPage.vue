@@ -33,10 +33,10 @@
       <section class="legal-section">
         <h2>3. Kontakt</h2>
         <p>
-          Telefon: Bitte Telefonnummer eintragen<br />
+          Telefon: 06824 1499<br />
           E-Mail:
-          <a href="mailto:">
-            svottweiler@ottweiler.de
+          <a href="mailto:info@svottweiler.de">
+            info@svottweiler.de
           </a>
         </p>
       </section>

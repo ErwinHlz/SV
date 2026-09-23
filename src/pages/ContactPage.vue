@@ -76,7 +76,9 @@
 
 <script setup lang="ts">
 	import { ref } from "vue";
-	import contactHero from "@/assets/header/background.png";
+	import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
+
+	const contactHero = getGalleryPlaceholder("hero:/contact");
 
 	const contactEmail = "erwinholzhauser.eh@gmail.com";
 

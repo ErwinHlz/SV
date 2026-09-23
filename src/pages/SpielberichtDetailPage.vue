@@ -1,7 +1,6 @@
 <template>
   <PageHero
     v-if="spielbericht"
-    :image="spielbericht.image"
     :title="spielbericht.title"
     :lead="`${formatDate(spielbericht.date)} | ${spielbericht.time} Uhr | ${spielbericht.competition}`"
     kicker="Spielbericht"

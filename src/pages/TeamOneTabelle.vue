@@ -6,7 +6,6 @@
 	>
 		<PageHero
 			class="team-page-hero"
-			:image="newsHero"
 			title="Unsere 1. Mannschaft"
 			lead="Bezirksliga Ill/Theel"
 			compact
@@ -30,7 +29,6 @@
 	import PageHero from "@/components/PageHero.vue";
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
-	import newsHero from "@/assets/header/background.png";
 	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
 

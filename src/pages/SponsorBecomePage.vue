@@ -1,7 +1,6 @@
 <template>
   <main class="sponsor-become-page">
     <PageHero
-      :image="sponsorHero"
       title="Sponsor werden"
       lead="Gemeinsam stärken wir den Verein und den Fußball vor Ort."
       kicker="Partner werden" />
@@ -205,7 +204,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import PageHero from "@/components/PageHero.vue";
-import sponsorHero from "@/assets/header/background.png";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
 
 const offerPoints = [

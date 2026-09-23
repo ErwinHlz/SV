@@ -70,14 +70,14 @@
     "items": [
       {
         "id": "greenkeeper",
-        "name": "Johannes",
+        "name": "Johannes Häckelmann",
         "role": "Greenkeeper",
         "image": "stadionHero",
         "imageAlt": "Greenkeeper am Sportplatz"
       },
       {
         "id": "wirtin",
-        "name": "Anne",
+        "name": "Anne Pfordt",
         "role": "Wirtin",
         "image": "stadionHero",
         "imageAlt": "Wirtin im Vereinsheim"

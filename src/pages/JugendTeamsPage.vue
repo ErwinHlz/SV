@@ -1,7 +1,6 @@
 <template>
   <main class="youth-page">
     <PageHero
-      :image="youthHero"
       :title="hero.title"
       :lead="hero.lead"
       kicker="Jugendfussball"

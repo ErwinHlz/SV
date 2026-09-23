@@ -6,9 +6,9 @@
 	>
 		<PageHero
 			class="team-page-hero"
-			:image="teamTwoImage"
 			title="Unsere 2. Mannschaft"
 			lead="Kreisklasse A"
+			:image="teamTwoPhoto"
 			compact
 		/>
 		<TeamOneNav base-path="/teams/two" team-label="2. Mannschaft" />
@@ -40,9 +40,9 @@
 	import PageHero from "@/components/PageHero.vue";
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
-	import teamTwoImage from "@/assets/Kader/team-2-kader.jpg";
 	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
+	import teamTwoPhoto from "@/assets/Kader/team-2-kader.jpg";
 
 	const { onTouchEnd, onTouchStart } = useTeamViewSwipe("/teams/two");
 </script>

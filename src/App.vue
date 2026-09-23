@@ -21,7 +21,9 @@ const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
 const isOktoberfestPage = computed(() => route.path === "/oktoberfest");
 const isFotocontestPage = computed(() => route.path === "/fotocontest");
 const isMembershipPage = computed(() => route.path === "/mitglied-werden");
-const isDatenschutzPage = computed(() => route.path === "/datenschutz");
+const isLegalPage = computed(() =>
+  ["datenschutz", "impressum"].includes(String(route.name ?? "")),
+);
 const isContactPage = computed(() => route.path === "/contact");
 const isContentDetailPage = computed(() =>
   ["news-detail", "termine-detail", "spielbericht-detail"].includes(
@@ -51,7 +53,7 @@ const disablePageSnap = computed(
     isFotocontestPage.value ||
     isMembershipPage.value ||
     isContactPage.value ||
-    isDatenschutzPage.value ||
+    isLegalPage.value ||
     isContentDetailPage.value,
 );
 // Snap on the document so mobile Safari owns the vertical scroll gesture.

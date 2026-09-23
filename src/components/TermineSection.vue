@@ -1,7 +1,10 @@
 <template>
   <div class="termine-stage">
     <div class="section-header">
-      <h2 class="section-title">Nächste Termine</h2>
+      <h2 class="section-title">
+        <span class="section-title-desktop">Nächste Termine</span>
+        <span class="section-title-mobile">Termine</span>
+      </h2>
       <RouterLink to="/termine" class="section-cta" aria-label="Alle Termine">
         <CalendarDays :size="22" :stroke-width="2.2" aria-hidden="true" />
       </RouterLink>
@@ -70,6 +73,10 @@ const rowItems = computed(() =>
   font-size: clamp(24px, 2.5vw, 30px);
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.section-title-mobile {
+  display: none;
 }
 
 .section-cta {
@@ -159,38 +166,72 @@ const rowItems = computed(() =>
 
 @media (max-width: 900px) {
   .termine-stage {
+    position: relative;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: calc(var(--sv-header-height) + 18px);
-    box-sizing: border-box;
   }
 
   .section-header {
-    width: calc(100dvw - 32px);
-    flex: 0 0 auto;
+    position: absolute;
+    top: calc(var(--sv-header-height) + 18px);
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    width: auto;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .section-title {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .section-cta {
+    pointer-events: auto;
   }
 
   :deep(.termine-row) {
-    flex: 1;
-    height: auto;
+    width: 100%;
+    max-width: none;
+    height: 100%;
     min-height: 0;
   }
 }
 
 @media (max-width: 640px) {
-  .termine-stage {
-    padding-top: calc(var(--sv-header-height) + 14px);
-  }
-
   .section-header {
-    width: calc(100dvw - 28px);
-    margin-bottom: 14px;
+    display: contents;
   }
 
   .section-title {
-    font-size: 22px;
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.04em;
+    font-family: "Marker Felt", "Brush Script MT", "Segoe Print", cursive;
+    font-size: 7.4dvh;
+    line-height: 0.9;
+    font-weight: 800;
+    opacity: 0.42;
+    z-index: 3;
+    text-shadow: none;
+    pointer-events: none;
+  }
+
+  .section-title-desktop {
+    display: none;
+  }
+
+  .section-title-mobile {
+    display: inline;
+  }
+
+  .section-cta {
+    position: absolute;
+    top: calc(var(--sv-header-height) + 14px);
+    right: 14px;
+    z-index: 2;
   }
 
   .kicker {

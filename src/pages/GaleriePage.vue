@@ -2,7 +2,6 @@
   <div class="gallery-page">
     <PageHero
       class="gallery-page-hero"
-      :image="galleryHero"
       title="Galerie"
       lead="Ein paar Eindruecke aus dem Vereinsumfeld" />
 
@@ -45,7 +44,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import PageHero from "@/components/PageHero.vue";
-import galleryHero from "@/assets/spielberichte/stock_spielberichte_3.png";
 
 type GalleryImage = {
   src: string;

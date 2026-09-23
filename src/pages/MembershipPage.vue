@@ -2,10 +2,20 @@
   <section class="membership-page">
     <div class="membership-shell">
       <header class="membership-header">
-        <p class="membership-header__eyebrow">Sportverein Ottweiler 1919 e.V.</p>
-        <h1 class="membership-header__title">
-          MITGLIEDSANTRAG / ÄNDERUNGSANTRAG
-        </h1>
+        <div class="membership-header__top">
+          <div class="membership-header__intro">
+            <p class="membership-header__eyebrow">Sportverein Ottweiler 1919 e.V.</p>
+            <h1 class="membership-header__title">
+              MITGLIEDSANTRAG / ÄNDERUNGSANTRAG
+            </h1>
+          </div>
+          <button
+            type="button"
+            class="membership-secondary-btn membership-header__blank-btn"
+            @click="printBlankApplication">
+            Leeren Antrag als PDF öffnen
+          </button>
+        </div>
         <p class="membership-header__lead">
           Bitte den Antrag gut leserlich ausfüllen und an den Sportverein
           Ottweiler 1919 e.V. per eMail oder postalisch zurücksenden.
@@ -16,28 +26,31 @@
         class="membership-form"
         novalidate
         @submit.prevent="printFilledApplication">
-        <section class="membership-block">
-          <div class="membership-block__header">
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
             <h2 class="membership-section-title">1. Antragsart</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
+            <div class="membership-options membership-options--three">
+              <label class="membership-option" v-for="option in requestTypeOptions" :key="option.value">
+                <input
+                  v-model="membershipForm.requestType"
+                  type="radio"
+                  name="requestType"
+                  :value="option.value" />
+                <span>{{ option.label }}</span>
+              </label>
+            </div>
           </div>
+        </details>
 
-          <div class="membership-options membership-options--three">
-            <label class="membership-option" v-for="option in requestTypeOptions" :key="option.value">
-              <input
-                v-model="membershipForm.requestType"
-                type="radio"
-                name="requestType"
-                :value="option.value" />
-              <span>{{ option.label }}</span>
-            </label>
-          </div>
-        </section>
-
-        <section class="membership-block">
-          <div class="membership-block__header">
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
             <h2 class="membership-section-title">2. Mitgliedsdaten</h2>
-          </div>
-
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <div class="membership-grid membership-grid--two">
             <label class="membership-label">
               <span class="membership-label__text membership-label__text--required">Familienname</span>
@@ -68,8 +81,8 @@
                 name="gender"
                 :class="{ 'is-invalid': showValidation && !membershipForm.gender }"
                 required>
-                <option value="" disabled>Bitte waehlen</option>
-                <option value="maennlich">Maennlich</option>
+                <option value="" disabled>Bitte wählen</option>
+                <option value="maennlich">Männlich</option>
                 <option value="weiblich">Weiblich</option>
                 <option value="divers">Divers</option>
               </select>
@@ -86,7 +99,7 @@
             </label>
 
             <label>
-              Nationalitaet
+              Nationalität
               <input
                 v-model="membershipForm.nationality"
                 type="text"
@@ -154,16 +167,18 @@
                 v-model="membershipForm.guardianName"
                 type="text"
                 name="guardianName"
-                placeholder="bei Minderjaehrigen" />
+                placeholder="bei Minderjährigen" />
             </label>
           </div>
-        </section>
-
-        <section class="membership-block">
-          <div class="membership-block__header">
-            <h2 class="membership-section-title">MEINE MITGLIEDSCHAFT UND JAHRESBEITRAG</h2>
           </div>
+        </details>
 
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
+            <h2 class="membership-section-title">MEINE MITGLIEDSCHAFT UND JAHRESBEITRAG</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <div class="membership-options membership-options--four">
             <label class="membership-option" v-for="option in membershipTypeOptions" :key="option.value">
               <input
@@ -180,7 +195,7 @@
             v-if="membershipForm.membershipType === 'support'"
             class="membership-grid membership-grid--two membership-subgrid">
             <label class="membership-label">
-              <span class="membership-label__text membership-label__text--required">Foerderbeitrag in EUR</span>
+              <span class="membership-label__text membership-label__text--required">Förderbeitrag in EUR</span>
               <input
                 v-model="membershipForm.supportAmount"
                 type="number"
@@ -191,13 +206,15 @@
                 placeholder="mindestens 100" />
             </label>
           </div>
-        </section>
-
-        <section class="membership-block">
-          <div class="membership-block__header">
-            <h2 class="membership-section-title">BEITRAGSZAHLUNG</h2>
           </div>
+        </details>
 
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
+            <h2 class="membership-section-title">BEITRAGSZAHLUNG</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <div class="membership-subsection membership-subsection--flush">
             <div class="membership-options membership-options--three">
               <label class="membership-option" v-for="option in paymentFrequencyOptions" :key="option.value">
@@ -211,15 +228,18 @@
               </label>
             </div>
           </div>
-        </section>
-
-        <section
-          v-if="membershipForm.membershipType === 'family'"
-          class="membership-block">
-          <div class="membership-block__header">
-            <h2 class="membership-section-title">4. Weitere Familienmitglieder</h2>
           </div>
+        </details>
 
+        <details
+          v-if="membershipForm.membershipType === 'family'"
+          class="membership-accordion"
+          open>
+          <summary class="membership-accordion__header">
+            <h2 class="membership-section-title">4. Weitere Familienmitglieder</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <div class="membership-family-list">
             <div
               v-for="(member, index) in membershipForm.familyMembers"
@@ -259,15 +279,17 @@
             type="button"
             class="membership-secondary-btn"
             @click="addFamilyMember">
-            Familienmitglied hinzufuegen
+            Familienmitglied hinzufügen
           </button>
-        </section>
-
-        <section class="membership-block">
-          <div class="membership-block__header">
-            <h2 class="membership-section-title">Einzugsermächtigung u. SEPA-Lastschriftmandat</h2>
           </div>
+        </details>
 
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
+            <h2 class="membership-section-title">Einzugsermächtigung u. SEPA-Lastschriftmandat</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <p class="membership-copy">
             Hiermit ermächtige(n) ich/wir den Zahlungsempfänger Sportverein
             Ottweiler 1919 e.V. widerruflich, die von mir/uns zu entrichtenden
@@ -367,13 +389,15 @@
                 required />
             </label>
           </div>
-        </section>
-
-        <section class="membership-block membership-block--final">
-          <div class="membership-block__header">
-            <h2 class="membership-section-title">Mit der Unterschrift dieser Anmeldung wird die Vereinssatzung und die Anmerkungen auf der Rückseite anerkannt.</h2>
           </div>
+        </details>
 
+        <details class="membership-accordion" open>
+          <summary class="membership-accordion__header">
+            <h2 class="membership-section-title">Mit der Unterschrift dieser Anmeldung wird die Vereinssatzung und die Anmerkungen auf der Rückseite anerkannt.</h2>
+            <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+          </summary>
+          <div class="membership-accordion__body">
           <div class="membership-checks">
             <label class="membership-check">
               <input
@@ -399,7 +423,7 @@
                 type="checkbox"
                 :class="{ 'is-invalid': showValidation && !membershipForm.acceptPrivacy }"
                 required />
-              <span>Ich stimme der Speicherung und Verarbeitung meiner Daten fuer die Vereinsverwaltung zu.</span>
+              <span>Ich stimme der Speicherung und Verarbeitung meiner Daten für die Vereinsverwaltung zu.</span>
             </label>
           </div>
 
@@ -410,9 +434,6 @@
               werden.
             </p>
             <div class="membership-submit-actions">
-              <button type="button" class="membership-secondary-btn" @click="printBlankApplication">
-                Leeren Antrag als PDF öffnen
-              </button>
               <button type="submit" class="membership-primary-btn">
                 Ausgefüllten Antrag als PDF öffnen
               </button>
@@ -421,19 +442,22 @@
           <p v-if="showValidation && !isFormValid" class="membership-error-text">
             Bitte alle Pflichtfelder korrekt ausfüllen.
           </p>
-        </section>
+          </div>
+        </details>
       </form>
 
-      <section class="membership-notice" aria-labelledby="membership-notice-title">
-        <div class="membership-notice__intro">
-          <h2 id="membership-notice-title" class="membership-section-title">
+      <details class="membership-accordion membership-notice" open>
+        <summary class="membership-accordion__header">
+          <h2 class="membership-section-title">
             DER SPORTVEREIN OTTWEILER 1919 e.V. HEISST SIE ALS NEUES
             VEREINSMITGLIED HERZLICH WILLKOMMEN!
           </h2>
-          <p class="membership-copy">
-            Bitte beachten Sie beim Ausfüllen des Antrages folgende Punkte:
-          </p>
-        </div>
+          <ChevronDown class="membership-accordion__chevron" :size="20" :stroke-width="2.2" aria-hidden="true" />
+        </summary>
+        <div class="membership-accordion__body">
+        <p class="membership-copy">
+          Bitte beachten Sie beim Ausfüllen des Antrages folgende Punkte:
+        </p>
 
         <div class="membership-rules">
           <div class="membership-rule-item"><span class="membership-rule-number">1.</span><span>Bei den Beitragszahlungen handelt es sich um Jahresbeiträge. Diese beziehen sich auf ein Kalenderjahr.</span></div>
@@ -451,13 +475,14 @@
         </div>
 
         <div class="membership-notice__meta">
-          <p><strong>SEPA-Glaeubiger-ID:</strong> DE86SVO00000775603</p>
+          <p><strong>SEPA-Gläubiger-ID:</strong> DE86SVO00000775603</p>
           <p>
             <strong>Hinweis:</strong> Innerhalb von acht Wochen kann ab
             Belastungsdatum die Erstattung des belasteten Betrags verlangt werden.
           </p>
         </div>
-      </section>
+        </div>
+      </details>
     </div>
 
     <div class="membership-print-root" :class="{ 'membership-print-root--active': printMode !== null }">
@@ -540,7 +565,7 @@
         <h2 class="print-section-title">MEINE MITGLIEDSCHAFT UND JAHRESBEITRAG</h2>
         <div class="print-checkbox-grid print-checkbox-grid--four">
           <div>{{ printableCheckbox(membershipForm.membershipType === "adult") }} Erwachsener 84,- EUR</div>
-          <div>{{ printableCheckbox(membershipForm.membershipType === "youth") }} Jugdl. bis 18 Jahre 72,- EUR</div>
+          <div>{{ printableCheckbox(membershipForm.membershipType === "youth") }} Jgdl. bis 18 Jahre 72,- EUR</div>
           <div>{{ printableCheckbox(membershipForm.membershipType === "family") }} Familie 132,- EUR</div>
           <div>{{ printableCheckbox(membershipForm.membershipType === "support") }} Fördermitgliedschaft: ab 100,- EUR {{ printableSupportAmount }}</div>
         </div>
@@ -611,8 +636,8 @@
 
         <div class="print-footer-contacts">
           <div><strong>1. Vorsitzender</strong>Sascha Gutheil<br />Marc-Chagall-Str. 14<br />66564 Ottweiler<br />Tel. (06826) 2080032</div>
-          <div><strong>2. Vorsitzender</strong>Matthias Thuil<br />Auguste-Renoir-Str. 9<br />66564 Ottweiler<br />Tel. (06824) 5819</div>
-          <div><strong>Hauptkasse</strong>Jochen Kranz<br />In den Langen Gärten 48<br />66564 Ottweiler<br />Tel. 06824 1416</div>
+          <div><strong>2. Vorsitzender</strong>Matthias Thull<br />Auguste-Renoir-Str. 9<br />66564 Ottweiler<br />Tel. (06824) 5819</div>
+          <div><strong>Hauptkasse</strong>Jochen Kranz<br />In den Langen Gärten 48<br />66564 Ottweiler<br />Tel. (06824) 1416</div>
           <div><strong>Bankverbindung</strong>Sparkasse Neunkirchen<br />IBAN: DE94 5925 2046 0000 0225 35<br />BIC SALA DE 51 NKS</div>
         </div>
       </section>
@@ -644,7 +669,7 @@
 
         <div class="print-footer-contacts print-footer-contacts--bottom">
           <div><strong>1. Vorsitzender</strong>Sascha Gutheil<br />Marc-Chagall-Str. 14<br />66564 Ottweiler<br />Tel. (06826) 2080032</div>
-          <div><strong>2. Vorsitzender</strong>Matthias Thuil<br />Auguste-Renoir-Str. 9<br />66564 Ottweiler<br />Tel. (06824) 5819</div>
+          <div><strong>2. Vorsitzender</strong>Matthias Thull<br />Auguste-Renoir-Str. 9<br />66564 Ottweiler<br />Tel. (06824) 5819</div>
           <div><strong>Hauptkasse</strong>Jochen Kranz<br />In den Langen Gärten 48<br />66564 Ottweiler<br />Tel. (06824) 1416</div>
           <div><strong>Bankverbindung</strong>Sparkasse Neunkirchen<br />IBAN: DE94 5925 2046 0000 0225 35<br />BIC SALA DE 51 NKS</div>
         </div>
@@ -655,6 +680,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref } from "vue";
+import { ChevronDown } from "@lucide/vue";
 import printLogo from "@/assets/sv_logo_farbe.svg";
 
 type FamilyMember = {
@@ -684,7 +710,7 @@ const requestTypeOptions = [
 
 const membershipTypeOptions = [
   { value: "adult", label: "Erwachsener 84,- EUR" },
-  { value: "youth", label: "Jugdl. bis 18 Jahre 72,- EUR" },
+  { value: "youth", label: "Jgdl. bis 18 Jahre 72,- EUR" },
   { value: "family", label: "Familie 132,- EUR" },
   { value: "support", label: "Fördermitgliedschaft: ab 100,- EUR" },
 ];
@@ -808,7 +834,7 @@ const printFilledApplication = () => {
     membershipForm.value.membershipType === "support" &&
     Number(membershipForm.value.supportAmount || 0) < 100
   ) {
-    window.alert("Bei der Foerdermitgliedschaft bitte mindestens 100 EUR eintragen.");
+    window.alert("Bei der Fördermitgliedschaft bitte mindestens 100 EUR eintragen.");
     return;
   }
   printMode.value = "filled";
@@ -881,38 +907,43 @@ const printableFamilyMembers = computed(() => {
 }
 
 .membership-shell {
-  width: min(980px, 100%);
+  width: min(940px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 22px;
-}
-
-.membership-header,
-.membership-notice,
-.membership-block {
-  box-sizing: border-box;
-  background: rgba(7, 18, 44, 0.86);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
+  gap: 16px;
 }
 
 .membership-header {
-  padding: 28px 30px 24px;
+  box-sizing: border-box;
+  padding: 0 0 4px;
+}
+
+.membership-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.membership-header__blank-btn {
+  flex-shrink: 0;
+  margin-top: 0;
 }
 
 .membership-header__eyebrow {
-  margin: 0 0 0.6rem;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.8rem;
+  margin: 0 0 0.4rem;
+  color: var(--sv-secondary-color);
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .membership-header__title {
   margin: 0;
-  font-size: clamp(2rem, 4.4vw, 3.3rem);
-  line-height: 1;
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  line-height: 1.05;
   letter-spacing: -0.03em;
   text-wrap: balance;
   overflow-wrap: anywhere;
@@ -920,53 +951,47 @@ const printableFamilyMembers = computed(() => {
 
 .membership-header__lead,
 .membership-copy {
-  margin: 0.9rem 0 0;
+  margin: 0.7rem 0 0;
   color: rgba(255, 255, 255, 0.82);
-  line-height: 1.65;
-}
-
-.membership-notice,
-.membership-block {
-  padding: 24px 30px 28px;
-}
-
-.membership-notice__intro {
-  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
 .membership-section-title {
   margin: 0;
-  font-size: clamp(1.35rem, 2.8vw, 2rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .membership-rules {
   margin: 0;
   display: grid;
-  gap: 0.8rem;
-  line-height: 1.6;
+  gap: 0.65rem;
+  line-height: 1.55;
+  font-size: 0.92rem;
   color: rgba(255, 255, 255, 0.86);
 }
 
 .membership-rule-item {
   display: grid;
-  grid-template-columns: 26px 1fr;
+  grid-template-columns: 24px 1fr;
   gap: 10px;
   align-items: start;
 }
 
 .membership-rule-number {
   font-weight: 800;
-  color: #f4d047;
+  color: var(--sv-secondary-color);
 }
 
 .membership-notice__meta {
-  margin-top: 1.2rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(16, 24, 40, 0.12);
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.82);
-  line-height: 1.6;
+  line-height: 1.55;
+  font-size: 0.92rem;
 }
 
 .membership-notice__meta p {
@@ -975,18 +1000,56 @@ const printableFamilyMembers = computed(() => {
 
 .membership-form {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
-.membership-block__header {
-  margin-bottom: 1rem;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px solid rgba(16, 24, 40, 0.1);
+.membership-accordion {
+  box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 16px 0 6px;
+}
+
+.membership-form > .membership-accordion:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.membership-accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 0 0 4px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.membership-accordion__header::-webkit-details-marker {
+  display: none;
+}
+
+.membership-accordion__header::marker {
+  content: "";
+}
+
+.membership-accordion__chevron {
+  flex-shrink: 0;
+  color: var(--sv-secondary-color);
+  transition: transform 0.2s ease;
+}
+
+.membership-accordion[open] > .membership-accordion__header .membership-accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.membership-accordion__body {
+  padding-top: 10px;
 }
 
 .membership-grid {
   display: grid;
-  gap: 16px 18px;
+  gap: 12px 16px;
 }
 
 .membership-grid--two {
@@ -1003,10 +1066,10 @@ const printableFamilyMembers = computed(() => {
 
 .membership-form label {
   display: grid;
-  gap: 8px;
-  font-size: 0.95rem;
+  gap: 6px;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--sv-text-color);
   min-width: 0;
 }
 
@@ -1016,7 +1079,7 @@ const printableFamilyMembers = computed(() => {
 
 .membership-label__text--required::after {
   content: " *";
-  color: #ff6b6b;
+  color: #ff8f8f;
 }
 
 .membership-form input,
@@ -1024,17 +1087,19 @@ const printableFamilyMembers = computed(() => {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 0;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  color: var(--sv-text-color);
   font: inherit;
+  font-size: 0.92rem;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
 
 .membership-form select {
-  color: #ffffff;
+  color: var(--sv-text-color);
 }
 
 .membership-form select option {
@@ -1042,14 +1107,14 @@ const printableFamilyMembers = computed(() => {
 }
 
 .membership-form input::placeholder {
-  color: rgba(255, 255, 255, 0.52);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .membership-form input:focus,
 .membership-form select:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.64);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  border-color: rgba(244, 208, 71, 0.55);
+  box-shadow: 0 0 0 3px rgba(244, 208, 71, 0.14);
 }
 
 .membership-form input.is-invalid,
@@ -1060,7 +1125,7 @@ const printableFamilyMembers = computed(() => {
 
 .membership-options {
   display: grid;
-  gap: 10px 18px;
+  gap: 8px 12px;
 }
 
 .membership-options--three {
@@ -1075,42 +1140,53 @@ const printableFamilyMembers = computed(() => {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  min-height: 44px;
-  padding: 0;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
   font-weight: 500;
-  color: #ffffff;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  color: var(--sv-text-color);
+  line-height: 1.4;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.membership-option:has(input:checked) {
+  border-color: rgba(244, 208, 71, 0.55);
+  background: rgba(244, 208, 71, 0.1);
 }
 
 .membership-option input,
 .membership-check input {
-  width: 18px;
-  height: 18px;
-  min-height: 18px;
-  margin: 0;
+  width: 17px;
+  height: 17px;
+  min-height: 17px;
+  margin: 1px 0 0;
+  accent-color: var(--sv-secondary-color);
   box-shadow: none;
 }
 
 .membership-subsection,
 .membership-subgrid {
-  margin-top: 1rem;
+  margin-top: 0.8rem;
 }
 
 .membership-subtitle {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--sv-text-color);
 }
 
 .membership-family-list {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .membership-family-row {
-  padding: 16px 0 0;
-  border-top: 1px solid rgba(16, 24, 40, 0.1);
+  padding: 12px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .membership-family-row:first-child {
@@ -1123,43 +1199,56 @@ const printableFamilyMembers = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.7rem;
 }
 
 .membership-link-btn {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #f4d047;
+  color: var(--sv-secondary-color);
   font: inherit;
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
 }
 
 .membership-secondary-btn,
 .membership-primary-btn {
-  min-height: 48px;
-  padding: 0 20px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-height: 42px;
+  padding: 0 18px;
+  border: 2px solid transparent;
+  border-radius: 999px;
   font: inherit;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
 .membership-secondary-btn {
-  margin-top: 1rem;
+  margin-top: 0.8rem;
+  border-color: rgba(255, 255, 255, 0.32);
   background: transparent;
-  color: #ffffff;
+  color: var(--sv-text-color);
+}
+
+.membership-secondary-btn:hover {
+  border-color: var(--sv-secondary-color);
 }
 
 .membership-primary-btn {
-  background: #f4d047;
+  background: var(--sv-secondary-color);
   color: #07122c;
+}
+
+.membership-primary-btn:hover {
+  background: #ffe28a;
 }
 
 .membership-checks {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .membership-check {
@@ -1168,7 +1257,8 @@ const printableFamilyMembers = computed(() => {
   align-items: start;
   gap: 10px;
   color: rgba(255, 255, 255, 0.86);
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .membership-check input.is-invalid {
@@ -1177,9 +1267,9 @@ const printableFamilyMembers = computed(() => {
 }
 
 .membership-submit-row {
-  margin-top: 1.2rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(16, 24, 40, 0.1);
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1189,18 +1279,20 @@ const printableFamilyMembers = computed(() => {
 .membership-submit-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .membership-submit-row__text {
   margin: 0;
+  font-size: 0.88rem;
 }
 
 .membership-error-text {
-  margin: 1rem 0 0;
+  margin: 0.8rem 0 0;
   color: #ff8f8f;
   font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .membership-print-root {
@@ -1467,7 +1559,6 @@ const printableFamilyMembers = computed(() => {
     width: 100%;
   }
 
-  .membership-submit-actions .membership-secondary-btn,
   .membership-submit-actions .membership-primary-btn {
     flex: 1 1 100%;
   }
@@ -1476,12 +1567,6 @@ const printableFamilyMembers = computed(() => {
 @media (max-width: 640px) {
   .membership-page {
     padding: 18px 12px 36px;
-  }
-
-  .membership-header,
-  .membership-notice,
-  .membership-block {
-    padding: 18px 16px 20px;
   }
 
   .membership-header__title {

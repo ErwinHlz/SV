@@ -163,15 +163,11 @@ function getWeekRanges() {
   const daysSinceMonday = day === 0 ? 6 : day - 1;
 
   const currentWeekStart = addDays(today, -daysSinceMonday);
-  const previousWeekStart = addDays(currentWeekStart, -7);
   const nextWeekStart = addDays(currentWeekStart, 7);
-  const weekAfterNextStart = addDays(currentWeekStart, 14);
 
   return {
-    previousWeekStart,
     currentWeekStart,
     nextWeekStart,
-    weekAfterNextStart,
   };
 }
 
@@ -191,31 +187,14 @@ function matchDateTime(match) {
 }
 
 function pickGamesByWeek(matches) {
-  const {
-    previousWeekStart,
-    currentWeekStart,
-    nextWeekStart,
-    weekAfterNextStart,
-  } = getWeekRanges();
+  const { currentWeekStart, nextWeekStart } = getWeekRanges();
 
   const sorted = matches
     .filter((match) => match.datum)
     .sort((a, b) => matchDateTime(a) - matchDateTime(b));
 
-  const previousWeekMatches = sorted.filter((match) =>
-    isInRange(
-      dateOnlyFromISO(match.datum),
-      previousWeekStart,
-      currentWeekStart,
-    ),
-  );
-
   const currentWeekMatches = sorted.filter((match) =>
     isInRange(dateOnlyFromISO(match.datum), currentWeekStart, nextWeekStart),
-  );
-
-  const nextWeekMatches = sorted.filter((match) =>
-    isInRange(dateOnlyFromISO(match.datum), nextWeekStart, weekAfterNextStart),
   );
 
   const now = new Date();
@@ -224,18 +203,33 @@ function pickGamesByWeek(matches) {
     (match) => matchDateTime(match) >= now,
   );
 
-  return {
-    // Letztes Spiel aus der Vorwoche
-    last: previousWeekMatches.at(-1) ?? null,
+  // Aktueller Spieltag:
+  // Vor Spielbeginn: Spiel dieser Woche mit -:-
+  // Nach Spielende / Ergebnis: Spiel dieser Woche mit Ergebnis
+  const live = futureCurrentWeekMatch ?? currentWeekMatches.at(-1) ?? null;
 
-    // Aktueller Spieltag:
-    // Vor Spielbeginn: Spiel dieser Woche mit -:-
-    // Nach Spielende / Ergebnis: Spiel dieser Woche mit Ergebnis
-    live: futureCurrentWeekMatch ?? currentWeekMatches.at(-1) ?? null,
+  // Wichtig: "Letztes"/"Naechstes" relativ zum gewaehlten `live`-Spiel (statt
+  // strikt an der Kalenderwoche) bestimmen. Sonst geht ein bereits
+  // gespieltes Nachholspiel unter der Woche verloren, sobald in derselben
+  // Kalenderwoche noch ein zweites (kuenftiges) Spiel ansteht: das
+  // Nachholspiel faellt weder in "letzte Woche" (last) noch wird es als
+  // `live` gewaehlt (das ist ja das kuenftige Spiel) - es verschwindet
+  // komplett statt als "Letztes" zu erscheinen.
+  const referenceTime = live ? matchDateTime(live).getTime() : now.getTime();
 
-    // Erstes Spiel der nächsten Woche
-    next: nextWeekMatches[0] ?? null,
-  };
+  const last =
+    sorted
+      .filter(
+        (match) => match !== live && matchDateTime(match).getTime() < referenceTime,
+      )
+      .at(-1) ?? null;
+
+  const next =
+    sorted.find(
+      (match) => match !== live && matchDateTime(match).getTime() > referenceTime,
+    ) ?? null;
+
+  return { last, live, next };
 }
 
 async function acceptCookiesIfVisible(page) {

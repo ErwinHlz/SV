@@ -1,7 +1,6 @@
 <template>
   <PageHero
     class="stadion-page-hero"
-    :image="stadionHero"
     :title="hero.title"
     :lead="hero.lead" />
 
@@ -67,6 +66,33 @@
     </div>
   </section>
 
+  <section class="stadion-section" aria-label="Unser Team am Stadion">
+    <header class="section-header">
+      <h2 class="section-title">{{ people.title }}</h2>
+    </header>
+    <div class="stadion-people__grid">
+      <article
+        v-for="person in personCards"
+        :key="person.id"
+        class="stadion-people__card">
+        <div class="stadion-people__photo">
+          <img
+            v-if="person.image"
+            :src="person.image"
+            :alt="person.imageAlt"
+            loading="lazy" />
+          <span v-else class="stadion-people__fallback">
+            <DummySilhouette />
+          </span>
+        </div>
+        <div class="stadion-people__caption">
+          <p class="stadion-people__name">{{ person.name }}</p>
+          <p class="stadion-people__role">{{ person.role }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="stadion-section" aria-label="Anfahrt">
     <header class="section-header">
       <h2 class="section-title">{{ map.title }}</h2>
@@ -102,6 +128,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight, MapPinned } from "@lucide/vue";
+import DummySilhouette from "@/components/DummySilhouette.vue";
 import ExternalContentPlaceholder from "@/components/ExternalContentPlaceholder.vue";
 import PageHero from "@/components/PageHero.vue";
 import { useCookieConsent } from "@/composables/useCookieConsent";
@@ -132,6 +159,14 @@ type StadionGalleryItem = {
   caption?: string;
 };
 
+type StadionPerson = {
+  id: string;
+  name: string;
+  role: string;
+  image?: string;
+  imageAlt?: string;
+};
+
 type StadionContent = {
   hero: {
     title: string;
@@ -146,10 +181,14 @@ type StadionContent = {
     items: StadionGalleryItem[];
   };
   map: StadionMap;
+  people: {
+    title: string;
+    items: StadionPerson[];
+  };
 };
 
 const stadionContent = rawStadion as StadionContent;
-const { hero, facts, gallery, map } = stadionContent;
+const { hero, facts, gallery, map, people } = stadionContent;
 const { hasExternalMediaConsent } = useCookieConsent();
 
 const imageMap: Record<string, string> = {
@@ -164,6 +203,14 @@ const galleryItems = gallery.items.map((item, index) => ({
   ...item,
   image: item.image ? imageMap[item.image] ?? item.image : stadionHero,
   imageAlt: item.imageAlt ?? item.caption ?? `Stadion Bild ${index + 1}`,
+}));
+
+const hasPersonPhoto = (image?: string) => Boolean(image && image !== "stadionHero");
+
+const personCards = people.items.map((person) => ({
+  ...person,
+  image: hasPersonPhoto(person.image) ? imageMap[person.image!] ?? person.image : undefined,
+  imageAlt: person.imageAlt ?? person.name,
 }));
 
 const activeSlide = ref(0);
@@ -407,6 +454,77 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
+.stadion-people__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 240px));
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.stadion-people__card {
+  display: grid;
+  box-sizing: border-box;
+  gap: 12px;
+  padding: 0.8rem 0.8rem 1.2rem;
+  background: rgba(255, 253, 248, 0.94);
+  color: #101828;
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
+  transform: rotate(-1deg);
+}
+
+.stadion-people__card:nth-child(even) {
+  transform: rotate(1.2deg);
+}
+
+.stadion-people__card:nth-child(3n) {
+  transform: rotate(-0.4deg);
+}
+
+.stadion-people__photo {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f0e9d9;
+}
+
+.stadion-people__photo img,
+.stadion-people__fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.stadion-people__photo img {
+  object-fit: cover;
+}
+
+.stadion-people__fallback {
+  color: #022b79;
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.stadion-people__caption {
+  display: grid;
+  gap: 4px;
+  padding-top: 0.9rem;
+  text-align: center;
+}
+
+.stadion-people__name,
+.stadion-people__role {
+  margin: 0;
+}
+
+.stadion-people__name {
+  font-weight: 800;
+}
+
+.stadion-people__role {
+  color: rgba(17, 17, 17, 0.6);
+  font-size: 0.92rem;
+}
+
 .map-frame {
   width: 100%;
   height: clamp(320px, 58vh, 520px);
@@ -457,10 +575,6 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 720px) {
-  .stadion-page-hero {
-    display: none;
-  }
-
   .stadion-section {
     width: calc(100dvw - 24px);
     min-height: 100svh;

@@ -6,9 +6,9 @@
 	>
 		<PageHero
 			class="team-page-hero"
-			:image="teamOneImage"
 			title="Unsere 1. Mannschaft"
 			lead="Bezirksliga Ill/Theel"
+			:image="teamOnePhoto"
 			compact
 		/>
 		<TeamOneNav />
@@ -40,9 +40,9 @@
 	import PageHero from "@/components/PageHero.vue";
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
-	import teamOneImage from "@/assets/Kader/team-1-kader.jpg";
 	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
+	import teamOnePhoto from "@/assets/Kader/team-1-kader.jpg";
 
 	const { onTouchEnd, onTouchStart } = useTeamViewSwipe("/teams/one");
 </script>

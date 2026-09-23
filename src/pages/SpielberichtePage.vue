@@ -2,7 +2,6 @@
   <div class="spielberichte-page-flow">
     <PageHero
       class="spielberichte-page-hero"
-      :image="spielberichteHero"
       title="Spielberichte"
       lead="Die aktuellen Spielberichte der FSG Ottweiler/Steinbach im Bereich Aktuelles.">
       <p class="spielberichte-mobile-scroll-hint">Nach unten scrollen</p>
@@ -81,7 +80,6 @@ import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vu
 import MatchSpielberichtPoster from "@/components/MatchSpielberichtPoster.vue";
 import PageHero from "@/components/PageHero.vue";
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
-import spielberichteHero from "@/assets/header/background.png";
 import { formatDate } from "@/utils/date";
 import { getSpielberichtItems } from "@/utils/contentEntries";
 

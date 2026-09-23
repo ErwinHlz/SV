@@ -13,19 +13,24 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { computed } from "vue";
+import gesamtkader from "@/assets/Kader/gesamtkader.jpg";
+
+const props = withDefaults(
   defineProps<{
-    image: string;
     title: string;
     lead: string;
     kicker?: string;
     compact?: boolean;
+    image?: string;
   }>(),
   {
     kicker: "SV Ottweiler",
     compact: false,
   },
 );
+
+const image = computed(() => props.image ?? gesamtkader);
 </script>
 
 <style scoped>

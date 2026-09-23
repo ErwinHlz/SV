@@ -1,7 +1,6 @@
 <template>
   <main class="verein-page">
     <PageHero
-      :image="vereinHero"
       title="Willkommen bei dem SV Ottweiler"
       :lead="hero.lead"
       kicker="Unser Verein" />

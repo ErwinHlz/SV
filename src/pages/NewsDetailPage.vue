@@ -2,7 +2,6 @@
   <PageHero
     v-if="newsItem"
     class="news-detail-hero"
-    :image="newsDetailHero"
     :title="newsItem.title"
     :lead="formatDate(newsItem.date)"
     kicker="News"
@@ -184,7 +183,6 @@
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
-import newsDetailHero from "@/assets/news/stock_news_2.png";
 import { findNewsBySlug, type NewsMediaItem } from "@/utils/contentEntries";
 import { formatDate } from "@/utils/date";
 import { ensureInstagramEmbedScriptLoaded } from "@/composables/useCookieConsent";

@@ -1,7 +1,6 @@
 <template>
 	<PageHero
 		class="sponsor-page-hero"
-		:image="sponsorHero"
 		title="Sponsoren"
 		lead="Danke an alle Partner, die unseren Verein unterstützen."
 	/>
@@ -68,7 +67,6 @@
 	import { computed } from "vue";
 	import { ArrowRight, ExternalLink, Handshake } from "@lucide/vue";
 	import PageHero from "@/components/PageHero.vue";
-	import sponsorHero from "@/assets/header/background.png";
 	import { getSponsors } from "@/utils/sponsors";
 
 	const sponsors = computed(() => getSponsors());

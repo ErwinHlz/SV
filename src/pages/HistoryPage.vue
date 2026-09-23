@@ -2,7 +2,6 @@
   <main class="history-page">
     <PageHero
       class="history-hero"
-      :image="historyHero"
       title="Historie"
       lead="Die Geschichte des SV Ottweiler 1919 als Zeitstrahl mit den wichtigsten Stationen des Vereins."
       kicker="SV Ottweiler 1919" />
@@ -154,7 +153,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import PageHero from "@/components/PageHero.vue";
-import historyHero from "@/assets/header/background.png";
 import rawTimelineEntries from "@/content/history-timeline.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
