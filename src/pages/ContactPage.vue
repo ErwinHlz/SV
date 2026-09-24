@@ -90,7 +90,7 @@
 	});
 
 const handleContactSubmit = () => {
-  const subject = `Kontaktanfrage - ${contactForm.value.subject}`;
+  const subject = contactForm.value.subject;
   const body = [
     contactForm.value.message,
     "",

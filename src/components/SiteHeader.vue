@@ -828,6 +828,7 @@ onBeforeUnmount(() => {
 .logo {
   display: inline-flex;
   justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 110;
   transform: translateY(25%);
@@ -846,10 +847,17 @@ onBeforeUnmount(() => {
   border-radius: 50%;
 }
 
+.logo-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 .logo :deep(svg) {
   width: 98%;
   height: 98%;
-  align-self: center;
   display: block;
 }
 
