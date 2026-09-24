@@ -8,7 +8,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Matz-Arena Neunkirchen/Nahe",
       "datum": "2026-09-20",
-      "uhrzeit": "15:00",
+      "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sg-neunkirchen-selbach-m1-sv-ottweiler-m1-260920"
     },
     "live": {
@@ -19,7 +19,7 @@
       "bild_gast": "/team-logos/freisen-2.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-09-27",
-      "uhrzeit": "15:00",
+      "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-fc-freisen-m2-260927"
     },
     "next": {
@@ -30,7 +30,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Sportverein Bliesen",
       "datum": "2026-10-04",
-      "uhrzeit": "15:00",
+      "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sv-bliesen-m1-sv-ottweiler-m1-261004"
     }
   },
@@ -43,7 +43,7 @@
       "bild_gast": "/team-logos/hoof-osterbr-2.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-09-22",
-      "uhrzeit": "19:00",
+      "uhrzeit": "17:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sg-hoof-osterbruecken-m2-260922"
     },
     "live": {
@@ -54,7 +54,7 @@
       "bild_gast": "/team-logos/namborn.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-09-27",
-      "uhrzeit": "13:00",
+      "uhrzeit": "11:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-namborn-m1-260927"
     },
     "next": {
@@ -65,7 +65,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Sportplatz Furschweiler",
       "datum": "2026-10-04",
-      "uhrzeit": "15:00",
+      "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sv-furschweiler-m1-sv-ottweiler-m2-261004"
     }
   }
