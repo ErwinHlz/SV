@@ -1,11 +1,33 @@
 {
-  "generated_at": "2026-09-27T04:44:30.253Z",
+  "generated_at": "2026-09-28T04:46:13.989Z",
   "sources": [
     "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
     "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
   ],
-  "count": 9,
+  "count": 10,
   "reports": [
+    {
+      "id": "0327HJGI80000000VS5489BVVU1UKJFK",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-09-27",
+      "datum_de": "27.09.2026",
+      "uhrzeit": "",
+      "titel": "SV Ottweiler holt Remis – dank Sardo",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SV Ottweiler",
+        "gastmannschaft": "FC Freisen 2",
+        "ergebnis": "1:1",
+        "halbzeit": "0:1",
+        "ort": "Ottweiler"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SV Ottweiler – FC Freisen 2, 1:1 (0:1), Ottweiler Als klarer Favorit musste SV Ottweiler einen Dämpfer hinnehmen und kam gegen FC Freisen 2 nicht über ein 1:1-Remis hinaus. Die Wetten standen zwar...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/0327HJGI80000000VS5489BVVU1UKJFK",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BO40000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 27.09.2026 um 17:06 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SV Ottweiler – FC Freisen 2, 1:1 (0:1), Ottweiler\n\nAls klarer Favorit musste SV Ottweiler einen Dämpfer hinnehmen und kam gegen FC Freisen 2 nicht über ein 1:1-Remis hinaus. Die Wetten standen zwar zugunsten von SV Ottweiler. Der Favorit heimste die Lorbeeren aber nicht ein.\n\nFür Eloy Michel Campos Alcantara war der Einsatz nach acht Minuten vorbei. Für ihn wurde Luca Mario Ruppenthal eingewechselt. Giovanni Staudt brachte FC Freisen 2 in der 29. Minute in Front. Nach nur 30 Minuten verließ Finn Eckstein von SV Ottweiler das Feld, Marc Haupert kam in die Partie. Mit der knappen Führung von FC Freisen 2 pfiff der Schiedsrichter zur Halbzeit. Für frischen Wind sollte Einwechselmann Giuseppe Sardo sorgen, dem Stephan Horst Schock das Vertrauen schenkte (59.). Giuseppe Sardo war zur Stelle und markierte das 1:1 von SV Ottweiler (60.). Dietmar Korn setzte auf neues Personal und brachte per Doppelwechsel Jonas Werle und Maximilian Schmitt auf den Platz (69.). Mit dem Abpfiff des Referees Oliver Sperber trennten sich SV Ottweiler und FC Freisen 2 remis.\n\nNach neun absolvierten Begegnungen nimmt SV Ottweiler den siebten Platz in der Tabelle ein. Mit 40 geschossenen Toren gehört das Heimteam offensiv zur Crème de la Crème der Bezirksliga Blies/Nahe. Fünf Siege, ein Remis und drei Niederlagen tragen zur Momentaufnahme von SV Ottweiler bei.\n\nFC Freisen 2 muss sich ohne Zweifel um die eigene Abwehr kümmern. Im Schnitt kassierte das Team mehr als fünf Gegentreffer pro Spiel. Die Gäste finden sich derzeit in der unteren Tabellenhälfte wieder: Rang zwölf. 14:46 – das Torverhältnis von FC Freisen 2 spricht eine mehr als deutliche Sprache. FC Freisen 2 verbuchte insgesamt zwei Siege, ein Remis und sechs Niederlagen. Der Ertrag der vergangenen fünf Spiele ist überschaubar bei FC Freisen 2. Von 15 möglichen Zählern holte man nur drei.\n\nNächster Prüfstein für SV Ottweiler ist auf gegnerischer Anlage SG Bliesen-Winterbach (Sonntag, 15:00 Uhr). Tags zuvor misst sich FC Freisen 2 mit dem 1. FC Niederkirchen ."
+    },
     {
       "id": "03259TLAS8000000VS5489C0VSHMK3LU",
       "team": "FSG Ottweiler/Steinbach",
