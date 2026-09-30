@@ -131,6 +131,11 @@ const router = createRouter({
       component: FotocontestPage,
     },
     {
+      path: "/spassgalerie",
+      name: "spassgalerie",
+      component: FotocontestPage,
+    },
+    {
       path: "/mitglied-werden",
       name: "mitglied-werden",
       component: MembershipPage,

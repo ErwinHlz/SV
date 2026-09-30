@@ -19,7 +19,7 @@ const isHistoryPage = computed(() => route.path === "/historie");
 const isGalleryPage = computed(() => route.path === "/galerie");
 const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
 const isOktoberfestPage = computed(() => route.path === "/oktoberfest");
-const isFotocontestPage = computed(() => route.path === "/fotocontest");
+const isFotocontestPage = computed(() => ["/fotocontest", "/spassgalerie"].includes(route.path));
 const isMembershipPage = computed(() => route.path === "/mitglied-werden");
 const isLegalPage = computed(() =>
   ["datenschutz", "impressum"].includes(String(route.name ?? "")),

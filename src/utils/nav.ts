@@ -72,6 +72,7 @@ export const NAV: NavItem[] = [
     children: [
       { label: "Glücksrad", to: "/oktoberfest" },
       { label: "Fotocontest", to: "/fotocontest" },
+      { label: "Spaßgalerie", to: "/spassgalerie" },
     ],
   },
 ];

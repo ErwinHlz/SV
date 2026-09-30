@@ -5,6 +5,15 @@
       <h1 class="oktoberfest-title">Oktoberfest</h1>
     </header>
 
+    <section class="oktoberfest-prices" aria-labelledby="prices-title">
+      <h2 id="prices-title">Preisliste</h2>
+      <dl>
+        <div><dt>Longdrink</dt><dd>{{ formatPrice(OKTOBERFEST_PRICES.longdrink) }}</dd></div>
+        <div><dt>Shot</dt><dd>{{ formatPrice(OKTOBERFEST_PRICES.shot) }}</dd></div>
+        <div><dt>Glücksrad · pro Dreh</dt><dd>{{ formatPrice(OKTOBERFEST_PRICES.spin) }}</dd></div>
+      </dl>
+    </section>
+
     <section class="oktoberfest-wheel-section" aria-label="Glücksrad">
       <GlucksradWheel />
     </section>
@@ -13,6 +22,7 @@
 
 <script setup lang="ts">
 import GlucksradWheel from "@/components/GlucksradWheel.vue";
+import { OKTOBERFEST_PRICES, formatPrice } from "@/utils/oktoberfestPrices";
 </script>
 
 <style scoped>
@@ -46,6 +56,39 @@ import GlucksradWheel from "@/components/GlucksradWheel.vue";
   margin: 0;
   font-size: clamp(28px, 4.2vw, 48px);
   font-weight: 800;
+}
+
+.oktoberfest-prices {
+  width: min(480px, 100%);
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.oktoberfest-prices h2 {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--sv-secondary-color);
+}
+
+.oktoberfest-prices dl {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.oktoberfest-prices dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.oktoberfest-prices dd {
+  margin: 0;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .oktoberfest-wheel-section {

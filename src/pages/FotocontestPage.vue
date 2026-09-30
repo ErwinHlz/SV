@@ -2,21 +2,29 @@
   <div class="fotocontest-page">
     <header class="fotocontest-header">
       <p class="fotocontest-eyebrow">SV Ottweiler · Oktoberfest</p>
-      <h1 class="fotocontest-title">Fotocontest</h1>
-      <p class="fotocontest-lead">
+      <h1 class="fotocontest-title">{{ activeTab === "contest" ? "Fotocontest" : "Spaßgalerie" }}</h1>
+      <p v-if="activeTab === 'contest'" class="fotocontest-lead">
         Lade dein schönstes Oktoberfest-Foto hoch und stimme für deine
         Favoriten aus den Einsendungen anderer Besucher ab.
       </p>
+      <p v-else class="fotocontest-lead">
+        Lustige Schnappschüsse und schöne Momente – teile deine Fotos einfach
+        zum Spaß. Hier kannst du mehrere Bilder nacheinander hochladen.
+      </p>
     </header>
 
-    <section class="fotocontest-section" aria-label="Fotocontest">
-      <PhotoContestSection />
+    <section class="fotocontest-section" :aria-label="activeTab === 'gallery' ? 'Spaßgalerie' : 'Fotocontest'">
+      <PhotoContestSection :key="activeTab" :mode="activeTab" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { computed, defineAsyncComponent } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const activeTab = computed(() => route.name === "spassgalerie" ? "gallery" : "contest");
 
 // Lazy-loaded: pulls in the Firebase SDK, which only visitors of this page
 // should have to download.

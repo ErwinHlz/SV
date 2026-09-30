@@ -11,7 +11,7 @@ service cloud.firestore {
 
       allow create:
         if photoId == request.resource.data.deviceId
-        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'votes', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'votes', 'createdAt', 'publicDisplayConsent', 'socialMediaConsent', 'consentVersion'])
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
         && request.resource.data.name.size() <= 60
@@ -21,6 +21,9 @@ service cloud.firestore {
         && request.resource.data.storagePath.matches('fotocontest/.*')
         && request.resource.data.deviceId is string
         && request.resource.data.deviceId.size() > 0
+        && request.resource.data.publicDisplayConsent == true
+        && request.resource.data.socialMediaConsent is bool
+        && request.resource.data.consentVersion == 1
         && request.resource.data.votes == 0
         && request.resource.data.createdAt == request.time;
 
@@ -37,6 +40,31 @@ service cloud.firestore {
       // Nur das Geraet, dessen ID der Dokument-ID entspricht, kann sein
       // eigenes Foto wieder entfernen (gleiches Prinzip wie bei /votes).
       allow delete: if photoId == resource.data.deviceId;
+    }
+
+    // Freie Galerie: eigene Sammlung, mehrere Fotos pro Geraet, keine Stimmen.
+    match /spassgalerie/{photoId} {
+      allow read: if true;
+
+      allow create:
+        if photoId.matches(request.resource.data.deviceId + '_.*')
+        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'createdAt', 'publicDisplayConsent', 'socialMediaConsent', 'consentVersion'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.imageUrl is string
+        && request.resource.data.imageUrl.size() > 0
+        && request.resource.data.storagePath is string
+        && request.resource.data.storagePath.matches('spassgalerie/' + photoId + '([.][^/]+)?')
+        && request.resource.data.deviceId is string
+        && request.resource.data.deviceId.matches('[a-zA-Z0-9-]+')
+        && request.resource.data.publicDisplayConsent == true
+        && request.resource.data.socialMediaConsent is bool
+        && request.resource.data.consentVersion == 1
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if false;
+      allow delete: if photoId.matches(resource.data.deviceId + '_.*');
     }
 
     // Eine Stimme pro Foto und Geraet: die Dokument-ID kodiert beides, ein

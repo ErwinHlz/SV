@@ -18,6 +18,16 @@ service firebase.storage {
       allow update: if false;
     }
 
+    // Eigener Ordner fuer die freie Galerie; jedes Foto hat einen neuen Namen.
+    match /spassgalerie/{fileName} {
+      allow read: if true;
+      allow create:
+        if request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if true;
+      allow update: if false;
+    }
+
     match /{allPaths=**} {
       allow read, write: if false;
     }

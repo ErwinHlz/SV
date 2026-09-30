@@ -1,6 +1,6 @@
 <template>
   <div class="contest-card">
-    <form v-if="!myPhoto" class="contest-form" @submit.prevent="submitPhoto">
+    <form v-if="isGallery || !myPhoto" class="contest-form" @submit.prevent="submitPhoto">
       <label class="contest-field">
         <span class="contest-field-label">Dein Name</span>
         <input
@@ -34,9 +34,37 @@
           ref="fileInputRef"
           type="file"
           accept="image/*"
+          :disabled="uploading"
           class="contest-dropzone-input"
           aria-label="Foto auswählen"
           @change="onFileChange" />
+      </div>
+
+      <div class="contest-consents">
+        <label class="contest-consent">
+          <input
+            v-model="publicDisplayConsent"
+            type="checkbox"
+            required
+            :disabled="uploading" />
+          <span>
+            Ich stimme zu, dass mein Foto {{ isGallery ? "in der Spaßgalerie" : "im Fotocontest" }} auf dieser Website
+            veröffentlicht wird und für alle Besucherinnen und Besucher sichtbar
+            ist. (Pflichtfeld)
+          </span>
+        </label>
+        <label class="contest-consent">
+          <input
+            v-model="socialMediaConsent"
+            type="checkbox"
+            :disabled="uploading" />
+          <span>
+            Ich erlaube dem SV Ottweiler, mein Foto auch in Kurzvideos auf den
+            Social-Media-Kanälen des Vereins zu verwenden und zu veröffentlichen.
+            Diese Zustimmung ist freiwillig und keine Voraussetzung für die
+            {{ isGallery ? "Veröffentlichung in der Spaßgalerie" : "Teilnahme am Fotocontest" }}.
+          </span>
+        </label>
       </div>
 
       <p v-if="errorMessage" class="contest-error">{{ errorMessage }}</p>
@@ -51,13 +79,13 @@
         type="submit"
         class="contest-btn contest-btn--primary"
         :disabled="uploading">
-        {{ uploading ? `Lädt hoch… ${uploadProgress}%` : "Foto einreichen" }}
+        {{ uploading ? `Lädt hoch… ${uploadProgress}%` : (isGallery ? "Foto hochladen" : "Foto einreichen") }}
       </button>
 
       <p v-if="successMessage" class="contest-success">{{ successMessage }}</p>
     </form>
 
-    <div v-if="myPhoto" class="contest-own-notice">
+    <div v-if="!isGallery && myPhoto" class="contest-own-notice">
       <p>
         Du hast bereits <strong>{{ myPhoto.name }}</strong> eingereicht. Du kannst
         pro Gerät nur ein Foto einreichen.
@@ -67,16 +95,17 @@
         type="button"
         class="contest-btn contest-btn--ghost"
         :disabled="deletingOwnPhoto"
-        @click="deleteMyPhoto">
+        @click="deleteMyPhoto()">
         {{ deletingOwnPhoto ? "Wird entfernt…" : "Foto entfernen" }}
       </button>
     </div>
 
     <div class="contest-gallery">
+      <p v-if="isGallery && deleteError" class="contest-error">{{ deleteError }}</p>
       <p v-if="galleryError" class="contest-error">{{ galleryError }}</p>
       <p v-if="voteError" class="contest-error">{{ voteError }}</p>
 
-      <div class="contest-vote-budget-row">
+      <div v-if="!isGallery" class="contest-vote-budget-row">
         <div class="contest-vote-budget">
           <Heart :size="15" />
           Noch {{ votesRemaining }} von 3 Stimmen übrig
@@ -113,6 +142,7 @@
           <figcaption class="contest-tile-caption">
             <span class="contest-tile-name">{{ photo.name }}</span>
             <ContestVoteButton
+              v-if="!isGallery"
               variant="light"
               :name="photo.name"
               :votes="photo.votes"
@@ -123,6 +153,14 @@
                 votingPhotoId === photo.id
               "
               @toggle="toggleVote(photo)" />
+            <button
+              v-if="isGallery && photo.deviceId === deviceId"
+              type="button"
+              class="contest-remove-photo"
+              :disabled="deletingOwnPhoto"
+              @click.stop="deleteMyPhoto(photo)">
+              Foto entfernen
+            </button>
           </figcaption>
         </figure>
       </div>
@@ -161,7 +199,7 @@
         </button>
 
         <div class="contest-lightbox-figure" @click.stop>
-          <div class="contest-vote-budget-row">
+          <div v-if="!isGallery" class="contest-vote-budget-row">
             <div class="contest-vote-budget contest-vote-budget--lightbox">
               <Heart :size="15" />
               Noch {{ votesRemaining }} von 3 Stimmen übrig
@@ -204,6 +242,7 @@
           <div class="contest-lightbox-caption">
             <span>{{ lightboxPhoto.name }}</span>
             <ContestVoteButton
+              v-if="!isGallery"
               :name="lightboxPhoto.name"
               :votes="lightboxPhoto.votes"
               :is-own="lightboxPhoto.deviceId === deviceId"
@@ -254,6 +293,12 @@ type ContestPhoto = {
   deviceId: string;
   votes: number;
 };
+
+const props = withDefaults(defineProps<{ mode?: "contest" | "gallery" }>(), {
+  mode: "contest",
+});
+const isGallery = props.mode === "gallery";
+const photoCollection = isGallery ? "spassgalerie" : "fotocontest";
 
 const MAX_FILE_SIZE = 15 * 1024 * 1024;
 const MAX_VOTES_PER_DEVICE = 3;
@@ -308,6 +353,8 @@ function saveVotedPhotoIds(ids: Set<string>) {
 const deviceId = getDeviceId();
 
 const name = ref("");
+const publicDisplayConsent = ref(false);
+const socialMediaConsent = ref(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const selectedFile = ref<File | null>(null);
 const previewUrl = ref<string | null>(null);
@@ -457,7 +504,7 @@ onMounted(() => {
   window.addEventListener("keydown", handleKeydown);
 
   const photosQuery = query(
-    collection(db, "fotocontest"),
+    collection(db, photoCollection),
     orderBy("createdAt", "desc"),
     limit(60),
   );
@@ -497,6 +544,10 @@ onBeforeUnmount(() => {
 });
 
 function handleFile(file: File | null) {
+  if (uploading.value) return;
+  publicDisplayConsent.value = false;
+  socialMediaConsent.value = false;
+  successMessage.value = "";
   selectedFile.value = file;
   errorMessage.value = "";
 
@@ -538,8 +589,9 @@ function describeUploadError(error: unknown): string {
   const code = (error as { code?: string } | null)?.code;
   switch (code) {
     case "storage/unauthorized":
+      return "Der Dateispeicher hat den Upload abgelehnt. Möglicherweise liegt dort bereits ein Foto dieses Geräts oder die Speicherregeln erlauben den Upload nicht. Bitte kontaktiere uns, wenn das Problem bestehen bleibt.";
     case "permission-denied":
-      return "Der Upload wurde abgelehnt. Bitte prüfe, ob es ein Bild (z. B. JPG oder PNG) unter 15 MB ist.";
+      return "Der Fotobeitrag konnte wegen fehlender Datenbankberechtigungen nicht gespeichert werden. Bitte kontaktiere uns, damit wir die Freigabe für den Fotocontest prüfen können.";
     case "storage/canceled":
       return "Der Upload wurde abgebrochen.";
     case "storage/quota-exceeded":
@@ -564,7 +616,9 @@ async function submitPhoto() {
   errorMessage.value = "";
   successMessage.value = "";
 
-  if (myPhoto.value) {
+  if (uploading.value) return;
+
+  if (!isGallery && myPhoto.value) {
     errorMessage.value = "Du hast bereits ein Foto eingereicht.";
     return;
   }
@@ -586,16 +640,28 @@ async function submitPhoto() {
     return;
   }
 
-  if (file.size > MAX_FILE_SIZE) {
+  if (file.size >= MAX_FILE_SIZE) {
     errorMessage.value = "Das Foto ist zu groß (max. 15 MB).";
     return;
   }
+
+  if (!publicDisplayConsent.value) {
+    errorMessage.value = "Bitte stimme der öffentlichen Anzeige deines Fotos zu.";
+    return;
+  }
+
+  const consent = {
+    publicDisplayConsent: publicDisplayConsent.value,
+    socialMediaConsent: socialMediaConsent.value,
+    consentVersion: 1,
+  };
 
   uploading.value = true;
   uploadProgress.value = 0;
 
   try {
-    const path = `fotocontest/${deviceId}${fileExtension(file)}`;
+    const photoId = isGallery ? `${deviceId}_${generateId()}` : deviceId;
+    const path = `${photoCollection}/${photoId}${fileExtension(file)}`;
     const target = storageRef(storage, path);
     const task = uploadBytesResumable(target, file, { contentType: file.type });
 
@@ -614,16 +680,19 @@ async function submitPhoto() {
 
     const imageUrl = await getDownloadURL(target);
 
-    await setDoc(doc(db, "fotocontest", deviceId), {
+    await setDoc(doc(db, photoCollection, photoId), {
       name: trimmedName,
+      ...consent,
       imageUrl,
       storagePath: path,
       deviceId,
-      votes: 0,
+      ...(isGallery ? {} : { votes: 0 }),
       createdAt: serverTimestamp(),
     });
 
     successMessage.value = "Danke! Dein Foto ist jetzt in der Galerie.";
+    publicDisplayConsent.value = false;
+    socialMediaConsent.value = false;
     selectedFile.value = null;
     if (fileInputRef.value) {
       fileInputRef.value.value = "";
@@ -641,8 +710,7 @@ async function submitPhoto() {
   }
 }
 
-async function deleteMyPhoto() {
-  const photo = myPhoto.value;
+async function deleteMyPhoto(photo: ContestPhoto | null = myPhoto.value) {
   if (!photo || deletingOwnPhoto.value) return;
 
   deleteError.value = "";
@@ -651,7 +719,7 @@ async function deleteMyPhoto() {
   try {
     // Erst aus der Galerie entfernen, damit niemand mehr ein kaputtes Bild
     // sieht, falls der Storage-Teil danach fehlschlaegt.
-    await deleteDoc(doc(db, "fotocontest", photo.id));
+    await deleteDoc(doc(db, photoCollection, photo.id));
     if (photo.storagePath) {
       await deleteObject(storageRef(storage, photo.storagePath)).catch(() => {
         // Datei bleibt dann verwaist liegen - unschoen, aber unsichtbar und
@@ -671,7 +739,7 @@ async function deleteMyPhoto() {
 }
 
 async function toggleVote(photo: ContestPhoto) {
-  if (photo.deviceId === deviceId || votingPhotoId.value === photo.id) return;
+  if (isGallery || photo.deviceId === deviceId || votingPhotoId.value === photo.id) return;
 
   if (votedPhotoIds.value.has(photo.id)) {
     await removeVote(photo);
@@ -794,6 +862,36 @@ async function resetMyVotes() {
   flex-direction: column;
   align-items: center;
   gap: 16px;
+}
+
+.contest-consents {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contest-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.contest-consent input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--sv-secondary-color);
+}
+
+.contest-consent input:focus-visible {
+  outline: 2px solid var(--sv-secondary-color);
+  outline-offset: 3px;
 }
 
 .contest-field {
@@ -1086,6 +1184,22 @@ async function resetMyVotes() {
   justify-content: space-between;
   gap: 8px;
   padding: 0 2px;
+}
+
+.contest-remove-photo {
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #2b2210;
+  text-decoration: underline;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.contest-remove-photo:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 .contest-tile-name {

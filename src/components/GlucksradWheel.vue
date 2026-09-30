@@ -1,21 +1,53 @@
 <template>
-  <div class="wheel-card">
+  <div ref="wheelRef" class="wheel-card" :class="{ 'wheel-card--fullscreen': isFullscreen }">
     <div class="wheel-toolbar">
+      <div v-if="!isFullscreen" class="wheel-toolbar-settings">
+        <button
+          type="button"
+          class="wheel-btn wheel-btn--ghost"
+          :disabled="spinning || isDragging"
+          @click="applyDrinkPreset">
+          Getränkepreise übernehmen
+        </button>
+        <button
+          type="button"
+          class="wheel-btn wheel-btn--ghost"
+          :disabled="spinning || isDragging"
+          @click="toggleEdit">
+          <component :is="isEditing ? Check : Pencil" :size="18" />
+          {{ isEditing ? "Fertig" : "Rad bearbeiten" }}
+        </button>
+      </div>
       <button
+        ref="fullscreenButtonRef"
         type="button"
-        class="wheel-btn wheel-btn--ghost"
-        @click="toggleEdit">
-        <component :is="isEditing ? Check : Pencil" :size="18" />
-        {{ isEditing ? "Fertig" : "Rad bearbeiten" }}
+        class="wheel-btn wheel-btn--ghost wheel-fullscreen-button"
+        :aria-label="isFullscreen ? 'Vollbild verlassen' : 'Vollbild öffnen'"
+        :title="isFullscreen ? 'Vollbild verlassen' : 'Vollbild öffnen'"
+        :aria-pressed="isFullscreen"
+        @click="toggleFullscreen">
+        <component :is="isFullscreen ? Minimize : Maximize" :size="22" aria-hidden="true" />
       </button>
     </div>
 
     <div class="wheel-stage">
       <div class="wheel-pointer" aria-hidden="true"></div>
-      <div class="wheel-outer">
+      <div
+        class="wheel-outer"
+        :class="{ 'wheel-outer--dragging': isDragging, 'wheel-outer--spinning': spinning }"
+        @pointerdown="startDrag"
+        @pointermove="moveDrag"
+        @pointerup="endDrag"
+        @pointercancel="cancelDrag"
+        @lostpointercapture="cancelDrag"
+        @dragstart.prevent>
         <svg
           class="wheel-svg"
-          :style="{ transform: `rotate(${rotation}deg)` }"
+          :class="{ 'wheel-svg--dragging': isDragging }"
+          :style="{
+            transform: `rotate(${rotation}deg)`,
+            transitionDuration: isDragging ? '0ms' : `${spinDurationMs}ms`,
+          }"
           viewBox="0 0 200 200"
           aria-hidden="true">
           <defs>
@@ -28,11 +60,13 @@
             <text
               :transform="labelTransform(index)"
               x="184"
-              y="101"
+              y="100"
+              dominant-baseline="central"
+              :style="{ fontSize: `${labelFontSize(index)}px` }"
               text-anchor="end"
               class="wheel-label"
               :fill="labelColor(segment.color)">
-              {{ segment.label }}
+              {{ wheelLabel(segment.label) }}
             </text>
           </g>
           <circle cx="100" cy="100" r="25" class="wheel-hub-bg" />
@@ -53,8 +87,8 @@
       <button
         type="button"
         class="wheel-btn wheel-btn--primary"
-        :disabled="spinning || segments.length < 2"
-        @click="spin">
+        :disabled="spinning || isDragging || segments.length < 2"
+        @click="spin()">
         {{ spinning ? "Dreht..." : "Rad drehen" }}
       </button>
       <p
@@ -67,7 +101,7 @@
       </p>
     </div>
 
-    <div v-if="isEditing" class="wheel-editor">
+    <fieldset v-if="isEditing && !isFullscreen" class="wheel-editor" :disabled="spinning || isDragging">
       <div class="wheel-editor-list">
         <div
           v-for="(segment, index) in segments"
@@ -124,7 +158,7 @@
         <button
           type="button"
           class="wheel-btn wheel-btn--ghost"
-          :disabled="segments.length >= 12"
+          :disabled="segments.length >= MAX_SEGMENTS"
           @click="addSegment">
           <Plus :size="16" /> Feld hinzufügen
         </button>
@@ -135,14 +169,15 @@
           <RotateCcw :size="16" /> Zurücksetzen
         </button>
       </div>
-    </div>
+    </fieldset>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { Check, Pencil, Plus, RotateCcw, Trash2 } from "@lucide/vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { Check, Maximize, Minimize, Pencil, Plus, RotateCcw, Trash2 } from "@lucide/vue";
 import clubLogo from "@/assets/sv_logo_farbe.svg";
+import { DRINK_WHEEL_SEGMENTS } from "@/utils/oktoberfestPrices";
 
 type WheelSegment = {
   id: string;
@@ -151,6 +186,7 @@ type WheelSegment = {
   weight: number;
 };
 
+const MAX_SEGMENTS = 24;
 const STORAGE_KEY = "sv-oktoberfest-wheel";
 const SPIN_DURATION_MS = 4400;
 
@@ -253,7 +289,7 @@ function loadSegments(): WheelSegment[] {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || parsed.length < 2) return cloneDefaults();
 
-    const list = parsed.slice(0, 12).map((entry, index) => ({
+    const list = parsed.slice(0, MAX_SEGMENTS).map((entry, index) => ({
       id:
         typeof entry?.id === "string" ? entry.id : `seg-${index}-${Date.now()}`,
       label:
@@ -276,10 +312,157 @@ function loadSegments(): WheelSegment[] {
 }
 
 const segments = ref<WheelSegment[]>(loadSegments());
+function applyDrinkPreset() {
+  if (spinning.value) return;
+  segments.value = DRINK_WHEEL_SEGMENTS.map(({ id, label, color, weight }) => ({
+    id, label, color, weight,
+  }));
+  normalizeToHundred(segments.value);
+  winner.value = null;
+  rotation.value = 0;
+}
+
 const isEditing = ref(false);
 const spinning = ref(false);
 const rotation = ref(0);
+const spinDurationMs = ref(SPIN_DURATION_MS);
 const winner = ref<string | null>(null);
+const isDragging = ref(false);
+let activePointerId: number | null = null;
+let dragCenter = { x: 0, y: 0 };
+let lastDragAngle = 0;
+let dragDistance = 0;
+let dragDirection = 1;
+let dragSamples: { time: number; rotation: number }[] = [];
+let spinTimer: ReturnType<typeof window.setTimeout> | null = null;
+let disposed = false;
+
+function pointerAngle(event: PointerEvent): number {
+  return Math.atan2(event.clientY - dragCenter.y, event.clientX - dragCenter.x) * 180 / Math.PI;
+}
+
+function startDrag(event: PointerEvent) {
+  if (spinning.value || isDragging.value || segments.value.length < 2 || !event.isPrimary || event.button !== 0) return;
+  const target = event.currentTarget as HTMLElement;
+  const bounds = target.getBoundingClientRect();
+  dragCenter = { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2 };
+  // Near the centre, small finger movements cause unstable angle jumps.
+  if (Math.hypot(event.clientX - dragCenter.x, event.clientY - dragCenter.y) < bounds.width * 0.12) return;
+  target.setPointerCapture(event.pointerId);
+  activePointerId = event.pointerId;
+  lastDragAngle = pointerAngle(event);
+  dragSamples = [{ time: event.timeStamp, rotation: rotation.value }];
+  dragDistance = 0;
+  dragDirection = 1;
+  isDragging.value = true;
+  event.preventDefault();
+}
+
+function moveDrag(event: PointerEvent) {
+  if (event.pointerId !== activePointerId) return;
+  const angle = pointerAngle(event);
+  const delta = ((angle - lastDragAngle + 540) % 360) - 180;
+  lastDragAngle = angle;
+  rotation.value += delta;
+  dragSamples.push({ time: event.timeStamp, rotation: rotation.value });
+  // Use recent motion so holding still before release reduces the momentum.
+  while (dragSamples.length > 2 && dragSamples[1]!.time < event.timeStamp - 120) {
+    dragSamples.shift();
+  }
+  dragDistance += Math.abs(delta);
+  if (Math.abs(delta) > 0.5) dragDirection = Math.sign(delta);
+  if (dragDistance > 2) winner.value = null;
+}
+
+function releaseDrag(event: PointerEvent) {
+  activePointerId = null;
+  isDragging.value = false;
+  const target = event.currentTarget as HTMLElement;
+  if (target.hasPointerCapture(event.pointerId)) target.releasePointerCapture(event.pointerId);
+}
+
+async function endDrag(event: PointerEvent) {
+  if (event.pointerId !== activePointerId) return;
+  moveDrag(event);
+  const shouldSpin = dragDistance >= 12;
+  const firstSample = dragSamples[0]!;
+  const elapsed = event.timeStamp - firstSample.time;
+  const velocity = elapsed > 0 ? (rotation.value - firstSample.rotation) / elapsed : 0;
+  const direction = Math.abs(velocity) > 0.01 ? Math.sign(velocity) : dragDirection;
+  const speed = Math.abs(velocity);
+  releaseDrag(event);
+  if (!shouldSpin) return;
+  await nextTick();
+  if (disposed) return;
+  // Commit the dragged position and restore the transition before continuing.
+  wheelRef.value?.getBoundingClientRect();
+  spin(direction, speed);
+}
+
+function cancelDrag(event: PointerEvent) {
+  if (event.pointerId === activePointerId) releaseDrag(event);
+}
+
+const wheelRef = ref<HTMLElement | null>(null);
+const fullscreenButtonRef = ref<HTMLButtonElement | null>(null);
+const isFullscreen = ref(false);
+let previousBodyOverflow = "";
+
+watch(isFullscreen, (active) => {
+  if (active) {
+    previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = previousBodyOverflow;
+    nextTick(() => fullscreenButtonRef.value?.focus());
+  }
+}, { flush: "sync" });
+
+async function toggleFullscreen() {
+  if (isFullscreen.value) {
+    if (document.fullscreenElement === wheelRef.value) {
+      try {
+        await document.exitFullscreen();
+      } catch {
+        return;
+      }
+    }
+    isFullscreen.value = false;
+    return;
+  }
+
+  isFullscreen.value = true;
+  // The fixed overlay also works on browsers without the Fullscreen API.
+  try {
+    await wheelRef.value?.requestFullscreen?.();
+  } catch {
+    // Keep the viewport-filling fallback when native fullscreen is unavailable.
+  }
+}
+
+function syncFullscreen() {
+  isFullscreen.value = document.fullscreenElement === wheelRef.value;
+}
+
+function handleFullscreenKey(event: KeyboardEvent) {
+  if (event.key === "Escape" && isFullscreen.value) {
+    void toggleFullscreen();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("fullscreenchange", syncFullscreen);
+  document.addEventListener("keydown", handleFullscreenKey);
+});
+
+onBeforeUnmount(() => {
+  disposed = true;
+  if (spinTimer !== null) window.clearTimeout(spinTimer);
+  document.removeEventListener("fullscreenchange", syncFullscreen);
+  document.removeEventListener("keydown", handleFullscreenKey);
+  if (isFullscreen.value) document.body.style.overflow = previousBodyOverflow;
+});
+
 
 watch(
   segments,
@@ -406,6 +589,22 @@ function labelTransform(index: number): string {
   return `rotate(${angle ? angle.mid : 0} 100 100)`;
 }
 
+function wheelLabel(label: string): string {
+  return label === "Leider kein Gewinn" ? "Kein Gewinn" : label;
+}
+
+function labelFontSize(index: number): number {
+  const segment = segments.value[index];
+  const angle = segmentAngles.value[index];
+  if (!segment || !angle) return 0;
+  const label = wheelLabel(segment.label);
+  // Keep text between the hub and rim, and inside the narrowest part of its field.
+  const radialLimit = 52 / (Math.max(1, label.length) * 0.65);
+  const sweep = Math.min(180, Math.max(0, angle.end - angle.start));
+  const angularLimit = 2 * 32 * Math.sin(sweep * Math.PI / 360) * 0.8;
+  return Math.min(8, radialLimit, angularLimit);
+}
+
 function labelColor(hex: string): string {
   const value = hex.replace("#", "");
   if (value.length !== 6) return "#fff7e0";
@@ -421,7 +620,7 @@ function toggleEdit() {
 }
 
 function addSegment() {
-  if (segments.value.length >= 12) return;
+  if (segments.value.length >= MAX_SEGMENTS) return;
   const index = segments.value.length;
   segments.value.push({
     id: `seg-${Date.now()}-${index}`,
@@ -455,8 +654,8 @@ function pickWinnerIndex(): number {
   return segments.value.length - 1;
 }
 
-function spin() {
-  if (spinning.value || segments.value.length < 2) return;
+function spin(direction = 1, gestureSpeed?: number) {
+  if (spinning.value || isDragging.value || segments.value.length < 2) return;
 
   spinning.value = true;
   winner.value = null;
@@ -468,19 +667,23 @@ function spin() {
   const originalMid = (angle ? angle.mid : 0) + 360;
   const requiredMod = (270 - (originalMid % 360) + 360) % 360;
 
-  const extraSpins = 5 + Math.floor(Math.random() * 3);
-  const baseRotation = rotation.value - (rotation.value % 360);
-  let target = baseRotation + extraSpins * 360 + requiredMod + jitter;
-  if (target <= rotation.value) {
-    target += 360;
-  }
+  const strength = gestureSpeed === undefined ? null :
+    Math.min(1, Math.max(0, Number.isFinite(gestureSpeed) ? gestureSpeed / 1.5 : 0));
+  const extraSpins = strength === null ? 5 + Math.floor(Math.random() * 3) :
+    1 + Math.round(strength * 9);
+  spinDurationMs.value = strength === null ? SPIN_DURATION_MS :
+    Math.round(2000 + strength * 3500);
+  const delta = ((requiredMod + jitter - rotation.value) % 360 + 360) % 360;
+  const target = rotation.value + direction * extraSpins * 360 +
+    (direction < 0 ? delta - 360 : delta);
 
   rotation.value = target;
 
-  window.setTimeout(() => {
+  spinTimer = window.setTimeout(() => {
+    spinTimer = null;
     spinning.value = false;
     winner.value = segments.value[winnerIndex]?.label ?? null;
-  }, SPIN_DURATION_MS);
+  }, spinDurationMs.value);
 }
 </script>
 
@@ -501,7 +704,68 @@ function spin() {
 .wheel-toolbar {
   width: 100%;
   display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.wheel-toolbar-settings {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wheel-btn.wheel-fullscreen-button {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  justify-content: center;
+}
+
+/* Native fullscreen and mobile fallback share the same layout. */
+.wheel-card--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  border-radius: 0;
+  background: #07142f;
+  overflow-y: auto;
+  gap: 12px;
+}
+
+.wheel-card--fullscreen .wheel-toolbar {
   justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.wheel-card--fullscreen .wheel-stage {
+  flex: 0 0 auto;
+  margin: auto 0;
+  padding-top: 28px;
+}
+
+.wheel-card--fullscreen .wheel-outer {
+  width: min(80vw, calc(100dvh - 280px));
+  min-width: 140px;
+}
+
+.wheel-card--fullscreen .wheel-actions {
+  flex-shrink: 0;
+}
+
+fieldset.wheel-editor {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .wheel-stage {
@@ -527,6 +791,10 @@ function spin() {
 }
 
 .wheel-outer {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
   position: relative;
   width: min(500px, 86vw);
   aspect-ratio: 1;
@@ -547,8 +815,19 @@ function spin() {
   transition: transform 4.4s cubic-bezier(0.12, 0.67, 0.1, 1);
 }
 
+.wheel-outer--dragging {
+  cursor: grabbing;
+}
+
+.wheel-outer--spinning {
+  cursor: wait;
+}
+
+.wheel-svg--dragging {
+  transition: none;
+}
+
 .wheel-label {
-  font-size: 9px;
   font-weight: 700;
 }
 
@@ -569,6 +848,7 @@ function spin() {
 }
 
 .wheel-actions {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -578,9 +858,19 @@ function spin() {
 
 .wheel-result {
   margin: 0;
-  font-size: 1.05rem;
+  min-height: 1.2em;
+  max-width: 100%;
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+  color: var(--sv-secondary-color);
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+
+.wheel-card--fullscreen .wheel-result {
+  font-size: clamp(2rem, min(7vw, 7dvh), 4rem);
 }
 
 .wheel-result--visible {
