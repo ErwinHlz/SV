@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fotocontest – Aushang</title>
+  <!-- Druckvorlage (A4) fuer das Oktoberfest. Der QR-Code zeigt automatisch
+       auf /#/fotocontest der Domain, unter der diese Datei geoeffnet wird.
+       Abweichende Adresse: ?url=https://... anhaengen. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <style>
+    :root {
+      --blue: #022b79;
+      --navy: #07122c;
+      --gold: #f4d047;
+      --ink: #1b1f2a;
+      --muted: #5b6375;
+    }
+
+    @page { size: A4; margin: 0; }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      background: #d9dde6;
+      color: var(--ink);
+      font-family: system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .toolbar {
+      max-width: 210mm;
+      margin: 16px auto 0;
+      padding: 0 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .toolbar button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 20px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .sheet {
+      width: 210mm;
+      height: 297mm;
+      margin: 16px auto;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .head {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: #fff;
+      padding: 14mm 16mm 12mm;
+      display: flex;
+      align-items: center;
+      gap: 10mm;
+    }
+
+    .head img { width: 30mm; height: auto; flex: 0 0 auto; }
+
+    .eyebrow {
+      margin: 0 0 2mm;
+      font-size: 11pt;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 46pt;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .lead {
+      margin: 4mm 0 0;
+      font-size: 14pt;
+      opacity: 0.9;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .fact {
+      padding: 5mm 3mm;
+      text-align: center;
+      border-right: 1px solid rgba(7, 18, 44, 0.15);
+    }
+
+    .fact:last-child { border-right: none; }
+
+    .fact b { display: block; font-size: 17pt; line-height: 1.1; }
+    .fact span { font-size: 10pt; font-weight: 600; }
+
+    .body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 62mm;
+      gap: 10mm;
+      padding: 10mm 16mm 0;
+    }
+
+    ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 5.5mm;
+    }
+
+    ol li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 11mm 1fr;
+      gap: 4mm;
+      font-size: 12pt;
+      line-height: 1.4;
+    }
+
+    ol li::before {
+      content: counter(step);
+      width: 11mm;
+      height: 11mm;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15pt;
+      display: grid;
+      place-items: center;
+    }
+
+    ol li strong { display: block; font-size: 14pt; color: var(--blue); }
+
+    .side { display: flex; flex-direction: column; gap: 6mm; }
+
+    .qr {
+      border: 2px solid var(--blue);
+      border-radius: 5mm;
+      padding: 5mm;
+      text-align: center;
+    }
+
+    .qr-code svg { width: 100%; height: auto; display: block; }
+
+    .qr p { margin: 3mm 0 0; font-weight: 800; color: var(--blue); font-size: 13pt; }
+    .qr small { display: block; margin-top: 1.5mm; color: var(--muted); font-size: 8pt; word-break: break-all; }
+
+    .winner {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 5mm;
+      padding: 6mm 5mm;
+      text-align: center;
+    }
+
+    .winner .cup { font-size: 28pt; line-height: 1; }
+    .winner b { display: block; margin-top: 2mm; font-size: 15pt; color: var(--gold); }
+    .winner p { margin: 2mm 0 0; font-size: 10.5pt; line-height: 1.4; }
+
+    .rules {
+      margin: 8mm 16mm 0;
+      padding: 5mm 6mm;
+      background: #f1f3f8;
+      border-radius: 4mm;
+      font-size: 10pt;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .rules b { color: var(--ink); }
+    .rules ul { margin: 1.5mm 0 0; padding-left: 4.5mm; }
+
+    .foot {
+      margin-top: auto;
+      padding: 6mm 16mm;
+      text-align: center;
+      font-size: 10pt;
+      color: var(--muted);
+    }
+
+    @media print {
+      html, body { background: #fff; }
+      .toolbar { display: none; }
+      .sheet { margin: 0; box-shadow: none; }
+    }
+
+    @media screen and (max-width: 840px) {
+      .sheet { zoom: 0.45; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">Drucken</button>
+    <span>A4, Hochformat, ohne Ränder. „Hintergrundgrafiken“ im Druckdialog aktivieren.</span>
+  </div>
+
+  <main class="sheet">
+    <header class="head">
+      <img src="team-logos/sv-ottweiler.svg" alt="SV Ottweiler" />
+      <div>
+        <p class="eyebrow">SV Ottweiler · Oktoberfest</p>
+        <h1>Fotocontest</h1>
+        <p class="lead">Lade dein schönstes Oktoberfest-Foto hoch und stimm für deine Favoriten ab.</p>
+      </div>
+    </header>
+
+    <section class="facts">
+      <div class="fact"><b>1 Foto</b><span>pro Handy</span></div>
+      <div class="fact"><b>ab 21 Uhr</b><span>Voting startet</span></div>
+      <div class="fact"><b>3 Stimmen</b><span>pro Handy</span></div>
+      <div class="fact"><b>24 Uhr</b><span>Gewinner</span></div>
+    </section>
+
+    <section class="body">
+      <ol>
+        <li>
+          <div><strong>QR-Code scannen</strong>
+            Mit der Handy-Kamera den Code rechts scannen. Dann öffnet sich die Fotocontest-Seite.</div>
+        </li>
+        <li>
+          <div><strong>Name eingeben</strong>
+            Gib deinen richtigen Namen an, damit wir dich finden, falls du gewinnst.</div>
+        </li>
+        <li>
+          <div><strong>Foto einreichen</strong>
+            Frauen oder Männer wählen, Foto auswählen, der Veröffentlichung zustimmen und auf „Foto einreichen“ tippen.</div>
+        </li>
+        <li>
+          <div><strong>Ab 21 Uhr abstimmen</strong>
+            Tipp auf das ♥ unter deinen Lieblingsfotos. Du hast 3 Stimmen.
+            Für dein eigenes Foto kannst du nicht stimmen. Noch einmal tippen zieht die Stimme zurück.</div>
+        </li>
+        <li>
+          <div><strong>Um 24 Uhr: Siegerehrung</strong>
+            Das Voting endet. Wir geben die Gewinner vor Ort bekannt und zeigen sie auf der Fotocontest-Seite.</div>
+        </li>
+      </ol>
+
+      <aside class="side">
+        <div class="qr">
+          <div class="qr-code" id="qr"></div>
+          <p>Jetzt mitmachen!</p>
+          <small id="qr-url"></small>
+        </div>
+        <div class="winner">
+          <div class="cup" aria-hidden="true">🏆</div>
+          <b>2 Gewinner</b>
+          <p>Es gewinnen die <strong>Frau</strong> und der <strong>Mann</strong>, deren Fotos die meisten Stimmen haben.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="rules">
+      <b>Gut zu wissen</b>
+      <ul>
+        <li>Pro Handy kann nur ein Foto im Contest sein. Wenn du ein anderes nehmen willst, entfernst du dein Foto und reichst ein neues ein. Die Stimmen für das alte Foto gehen dabei verloren.</li>
+        <li>Die Erlaubnis, dein Foto auf Social Media zu zeigen, ist freiwillig und keine Bedingung für die Teilnahme.</li>
+        <li>Mehr Fotos? In der <b>Spaßgalerie</b> auf derselben Seite kannst du beliebig viele Bilder teilen, dort wird nicht abgestimmt.</li>
+      </ul>
+    </section>
+
+    <footer class="foot">Viel Spaß und viel Glück! · SV Ottweiler</footer>
+  </main>
+
+  <script>
+    (function () {
+      var override = new URLSearchParams(location.search).get("url");
+      var target = override || new URL("./#/fotocontest", location.href).href;
+      document.getElementById("qr-url").textContent = target.replace(/^https?:\/\//, "");
+      try {
+        var qr = qrcode(0, "M");
+        qr.addData(target);
+        qr.make();
+        document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+      } catch (e) {
+        document.getElementById("qr").textContent = "QR-Code konnte nicht geladen werden.";
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -2,10 +2,15 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Voting-Start: 02.10.2026, 21:00 Uhr MESZ (= 19:00 UTC). Muss zu
-    // VOTING_START in PhotoContestSection.vue passen.
+    // Voting: 02.10.2026, 21:00 bis 24:00 Uhr MESZ (= 19:00 bis 22:00 UTC).
+    // Muss zu VOTING_START/VOTING_END in PhotoContestSection.vue passen.
+    function contestOpen() {
+      return request.time < timestamp.date(2026, 10, 2) + duration.value(22, 'h');
+    }
+
     function votingOpen() {
-      return request.time >= timestamp.date(2026, 10, 2) + duration.value(19, 'h');
+      return request.time >= timestamp.date(2026, 10, 2) + duration.value(19, 'h')
+        && contestOpen();
     }
 
     // Dokument-ID == deviceId: das erzwingt "ein Foto pro Geraet", weil ein
@@ -15,9 +20,13 @@ service cloud.firestore {
     match /fotocontest/{photoId} {
       allow read: if true;
 
+      // 'gender' ist optional, damit Uploads waehrend des Rollouts (alte
+      // Seite / neue Rules) nicht scheitern; die Seite selbst verlangt es.
       allow create:
-        if photoId == request.resource.data.deviceId
-        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'votes', 'createdAt', 'publicDisplayConsent', 'socialMediaConsent', 'consentVersion'])
+        if contestOpen()
+        && photoId == request.resource.data.deviceId
+        && request.resource.data.keys().hasOnly(['name', 'imageUrl', 'storagePath', 'deviceId', 'votes', 'gender', 'createdAt', 'publicDisplayConsent', 'socialMediaConsent', 'consentVersion'])
+        && (!('gender' in request.resource.data) || request.resource.data.gender in ['female', 'male'])
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
         && request.resource.data.name.size() <= 60
@@ -46,7 +55,8 @@ service cloud.firestore {
 
       // Nur das Geraet, dessen ID der Dokument-ID entspricht, kann sein
       // eigenes Foto wieder entfernen (gleiches Prinzip wie bei /votes).
-      allow delete: if photoId == resource.data.deviceId;
+      // Nach Voting-Ende nicht mehr, damit niemand ein Siegerfoto entfernt.
+      allow delete: if contestOpen() && photoId == resource.data.deviceId;
     }
 
     // Freie Galerie: eigene Sammlung, mehrere Fotos pro Geraet, keine Stimmen.
@@ -90,7 +100,7 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time
         && get(/databases/$(database)/documents/fotocontest/$(request.resource.data.photoId)).data.deviceId != request.resource.data.deviceId;
 
-      allow delete: if voteId == resource.data.photoId + '_' + resource.data.deviceId;
+      allow delete: if votingOpen() && voteId == resource.data.photoId + '_' + resource.data.deviceId;
 
       allow update: if false;
     }

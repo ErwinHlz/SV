@@ -1,6 +1,33 @@
 <template>
   <div class="contest-card">
-    <form v-if="isGallery || !myPhoto" class="contest-form" @submit.prevent="submitPhoto">
+    <section v-if="contestEnded" class="contest-winners" aria-label="Gewinner des Fotocontests">
+      <h2 class="contest-winners-title">
+        <Trophy :size="26" aria-hidden="true" />
+        Die Gewinner stehen fest!
+      </h2>
+      <div class="contest-winners-grid">
+        <div v-for="group in winnerGroups" :key="group.key" class="contest-winner-group">
+          <p class="contest-winner-label">{{ group.title }}</p>
+          <p v-if="group.photos.length === 0" class="contest-winner-empty">
+            Keine Stimmen in dieser Kategorie.
+          </p>
+          <figure
+            v-for="photo in group.photos"
+            :key="photo.id"
+            class="contest-winner"
+            @click="openLightbox(photo)">
+            <img :src="photo.imageUrl" :alt="`Siegerfoto von ${photo.name}`" />
+            <figcaption>
+              <strong>{{ photo.name }}</strong>
+              <span><Heart :size="14" fill="currentColor" aria-hidden="true" /> {{ photo.votes }} Stimmen</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <p class="contest-winners-note">Herzlichen Glückwunsch und danke an alle fürs Mitmachen!</p>
+    </section>
+
+    <form v-if="(isGallery || !myPhoto) && !contestEnded" class="contest-form" @submit.prevent="submitPhoto">
       <label class="contest-field">
         <span class="contest-field-label">Dein Name</span>
         <input
@@ -11,6 +38,20 @@
           class="contest-input"
           required />
       </label>
+
+      <div v-if="!isGallery" class="contest-gender" role="radiogroup" aria-label="Kategorie">
+        <span class="contest-field-label">Du nimmst teil bei den …</span>
+        <div class="contest-gender-options">
+          <label class="contest-gender-option" :class="{ 'contest-gender-option--active': gender === 'female' }">
+            <input v-model="gender" type="radio" value="female" name="contest-gender" :disabled="uploading" />
+            Frauen
+          </label>
+          <label class="contest-gender-option" :class="{ 'contest-gender-option--active': gender === 'male' }">
+            <input v-model="gender" type="radio" value="male" name="contest-gender" :disabled="uploading" />
+            Männern
+          </label>
+        </div>
+      </div>
 
       <div
         class="contest-dropzone"
@@ -85,7 +126,7 @@
       <p v-if="successMessage" class="contest-success">{{ successMessage }}</p>
     </form>
 
-    <div v-if="!isGallery && myPhoto" class="contest-own-notice">
+    <div v-if="!isGallery && myPhoto && !contestEnded" class="contest-own-notice">
       <p>
         Du hast bereits <strong>{{ myPhoto.name }}</strong> eingereicht. Du kannst
         pro Gerät nur ein Foto einreichen.
@@ -109,10 +150,11 @@
         <div class="contest-vote-budget">
           <Heart :size="15" />
           <template v-if="votingOpen">Noch {{ votesRemaining }} von 3 Stimmen übrig</template>
+          <template v-else-if="contestEnded">Voting beendet</template>
           <template v-else>Voting startet am 02.10. um 21:00 Uhr</template>
         </div>
         <button
-          v-if="votedPhotoIds.size > 0"
+          v-if="votingOpen && votedPhotoIds.size > 0"
           type="button"
           class="contest-vote-reset-btn"
           :disabled="resettingVotes"
@@ -205,10 +247,11 @@
             <div class="contest-vote-budget contest-vote-budget--lightbox">
               <Heart :size="15" />
               <template v-if="votingOpen">Noch {{ votesRemaining }} von 3 Stimmen übrig</template>
+              <template v-else-if="contestEnded">Voting beendet</template>
               <template v-else>Voting startet am 02.10. um 21:00 Uhr</template>
             </div>
             <button
-              v-if="votedPhotoIds.size > 0"
+              v-if="votingOpen && votedPhotoIds.size > 0"
               type="button"
               class="contest-vote-reset-btn"
               :disabled="resettingVotes"
@@ -285,7 +328,7 @@ import {
   ref as storageRef,
   uploadBytesResumable,
 } from "firebase/storage";
-import { ChevronLeft, ChevronRight, Heart, ImagePlus, RotateCcw } from "@lucide/vue";
+import { ChevronLeft, ChevronRight, Heart, ImagePlus, RotateCcw, Trophy } from "@lucide/vue";
 import { db, storage } from "@/firebase";
 import ContestVoteButton from "@/components/ContestVoteButton.vue";
 
@@ -296,7 +339,11 @@ type ContestPhoto = {
   storagePath: string;
   deviceId: string;
   votes: number;
+  gender: Gender | null;
 };
+
+type Gender = "female" | "male";
+type ContestPhase = "before" | "voting" | "ended";
 
 const props = withDefaults(defineProps<{ mode?: "contest" | "gallery" }>(), {
   mode: "contest",
@@ -308,9 +355,10 @@ const MAX_FILE_SIZE = 15 * 1024 * 1024;
 const MAX_VOTES_PER_DEVICE = 3;
 const DEVICE_ID_KEY = "sv-oktoberfest-device-id";
 const VOTED_PHOTOS_KEY = "sv-oktoberfest-voted-photos";
-// Voting-Start (deutsche Sommerzeit). Muss zum Zeitpunkt in firestore.rules
-// passen - dort wird die Sperre serverseitig durchgesetzt.
+// Voting-Zeitraum (deutsche Sommerzeit). Muss zu votingOpen()/contestOpen()
+// in firestore.rules passen - dort wird die Sperre serverseitig durchgesetzt.
 const VOTING_START = new Date("2026-10-02T21:00:00+02:00");
+const VOTING_END = new Date("2026-10-03T00:00:00+02:00");
 
 /**
  * crypto.randomUUID() only exists in secure contexts (https, or "localhost")
@@ -387,8 +435,30 @@ const resettingVotes = ref(false);
 const votesRemaining = computed(() =>
   Math.max(0, MAX_VOTES_PER_DEVICE - votedPhotoIds.value.size),
 );
-const votingOpen = ref(Date.now() >= VOTING_START.getTime());
-let votingStartTimer: ReturnType<typeof setTimeout> | null = null;
+// Phase aus der Uhrzeit; nowMs tickt, damit die Seite um 21/24 Uhr ohne
+// Neuladen umschaltet.
+const nowMs = ref(Date.now());
+let clockTimer: ReturnType<typeof setInterval> | null = null;
+const contestPhase = computed<ContestPhase>(() => {
+  if (nowMs.value < VOTING_START.getTime()) return "before";
+  if (nowMs.value < VOTING_END.getTime()) return "voting";
+  return "ended";
+});
+const votingOpen = computed(() => contestPhase.value === "voting");
+const contestEnded = computed(() => !isGallery && contestPhase.value === "ended");
+
+const gender = ref<Gender | null>(null);
+
+// Bei Gleichstand teilen sich alle Fotos mit den meisten Stimmen den Platz.
+function winnersFor(g: Gender): ContestPhoto[] {
+  const candidates = photos.value.filter((p) => p.gender === g);
+  const top = Math.max(0, ...candidates.map((p) => p.votes));
+  return top > 0 ? candidates.filter((p) => p.votes === top) : [];
+}
+const winnerGroups = computed(() => [
+  { key: "female", title: "Gewinnerin", photos: winnersFor("female") },
+  { key: "male", title: "Gewinner", photos: winnersFor("male") },
+]);
 
 // Lightbox: die Foto-ID ist die Quelle der Wahrheit (nicht der Index), damit
 // eine neue Einsendung waehrend des Betrachtens die Zuordnung nicht verschiebt.
@@ -512,19 +582,15 @@ function syncActiveIndexFromScroll() {
 onMounted(() => {
   window.addEventListener("keydown", handleKeydown);
 
-  // Seite bleibt offen ueber 21 Uhr hinaus -> Voting ohne Neuladen freischalten.
-  if (!votingOpen.value) {
-    votingStartTimer = setTimeout(
-      () => (votingOpen.value = true),
-      VOTING_START.getTime() - Date.now(),
-    );
+  if (!isGallery) {
+    clockTimer = setInterval(() => (nowMs.value = Date.now()), 10_000);
   }
 
-  const photosQuery = query(
-    collection(db, photoCollection),
-    orderBy("createdAt", "desc"),
-    limit(60),
-  );
+  // Contest: alle Fotos laden (max. eins pro Geraet), sonst koennten aeltere
+  // Fotos bei der Gewinnerermittlung fehlen. Die Spassgalerie bleibt begrenzt.
+  const photosQuery = isGallery
+    ? query(collection(db, photoCollection), orderBy("createdAt", "desc"), limit(60))
+    : query(collection(db, photoCollection), orderBy("createdAt", "desc"));
 
   unsubscribe = onSnapshot(
     photosQuery,
@@ -538,6 +604,7 @@ onMounted(() => {
           storagePath: typeof data.storagePath === "string" ? data.storagePath : "",
           deviceId: typeof data.deviceId === "string" ? data.deviceId : "",
           votes: typeof data.votes === "number" ? data.votes : 0,
+          gender: data.gender === "female" || data.gender === "male" ? data.gender : null,
         };
       });
       loadingPhotos.value = false;
@@ -554,7 +621,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleKeydown);
   if (scrollSyncTimer) clearTimeout(scrollSyncTimer);
-  if (votingStartTimer) clearTimeout(votingStartTimer);
+  if (clockTimer) clearInterval(clockTimer);
   unsubscribe?.();
   if (previewUrl.value) {
     URL.revokeObjectURL(previewUrl.value);
@@ -663,6 +730,16 @@ async function submitPhoto() {
     return;
   }
 
+  if (!isGallery && !gender.value) {
+    errorMessage.value = "Bitte gib an, ob du bei den Frauen oder Männern teilnimmst.";
+    return;
+  }
+
+  if (contestEnded.value) {
+    errorMessage.value = "Der Fotocontest ist beendet.";
+    return;
+  }
+
   if (!publicDisplayConsent.value) {
     errorMessage.value = "Bitte stimme der öffentlichen Anzeige deines Fotos zu.";
     return;
@@ -704,7 +781,7 @@ async function submitPhoto() {
       imageUrl,
       storagePath: path,
       deviceId,
-      ...(isGallery ? {} : { votes: 0 }),
+      ...(isGallery ? {} : { votes: 0, gender: gender.value }),
       createdAt: serverTimestamp(),
     });
 
@@ -760,7 +837,9 @@ async function toggleVote(photo: ContestPhoto) {
   if (isGallery || photo.deviceId === deviceId || votingPhotoId.value === photo.id) return;
 
   if (!votingOpen.value) {
-    voteError.value = "Das Voting startet am 02.10. um 21:00 Uhr.";
+    voteError.value = contestEnded.value
+      ? "Das Voting ist beendet."
+      : "Das Voting startet am 02.10. um 21:00 Uhr.";
     return;
   }
 
@@ -1072,6 +1151,140 @@ async function resetMyVotes() {
 
 .contest-btn--ghost:hover:not(:disabled) {
   border-color: var(--sv-secondary-color);
+  color: var(--sv-secondary-color);
+}
+
+.contest-winners {
+  padding: clamp(18px, 4vw, 28px);
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(244, 208, 71, 0.18), rgba(2, 43, 121, 0.35));
+  border: 1px solid rgba(244, 208, 71, 0.45);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contest-winners-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  color: var(--sv-secondary-color);
+}
+
+.contest-winners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.contest-winner-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.contest-winner-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.contest-winner-empty {
+  margin: 0;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.contest-winner {
+  width: min(280px, 100%);
+  margin: 0;
+  padding: 12px 12px 14px;
+  background: #f7f2e7;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px var(--sv-secondary-color), 0 16px 32px rgba(1, 12, 35, 0.5);
+  cursor: zoom-in;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contest-winner img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+.contest-winner figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #2b2210;
+  font-size: 0.9rem;
+}
+
+.contest-winner figcaption span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--sv-primary-color);
+}
+
+.contest-winners-note {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.contest-gender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.contest-gender-options {
+  display: flex;
+  gap: 10px;
+}
+
+.contest-gender-option {
+  position: relative;
+  min-width: 110px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.contest-gender-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contest-gender-option:has(input:focus-visible) {
+  outline: 2px solid var(--sv-secondary-color);
+  outline-offset: 3px;
+}
+
+.contest-gender-option--active {
+  border-color: var(--sv-secondary-color);
+  background: rgba(244, 208, 71, 0.18);
   color: var(--sv-secondary-color);
 }
 
