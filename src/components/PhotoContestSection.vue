@@ -108,7 +108,8 @@
       <div v-if="!isGallery" class="contest-vote-budget-row">
         <div class="contest-vote-budget">
           <Heart :size="15" />
-          Noch {{ votesRemaining }} von 3 Stimmen übrig
+          <template v-if="votingOpen">Noch {{ votesRemaining }} von 3 Stimmen übrig</template>
+          <template v-else>Voting startet am 02.10. um 21:00 Uhr</template>
         </div>
         <button
           v-if="votedPhotoIds.size > 0"
@@ -149,6 +150,7 @@
               :is-own="photo.deviceId === deviceId"
               :is-voted="votedPhotoIds.has(photo.id)"
               :disabled="
+                !votingOpen ||
                 (!votedPhotoIds.has(photo.id) && votesRemaining <= 0) ||
                 votingPhotoId === photo.id
               "
@@ -202,7 +204,8 @@
           <div v-if="!isGallery" class="contest-vote-budget-row">
             <div class="contest-vote-budget contest-vote-budget--lightbox">
               <Heart :size="15" />
-              Noch {{ votesRemaining }} von 3 Stimmen übrig
+              <template v-if="votingOpen">Noch {{ votesRemaining }} von 3 Stimmen übrig</template>
+              <template v-else>Voting startet am 02.10. um 21:00 Uhr</template>
             </div>
             <button
               v-if="votedPhotoIds.size > 0"
@@ -248,6 +251,7 @@
               :is-own="lightboxPhoto.deviceId === deviceId"
               :is-voted="votedPhotoIds.has(lightboxPhoto.id)"
               :disabled="
+                !votingOpen ||
                 (!votedPhotoIds.has(lightboxPhoto.id) && votesRemaining <= 0) ||
                 votingPhotoId === lightboxPhoto.id
               "
@@ -304,6 +308,9 @@ const MAX_FILE_SIZE = 15 * 1024 * 1024;
 const MAX_VOTES_PER_DEVICE = 3;
 const DEVICE_ID_KEY = "sv-oktoberfest-device-id";
 const VOTED_PHOTOS_KEY = "sv-oktoberfest-voted-photos";
+// Voting-Start (deutsche Sommerzeit). Muss zum Zeitpunkt in firestore.rules
+// passen - dort wird die Sperre serverseitig durchgesetzt.
+const VOTING_START = new Date("2026-10-02T21:00:00+02:00");
 
 /**
  * crypto.randomUUID() only exists in secure contexts (https, or "localhost")
@@ -380,6 +387,8 @@ const resettingVotes = ref(false);
 const votesRemaining = computed(() =>
   Math.max(0, MAX_VOTES_PER_DEVICE - votedPhotoIds.value.size),
 );
+const votingOpen = ref(Date.now() >= VOTING_START.getTime());
+let votingStartTimer: ReturnType<typeof setTimeout> | null = null;
 
 // Lightbox: die Foto-ID ist die Quelle der Wahrheit (nicht der Index), damit
 // eine neue Einsendung waehrend des Betrachtens die Zuordnung nicht verschiebt.
@@ -503,6 +512,14 @@ function syncActiveIndexFromScroll() {
 onMounted(() => {
   window.addEventListener("keydown", handleKeydown);
 
+  // Seite bleibt offen ueber 21 Uhr hinaus -> Voting ohne Neuladen freischalten.
+  if (!votingOpen.value) {
+    votingStartTimer = setTimeout(
+      () => (votingOpen.value = true),
+      VOTING_START.getTime() - Date.now(),
+    );
+  }
+
   const photosQuery = query(
     collection(db, photoCollection),
     orderBy("createdAt", "desc"),
@@ -537,6 +554,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleKeydown);
   if (scrollSyncTimer) clearTimeout(scrollSyncTimer);
+  if (votingStartTimer) clearTimeout(votingStartTimer);
   unsubscribe?.();
   if (previewUrl.value) {
     URL.revokeObjectURL(previewUrl.value);
@@ -740,6 +758,11 @@ async function deleteMyPhoto(photo: ContestPhoto | null = myPhoto.value) {
 
 async function toggleVote(photo: ContestPhoto) {
   if (isGallery || photo.deviceId === deviceId || votingPhotoId.value === photo.id) return;
+
+  if (!votingOpen.value) {
+    voteError.value = "Das Voting startet am 02.10. um 21:00 Uhr.";
+    return;
+  }
 
   if (votedPhotoIds.value.has(photo.id)) {
     await removeVote(photo);

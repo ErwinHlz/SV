@@ -2,6 +2,12 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Voting-Start: 02.10.2026, 21:00 Uhr MESZ (= 19:00 UTC). Muss zu
+    // VOTING_START in PhotoContestSection.vue passen.
+    function votingOpen() {
+      return request.time >= timestamp.date(2026, 10, 2) + duration.value(19, 'h');
+    }
+
     // Dokument-ID == deviceId: das erzwingt "ein Foto pro Geraet", weil ein
     // zweiter Upload-Versuch serverseitig ein "update" ist (der Dokument
     // existiert ja schon) und unten nur Stimmen-Aenderungen als Update
@@ -30,7 +36,8 @@ service cloud.firestore {
       // Nur die Stimmenzahl darf sich aendern, und immer nur um genau +-1
       // (Voten bzw. eine Stimme wieder zurueckziehen), nie unter 0.
       allow update:
-        if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes'])
+        if votingOpen()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes'])
         && request.resource.data.votes >= 0
         && (
           request.resource.data.votes == resource.data.votes + 1
@@ -75,7 +82,8 @@ service cloud.firestore {
       allow read: if false;
 
       allow create:
-        if request.resource.data.keys().hasOnly(['photoId', 'deviceId', 'createdAt'])
+        if votingOpen()
+        && request.resource.data.keys().hasOnly(['photoId', 'deviceId', 'createdAt'])
         && request.resource.data.photoId is string
         && request.resource.data.deviceId is string
         && voteId == request.resource.data.photoId + '_' + request.resource.data.deviceId
