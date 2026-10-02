@@ -137,6 +137,12 @@ import stadionCrowd from "@/assets/header/background.png";
 import stadionTeam from "@/assets/Kader/gesamtkader.jpg";
 import stadionDetail from "@/assets/spielberichte/stock_spielberichte_1.png";
 import stadionClubhouse from "@/assets/spielberichte/stock_spielberichte_3.png";
+import tribueneBlickPlatz1 from "@/assets/stadion/tribuene-blick-platz-1.jpg";
+import tribueneBlickPlatz2 from "@/assets/stadion/tribuene-blick-platz-2.jpg";
+import laufbahnPlatzTraining from "@/assets/stadion/laufbahn-platz-training.jpg";
+import laufbahnPlatzHaeuser from "@/assets/stadion/laufbahn-platz-haeuser.jpg";
+import tribueneSeitenansicht1 from "@/assets/stadion/tribuene-seitenansicht-1.jpg";
+import tribueneSeitenansicht2 from "@/assets/stadion/tribuene-seitenansicht-2.jpg";
 import rawStadion from "@/content/stadion.json";
 
 type StadiumFact = {
@@ -197,6 +203,12 @@ const imageMap: Record<string, string> = {
   stadionTeam,
   stadionDetail,
   stadionClubhouse,
+  tribueneBlickPlatz1,
+  tribueneBlickPlatz2,
+  laufbahnPlatzTraining,
+  laufbahnPlatzHaeuser,
+  tribueneSeitenansicht1,
+  tribueneSeitenansicht2,
 };
 
 const galleryItems = gallery.items.map((item, index) => ({

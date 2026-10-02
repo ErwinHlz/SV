@@ -35,27 +35,39 @@
     "items": [
       {
         "id": "stadion-1",
-        "image": "stadionHero",
-        "imageAlt": "Blick auf den Sportplatz",
-        "caption": "Blick auf den Rasen und die Seitenlinie."
+        "image": "tribueneBlickPlatz1",
+        "imageAlt": "Blick von der Tribüne auf den Platz bei Flutlicht",
+        "caption": "Training unter Flutlicht – Blick von der Tribüne."
       },
       {
         "id": "stadion-2",
-        "image": "stadionDetail",
-        "imageAlt": "Ball und Schuhe am Spielfeldrand",
-        "caption": "Nahaufnahme direkt an der Seitenlinie."
+        "image": "laufbahnPlatzTraining",
+        "imageAlt": "Laufbahn und Rasenplatz bei Flutlicht",
+        "caption": "Laufbahn und Rasen am Abend."
       },
       {
         "id": "stadion-3",
-        "image": "stadionClubhouse",
-        "imageAlt": "Vereinsheim und Platzanlage",
-        "caption": "Blick über den Rasen Richtung Vereinsheim."
+        "image": "tribueneSeitenansicht1",
+        "imageAlt": "Überdachte Tribüne am Sportplatz",
+        "caption": "Unsere überdachte Tribüne."
       },
       {
         "id": "stadion-4",
-        "image": "stadionTeam",
-        "imageAlt": "Mannschaftsfoto auf dem Sportplatz",
-        "caption": "Die Mannschaft auf heimischem Rasen."
+        "image": "laufbahnPlatzHaeuser",
+        "imageAlt": "Sportplatz mit Flutlichtmast und Häusern im Hintergrund",
+        "caption": "Der Sportplatz mitten in Ottweiler."
+      },
+      {
+        "id": "stadion-5",
+        "image": "tribueneBlickPlatz2",
+        "imageAlt": "Flutlicht über dem Spielfeld, gesehen von der Tribüne",
+        "caption": "Flutlicht über dem Spielfeld."
+      },
+      {
+        "id": "stadion-6",
+        "image": "tribueneSeitenansicht2",
+        "imageAlt": "Tribüne mit Treppe und Werbebanden",
+        "caption": "Tribüne und Werbebanden an der Laufbahn."
       }
     ]
   },

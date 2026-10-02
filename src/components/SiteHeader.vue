@@ -17,35 +17,47 @@
 
           <!-- Dropdown -->
           <div v-else-if="item.children?.length" class="dropdown">
+            <!-- custom: eigenes <a>, damit wir bei Touch die Navigation
+                 verhindern koennen, bevor RouterLink sie ausloest. -->
             <RouterLink
               v-if="item.to"
+              v-slot="{ href, navigate }"
               :to="item.to"
-              class="dropdown-btn"
-              :class="{ active: isItemActive(item) }"
-              @mouseenter="showDropdown(item.label)"
-              @mouseleave="scheduleCloseDropdown"
-              @click="open = null">
-              <img
-                v-if="item.label === 'Oktoberfest'"
-                :src="brezelIcon"
-                alt=""
-                class="nav-item-icon" />
-              <span>{{ item.label }}</span>
-              <span class="dropdown-chevron" aria-hidden="true">
-                <ChevronUp
-                  v-if="open === item.label"
-                  :size="16"
-                  :stroke-width="2.2" />
-                <ChevronDown v-else :size="16" :stroke-width="2.2" />
-              </span>
+              custom>
+              <a
+                :href="href"
+                class="dropdown-btn"
+                :class="{ active: isItemActive(item) }"
+                :aria-expanded="open === item.label ? 'true' : 'false'"
+                @pointerenter="onDropdownPointerEnter($event, item.label)"
+                @pointerleave="onDropdownPointerLeave"
+                @pointerdown="rememberPointerType"
+                @click="onDropdownClick($event, item.label, navigate)">
+                <img
+                  v-if="item.label === 'Oktoberfest'"
+                  :src="brezelIcon"
+                  alt=""
+                  class="nav-item-icon" />
+                <span>{{ item.label }}</span>
+                <span class="dropdown-chevron" aria-hidden="true">
+                  <ChevronUp
+                    v-if="open === item.label"
+                    :size="16"
+                    :stroke-width="2.2" />
+                  <ChevronDown v-else :size="16" :stroke-width="2.2" />
+                </span>
+              </a>
             </RouterLink>
             <button
               v-else
               type="button"
               class="dropdown-btn"
               :class="{ active: isItemActive(item) }"
-              @mouseenter="showDropdown(item.label)"
-              @mouseleave="scheduleCloseDropdown">
+              :aria-expanded="open === item.label ? 'true' : 'false'"
+              @pointerenter="onDropdownPointerEnter($event, item.label)"
+              @pointerleave="onDropdownPointerLeave"
+              @pointerdown="rememberPointerType"
+              @click="onDropdownClick($event, item.label)">
               <span>{{ item.label }}</span>
               <span class="dropdown-chevron" aria-hidden="true">
                 <ChevronUp
@@ -259,7 +271,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { ChevronDown, ChevronUp } from "@lucide/vue";
 import logo from "@/assets/sv_logo.svg?raw";
@@ -325,6 +337,60 @@ const scheduleCloseDropdown = () => {
   }, 110);
 };
 
+// Touchscreens (z. B. Tablet im Querformat mit Desktop-Header) haben kein
+// Hover: dort oeffnet/schliesst ein Tipp das Dropdown, statt zu navigieren.
+// Entschieden wird pro Eingabe ueber den pointerType, damit Maus und Tastatur
+// - auch auf Touch-Laptops - weiterhin direkt zur Seite fuehren.
+let lastPointerType = "";
+
+const rememberPointerType = (event: PointerEvent) => {
+  lastPointerType = event.pointerType;
+};
+
+const isTouchPointer = (type: string) => type === "touch" || type === "pen";
+
+const onDropdownPointerEnter = (event: PointerEvent, label: string) => {
+  if (event.pointerType === "mouse") showDropdown(label);
+};
+
+const onDropdownPointerLeave = (event: PointerEvent) => {
+  if (event.pointerType === "mouse") scheduleCloseDropdown();
+};
+
+const onDropdownClick = (
+  event: MouseEvent,
+  label: string,
+  navigate?: (e?: MouseEvent) => unknown,
+) => {
+  const clickPointerType = (event as PointerEvent).pointerType;
+  const pointerType = clickPointerType || lastPointerType;
+  lastPointerType = "";
+
+  if (isTouchPointer(pointerType)) {
+    event.preventDefault();
+    if (dropdownCloseTimer) {
+      clearTimeout(dropdownCloseTimer);
+      dropdownCloseTimer = null;
+    }
+    open.value = open.value === label ? null : label;
+    return;
+  }
+
+  open.value = null;
+  navigate?.(event);
+};
+
+// Ohne Hover gibt es kein mouseleave - ein Tipp ausserhalb schliesst das Menue.
+const closeDropdownOnOutsidePointer = (event: PointerEvent) => {
+  if (!open.value) return;
+  const target = event.target as Element | null;
+  if (!target?.closest(".dropdown")) open.value = null;
+};
+
+onMounted(() => {
+  document.addEventListener("pointerdown", closeDropdownOnOutsidePointer);
+});
+
 const toggleMobileSection = (label: string) => {
   openMobileSection.value = openMobileSection.value === label ? null : label;
 };
@@ -343,6 +409,7 @@ watch(isMenuOpen, (open) => {
 });
 
 onBeforeUnmount(() => {
+  document.removeEventListener("pointerdown", closeDropdownOnOutsidePointer);
   setBackgroundScrollLocked(false);
 });
 </script>
