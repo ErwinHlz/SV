@@ -1,20 +1,9 @@
 {
   "teamOne": {
     "last": {
-      "heimmannschaft": "Ottweiler",
-      "gastmannschaft": "Freisen II",
-      "ergebnis": "1:1",
-      "bild_heim": "/images/sv_logo_farbe.svg",
-      "bild_gast": "/team-logos/freisen-2.png",
-      "ort": "Stadion Im Alten Weiher",
-      "datum": "2026-09-27",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-fc-freisen-m2-260927"
-    },
-    "live": {
       "heimmannschaft": "SG Bliesen-Winterbach",
       "gastmannschaft": "Ottweiler",
-      "ergebnis": "-:-",
+      "ergebnis": "3:4",
       "bild_heim": "/team-logos/sg-bliesen-winterbach.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Sportverein Bliesen",
@@ -22,7 +11,7 @@
       "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sv-bliesen-m1-sv-ottweiler-m1-261004"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "SG Eintracht Ostertal",
       "gastmannschaft": "Ottweiler",
       "ergebnis": "-:-",
@@ -32,24 +21,24 @@
       "datum": "2026-10-10",
       "uhrzeit": "15:15",
       "match_url": "https://www.fupa.net/match/1-fc-lautenbach-m1-sv-ottweiler-m1-261010"
+    },
+    "next": {
+      "heimmannschaft": "Urweiler",
+      "gastmannschaft": "Ottweiler",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/urweiler.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "Bosenbergstadion Urweiler",
+      "datum": "2026-10-18",
+      "uhrzeit": "13:00",
+      "match_url": "https://www.fupa.net/match/stv-urweiler-m1-sv-ottweiler-m1-261018"
     }
   },
   "teamTwo": {
     "last": {
-      "heimmannschaft": "Ottweiler II",
-      "gastmannschaft": "Namborn",
-      "ergebnis": "2:1",
-      "bild_heim": "/images/sv_logo_farbe.svg",
-      "bild_gast": "/team-logos/namborn.png",
-      "ort": "Stadion Im Alten Weiher",
-      "datum": "2026-09-27",
-      "uhrzeit": "11:00",
-      "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-namborn-m1-260927"
-    },
-    "live": {
       "heimmannschaft": "Furschweiler",
       "gastmannschaft": "Ottweiler II",
-      "ergebnis": "-:-",
+      "ergebnis": "2:8",
       "bild_heim": "/team-logos/furschweiler.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Sportplatz Furschweiler",
@@ -57,7 +46,7 @@
       "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/sv-furschweiler-m1-sv-ottweiler-m2-261004"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "SG Eintracht Ostertal II",
       "gastmannschaft": "Ottweiler II",
       "ergebnis": "-:-",
@@ -67,6 +56,17 @@
       "datum": "2026-10-10",
       "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/tus-fuerth-m2-sv-ottweiler-m2-261010"
+    },
+    "next": {
+      "heimmannschaft": "Urweiler II",
+      "gastmannschaft": "Ottweiler II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/urweiler-2.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "Bosenbergstadion Urweiler",
+      "datum": "2026-10-18",
+      "uhrzeit": "11:15",
+      "match_url": "https://www.fupa.net/match/stv-urweiler-m2-sv-ottweiler-m2-261018"
     }
   }
 }

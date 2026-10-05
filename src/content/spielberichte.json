@@ -1,11 +1,33 @@
 {
-  "generated_at": "2026-10-04T05:16:45.476Z",
+  "generated_at": "2026-10-05T05:00:56.018Z",
   "sources": [
     "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
     "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
   ],
-  "count": 9,
+  "count": 10,
   "reports": [
+    {
+      "id": "0329QB0LOS000000VS5489C0VUKAOO5J",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-10-04",
+      "datum_de": "04.10.2026",
+      "uhrzeit": "",
+      "titel": "SG Bliesen-Winterbach seit fünf Spielen ohne Sieg",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SG Bliesen-Winterbach",
+        "gastmannschaft": "SV Ottweiler",
+        "ergebnis": "3:4",
+        "halbzeit": "2:2",
+        "ort": "St. Wendel"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SG Bliesen-Winterbach – SV Ottweiler, 3:4 (2:2), St. Wendel SG Bliesen-Winterbach und SV Ottweiler lieferten sich ein wahres Torfestival, das schließlich mit 3:4 endete. SV Ottweiler wurde der Fav...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/0329QB0LOS000000VS5489C0VUKAOO5J",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BNTG000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 04.10.2026 um 18:35 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SG Bliesen-Winterbach – SV Ottweiler, 3:4 (2:2), St. Wendel\n\nSG Bliesen-Winterbach und SV Ottweiler lieferten sich ein wahres Torfestival, das schließlich mit 3:4 endete. SV Ottweiler wurde der Favoritenrolle somit gerecht.\n\nKaum war das Spiel angepfiffen, lag die Elf von Coach Stephan Horst Schock bereits in Front. Finn Gutheil markierte in der zweiten Minute die Führung. Nach nur 21 Minuten verließ Finn Gutheil von den Gästen das Feld, Marc Haupert kam in die Partie. Für das erste Tor von SG Bliesen-Winterbach war Leon Pfeiffer verantwortlich, der in der 33. Minute das 1:1 besorgte. Jonas Hans traf zum 2:1 zugunsten von SV Ottweiler (35.). Die passende Antwort hatte Maximilian Hoffmann parat, als er in der 36. Minute zum Ausgleich traf. Zum Seitenwechsel ersetzte Jason Buschlinger von SV Ottweiler seinen Teamkameraden Finn Eckstein . Weitere Tore blieben bis zum Pfiff des Schiedsrichters aus. Somit ging es mit einem unveränderten Stand in die Halbzeitpause. Johannes Rauber erzielte die Führung, nur traf er ins falsche Tor und schenkte SV Ottweiler durch einen Selbsttreffer das 3:2 (48.). Alessio Santalucia schoss die Kugel zum 4:2 für SV Ottweiler über die Linie (65.). Mit einem Doppelwechsel wollte SG Bliesen-Winterbach frischen Wind in das Spiel bringen und so schickte Christian Spengler Joshua Sonnhalter und Luca Leon Beyer für Rauber und Eduard Müller auf den Platz (73.). Mit dem 3:4 gelang Hoffmann ein Doppelpack – an der Niederlage änderte dies jedoch auch nichts mehr (85.). Andreas Kaleja beendete das Spiel und damit schlug SV Ottweiler SG Bliesen-Winterbach auswärts mit 4:3.\n\nTrotz der Schlappe behält SG Bliesen-Winterbach den zehnten Tabellenplatz bei. Drei Siege, ein Remis und sechs Niederlagen hat das Heimteam momentan auf dem Konto. Der Ertrag der vergangenen fünf Spiele ist überschaubar bei SG Bliesen-Winterbach. Von 15 möglichen Zählern holte man nur einen.\n\nIm Tableau hatte der Sieg von SV Ottweiler keine Auswirkungen, es bleibt bei Platz sieben. Die bisherige Spielzeit von SV Ottweiler ist weiter von Erfolg gekrönt. SV Ottweiler verbuchte insgesamt sechs Siege und ein Remis und musste erst drei Niederlagen hinnehmen.\n\nKommenden Sonntag (15:00 Uhr) tritt SG Bliesen-Winterbach bei 1. FC Niederkirchen an, schon einen Tag vorher muss SV Ottweiler seine Hausaufgaben bei SG Eintracht Ostertal erledigen."
+    },
     {
       "id": "0327HJGI80000000VS5489BVVU1UKJFK",
       "team": "FSG Ottweiler/Steinbach",
