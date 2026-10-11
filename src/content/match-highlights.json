@@ -1,20 +1,10 @@
 {
   "teamOne": {
-    "last": {
-      "heimmannschaft": "SG Bliesen-Winterbach",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "3:4",
-      "bild_heim": "/team-logos/sg-bliesen-winterbach.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Sportverein Bliesen",
-      "datum": "2026-10-04",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/sv-bliesen-m1-sv-ottweiler-m1-261004"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "SG Eintracht Ostertal",
       "gastmannschaft": "Ottweiler",
-      "ergebnis": "-:-",
+      "ergebnis": "6:0",
       "bild_heim": "/team-logos/sg-eintracht-ostertal.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Waldstadion Lautenbach",
@@ -35,21 +25,11 @@
     }
   },
   "teamTwo": {
-    "last": {
-      "heimmannschaft": "Furschweiler",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "2:8",
-      "bild_heim": "/team-logos/furschweiler.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Sportplatz Furschweiler",
-      "datum": "2026-10-04",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/sv-furschweiler-m1-sv-ottweiler-m2-261004"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "SG Eintracht Ostertal II",
       "gastmannschaft": "Ottweiler II",
-      "ergebnis": "-:-",
+      "ergebnis": "1:0",
       "bild_heim": "/team-logos/sg-eintracht-ostertal-2.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Fürth - AH-Arena",
