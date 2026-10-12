@@ -1,11 +1,33 @@
 {
-  "generated_at": "2026-10-11T05:07:48.997Z",
+  "generated_at": "2026-10-12T05:22:07.846Z",
   "sources": [
     "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
     "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
   ],
-  "count": 9,
+  "count": 10,
   "reports": [
+    {
+      "id": "032C3UJHU8000000VS5489C0VUKAOO5J",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-10-11",
+      "datum_de": "11.10.2026",
+      "uhrzeit": "",
+      "titel": "SV Ottweiler verliert hoch gegen SG Eintracht Ostertal",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SG Eintracht Ostertal",
+        "gastmannschaft": "SV Ottweiler",
+        "ergebnis": "6:0",
+        "halbzeit": "2:0",
+        "ort": "Ottweiler"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SG Eintracht Ostertal – SV Ottweiler, 6:0 (2:0), Ottweiler Der SG Eintracht Ostertal stellte die eigenen Aufstiegsambitionen eindrucksvoll unter Beweis und zog SV Ottweiler mit einem 6:0-Erfolg da...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032C3UJHU8000000VS5489C0VUKAOO5J",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BNF4000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 11.10.2026 um 22:06 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SG Eintracht Ostertal – SV Ottweiler, 6:0 (2:0), Ottweiler\n\nDer SG Eintracht Ostertal stellte die eigenen Aufstiegsambitionen eindrucksvoll unter Beweis und zog SV Ottweiler mit einem 6:0-Erfolg das Fell über die Ohren. Der SG Eintracht Ostertal ließ keine Zweifel an der Ausgangslage aufkommen und feierte gegen SV Ottweiler einen klaren Erfolg.\n\nDer SG Eintracht Ostertal ging durch Hans Jürgen Reinert in der 32. Minute in Führung. Kurz vor dem Seitenwechsel legte Julian Witsch das 2:0 nach (42.). Mit der Führung für den SG Eintracht Ostertal ging es in die Kabine. Mit dem 3:0 von Marlon Görgen für die Elf von Trainer Kevin Krämer war das Spiel eigentlich schon entschieden (49.). Doppelpack für die Heimmannschaft: Nach seinem zweiten Tor (53.) markierte Witsch wenig später seinen dritten Treffer (56.). In der 58. Minute stellte SV Ottweiler personell um: Per Doppelwechsel kamen Stefan Fell und Finn Eckstein auf den Platz und ersetzten Alessio Santalucia und Joshua Keip . Stephan Horst Schock wollte den Gast zu einem Ruck bewegen und so sollten Levin Alles und Eugen Felberg eingewechselt für Lukas Poppenhäger und Finn Gutheil neue Impulse setzen (80.). Den Vorsprung des SG Eintracht Ostertal ließ Nico Nilsen in der 86. Minute anwachsen. Letztlich feierte der SG Eintracht Ostertal gegen SV Ottweiler nach einer überzeugenden Darbietung einen verdienten Heimsieg.\n\nDer Zu-null-Sieg lässt dem SG Eintracht Ostertal passable Chancen im Kampf um die besten Plätze. Nur zweimal gab sich der SG Eintracht Ostertal bisher geschlagen. Zuletzt lief es erfreulich für den SG Eintracht Ostertal, was zwölf Punkte aus den letzten fünf Spielen belegen.\n\nTrotz der Schlappe behält SV Ottweiler den siebten Tabellenplatz bei. Sechs Siege, ein Remis und vier Niederlagen hat SV Ottweiler momentan auf dem Konto.\n\nAm kommenden Samstag trifft der SG Eintracht Ostertal auf den 1. FC Niederkirchen (18:00 Uhr), SV Ottweiler reist tags darauf zu STV Urweiler (15:00 Uhr)."
+    },
     {
       "id": "0329QB0LOS000000VS5489C0VUKAOO5J",
       "team": "FSG Ottweiler/Steinbach",
