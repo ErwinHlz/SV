@@ -1,0 +1,465 @@
+/*
+ * Mobiles Design-System (< 768px).
+ * Gemeinsame Bausteine fuer die mobilen Komponenten unter components/mobile.
+ * Desktop nutzt keine dieser Klassen.
+ */
+
+:root {
+  --m-bg: #000611;
+  --m-navy: #022b79;
+  --m-yellow: #f4d047;
+  --m-yellow-hover: #ffe27a;
+  --m-text: #ffffff;
+  --m-text-2: #c7d3ec;
+  --m-meta: #9fb0d0;
+  --m-muted: #8d9cbb;
+  --m-line: rgba(255, 255, 255, 0.1);
+  --m-gutter: 16px;
+  --m-header: 60px;
+  --m-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --m-body: "Barlow", system-ui, sans-serif;
+}
+
+.m-page {
+  background: var(--m-bg);
+  color: var(--m-text);
+  font-family: var(--m-body);
+  overflow-x: clip;
+}
+
+.m-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-yellow);
+}
+
+.m-display {
+  margin: 0;
+  font-family: var(--m-display);
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.m-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 var(--m-gutter);
+  margin-bottom: 14px;
+}
+
+.m-section-title {
+  margin: 4px 0 0;
+  font-family: var(--m-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.m-more {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  color: var(--m-yellow);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.m-btn {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--m-yellow);
+  color: var(--m-navy);
+  font-family: var(--m-body);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.m-btn:hover,
+.m-btn:focus-visible {
+  background: var(--m-yellow-hover);
+  color: var(--m-navy);
+}
+
+.m-text-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--m-yellow);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.m-tabs {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 var(--m-gutter);
+  border-bottom: 1px solid var(--m-line);
+}
+
+.m-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.m-tab {
+  flex: none;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--m-muted);
+  font-family: var(--m-body);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.m-tab.is-active {
+  border-bottom-color: var(--m-yellow);
+  color: var(--m-text);
+  font-weight: 700;
+}
+
+.m-sticky-bar {
+  position: sticky;
+  top: var(--m-header);
+  z-index: 15;
+  background: rgba(0, 6, 17, 0.97);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.m-crest {
+  flex: none;
+  border-radius: 50%;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.m-crest img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+}
+
+.m-rail {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px var(--m-gutter) 8px;
+}
+
+.m-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.m-row {
+  display: grid;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid var(--m-line);
+  color: var(--m-text);
+  text-decoration: none;
+}
+
+.m-box {
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid var(--m-yellow);
+  border-radius: 24px;
+}
+
+.m-box__crest {
+  position: absolute;
+  pointer-events: none;
+  color: var(--m-yellow);
+  opacity: 0.12;
+}
+
+.m-box__crest svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* ---------- Scroll-Effekte ----------
+ * Reine CSS Scroll-Driven Animations. Ohne Browser-Support oder bei
+ * "Bewegung reduzieren" bleibt alles statisch und voll sichtbar. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .m-header-bg {
+      animation: m-header-bg linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 160px;
+    }
+
+    .m-logo-fill {
+      animation: m-logo-fill linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .m-par {
+      animation: m-par linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 560px;
+    }
+
+    .m-fadeout {
+      animation: m-fadeout linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 360px;
+    }
+
+    .m-title-shrink {
+      transform-origin: 0 100%;
+      animation: m-title-shrink linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 220px;
+    }
+
+    .m-rv {
+      animation: m-rv linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    .m-rvx {
+      animation: m-rvx linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+
+    .m-ri {
+      animation: m-ri linear both;
+      animation-timeline: view(inline);
+    }
+
+    .m-flip {
+      animation: m-flip linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 30%;
+    }
+
+    .m-wipe {
+      animation: m-wipe linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .m-zoom {
+      animation: m-zoom linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .m-ipar {
+      animation: m-ipar linear both;
+      animation-timeline: view();
+    }
+
+    .m-tilt-out {
+      transform-origin: 50% 0;
+      animation: m-tilt-out linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .m-marquee {
+      animation: m-marquee linear both;
+      animation-timeline: view();
+    }
+
+    .m-marquee--reverse {
+      animation-name: m-marquee-reverse;
+    }
+  }
+
+  .m-pulse {
+    animation: m-pulse 1.8s ease-out infinite;
+  }
+}
+
+@keyframes m-header-bg {
+  from {
+    background-color: rgba(0, 6, 17, 0);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0);
+  }
+  to {
+    background-color: rgba(0, 6, 17, 0.97);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+}
+
+@keyframes m-logo-fill {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes m-par {
+  to {
+    transform: translateY(170px) scale(1.12);
+  }
+}
+
+@keyframes m-fadeout {
+  to {
+    opacity: 0;
+    transform: translateY(-48px);
+  }
+}
+
+@keyframes m-title-shrink {
+  to {
+    opacity: 0.15;
+    transform: translateY(-24px) scale(0.92);
+  }
+}
+
+@keyframes m-rv {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes m-rvx {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes m-ri {
+  entry 0% {
+    opacity: 0.35;
+    transform: scale(0.88);
+  }
+  entry 100% {
+    opacity: 1;
+    transform: none;
+  }
+  exit 0% {
+    opacity: 1;
+    transform: none;
+  }
+  exit 100% {
+    opacity: 0.35;
+    transform: scale(0.88);
+  }
+}
+
+@keyframes m-flip {
+  from {
+    opacity: 0;
+    transform: perspective(500px) rotateX(-75deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes m-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.15);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+}
+
+@keyframes m-zoom {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes m-ipar {
+  from {
+    transform: translateY(-40px) scale(1.18);
+  }
+  to {
+    transform: translateY(40px) scale(1.18);
+  }
+}
+
+@keyframes m-tilt-out {
+  to {
+    opacity: 0.3;
+    transform: perspective(900px) rotateX(18deg) scale(0.9);
+  }
+}
+
+@keyframes m-marquee {
+  from {
+    transform: translateX(4%);
+  }
+  to {
+    transform: translateX(-52%);
+  }
+}
+
+@keyframes m-marquee-reverse {
+  from {
+    transform: translateX(-52%);
+  }
+  to {
+    transform: translateX(4%);
+  }
+}
+
+@keyframes m-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 208, 71, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(244, 208, 71, 0);
+  }
+}

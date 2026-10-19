@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./tokens.css";
+@import "./mobile.css";
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -108,13 +109,13 @@ h1 {
 }
 
 @media (max-width: 767px) {
+  :root {
+    --sv-header-height: 60px;
+  }
+
   /* Keep the document as the scroll container for native pull-to-refresh. */
   html {
     overscroll-behavior-y: auto;
-  }
-
-  html.sv-page-snap {
-    scroll-snap-type: y mandatory;
   }
 
   body {

@@ -12,10 +12,38 @@
 			</RouterLink>
 		</div>
 	</nav>
+
+	<!-- Mobil: Mannschaft wechseln + Kader/Spielplan/Tabelle, klebt unter dem Header. -->
+	<nav class="team-nav-m" :aria-label="`${teamLabel} Navigation`">
+		<div class="team-nav-m__teams">
+			<RouterLink
+				v-for="team in teamLinks"
+				:key="team.label"
+				:to="team.to"
+				class="team-nav-m__team"
+				:class="{ 'is-current': team.current }"
+				:aria-current="team.current ? 'page' : undefined"
+			>
+				{{ team.label }}
+			</RouterLink>
+		</div>
+		<div class="m-tabs team-nav-m__views">
+			<RouterLink
+				v-for="item in items"
+				:key="item.slug"
+				class="m-tab"
+				exact-active-class="is-active"
+				:to="`${normalizedBase}/${item.slug}`"
+			>
+				{{ item.label }}
+			</RouterLink>
+		</div>
+	</nav>
 </template>
 
 <script setup lang="ts">
 	import { computed } from "vue";
+	import { useRoute } from "vue-router";
 
 	const props = withDefaults(
 		defineProps<{
@@ -35,6 +63,28 @@
 		{ label: "Spielplan", slug: "spielplan" },
 		{ label: "Tabelle", slug: "tabelle" },
 	];
+
+	const route = useRoute();
+
+	// Beim Mannschaftswechsel bleibt die gewaehlte Ansicht erhalten.
+	const currentSlug = computed(() => {
+		const slug = route.path.replace(/\/$/, "").split("/").pop();
+		return items.some((item) => item.slug === slug) ? slug : "kader";
+	});
+
+	const teamLinks = computed(() => [
+		{
+			label: "1. Mannschaft",
+			to: `/teams/one/${currentSlug.value}`,
+			current: normalizedBase.value === "/teams/one",
+		},
+		{
+			label: "2. Mannschaft",
+			to: `/teams/two/${currentSlug.value}`,
+			current: normalizedBase.value === "/teams/two",
+		},
+		{ label: "Jugend", to: "/teams/jugend", current: false },
+	]);
 </script>
 
 <style scoped>
@@ -107,6 +157,57 @@
 
 		.team-nav-link {
 			transition: none;
+		}
+	}
+
+	.team-nav-m {
+		display: none;
+	}
+
+	@media (max-width: 767px) {
+		.team-nav {
+			display: none;
+		}
+
+		.team-nav-m {
+			position: sticky;
+			top: var(--m-header);
+			z-index: 15;
+			display: block;
+			margin-bottom: 12px;
+			background: rgba(0, 6, 17, 0.94);
+			-webkit-backdrop-filter: blur(14px);
+			backdrop-filter: blur(14px);
+			font-family: var(--m-body);
+		}
+
+		.team-nav-m__teams {
+			display: flex;
+			gap: 20px;
+			overflow-x: auto;
+			scrollbar-width: none;
+			padding: 4px var(--m-gutter) 0;
+		}
+
+		.team-nav-m__teams::-webkit-scrollbar {
+			display: none;
+		}
+
+		.team-nav-m__team {
+			flex: none;
+			min-height: 44px;
+			display: inline-flex;
+			align-items: center;
+			font-family: var(--m-display);
+			font-weight: 800;
+			font-size: 22px;
+			text-transform: uppercase;
+			color: var(--m-muted);
+			text-decoration: none;
+		}
+
+		.team-nav-m__team.is-current {
+			color: var(--m-yellow);
 		}
 	}
 

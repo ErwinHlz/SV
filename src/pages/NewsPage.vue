@@ -1,5 +1,6 @@
 <template>
-  <div class="news-page-flow">
+  <MobileNews v-if="isMobile" />
+  <div v-else class="news-page-flow">
     <PageHero
       class="news-page-hero"
       title="News"
@@ -72,12 +73,15 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ExternalLink, Pin } from "@lucide/vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
+import MobileNews from "@/components/mobile/MobileNews.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import InlineSponsorAdSection from "@/components/InlineSponsorAdSection.vue";
 import PageHero from "@/components/PageHero.vue";
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 import { formatDate } from "@/utils/date";
 import { getNewsItems, type NewsEntry } from "@/utils/contentEntries";
 
+const isMobile = useIsMobile();
 const mobileNewsItemLimit = 10;
 const newsScrollStorageKey = "sv-news-scroll-position";
 const isMobileNewsViewport = ref(false);

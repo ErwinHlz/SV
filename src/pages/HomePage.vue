@@ -1,5 +1,6 @@
 <template>
-  <div class="home-page">
+  <MobileHome v-if="isMobile" />
+  <div v-else class="home-page">
     <section class="section section--hero">
       <div class="home-stage">
         <HeroComponent class="home-hero" />
@@ -40,12 +41,16 @@
 </template>
 
 <script setup>
+import MobileHome from "../components/mobile/MobileHome.vue";
+import { useIsMobile } from "../composables/useIsMobile";
 import InlineSponsorAdSection from "../components/InlineSponsorAdSection.vue";
 import HomeSponsorsMobileSection from "../components/HomeSponsorsMobileSection.vue";
 import HeroComponent from "../components/HeroComponent.vue";
 import MatchHighlights from "../components/MatchHighlights.vue";
 import NewsSection from "../components/NewsSection.vue";
 import TermineSection from "../components/TermineSection.vue";
+
+const isMobile = useIsMobile();
 </script>
 
 <style scoped>

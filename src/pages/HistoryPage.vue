@@ -1,5 +1,7 @@
 <template>
   <main class="history-page">
+    <MobileHistory v-if="isMobile" />
+    <template v-else>
     <PageHero
       class="history-hero"
       title="Historie"
@@ -102,6 +104,7 @@
         </article>
       </div>
     </section>
+    </template>
 
     <section class="history-gallery" aria-label="Historische Bilder">
       <div class="history-gallery__shell">
@@ -147,12 +150,19 @@
         </figure>
       </div>
     </Transition>
+
+    <MobileMemberBox v-if="isMobile" kicker="Das nächste Kapitel" cta="Mitglied werden">
+      Schreib die<br />Geschichte mit.
+    </MobileMemberBox>
   </main>
 </template>
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileHistory from "@/components/mobile/MobileHistory.vue";
+import MobileMemberBox from "@/components/mobile/MobileMemberBox.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import rawTimelineEntries from "@/content/history-timeline.json";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
@@ -168,6 +178,7 @@ type TimelineEntry = {
 };
 
 const timelineEntries = rawTimelineEntries as TimelineEntry[];
+const isMobile = useIsMobile();
 
 const galleryImages = [
   {

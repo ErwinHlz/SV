@@ -1,5 +1,6 @@
 <template>
-	<div class="termine-page-flow">
+	<MobileTermine v-if="isMobile" />
+	<div v-else class="termine-page-flow">
 		<PageHero
 			class="termine-page-hero"
 			title="Termine"
@@ -108,7 +109,10 @@ import MatchTerminPoster from "@/components/MatchTerminPoster.vue";
 	import PageHero from "@/components/PageHero.vue";
 	import { formatDate } from "@/utils/date";
 	import { getTerminItems, type TerminEntry } from "@/utils/contentEntries";
+	import MobileTermine from "@/components/mobile/MobileTermine.vue";
+	import { useIsMobile } from "@/composables/useIsMobile";
 
+	const isMobile = useIsMobile();
 	const mobileTermineItemLimit = 10;
 	const termineScrollStorageKey = "sv-termine-scroll-position";
 	const isMobileTermineViewport = ref(false);

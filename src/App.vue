@@ -3,33 +3,17 @@ import SiteHeader from "./components/SiteHeader.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 import CookieConsentPopup from "./components/CookieConsentPopup.vue";
 import GlobalSponsorAd from "./components/GlobalSponsorAd.vue";
-import { computed, onBeforeUnmount, watch } from "vue";
+import MobileHeader from "./components/mobile/MobileHeader.vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useIsMobile } from "./composables/useIsMobile";
 
 const route = useRoute();
-const disableGlobalSnap = computed(
-  () =>
-    route.path.startsWith("/teams/") &&
-    !route.path.startsWith("/teams/jugend"),
-);
+const isMobile = useIsMobile();
 const isJugendPage = computed(() => route.path.startsWith("/teams/jugend"));
-const isStadionPage = computed(() => route.path === "/stadion");
 const isVereinPage = computed(() => route.path === "/verein");
-const isHistoryPage = computed(() => route.path === "/historie");
-const isGalleryPage = computed(() => route.path === "/galerie");
-const isSponsorPage = computed(() => route.path.startsWith("/sponsor"));
-const isOktoberfestPage = computed(() => route.path === "/oktoberfest");
-const isFotocontestPage = computed(() => ["/fotocontest", "/spassgalerie"].includes(route.path));
 const isMembershipPage = computed(() => route.path === "/mitglied-werden");
-const isLegalPage = computed(() =>
-  ["datenschutz", "impressum"].includes(String(route.name ?? "")),
-);
 const isContactPage = computed(() => route.path === "/contact");
-const isContentDetailPage = computed(() =>
-  ["news-detail", "termine-detail", "spielbericht-detail"].includes(
-    String(route.name ?? ""),
-  ),
-);
 const useInlineFooter = computed(
   () =>
     isJugendPage.value ||
@@ -40,44 +24,16 @@ const useInlineFooter = computed(
 const keepPageContents = computed(
   () => isJugendPage.value,
 );
-const disablePageSnap = computed(
-  () =>
-    disableGlobalSnap.value ||
-    isJugendPage.value ||
-    isStadionPage.value ||
-    isVereinPage.value ||
-    isHistoryPage.value ||
-    isGalleryPage.value ||
-    isSponsorPage.value ||
-    isOktoberfestPage.value ||
-    isFotocontestPage.value ||
-    isMembershipPage.value ||
-    isContactPage.value ||
-    isLegalPage.value ||
-    isContentDetailPage.value,
-);
-// Snap on the document so mobile Safari owns the vertical scroll gesture.
-watch(
-  disablePageSnap,
-  (disabled) => {
-    document.documentElement.classList.toggle("sv-page-snap", !disabled);
-  },
-  { immediate: true, flush: "sync" },
-);
-
-onBeforeUnmount(() => {
-  document.documentElement.classList.remove("sv-page-snap");
-});
 </script>
 
 <template>
-  <SiteHeader />
+  <MobileHeader v-if="isMobile" />
+  <SiteHeader v-else />
   <CookieConsentPopup />
   <GlobalSponsorAd />
   <main
     class="app-content"
     :class="{
-      'app-content--no-snap': disablePageSnap,
       'app-content--inline-flow': useInlineFooter,
       'app-content--page-contents': keepPageContents,
     }">
