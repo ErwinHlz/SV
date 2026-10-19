@@ -1,40 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Auswärtsspiel gegen Urweiler II",
-    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-10-18",
-    "time": "13:15",
-    "location": "Auswärts bei Urweiler II",
-    "content": "Anpfiff ist um 13:15 Uhr. Urweiler II spielt gegen Ottweiler II. Spielort: Auswärts bei Urweiler II.",
-    "image": "matchTemplate",
-    "imageAlt": "Urweiler II gegen Ottweiler II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "12. Spieltag",
-    "homeTeam": "Urweiler II",
-    "awayTeam": "Ottweiler II",
-    "externalUrl": "https://www.fupa.net/match/stv-urweiler-m2-sv-ottweiler-m2-261018",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
-    "title": "Auswärtsspiel gegen Urweiler",
-    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-10-18",
-    "time": "15:00",
-    "location": "Auswärts bei Urweiler",
-    "content": "Anpfiff ist um 15:00 Uhr. Urweiler spielt gegen Ottweiler. Spielort: Auswärts bei Urweiler.",
-    "image": "matchTemplate",
-    "imageAlt": "Urweiler gegen Ottweiler",
-    "competition": "Bezirksliga Blies/Nah",
-    "matchday": "12. Spieltag",
-    "homeTeam": "Urweiler",
-    "awayTeam": "Ottweiler",
-    "externalUrl": "https://www.fupa.net/match/stv-urweiler-m1-sv-ottweiler-m1-261018",
-    "mapsUrl": ""
-  },
-  {
-    "id": 3,
     "title": "Auswärtsspiel gegen Oberlinxw.",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-25",
@@ -51,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 2,
     "title": "Auswärtsspiel gegen Peterberg",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-27",
@@ -68,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 3,
     "title": "Heimspiel gegen Baltersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-30",
@@ -85,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 4,
     "title": "Heimspiel gegen Niederkirch.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-31",
@@ -99,6 +65,40 @@
     "homeTeam": "Ottweiler",
     "awayTeam": "Niederkirch.",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031",
+    "mapsUrl": ""
+  },
+  {
+    "id": 5,
+    "title": "Auswärtsspiel gegen Remmesw.",
+    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-11-07",
+    "time": "16:00",
+    "location": "Auswärts bei Remmesw.",
+    "content": "Anpfiff ist um 16:00 Uhr. Remmesw. spielt gegen Ottweiler II. Spielort: Auswärts bei Remmesw..",
+    "image": "matchTemplate",
+    "imageAlt": "Remmesw. gegen Ottweiler II",
+    "competition": "Kreisliga A Blies",
+    "matchday": "15. Spieltag",
+    "homeTeam": "Remmesw.",
+    "awayTeam": "Ottweiler II",
+    "externalUrl": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Auswärtsspiel gegen Alsweiler",
+    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-11-08",
+    "time": "14:30",
+    "location": "Auswärts bei Alsweiler",
+    "content": "Anpfiff ist um 14:30 Uhr. Alsweiler spielt gegen Ottweiler. Spielort: Auswärts bei Alsweiler.",
+    "image": "matchTemplate",
+    "imageAlt": "Alsweiler gegen Ottweiler",
+    "competition": "Bezirksliga Blies/Nah",
+    "matchday": "15. Spieltag",
+    "homeTeam": "Alsweiler",
+    "awayTeam": "Ottweiler",
+    "externalUrl": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108",
     "mapsUrl": ""
   }
 ]
