@@ -1,9 +1,10 @@
 <template>
-  <div class="gallery-page">
+  <MobileGalerie v-if="isMobile" :images="galleryImages" />
+  <div v-else class="gallery-page">
     <PageHero
       class="gallery-page-hero"
       title="Galerie"
-      lead="Ein paar Eindruecke aus dem Vereinsumfeld" />
+      lead="Ein paar Eindrücke aus dem Vereinsumfeld" />
 
     <section class="gallery-shell" aria-label="Bildergalerie">
       <div class="gallery-grid">
@@ -44,6 +45,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileGalerie from "@/components/mobile/MobileGalerie.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 
 type GalleryImage = {
   src: string;
@@ -72,6 +75,7 @@ const galleryImages: GalleryImage[] = Object.entries(galleryImageModules)
     alt: `${toGalleryAlt(filepath)} ${index + 1}`.trim(),
   }));
 
+const isMobile = useIsMobile();
 const selectedImage = ref<GalleryImage | null>(null);
 
 const handleKeydown = (event: KeyboardEvent) => {

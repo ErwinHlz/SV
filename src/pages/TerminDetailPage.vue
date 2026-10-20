@@ -1,4 +1,6 @@
 <template>
+	<MobileTerminDetail v-if="isMobile && terminItem" :item="terminItem" />
+	<template v-else>
 	<PageHero
 		v-if="terminItem"
 		:title="terminItem.title"
@@ -69,6 +71,7 @@
 			Zur Termin-Übersicht
 		</RouterLink>
 	</section>
+	</template>
 </template>
 
 <script setup lang="ts">
@@ -78,10 +81,13 @@ import MatchTerminPoster from "@/components/MatchTerminPoster.vue";
 	import { ArrowLeft, ExternalLink } from "@lucide/vue";
 	import EntryDetailContent from "@/components/EntryDetailContent.vue";
 	import PageHero from "@/components/PageHero.vue";
+	import MobileTerminDetail from "@/components/mobile/MobileTerminDetail.vue";
+	import { useIsMobile } from "@/composables/useIsMobile";
 	import { findTerminBySlug } from "@/utils/contentEntries";
 	import { formatDate } from "@/utils/date";
 
 	const route = useRoute();
+	const isMobile = useIsMobile();
 	const router = useRouter();
 
 	const terminItem = computed(() =>

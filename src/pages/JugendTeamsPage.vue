@@ -1,5 +1,15 @@
 <template>
-  <main class="youth-page">
+  <MobileJugend
+    v-if="isMobile"
+    :teams="teamCards"
+    :teams-title="teamsSection.title"
+    :chapters="timelineEntries"
+    :coaches="coachCards"
+    :coach-title="coachSection.title"
+    :maps-href="mapsHref"
+    :contact="contact"
+    @submit="handleContactSubmit" />
+  <main v-else class="youth-page">
     <PageHero
       :title="hero.title"
       :lead="hero.lead"
@@ -307,7 +317,7 @@
           </div>
         </div>
 
-        <form class="youth-contact__form" @submit.prevent="handleContactSubmit">
+        <form class="youth-contact__form" @submit.prevent="handleContactSubmit()">
           <label>
             Name
             <input v-model="contactForm.name" type="text" autocomplete="name" required />
@@ -344,6 +354,8 @@ import { ChevronLeft, ChevronRight } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileJugend, { type JugendContactForm } from "@/components/mobile/MobileJugend.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import youthHero from "@/assets/header/background.png";
 import { getGalleryPlaceholder, galleryPlaceholderAlt } from "@/utils/galleryPlaceholders";
 import youthTeamG from "@/assets/Jugend/g_jugend.png";
@@ -437,6 +449,7 @@ type TimelineEntry = {
   points: string[];
 };
 
+const isMobile = useIsMobile();
 const youthContent = rawYouthContent as YouthContent;
 const { hero, teamsSection, coachSection, contact } = youthContent;
 
@@ -534,19 +547,22 @@ const contactForm = ref({
   message: "",
 });
 
-const handleContactSubmit = () => {
+// Mobil bringt die Formular-Komponente ihre eigenen Werte mit.
+const handleContactSubmit = (form?: JugendContactForm) => {
   if (!contact.email) {
     return;
   }
 
-  const subject = `Jugend-Anfrage${contactForm.value.team ? ` - ${contactForm.value.team}` : ""}`;
+  const values = form ?? contactForm.value;
+
+  const subject = `Jugend-Anfrage${values.team ? ` - ${values.team}` : ""}`;
   const body = [
-    `Name: ${contactForm.value.name}`,
-    `E-Mail: ${contactForm.value.email}`,
-    `Mannschaft / Alter: ${contactForm.value.team || "-"}`,
+    `Name: ${values.name}`,
+    `E-Mail: ${values.email}`,
+    `Mannschaft / Alter: ${values.team || "-"}`,
     "",
     "Nachricht:",
-    contactForm.value.message,
+    values.message,
   ].join("\n");
 
   window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

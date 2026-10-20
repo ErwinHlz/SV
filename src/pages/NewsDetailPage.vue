@@ -1,4 +1,10 @@
 <template>
+  <MobileNewsDetail
+    v-if="isMobile && newsItem"
+    v-model:active-index="activeMediaIndex"
+    :item="newsItem"
+    :media="newsMedia" />
+  <template v-else>
   <PageHero
     v-if="newsItem"
     class="news-detail-hero"
@@ -177,12 +183,15 @@
       Zur News-Übersicht
     </RouterLink>
   </section>
+  </template>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
+import MobileNewsDetail from "@/components/mobile/MobileNewsDetail.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import { findNewsBySlug, type NewsMediaItem } from "@/utils/contentEntries";
 import { formatDate } from "@/utils/date";
 import { ensureInstagramEmbedScriptLoaded } from "@/composables/useCookieConsent";
@@ -199,6 +208,7 @@ declare global {
 }
 
 const route = useRoute();
+const isMobile = useIsMobile();
 const router = useRouter();
 
 const newsItem = computed(() =>

@@ -10,6 +10,7 @@
 			lead="Kreisklasse A"
 			:image="teamTwoPhoto"
 			compact
+			mobile-photo
 		/>
 		<TeamOneNav base-path="/teams/two" team-label="2. Mannschaft" />
 		<ConsentControlledWidget

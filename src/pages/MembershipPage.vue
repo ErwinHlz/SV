@@ -1,7 +1,28 @@
 <template>
-  <section class="membership-page">
+  <section class="membership-page" :class="{ 'membership-page--mobile m-page': isMobile }">
     <div class="membership-shell">
-      <header class="membership-header">
+      <header v-if="isMobile" class="membership-m-intro">
+        <p class="m-kicker">Sportverein Ottweiler 1919 e.V.</p>
+        <h1 class="m-display membership-m-intro__title">Mitglied<br />werden.</h1>
+        <p class="membership-m-intro__lead">
+          Antrag hier ausfüllen, als PDF speichern und per E-Mail oder Post an
+          den Verein schicken.
+        </p>
+        <MobileVereinTabs class="membership-m-intro__tabs" />
+        <ul class="membership-m-fees" aria-label="Jahresbeiträge">
+          <li v-for="fee in membershipFees" :key="fee.label" class="membership-m-fee">
+            <span class="membership-m-fee__price">{{ fee.price }}</span>
+            <span class="membership-m-fee__label">{{ fee.label }}</span>
+          </li>
+        </ul>
+        <button
+          type="button"
+          class="membership-m-intro__blank"
+          @click="printBlankApplication">
+          Leeren Antrag zum Ausdrucken öffnen
+        </button>
+      </header>
+      <header v-else class="membership-header">
         <div class="membership-header__top">
           <div class="membership-header__intro">
             <p class="membership-header__eyebrow">Sportverein Ottweiler 1919 e.V.</p>
@@ -682,6 +703,8 @@
 import { computed, nextTick, ref } from "vue";
 import { ChevronDown } from "@lucide/vue";
 import printLogo from "@/assets/sv_logo_farbe.svg";
+import MobileVereinTabs from "@/components/mobile/MobileVereinTabs.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 
 type FamilyMember = {
   id: number;
@@ -690,6 +713,7 @@ type FamilyMember = {
   gender: string;
 };
 
+const isMobile = useIsMobile();
 const showValidation = ref(false);
 const printMode = ref<null | "blank" | "filled">(null);
 
@@ -719,6 +743,14 @@ const paymentFrequencyOptions = [
   { value: "yearly", label: "jährlich" },
   { value: "half-yearly", label: "halbjährlich" },
   { value: "quarterly", label: "vierteljährlich" },
+];
+
+// Kurzuebersicht fuer den mobilen Kopf, Werte wie in membershipTypeOptions.
+const membershipFees = [
+  { price: "84 €", label: "Erwachsene" },
+  { price: "72 €", label: "Jugend bis 18" },
+  { price: "132 €", label: "Familie" },
+  { price: "ab 100 €", label: "Förderer" },
 ];
 
 let nextFamilyMemberId = 2;
@@ -1594,6 +1626,247 @@ const printableFamilyMembers = computed(() => {
   }
 }
 
+/* ---------- Mobiles Design (< 768px) ---------- */
+.membership-page--mobile {
+  min-height: 0;
+  padding: var(--m-header) 0 56px;
+  font-family: var(--m-body);
+}
+
+.membership-page--mobile .membership-shell {
+  gap: 0;
+}
+
+.membership-m-intro {
+  padding: 20px var(--m-gutter) 8px;
+}
+
+.membership-m-intro__title {
+  margin: 2px 0 10px;
+  font-size: 64px;
+}
+
+.membership-m-intro__lead {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--m-text-2);
+}
+
+.membership-m-intro .membership-m-intro__tabs {
+  margin: 18px 0 0;
+}
+
+.membership-m-fees {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.membership-m-fee {
+  padding: 14px;
+  border: 1px solid var(--m-line);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.membership-m-fee__price {
+  font-family: var(--m-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--m-yellow);
+}
+
+.membership-m-fee__label {
+  font-size: 13px;
+  color: var(--m-text-2);
+}
+
+.membership-m-intro__blank {
+  margin-top: 8px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--m-yellow);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.membership-page--mobile .membership-form,
+.membership-page--mobile .membership-notice {
+  padding: 0 var(--m-gutter);
+}
+
+.membership-page--mobile .membership-form {
+  margin-top: 20px;
+  gap: 0;
+}
+
+.membership-page--mobile .membership-accordion,
+.membership-page--mobile .membership-form > .membership-accordion:first-of-type {
+  padding: 0;
+  border-top: 1px solid var(--m-line);
+}
+
+.membership-page--mobile .membership-accordion__header {
+  min-height: 64px;
+  padding: 14px 0;
+  box-sizing: border-box;
+}
+
+.membership-page--mobile .membership-section-title {
+  font-family: var(--m-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.membership-page--mobile .membership-accordion__chevron {
+  color: var(--m-yellow);
+}
+
+.membership-page--mobile .membership-accordion__body {
+  padding: 0 0 24px;
+}
+
+.membership-page--mobile .membership-grid {
+  gap: 14px;
+}
+
+.membership-page--mobile .membership-form label {
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--m-text-2);
+}
+
+/* 16px verhindert das automatische Zoomen von iOS beim Fokussieren. */
+.membership-page--mobile .membership-form input:not([type="radio"]):not([type="checkbox"]),
+.membership-page--mobile .membership-form select {
+  min-height: 50px;
+  padding: 0 14px;
+  border-color: rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--m-text);
+  font-family: var(--m-body);
+  font-size: 16px;
+}
+
+.membership-page--mobile .membership-form input:focus,
+.membership-page--mobile .membership-form select:focus {
+  border-color: var(--m-yellow);
+  box-shadow: 0 0 0 3px rgba(244, 208, 71, 0.18);
+}
+
+.membership-page--mobile .membership-options {
+  gap: 10px;
+}
+
+.membership-page--mobile .membership-option {
+  display: flex;
+  gap: 14px;
+  font-weight: 500;
+  min-height: 56px;
+  padding: 14px 16px;
+  align-items: center;
+  border-color: var(--m-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 15px;
+  color: var(--m-text);
+}
+
+.membership-page--mobile .membership-option:has(input:checked) {
+  border-color: var(--m-yellow);
+  background: rgba(244, 208, 71, 0.08);
+}
+
+.membership-page--mobile .membership-option input,
+.membership-page--mobile .membership-check input {
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  flex: none;
+  margin: 0;
+  accent-color: var(--m-yellow);
+}
+
+.membership-page--mobile .membership-checks {
+  gap: 14px;
+}
+
+.membership-page--mobile .membership-check {
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--m-text);
+}
+
+.membership-page--mobile .membership-copy,
+.membership-page--mobile .membership-rules,
+.membership-page--mobile .membership-notice__meta {
+  font-size: 14px;
+  color: var(--m-text-2);
+}
+
+.membership-page--mobile .membership-rule-number {
+  color: var(--m-yellow);
+}
+
+.membership-page--mobile .membership-submit-row {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top-color: var(--m-line);
+  gap: 14px;
+}
+
+.membership-page--mobile .membership-primary-btn,
+.membership-page--mobile .membership-secondary-btn {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 14px;
+  font-family: var(--m-body);
+  font-size: 15px;
+}
+
+.membership-page--mobile .membership-primary-btn {
+  background: var(--m-yellow);
+  color: var(--m-navy);
+}
+
+.membership-page--mobile .membership-secondary-btn {
+  border-width: 1.5px;
+  border-color: var(--m-line);
+}
+
+.membership-page--mobile .membership-link-btn {
+  min-height: 44px;
+  color: var(--m-yellow);
+}
+
+.membership-page--mobile .membership-family-row {
+  border-top-color: var(--m-line);
+}
+
+.membership-page--mobile .membership-notice {
+  margin-top: 24px;
+}
+
 @media print {
   @page {
     size: A4;
@@ -1612,6 +1885,7 @@ const printableFamilyMembers = computed(() => {
   }
 
   :global(.header-container),
+  :global(.m-header),
   :global(.site-footer),
   :global(.global-sponsor-ad),
   :global(.global-sponsor-ad-mobile),

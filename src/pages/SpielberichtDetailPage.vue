@@ -1,4 +1,6 @@
 <template>
+  <MobileSpielberichtDetail v-if="isMobile && spielbericht" :item="spielbericht" />
+  <template v-else>
   <PageHero
     v-if="spielbericht"
     :title="spielbericht.title"
@@ -46,6 +48,7 @@
       Zur Spielbericht-Übersicht
     </RouterLink>
   </section>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -55,10 +58,13 @@ import { ArrowLeft } from "@lucide/vue";
 import EntryDetailContent from "@/components/EntryDetailContent.vue";
 import MatchSpielberichtPoster from "@/components/MatchSpielberichtPoster.vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileSpielberichtDetail from "@/components/mobile/MobileSpielberichtDetail.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import { formatDate } from "@/utils/date";
 import { findSpielberichtBySlug } from "@/utils/contentEntries";
 
 const route = useRoute();
+const isMobile = useIsMobile();
 const router = useRouter();
 
 const spielbericht = computed(() =>

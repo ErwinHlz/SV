@@ -1,4 +1,16 @@
 <template>
+  <MobileStadion
+    v-if="isMobile"
+    :lead="hero.lead"
+    :slides="galleryItems"
+    :people="personCards"
+    :people-title="people.title"
+    :facts="facts.items"
+    :map-title="map.title"
+    :map-embed-url="map.embedUrl"
+    :address-label="addressLabel"
+    :address-link="addressLink ?? undefined" />
+  <template v-else>
   <PageHero
     class="stadion-page-hero"
     :title="hero.title"
@@ -122,7 +134,7 @@
       <span>{{ addressLabel }}</span>
     </a>
   </section>
-
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -131,6 +143,8 @@ import { ChevronLeft, ChevronRight, MapPinned } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import ExternalContentPlaceholder from "@/components/ExternalContentPlaceholder.vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileStadion from "@/components/mobile/MobileStadion.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import { useCookieConsent } from "@/composables/useCookieConsent";
 import stadionHero from "@/assets/spielberichte/stock_spielberichte_2.jpg";
 import stadionCrowd from "@/assets/header/background.png";
@@ -196,6 +210,7 @@ type StadionContent = {
 const stadionContent = rawStadion as StadionContent;
 const { hero, facts, gallery, map, people } = stadionContent;
 const { hasExternalMediaConsent } = useCookieConsent();
+const isMobile = useIsMobile();
 
 const imageMap: Record<string, string> = {
   stadionHero,

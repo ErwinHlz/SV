@@ -1,5 +1,13 @@
 <template>
-  <main class="verein-page">
+  <MobileVerein
+    v-if="isMobile"
+    :lead="hero.lead"
+    :chapters="timelineEntries"
+    :people="personCards"
+    :people-title="people.title"
+    :people-lead="people.lead"
+    :cta="cta" />
+  <main v-else class="verein-page">
     <PageHero
       title="Willkommen bei dem SV Ottweiler"
       :lead="hero.lead"
@@ -206,6 +214,8 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { ChevronLeft, ChevronRight } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileVerein from "@/components/mobile/MobileVerein.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import vereinHero from "@/assets/header/background.png";
 import rawAnsprechpartner from "@/content/ansprechpartner.json";
 import rawTimelineEntries from "@/content/verein-timeline.json";
@@ -277,6 +287,7 @@ type TimelineEntry = {
   points: Array<{ label: string; detail: string }>;
 };
 
+const isMobile = useIsMobile();
 const vereinContent = rawVerein as VereinContent;
 const { hero, people, cta } = vereinContent;
 

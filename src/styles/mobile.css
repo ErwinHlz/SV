@@ -109,6 +109,12 @@
   text-decoration: none;
 }
 
+/* Die globale Hellmodus-Regel "a:hover" (lila) wuerde nach dem Antippen haengen bleiben. */
+.m-text-link:hover,
+.m-more:hover {
+  color: var(--m-yellow);
+}
+
 .m-tabs {
   display: flex;
   gap: 22px;
@@ -168,6 +174,13 @@
   width: 76%;
   height: 76%;
   object-fit: contain;
+}
+
+.m-crest-initials {
+  font-family: var(--m-display);
+  font-weight: 800;
+  font-size: 1.1em;
+  color: var(--m-navy);
 }
 
 .m-rail {

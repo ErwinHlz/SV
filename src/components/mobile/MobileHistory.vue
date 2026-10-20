@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import rawTimelineEntries from "@/content/history-timeline.json";
 import verbandsliga1979 from "@/assets/historie/verbandsliga_1979.jpg";
+import MobileVereinTabs from "@/components/mobile/MobileVereinTabs.vue";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
 
 type TimelineEntry = {
@@ -20,12 +21,6 @@ const photoOf = (entry: TimelineEntry) =>
   entry.imageSrc && !entry.imageSrc.endsWith(".svg")
     ? resolveTimelineImagePath(entry.imageSrc)
     : undefined;
-
-const subNav = [
-  { label: "Verein", to: "/verein" },
-  { label: "Historie", to: "/historie" },
-  { label: "Mitgliedsantrag", to: "/mitglied-werden" },
-];
 </script>
 
 <template>
@@ -45,16 +40,7 @@ const subNav = [
       </div>
     </section>
 
-    <nav class="m-tabs history__subnav" aria-label="Verein">
-      <RouterLink
-        v-for="item in subNav"
-        :key="item.to"
-        :to="item.to"
-        class="m-tab"
-        exact-active-class="is-active">
-        {{ item.label }}
-      </RouterLink>
-    </nav>
+    <MobileVereinTabs />
 
     <section class="history-line" aria-label="Zeitstrahl zur Vereinsgeschichte">
       <div class="history-line__track" aria-hidden="true">
@@ -158,11 +144,6 @@ const subNav = [
   font-size: 15px;
   line-height: 1.5;
   color: var(--m-text-2);
-}
-
-.history__subnav {
-  margin: 14px var(--m-gutter) 0;
-  padding: 0;
 }
 
 .history-line {

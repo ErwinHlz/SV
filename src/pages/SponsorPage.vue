@@ -1,4 +1,6 @@
 <template>
+	<MobileSponsoren v-if="isMobile" :sponsors="sponsors" />
+	<template v-else>
 	<PageHero
 		class="sponsor-page-hero"
 		title="Sponsoren"
@@ -61,14 +63,18 @@
 			</span>
 		</RouterLink>
 	</div>
+	</template>
 </template>
 
 <script setup lang="ts">
 	import { computed } from "vue";
 	import { ArrowRight, ExternalLink, Handshake } from "@lucide/vue";
 	import PageHero from "@/components/PageHero.vue";
+	import MobileSponsoren from "@/components/mobile/MobileSponsoren.vue";
+	import { useIsMobile } from "@/composables/useIsMobile";
 	import { getSponsors } from "@/utils/sponsors";
 
+	const isMobile = useIsMobile();
 	const sponsors = computed(() => getSponsors());
 </script>
 

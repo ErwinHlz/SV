@@ -10,6 +10,7 @@
 			lead="Bezirksliga Ill/Theel"
 			:image="teamOnePhoto"
 			compact
+			mobile-photo
 		/>
 		<TeamOneNav />
 		<ConsentControlledWidget

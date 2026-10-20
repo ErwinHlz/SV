@@ -1,5 +1,6 @@
 <template>
-  <div class="spielberichte-page-flow">
+  <MobileSpielberichte v-if="isMobile" />
+  <div v-else class="spielberichte-page-flow">
     <PageHero
       class="spielberichte-page-hero"
       title="Spielberichte"
@@ -79,10 +80,13 @@ import { ExternalLink, Pin } from "@lucide/vue";
 import HomeSponsorsMobileSection from "@/components/HomeSponsorsMobileSection.vue";
 import MatchSpielberichtPoster from "@/components/MatchSpielberichtPoster.vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileSpielberichte from "@/components/mobile/MobileSpielberichte.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import SponsorLogoStrip from "@/components/SponsorLogoStrip.vue";
 import { formatDate } from "@/utils/date";
 import { getSpielberichtItems } from "@/utils/contentEntries";
 
+const isMobile = useIsMobile();
 const spielberichteItems = computed(() => getSpielberichtItems());
 const spielberichteScrollStorageKey = "sv-spielberichte-scroll-position";
 const tiltPattern = [-2.8, 1.35, -0.9, 2.45, -1.7, 0.55, 2.1, -2.2];
