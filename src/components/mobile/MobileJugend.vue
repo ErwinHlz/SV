@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { ArrowUpRight, Clock, Mail, MapPin, Phone, ShieldCheck } from "@lucide/vue";
-import heroImage from "@/assets/header/background.png";
 import DummySilhouette from "@/components/DummySilhouette.vue";
+import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 
 type Team = {
   id: string;
@@ -41,6 +41,9 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{ submit: [form: JugendContactForm] }>();
+
+// Bei jedem Seitenaufruf ein anderes Bild aus der Galerie.
+const heroImage = getGalleryPlaceholder("hero:jugend");
 
 const form = reactive<JugendContactForm>({ name: "", email: "", team: "", message: "" });
 

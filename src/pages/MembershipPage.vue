@@ -463,13 +463,31 @@
           <p v-if="showValidation && !isFormValid" class="membership-error-text">
             Bitte alle Pflichtfelder korrekt ausfüllen.
           </p>
+          <aside v-if="isMobile" class="membership-m-mail" aria-label="Antrag per E-Mail senden">
+            <Mail class="membership-m-mail__icon" :size="22" :stroke-width="2" aria-hidden="true" />
+            <div class="membership-m-mail__body">
+              <p class="m-kicker">Einfach per E-Mail</p>
+              <p class="membership-m-mail__text">
+                Den ausgefüllten Antrag als PDF speichern und einfach an
+                <a :href="membershipMailto">{{ membershipEmail }}</a> schicken.
+                Ausdrucken ist nicht nötig.
+              </p>
+              <a :href="membershipMailto" class="membership-m-mail__btn">
+                E-Mail an den Verein <ArrowRight :size="16" :stroke-width="2" />
+              </a>
+            </div>
+          </aside>
           </div>
         </details>
       </form>
 
-      <details class="membership-accordion membership-notice" open>
+      <details class="membership-accordion membership-notice" :open="!isMobile">
         <summary class="membership-accordion__header">
-          <h2 class="membership-section-title">
+          <h2 v-if="isMobile" class="membership-section-title">
+            Gut zu wissen
+            <span class="membership-m-notice__sub">Beiträge, Kündigung &amp; Datenschutz</span>
+          </h2>
+          <h2 v-else class="membership-section-title">
             DER SPORTVEREIN OTTWEILER 1919 e.V. HEISST SIE ALS NEUES
             VEREINSMITGLIED HERZLICH WILLKOMMEN!
           </h2>
@@ -701,7 +719,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref } from "vue";
-import { ChevronDown } from "@lucide/vue";
+import { ArrowRight, ChevronDown, Mail } from "@lucide/vue";
 import printLogo from "@/assets/sv_logo_farbe.svg";
 import MobileVereinTabs from "@/components/mobile/MobileVereinTabs.vue";
 import { useIsMobile } from "@/composables/useIsMobile";
@@ -752,6 +770,8 @@ const membershipFees = [
   { price: "132 €", label: "Familie" },
   { price: "ab 100 €", label: "Förderer" },
 ];
+
+const membershipEmail = "info@svottweiler.de";
 
 let nextFamilyMemberId = 2;
 
@@ -844,6 +864,20 @@ const removeFamilyMember = (id: number) => {
     (member) => member.id !== id,
   );
 };
+
+const membershipMailto = computed(() => {
+  const name = `${membershipForm.value.firstName} ${membershipForm.value.lastName}`.trim();
+  const subject = name ? `Mitgliedsantrag ${name}` : "Mitgliedsantrag";
+  const body = [
+    "Hallo,",
+    "",
+    "anbei mein ausgefüllter Mitgliedsantrag als PDF.",
+    "",
+    "Viele Grüße",
+    name,
+  ].join("\n");
+  return `mailto:${membershipEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
 
 const printBlankApplication = () => {
   printMode.value = "blank";
@@ -1703,8 +1737,7 @@ const printableFamilyMembers = computed(() => {
   cursor: pointer;
 }
 
-.membership-page--mobile .membership-form,
-.membership-page--mobile .membership-notice {
+.membership-page--mobile .membership-form {
   padding: 0 var(--m-gutter);
 }
 
@@ -1863,8 +1896,98 @@ const printableFamilyMembers = computed(() => {
   border-top-color: var(--m-line);
 }
 
+/* Als margin, weil das Akkordeon-padding oben auf 0 gesetzt wird. */
 .membership-page--mobile .membership-notice {
-  margin-top: 24px;
+  margin: 24px var(--m-gutter) 0;
+  border-bottom: 1px solid var(--m-line);
+}
+
+.membership-m-mail {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1.5px solid var(--m-yellow);
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.membership-m-mail__icon {
+  color: var(--m-yellow);
+}
+
+.membership-m-mail__text {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--m-text-2);
+}
+
+.membership-m-mail__text a {
+  color: var(--m-text);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.membership-m-mail__btn {
+  min-height: 44px;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--m-yellow);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.membership-m-notice__sub {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--m-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--m-meta);
+}
+
+.membership-page--mobile .membership-notice .membership-copy {
+  margin-top: 0;
+}
+
+.membership-page--mobile .membership-rules {
+  margin-top: 8px;
+  gap: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.membership-page--mobile .membership-rule-item {
+  padding: 12px 0;
+  border-top: 1px solid var(--m-line);
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.membership-page--mobile .membership-rule-number {
+  font-family: var(--m-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.membership-page--mobile .membership-notice__meta {
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid var(--m-line);
+  border-radius: 14px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.membership-page--mobile .membership-notice__meta p:first-child {
+  margin-top: 0;
 }
 
 @media print {

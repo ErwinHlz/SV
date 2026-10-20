@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ArrowDown, ArrowRight } from "@lucide/vue";
-import heroImage from "@/assets/galerie/galerie_25.jpeg";
 import MobileMatchCenter from "@/components/mobile/MobileMatchCenter.vue";
 import MobileMemberBox from "@/components/mobile/MobileMemberBox.vue";
 import MobileNewsImage from "@/components/mobile/MobileNewsImage.vue";
 import MobileTerminRow from "@/components/mobile/MobileTerminRow.vue";
 import { getNewsItems, getTerminItems } from "@/utils/contentEntries";
+import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 import { formatShortDate, isTodayOrLater } from "@/utils/mobileFormat";
 import { toMobileNews } from "@/utils/mobileNews";
+
+// Bei jedem Seitenaufruf ein anderes Bild aus der Galerie.
+const heroImage = getGalleryPlaceholder("hero:home");
 
 const news = computed(() => getNewsItems().slice(0, 6).map(toMobileNews));
 const termine = getTerminItems()
@@ -23,7 +26,7 @@ const scrollToMatches = () => {
 <template>
   <div class="m-page home">
     <section class="home-hero">
-      <img class="home-hero__image m-par" :src="heroImage" alt="Spieler des SV Ottweiler im Zweikampf" />
+      <img class="home-hero__image m-par" :src="heroImage" alt="Szene aus der Vereinsgalerie des SV Ottweiler" />
       <div class="home-hero__shade" aria-hidden="true"></div>
       <div class="home-hero__content m-fadeout">
         <p class="m-kicker">Bezirksliga Blies/Nahe · Saison 26/27</p>

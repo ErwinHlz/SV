@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { ArrowUpRight, MapPin, Navigation } from "@lucide/vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import { openCookieSettings, useCookieConsent } from "@/composables/useCookieConsent";
+import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 
 type Slide = { id: string; image: string; imageAlt: string; caption?: string };
 type Person = { id: string; name: string; role: string; image?: string; imageAlt: string };
@@ -35,7 +36,8 @@ const onRailScroll = () => {
 
 // Adresse steht schon im Anfahrt-Block.
 const infoFacts = props.facts.filter((fact) => fact.label !== "Adresse");
-const heroImage = props.slides[0];
+// Bei jedem Seitenaufruf ein anderes Bild aus der Galerie.
+const heroImage = getGalleryPlaceholder("hero:stadion");
 </script>
 
 <template>
@@ -44,8 +46,8 @@ const heroImage = props.slides[0];
       <img
         v-if="heroImage"
         class="stadion-hero__image m-par"
-        :src="heroImage.image"
-        :alt="heroImage.imageAlt" />
+        :src="heroImage"
+        alt="" />
       <div class="stadion-hero__shade" aria-hidden="true"></div>
       <div class="stadion-hero__content m-fadeout">
         <p class="m-kicker">Unser Stadion</p>

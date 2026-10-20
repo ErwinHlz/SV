@@ -14,7 +14,7 @@
     v-else-if="isMobile"
     class="m-hero"
     :class="{ 'm-hero--compact': compact }">
-    <img class="m-hero__image m-par" :src="image" alt="" />
+    <img class="m-hero__image m-par" :src="mobileImage" alt="" />
     <div class="m-hero__shade" aria-hidden="true"></div>
     <div class="m-hero__content m-fadeout">
       <p class="m-kicker">{{ kicker }}</p>
@@ -38,8 +38,8 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import gesamtkader from "@/assets/Kader/gesamtkader.jpg";
 import { useIsMobile } from "@/composables/useIsMobile";
+import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 
 const props = withDefaults(
   defineProps<{
@@ -60,7 +60,13 @@ const props = withDefaults(
 
 const isMobile = useIsMobile();
 
-const image = computed(() => props.image ?? gesamtkader);
+// Ohne festes Bild: bei jedem Seitenaufruf ein anderes Galeriebild, pro Seite stabil.
+const randomImage = computed(() => getGalleryPlaceholder(`hero:${props.title}`));
+const image = computed(() => props.image ?? randomImage.value);
+
+// Mobil ist der Hero immer zufaellig; Mannschaftsfotos (mobilePhoto) bleiben,
+// die sind Inhalt und keine Deko.
+const mobileImage = computed(() => randomImage.value || image.value);
 </script>
 
 <style scoped>

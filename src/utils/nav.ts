@@ -66,13 +66,14 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: "Galerie", to: "/galerie" },
-  {
-    label: "Oktoberfest",
-    to: "/oktoberfest",
-    children: [
-      { label: "Glücksrad", to: "/oktoberfest" },
-      { label: "Fotocontest", to: "/fotocontest" },
-      { label: "Spaßgalerie", to: "/spassgalerie" },
-    ],
-  },
+  // Oktoberfest ist offline, siehe router/index.ts.
+  // {
+  //   label: "Oktoberfest",
+  //   to: "/oktoberfest",
+  //   children: [
+  //     { label: "Glücksrad", to: "/oktoberfest" },
+  //     { label: "Fotocontest", to: "/fotocontest" },
+  //     { label: "Spaßgalerie", to: "/spassgalerie" },
+  //   ],
+  // },
 ];

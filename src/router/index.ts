@@ -21,8 +21,11 @@ import StadionPage from "@/pages/StadionPage.vue";
 import HistoryPage from "@/pages/HistoryPage.vue";
 import VereinPage from "@/pages/VereinPage.vue";
 import GaleriePage from "@/pages/GaleriePage.vue";
-import OktoberfestPage from "@/pages/OktoberfestPage.vue";
-import FotocontestPage from "@/pages/FotocontestPage.vue";
+// Oktoberfest ist offline. Zum Reaktivieren die Importe, die Routen unten,
+// den Eintrag in utils/nav.ts und das Brezel-Badge in SiteHeader.vue wieder
+// einkommentieren. Der Fotocontest-Aushang liegt in archiv/oktoberfest/.
+// import OktoberfestPage from "@/pages/OktoberfestPage.vue";
+// import FotocontestPage from "@/pages/FotocontestPage.vue";
 import SponsorPage from "@/pages/SponsorPage.vue";
 import SponsorBecomePage from "@/pages/SponsorBecomePage.vue";
 import MembershipPage from "@/pages/MembershipPage.vue";
@@ -124,17 +127,17 @@ const router = createRouter({
     { path: "/historie", name: "historie", component: HistoryPage },
     { path: "/verein", name: "verein", component: VereinPage },
     { path: "/galerie", name: "galerie", component: GaleriePage },
-    { path: "/oktoberfest", name: "oktoberfest", component: OktoberfestPage },
-    {
-      path: "/fotocontest",
-      name: "fotocontest",
-      component: FotocontestPage,
-    },
-    {
-      path: "/spassgalerie",
-      name: "spassgalerie",
-      component: FotocontestPage,
-    },
+    // { path: "/oktoberfest", name: "oktoberfest", component: OktoberfestPage },
+    // {
+    //   path: "/fotocontest",
+    //   name: "fotocontest",
+    //   component: FotocontestPage,
+    // },
+    // {
+    //   path: "/spassgalerie",
+    //   name: "spassgalerie",
+    //   component: FotocontestPage,
+    // },
     {
       path: "/mitglied-werden",
       name: "mitglied-werden",

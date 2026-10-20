@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ArrowRight } from "@lucide/vue";
-import heroImage from "@/assets/header/background.png";
 import DummySilhouette from "@/components/DummySilhouette.vue";
-import CrestMark from "@/components/mobile/CrestMark.vue";
+import MobileMemberBox from "@/components/mobile/MobileMemberBox.vue";
 import MobileVereinTabs from "@/components/mobile/MobileVereinTabs.vue";
+import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 import { resolveTimelineImagePath } from "@/utils/timelineImages";
 
 type Chapter = {
@@ -26,15 +25,21 @@ defineProps<{
   peopleLead: string;
   cta: { title: string; text: string; primaryLabel: string; secondaryLabel: string };
 }>();
+
+// Bei jedem Seitenaufruf ein anderes Bild aus der Galerie.
+const heroImage = getGalleryPlaceholder("hero:verein");
 </script>
 
 <template>
   <div class="m-page verein">
     <section class="verein-hero">
-      <img class="verein-hero__image m-par" :src="heroImage" alt="" />
-      <div class="verein-hero__shade" aria-hidden="true"></div>
-      <div class="verein-hero__content m-fadeout">
-        <p class="m-kicker">Unser Verein</p>
+      <div class="verein-hero__word m-hero-word" aria-hidden="true">SVO</div>
+      <figure class="verein-hero__photo m-hero-photo">
+        <img :src="heroImage" alt="Szene aus dem Vereinsleben des SV Ottweiler" />
+        <figcaption>Vereinsleben</figcaption>
+      </figure>
+      <div class="verein-hero__text m-fadeout">
+        <p class="m-kicker">Verein · Über uns</p>
         <h1 class="m-display verein-hero__title">Mehr als<br />Fußball.</h1>
         <p class="verein-hero__lead">{{ lead }}</p>
       </div>
@@ -42,29 +47,32 @@ defineProps<{
 
     <MobileVereinTabs />
 
-    <section class="verein-chapters" aria-label="Über den Verein">
-      <article v-for="(chapter, index) in chapters" :key="chapter.id" class="verein-chapter">
-        <div class="verein-chapter__head m-rv">
-          <span class="verein-chapter__num" aria-hidden="true">{{ String(index + 1).padStart(2, "0") }}</span>
-          <div>
-            <p class="m-kicker">{{ chapter.eyebrow }}</p>
-            <h2 class="m-section-title verein-chapter__title">{{ chapter.title }}</h2>
+    <section class="verein-line" aria-label="Über den Verein">
+      <div class="verein-line__track" aria-hidden="true">
+        <div class="verein-line__fill"></div>
+      </div>
+
+      <article v-for="(chapter, index) in chapters" :key="chapter.id" class="verein-entry">
+        <span class="verein-entry__dot" aria-hidden="true"></span>
+        <div class="verein-entry__body m-rvx">
+          <span class="verein-entry__num">{{ String(index + 1).padStart(2, "0") }}</span>
+          <span class="verein-entry__eyebrow">{{ chapter.eyebrow }}</span>
+          <h2 class="verein-entry__title">{{ chapter.title }}</h2>
+          <p v-if="chapter.lead" class="verein-entry__lead">{{ chapter.lead }}</p>
+          <ul class="verein-entry__points">
+            <li v-for="point in chapter.points" :key="point.label">
+              <strong>{{ point.label }}</strong>
+              <span>{{ point.detail }}</span>
+            </li>
+          </ul>
+          <div v-if="chapter.imageSrc" class="verein-entry__photo">
+            <img
+              class="m-zoom"
+              :src="resolveTimelineImagePath(chapter.imageSrc)"
+              :alt="chapter.imageAlt ?? chapter.title"
+              loading="lazy" />
           </div>
         </div>
-        <p v-if="chapter.lead" class="verein-chapter__lead">{{ chapter.lead }}</p>
-        <div v-if="chapter.imageSrc" class="verein-chapter__photo">
-          <img
-            class="m-wipe"
-            :src="resolveTimelineImagePath(chapter.imageSrc)"
-            :alt="chapter.imageAlt ?? chapter.title"
-            loading="lazy" />
-        </div>
-        <ul class="verein-chapter__points">
-          <li v-for="point in chapter.points" :key="point.label" class="m-rv">
-            <strong>{{ point.label }}</strong>
-            <span>{{ point.detail }}</span>
-          </li>
-        </ul>
       </article>
     </section>
 
@@ -76,7 +84,7 @@ defineProps<{
         </div>
       </div>
       <p class="verein-people__lead">{{ peopleLead }}</p>
-      <div class="m-rail verein-people__rail">
+      <div class="m-rail">
         <article v-for="person in people" :key="person.id" class="verein-person m-ri">
           <span class="verein-person__photo">
             <img v-if="person.image" :src="person.image" :alt="person.imageAlt" loading="lazy" />
@@ -88,20 +96,9 @@ defineProps<{
       </div>
     </section>
 
-    <section class="verein-cta" aria-label="Mitmachen">
-      <div class="m-box verein-cta__box m-rv">
-        <CrestMark class="m-box__crest verein-cta__crest" />
-        <p class="m-kicker">Mitmachen</p>
-        <h2 class="m-display verein-cta__title">Werde Teil<br />von Blau-Gelb.</h2>
-        <p class="verein-cta__text">{{ cta.text }}</p>
-        <div class="verein-cta__actions">
-          <RouterLink to="/mitglied-werden" class="m-btn">
-            {{ cta.primaryLabel }} <ArrowRight :size="18" :stroke-width="2" />
-          </RouterLink>
-          <RouterLink to="/contact" class="m-text-link">{{ cta.secondaryLabel }}</RouterLink>
-        </div>
-      </div>
-    </section>
+    <MobileMemberBox kicker="Mitmachen" :text="cta.text" :cta="cta.primaryLabel">
+      Werde Teil<br />von Blau-Gelb.
+    </MobileMemberBox>
   </div>
 </template>
 
@@ -112,31 +109,55 @@ defineProps<{
 
 .verein-hero {
   position: relative;
-  height: 560px;
+  height: 600px;
   overflow: hidden;
+  background: #011338;
 }
 
-.verein-hero__image {
+.verein-hero__word {
   position: absolute;
-  inset: 0;
+  left: -8px;
+  top: 64px;
+  font-family: var(--m-display);
+  font-weight: 800;
+  font-size: 214px;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(244, 208, 71, 0.6);
+  transform-origin: 20% 50%;
+}
+
+.verein-hero__photo {
+  position: absolute;
+  right: 18px;
+  top: 206px;
+  width: 214px;
+  margin: 0;
+  padding: 6px 6px 8px;
+  border-radius: 6px;
+  background: #f3f1ea;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+  transform: rotate(-4deg);
+}
+
+.verein-hero__photo img {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: 130px;
   object-fit: cover;
+  border-radius: 2px;
 }
 
-.verein-hero__shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 6, 17, 0.6) 0%,
-    rgba(0, 6, 17, 0.1) 25%,
-    rgba(0, 6, 17, 0.3) 50%,
-    rgba(0, 6, 17, 1) 100%
-  );
+.verein-hero__photo figcaption {
+  padding-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a2338;
+  text-align: center;
 }
 
-.verein-hero__content {
+.verein-hero__text {
   position: absolute;
   left: var(--m-gutter);
   right: var(--m-gutter);
@@ -147,90 +168,140 @@ defineProps<{
 }
 
 .verein-hero__title {
-  font-size: 64px;
+  font-size: 54px;
 }
 
 .verein-hero__lead {
   margin: 0;
-  max-width: 340px;
+  max-width: 320px;
   font-size: 15px;
   line-height: 1.5;
   color: var(--m-text-2);
 }
 
-.verein-chapters {
-  padding: 40px var(--m-gutter) 0;
+.verein-line {
+  position: relative;
+  padding: 40px var(--m-gutter) 24px;
   display: flex;
   flex-direction: column;
-  gap: 52px;
+  gap: 40px;
+  view-timeline-name: --verein-line;
 }
 
-.verein-chapter__head {
+.verein-line__track {
+  position: absolute;
+  left: 31px;
+  top: 48px;
+  bottom: 40px;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.verein-line__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--m-yellow);
+  transform-origin: 50% 0;
+}
+
+.verein-entry {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: end;
+  grid-template-columns: 32px minmax(0, 1fr);
   gap: 14px;
 }
 
-.verein-chapter__num {
+.verein-entry__dot {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  margin: 14px 0 0 9px;
+  box-sizing: border-box;
+  border: 2px solid var(--m-yellow);
+  border-radius: 50%;
+  background: var(--m-yellow);
+}
+
+.verein-entry__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.verein-entry__num {
   font-family: var(--m-display);
   font-weight: 800;
-  font-size: 72px;
-  line-height: 0.8;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(244, 208, 71, 0.7);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--m-yellow);
 }
 
-.verein-chapter__title {
-  font-size: 32px;
+.verein-entry__eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-meta);
 }
 
-.verein-chapter__lead {
-  margin: 14px 0 0;
+.verein-entry__title {
+  margin: 0;
+  font-family: var(--m-display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.05;
+}
+
+.verein-entry__lead {
+  margin: 4px 0 0;
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--m-text-2);
 }
 
-.verein-chapter__photo {
-  margin-top: 18px;
-  height: 210px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #071637;
-}
-
-.verein-chapter__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.verein-chapter__points {
-  margin: 18px 0 0;
+.verein-entry__points {
+  margin: 8px 0 0;
   padding: 0;
   list-style: none;
-}
-
-.verein-chapter__points li {
-  padding: 12px 0;
-  border-top: 1px solid var(--m-line);
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 10px;
+}
+
+.verein-entry__points li {
+  padding-left: 12px;
+  border-left: 2px solid rgba(244, 208, 71, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   font-size: 14px;
   line-height: 1.45;
   color: var(--m-text-2);
 }
 
-.verein-chapter__points strong {
+.verein-entry__points strong {
   color: var(--m-text);
-  font-weight: 700;
-  font-size: 15px;
+  font-weight: 600;
+}
+
+.verein-entry__photo {
+  margin-top: 10px;
+  height: 190px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.verein-entry__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .verein-people {
-  padding-top: 64px;
+  padding-top: 40px;
 }
 
 .verein-people__head {
@@ -289,45 +360,70 @@ defineProps<{
   line-height: 1.25;
 }
 
-.verein-cta {
-  padding: 64px var(--m-gutter) 0;
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .m-hero-word {
+      animation: verein-word linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 520px;
+    }
+
+    .m-hero-photo {
+      animation: verein-photo linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 520px;
+    }
+
+    .verein-line__fill {
+      animation: verein-grow linear both;
+      animation-timeline: --verein-line;
+      animation-range: cover 50vh cover calc(100% - 50vh);
+    }
+
+    .verein-entry__dot {
+      animation: verein-dot linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 50%;
+    }
+  }
 }
 
-.verein-cta__box {
-  border-radius: 28px;
-  padding: 30px 22px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+@keyframes verein-word {
+  to {
+    transform: translateY(-90px) scale(1.3);
+    opacity: 0.12;
+  }
 }
 
-.verein-cta__crest {
-  right: -70px;
-  bottom: -80px;
-  width: 280px;
-  height: 280px;
-  opacity: 0.14;
+@keyframes verein-photo {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: translateY(110px) rotate(4deg);
+  }
 }
 
-.verein-cta__title {
-  position: relative;
-  font-size: 48px;
-  line-height: 0.92;
+@keyframes verein-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
-.verein-cta__text {
-  position: relative;
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--m-text-2);
-}
-
-.verein-cta__actions {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 20px;
+@keyframes verein-dot {
+  0%,
+  88% {
+    background: #16233f;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 0 rgba(244, 208, 71, 0);
+  }
+  100% {
+    background: var(--m-yellow);
+    border-color: var(--m-yellow);
+    box-shadow: 0 0 0 7px rgba(244, 208, 71, 0.22);
+  }
 }
 </style>

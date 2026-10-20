@@ -115,12 +115,14 @@
         </li>
       </ul>
     </nav>
+    <!-- Oktoberfest ist offline, siehe router/index.ts.
     <RouterLink
       to="/oktoberfest"
       class="oktoberfest-badge"
       aria-label="Oktoberfest">
       <img :src="brezelIcon" alt="" class="oktoberfest-badge-icon" />
     </RouterLink>
+    -->
     <div class="social-links-desktop hidden md:flex">
       <a :href="externalLinks.social.instagram.url">
         <svg
