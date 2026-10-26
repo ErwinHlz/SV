@@ -7,7 +7,6 @@
     :people-title="people.title"
     :facts="facts.items"
     :plan-title="belegungsplan.title"
-    :plan-lead="belegungsplan.lead"
     :map-title="map.title"
     :map-embed-url="map.embedUrl"
     :address-label="addressLabel"
@@ -21,7 +20,6 @@
   <section class="stadion-section" :aria-label="belegungsplan.title">
     <header class="section-header">
       <h2 class="section-title">{{ belegungsplan.title }}</h2>
-      <p class="section-lead">{{ belegungsplan.lead }}</p>
     </header>
     <Belegungsplan />
   </section>
@@ -214,7 +212,6 @@ type StadionContent = {
   map: StadionMap;
   belegungsplan: {
     title: string;
-    lead: string;
   };
   people: {
     title: string;
@@ -392,12 +389,6 @@ onBeforeUnmount(() => {
   margin: 0;
   font-size: clamp(24px, 3vw, 36px);
   letter-spacing: 0.02em;
-}
-
-.section-lead {
-  margin: 0;
-  flex-basis: 100%;
-  opacity: 0.8;
 }
 
 .slideshow-controls {

@@ -1,12 +1,19 @@
 <template>
-  <div class="cal" :class="{ 'cal--mobile': mobile }" :style="rootStyle">
+  <div
+    class="cal"
+    :class="{ 'cal--mobile': mobile, 'cal--mobile-week': mobile && mobileView === 'week' }"
+    :style="rootStyle">
     <div class="cal-toolbar">
       <div class="cal-toolbar__title">
         <span class="cal-toolbar__kicker">{{ activeView === "week" ? weekKicker : "Monat" }}</span>
         <span class="cal-toolbar__range">{{ activeView === "week" ? weekRange : monthTitle }}</span>
       </div>
       <div class="cal-toolbar__actions">
-        <div v-if="!mobile" class="cal-switch" role="group" aria-label="Ansicht">
+        <div v-if="mobile" class="cal-switch" role="group" aria-label="Ansicht">
+          <button type="button" :aria-pressed="mobileView === 'day'" @click="mobileView = 'day'">Tag</button>
+          <button type="button" :aria-pressed="mobileView === 'week'" @click="mobileView = 'week'">Woche</button>
+        </div>
+        <div v-else class="cal-switch" role="group" aria-label="Ansicht">
           <button type="button" :aria-pressed="view === 'week'" @click="view = 'week'">Woche</button>
           <button type="button" :aria-pressed="view === 'month'" @click="view = 'month'">Monat</button>
         </div>
@@ -32,8 +39,8 @@
 
     <!-- Wochenansicht -->
     <template v-if="activeView === 'week'">
-      <!-- Mobil: Tag auswählen, darunter die Zeitleiste des Tages. -->
-      <div v-if="mobile" class="cal-strip" role="tablist" aria-label="Wochentag wählen">
+      <!-- Mobil (Tag): Tag auswählen, darunter die Zeitleiste des Tages. -->
+      <div v-if="mobile && mobileView === 'day'" class="cal-strip" role="tablist" aria-label="Wochentag wählen">
         <button
           v-for="(day, index) in days"
           :key="day.iso"
@@ -53,7 +60,7 @@
         <span class="cal-strip__indicator" :style="{ '--i': selectedDay }" aria-hidden="true"></span>
       </div>
 
-      <!-- Mobil: nach links/rechts wischen wechselt den Tag. -->
+      <!-- Mobil: nach links/rechts wischen wechselt den Tag bzw. die Woche. -->
       <div
         ref="frameRef"
         class="cal-frame"
@@ -61,12 +68,25 @@
         @touchmove.passive="onTouchMove"
         @touchend.passive="onTouchEnd"
         @touchcancel.passive="onTouchEnd">
-        <div v-if="!mobile" class="cal-head">
+        <div v-if="!mobile || mobileView === 'week'" class="cal-head">
           <span></span>
-          <div v-for="day in days" :key="day.iso" class="cal-head__day" :class="{ 'is-today': day.isToday }">
-            <span class="cal-head__name">{{ day.short }}</span>
-            <span class="cal-head__num">{{ day.date.getDate() }}</span>
-          </div>
+          <template v-for="(day, index) in days" :key="day.iso">
+            <!-- Mobil (Woche): Tag antippen öffnet die Tagesansicht. -->
+            <button
+              v-if="mobile"
+              type="button"
+              class="cal-head__day"
+              :class="{ 'is-today': day.isToday }"
+              :aria-label="`${day.name}, ${formatLong(day.date)} als Tag anzeigen`"
+              @click="openDay(index)">
+              <span class="cal-head__name">{{ day.short }}</span>
+              <span class="cal-head__num">{{ day.date.getDate() }}</span>
+            </button>
+            <div v-else class="cal-head__day" :class="{ 'is-today': day.isToday }">
+              <span class="cal-head__name">{{ day.short }}</span>
+              <span class="cal-head__num">{{ day.date.getDate() }}</span>
+            </div>
+          </template>
         </div>
 
         <div class="cal-body">
@@ -116,10 +136,11 @@
                   <span class="cal-ev__short">{{ entry.short }}</span>
                 </span>
                 <span v-if="entry.detail" class="cal-ev__meta">{{ entry.detail }}</span>
+                <span class="cal-ev__tag" aria-hidden="true">{{ entry.tag }}</span>
               </button>
             </div>
 
-            <p v-if="mobile && !day.entries.length" class="cal-free">Keine Belegung an diesem Tag</p>
+            <p v-if="mobile && mobileView === 'day' && !day.entries.length" class="cal-free">Keine Belegung an diesem Tag</p>
           </div>
         </div>
       </div>
@@ -293,6 +314,7 @@ type Entry = {
   timeRest: string;
   team: string;
   short: string;
+  tag: string;
   color: string;
   ink: string;
   detail?: string;
@@ -350,6 +372,8 @@ const formatTime = (minutes: number) =>
 
 // "D-Jugend (U13)" -> "D-Jugend", Kurzform "D-Jgd."
 const longName = (name: string) => name.replace(/\s*\(.*\)\s*$/, "");
+// Ein Zeichen für sehr schmale Termine: "SVO 1" -> "1", "D-Jgd." -> "D".
+const tagFor = (short: string) => /SVO\s*(\d)/.exec(short)?.[1] ?? short.charAt(0);
 const shortName = (team: Team) => team.short ?? longName(team.name).replace(/-Jugend$/, "-Jgd.");
 
 const teams = [...(rawAktive.teams as Team[]), ...(rawJugend.teams as Team[])];
@@ -453,6 +477,7 @@ const entriesForDate = (date: Date): Entry[] => {
         timeRest: " Anstoß",
         team: match.team.label,
         short: match.team.short,
+        tag: tagFor(match.team.short),
         color,
         ink: inkFor(color),
         detail: `gegen ${match.awayTeam}`,
@@ -476,6 +501,7 @@ const entriesForDate = (date: Date): Entry[] => {
       timeRest: `–${formatTime(training.end)}`,
       team: training.teamName,
       short: shortName(training.team),
+      tag: tagFor(shortName(training.team)),
       color,
       ink: inkFor(color),
       place: training.place,
@@ -579,6 +605,8 @@ const today = computed(() => startOfDay(now.value));
 const view = ref<"week" | "month">("week");
 // Mobil gibt es nur die Woche (Tag für Tag), der Monat ist dort zu klein.
 const activeView = computed(() => (props.mobile ? "week" : view.value));
+// Mobil: ein Tag im Detail oder die ganze Woche auf einen Blick.
+const mobileView = ref<"day" | "week">("day");
 const weekOffset = ref(0);
 const monthOffset = ref(0);
 const todayIndex = () => (new Date().getDay() + 6) % 7;
@@ -672,6 +700,11 @@ const slideTo = async (direction: number, change: () => void) => {
   animating = false;
 };
 
+const openDay = (index: number) => {
+  selectedDay.value = index;
+  mobileView.value = "day";
+};
+
 const selectDay = (index: number) => {
   if (index === selectedDay.value) return;
   if (!props.mobile) {
@@ -702,7 +735,9 @@ const onTouchMove = (event: TouchEvent) => {
   if (gesture.axis !== "x") return;
   dragging.value = true;
   // Am Ende des Zeitraums gibt der Tag nur noch federnd nach.
-  dragX.value = canStepDay(dx < 0 ? 1 : -1) ? dx : dx * 0.25;
+  const direction = dx < 0 ? 1 : -1;
+  const canMove = mobileView.value === "week" ? canStep(direction) : canStepDay(direction);
+  dragX.value = canMove ? dx : dx * 0.25;
 };
 
 const onTouchEnd = (event: TouchEvent) => {
@@ -713,7 +748,9 @@ const onTouchEnd = (event: TouchEvent) => {
   const dx = touch ? touch.clientX - current.x : dragX.value;
   const direction = dx < 0 ? 1 : -1;
   lastSwipeAt = Date.now();
-  if (Math.abs(dx) >= swipeThreshold && canStepDay(direction)) {
+  if (mobileView.value === "week" && Math.abs(dx) >= swipeThreshold && canStep(direction)) {
+    step(direction);
+  } else if (mobileView.value === "day" && Math.abs(dx) >= swipeThreshold && canStepDay(direction)) {
     slideTo(direction, () => stepDay(direction));
   } else {
     dragging.value = false;
@@ -768,7 +805,7 @@ const days = computed(() => {
 
 // Mobil passt nur ein Tag sinnvoll in die Breite.
 const visibleDays = computed(() =>
-  props.mobile ? days.value.slice(selectedDay.value, selectedDay.value + 1) : days.value,
+  props.mobile && mobileView.value === "day" ? days.value.slice(selectedDay.value, selectedDay.value + 1) : days.value,
 );
 
 const monthStart = computed(
@@ -1314,6 +1351,10 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   font-size: 13px;
   font-weight: 800;
   line-height: 1.2;
+}
+
+.cal-ev__tag {
+  display: none;
 }
 
 .cal-ev__short {
@@ -1887,5 +1928,83 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 .cal--mobile .cal-free {
   font-size: 15px;
+}
+
+/* Mobil (Woche): alle sieben Tage nebeneinander, Termine als Farbblöcke mit Kürzel */
+.cal--mobile-week {
+  /* Ohne Tagesleiste: Kopfzeile, Kalender, Legende */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.cal--mobile-week .cal-head,
+.cal--mobile-week .cal-body {
+  grid-template-columns: var(--axis) repeat(7, minmax(0, 1fr));
+  padding-right: var(--m-gutter, 16px);
+}
+
+.cal--mobile-week .cal-head {
+  border-bottom: 1px solid var(--line);
+}
+
+.cal--mobile-week .cal-head__day {
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0 8px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cal--mobile-week .cal-head__day:active {
+  transform: scale(0.92);
+}
+
+.cal--mobile-week .cal-head__name {
+  font-size: 10px;
+}
+
+.cal--mobile-week .cal-head__num {
+  min-width: 28px;
+  height: 28px;
+  font-family: var(--m-display, inherit);
+  font-size: 16px;
+}
+
+.cal--mobile-week .cal-slot {
+  left: calc(100% * var(--col) / var(--cols) + 1px);
+  width: calc(100% / var(--cols) - 2px);
+}
+
+@container (max-width: 52px) {
+  .cal--mobile-week .cal-ev {
+    align-items: center;
+    padding: 4px 1px 8px 0;
+    border-left-width: 2px;
+  }
+
+  .cal--mobile-week .cal-ev__time,
+  .cal--mobile-week .cal-ev__team,
+  .cal--mobile-week .cal-ev__meta {
+    display: none;
+  }
+
+  .cal--mobile-week .cal-ev__tag {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .cal--mobile-week .cal-ev.is-match .cal-ev__tag {
+    color: var(--ink);
+  }
+
+  .cal--mobile-week .cal-ev::after {
+    height: 3px;
+  }
 }
 </style>

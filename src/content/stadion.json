@@ -73,7 +73,6 @@
   },
   "belegungsplan": {
     "title": "Belegungsplan",
-    "lead": "Wer trainiert und spielt wann auf welchem Platz? Heimspiele der 1. und 2. Mannschaft werden automatisch eingetragen.",
     "startHour": 12,
     "endHour": 22,
     "places": [

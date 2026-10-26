@@ -17,7 +17,6 @@ const props = defineProps<{
   peopleTitle: string;
   facts: Fact[];
   planTitle: string;
-  planLead: string;
   mapTitle: string;
   mapEmbedUrl?: string;
   addressLabel: string;
@@ -74,7 +73,6 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
         </div>
       </div>
       <div class="stadion-plan__body">
-        <p class="stadion-plan__lead">{{ planLead }}</p>
         <Belegungsplan mobile />
       </div>
     </section>
@@ -256,13 +254,6 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
 
 .stadion-plan__body {
   padding: 0 var(--m-gutter);
-}
-
-.stadion-plan__lead {
-  margin: 0 0 16px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--m-text-2);
 }
 
 .stadion-gallery__count {
