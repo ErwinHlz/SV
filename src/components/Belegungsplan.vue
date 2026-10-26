@@ -979,6 +979,15 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   gap: 8px;
 }
 
+/* Mobil: Schalter links, Pfeile fest rechtsbündig, "Heute" schiebt sich nur davor. */
+.cal--mobile .cal-toolbar__actions {
+  width: 100%;
+}
+
+.cal--mobile .cal-switch {
+  margin-right: auto;
+}
+
 .cal-switch {
   display: inline-flex;
   padding: 3px;
