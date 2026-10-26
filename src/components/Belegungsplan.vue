@@ -2,11 +2,11 @@
   <div class="cal" :class="{ 'cal--mobile': mobile }" :style="{ '--hours': hours.length }">
     <div class="cal-toolbar">
       <div class="cal-toolbar__title">
-        <span class="cal-toolbar__kicker">{{ view === "week" ? weekKicker : "Monat" }}</span>
-        <span class="cal-toolbar__range">{{ view === "week" ? weekRange : monthTitle }}</span>
+        <span class="cal-toolbar__kicker">{{ activeView === "week" ? weekKicker : "Monat" }}</span>
+        <span class="cal-toolbar__range">{{ activeView === "week" ? weekRange : monthTitle }}</span>
       </div>
       <div class="cal-toolbar__actions">
-        <div class="cal-switch" role="group" aria-label="Ansicht">
+        <div v-if="!mobile" class="cal-switch" role="group" aria-label="Ansicht">
           <button type="button" :aria-pressed="view === 'week'" @click="view = 'week'">Woche</button>
           <button type="button" :aria-pressed="view === 'month'" @click="view = 'month'">Monat</button>
         </div>
@@ -15,7 +15,7 @@
           type="button"
           class="cal-arrow"
           :disabled="!canStep(-1)"
-          :aria-label="view === 'week' ? 'Vorherige Woche' : 'Vorheriger Monat'"
+          :aria-label="activeView === 'week' ? 'Vorherige Woche' : 'Vorheriger Monat'"
           @click="step(-1)">
           <ChevronLeft :size="20" :stroke-width="2.2" aria-hidden="true" />
         </button>
@@ -23,7 +23,7 @@
           type="button"
           class="cal-arrow"
           :disabled="!canStep(1)"
-          :aria-label="view === 'week' ? 'Nächste Woche' : 'Nächster Monat'"
+          :aria-label="activeView === 'week' ? 'Nächste Woche' : 'Nächster Monat'"
           @click="step(1)">
           <ChevronRight :size="20" :stroke-width="2.2" aria-hidden="true" />
         </button>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Wochenansicht -->
-    <template v-if="view === 'week'">
+    <template v-if="activeView === 'week'">
       <!-- Mobil: Tag auswählen, darunter die Zeitleiste des Tages. -->
       <div v-if="mobile" class="cal-strip" role="tablist" aria-label="Wochentag wählen">
         <button
@@ -52,7 +52,8 @@
         </button>
       </div>
 
-      <div class="cal-frame">
+      <!-- Mobil: nach links/rechts wischen wechselt den Tag. -->
+      <div class="cal-frame" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
         <div v-if="!mobile" class="cal-head">
           <span></span>
           <div v-for="day in days" :key="day.iso" class="cal-head__day" :class="{ 'is-today': day.isToday }">
@@ -100,7 +101,7 @@
                 :title="entry.label"
                 :aria-label="`${entry.label}. Details anzeigen`"
                 @click="openDetail(entry, $event)">
-                <span class="cal-ev__time">{{ entry.timeStart }}<span class="cal-ev__long">{{ entry.timeRest }}</span></span>
+                <span class="cal-ev__time">{{ entry.timeStart }}<span class="cal-ev__long cal-ev__rest">{{ entry.timeRest }}</span></span>
                 <span class="cal-ev__team">
                   <Trophy v-if="entry.isMatch" :size="12" :stroke-width="2.6" aria-hidden="true" />
                   <span class="cal-ev__long">{{ entry.team }}</span>
@@ -116,36 +117,15 @@
       </div>
     </template>
 
-    <!-- Monatsansicht -->
+    <!-- Monatsansicht (nur Desktop) -->
     <template v-else>
       <div class="cal-frame cal-month">
         <div class="cal-month__head">
-          <span v-for="name in weekdays" :key="name">{{ mobile ? name.slice(0, 2) : name }}</span>
+          <span v-for="name in weekdays" :key="name">{{ name }}</span>
         </div>
         <div class="cal-month__grid">
           <template v-for="cell in monthCells" :key="cell.iso">
-            <!-- Mobil: Tag mit Punkten, die Termine stehen darunter. -->
-            <button
-              v-if="mobile"
-              type="button"
-              class="cal-mday"
-              :class="{
-                'is-other': !cell.inMonth,
-                'is-past': cell.isPast,
-                'is-today': cell.isToday,
-                'is-selected': cell.iso === selectedIso,
-              }"
-              :aria-pressed="cell.iso === selectedIso"
-              :aria-label="`${formatLong(cell.date)}, ${countLabel(cell.entries.length)}`"
-              @click="selectedIso = cell.iso">
-              <span class="cal-mday__num">{{ cell.date.getDate() }}</span>
-              <span class="cal-strip__dots" aria-hidden="true">
-                <i v-for="color in cell.colors.slice(0, 4)" :key="color" :style="{ background: color }"></i>
-              </span>
-            </button>
-
             <div
-              v-else
               class="cal-mcell"
               :class="{ 'is-other': !cell.inMonth, 'is-past': cell.isPast, 'is-today': cell.isToday }">
               <span class="cal-mcell__num">{{ cell.date.getDate() }}</span>
@@ -174,28 +154,6 @@
         </div>
       </div>
 
-      <div v-if="mobile" class="cal-daylist">
-        <h3 class="cal-daylist__title">{{ selectedTitle }}</h3>
-        <p v-if="!selectedEntries.length" class="cal-daylist__free">Keine Belegung an diesem Tag</p>
-        <button
-          v-for="entry in selectedEntries"
-          :key="entry.key"
-          type="button"
-          class="cal-row"
-          :class="{ 'is-match': entry.isMatch }"
-          :style="entryStyle(entry)"
-          :aria-label="`${entry.label}. Details anzeigen`"
-          @click="openDetail(entry, $event)">
-          <span class="cal-row__time">
-            <strong>{{ entry.timeStart }}</strong>
-            <span>{{ entry.isMatch ? "Anstoß" : entry.timeEnd }}</span>
-          </span>
-          <span class="cal-row__text">
-            <strong>{{ entry.isMatch ? `Heimspiel ${entry.team}` : entry.team }}</strong>
-            <span>{{ entry.isMatch ? entry.detail : "Training" }}</span>
-          </span>
-        </button>
-      </div>
     </template>
 
     <div class="cal-legend">
@@ -578,7 +536,6 @@ const entryStyle = (entry: Entry) => ({
 const formatLong = (date: Date) => date.toLocaleDateString("de-DE", { day: "numeric", month: "long" });
 const formatFull = (date: Date) =>
   date.toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-const countLabel = (count: number) => (count ? `${count} ${count === 1 ? "Termin" : "Termine"}` : "keine Termine");
 
 const now = ref(new Date());
 let clock: ReturnType<typeof setInterval> | null = null;
@@ -592,16 +549,17 @@ onBeforeUnmount(() => {
 const today = computed(() => startOfDay(now.value));
 
 const view = ref<"week" | "month">("week");
+// Mobil gibt es nur die Woche (Tag für Tag), der Monat ist dort zu klein.
+const activeView = computed(() => (props.mobile ? "week" : view.value));
 const weekOffset = ref(0);
 const monthOffset = ref(0);
 const todayIndex = () => (new Date().getDay() + 6) % 7;
 const selectedDay = ref(todayIndex());
-const selectedIso = ref(toIsoDate(new Date()));
 
-const isCurrentPeriod = computed(() => (view.value === "week" ? weekOffset.value === 0 : monthOffset.value === 0));
+const isCurrentPeriod = computed(() => (activeView.value === "week" ? weekOffset.value === 0 : monthOffset.value === 0));
 
 const canStep = (direction: number) => {
-  if (view.value === "week") {
+  if (activeView.value === "week") {
     const next = weekOffset.value + direction;
     return next >= weekLimits.min && next <= weekLimits.max;
   }
@@ -611,21 +569,51 @@ const canStep = (direction: number) => {
 
 const step = (direction: number) => {
   if (!canStep(direction)) return;
-  if (view.value === "week") {
+  if (activeView.value === "week") {
     weekOffset.value += direction;
     selectedDay.value = weekOffset.value === 0 ? todayIndex() : 0;
   } else {
     monthOffset.value += direction;
-    const first = new Date(today.value.getFullYear(), today.value.getMonth() + monthOffset.value, 1);
-    selectedIso.value = monthOffset.value === 0 ? toIsoDate(today.value) : toIsoDate(first);
   }
+};
+
+// Mobil: einen Tag vor oder zurück, am Wochenende weiter in die nächste Woche.
+const stepDay = (direction: number) => {
+  const next = selectedDay.value + direction;
+  if (next >= 0 && next <= 6) {
+    selectedDay.value = next;
+    return;
+  }
+  const week = weekOffset.value + direction;
+  if (week < weekLimits.min || week > weekLimits.max) return;
+  weekOffset.value = week;
+  selectedDay.value = direction > 0 ? 0 : 6;
+};
+
+const swipeThreshold = 50;
+let touchStart: { x: number; y: number } | null = null;
+
+const onTouchStart = (event: TouchEvent) => {
+  if (!props.mobile) return;
+  const touch = event.changedTouches[0];
+  touchStart = touch ? { x: touch.clientX, y: touch.clientY } : null;
+};
+
+const onTouchEnd = (event: TouchEvent) => {
+  const touch = event.changedTouches[0];
+  if (!props.mobile || !touchStart || !touch) return;
+  const dx = touch.clientX - touchStart.x;
+  const dy = touch.clientY - touchStart.y;
+  touchStart = null;
+  // Nur klar waagerechte Gesten zählen, damit Scrollen nicht den Tag wechselt.
+  if (Math.abs(dx) < swipeThreshold || Math.abs(dx) <= Math.abs(dy) * 1.5) return;
+  stepDay(dx < 0 ? 1 : -1);
 };
 
 const goToday = () => {
   weekOffset.value = 0;
   monthOffset.value = 0;
   selectedDay.value = todayIndex();
-  selectedIso.value = toIsoDate(today.value);
 };
 
 // "+ x weitere" im Monat springt in die passende Woche.
@@ -699,19 +687,10 @@ const monthCells = computed(() => {
       isToday: date.getTime() === today.value.getTime(),
       isPast: date < today.value,
       entries,
-      colors: [...new Set(entries.map((entry) => entry.color))],
     });
     cursor.setDate(cursor.getDate() + 1);
   }
   return cells;
-});
-
-const selectedCell = computed(() => monthCells.value.find((cell) => cell.iso === selectedIso.value));
-const selectedEntries = computed(() => selectedCell.value?.entries ?? []);
-const selectedTitle = computed(() => {
-  const cell = selectedCell.value;
-  if (!cell) return "";
-  return `${formatFull(cell.date).replace(/ \d{4}$/, "")}${cell.isToday ? " · Heute" : ""}`;
 });
 
 const hours = Array.from({ length: endHour - startHour }, (_, index) => startHour + index);
@@ -782,10 +761,32 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   color: #fff;
 }
 
+/* Mobil: der ganze Kalender passt auf eine Bildschirmhöhe */
 .cal--mobile {
-  --hour: 62px;
-  --axis: 46px;
-  gap: 14px;
+  --axis: 44px;
+  gap: 10px;
+  height: calc(100svh - var(--m-header, 60px) - 24px);
+  min-height: 520px;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.cal--mobile .cal-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  touch-action: pan-y;
+}
+
+.cal--mobile .cal-body {
+  flex: 1;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  padding: 10px 0;
+}
+
+.cal--mobile .cal-axis,
+.cal--mobile .cal-col {
+  height: 100%;
 }
 
 /* Kopfzeile mit Zeitraum, Ansicht und Navigation */
@@ -826,14 +827,6 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.cal--mobile .cal-toolbar__actions {
-  width: 100%;
-}
-
-.cal--mobile .cal-switch {
-  margin-right: auto;
 }
 
 .cal-switch {
@@ -1040,7 +1033,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 .cal-axis span {
   position: absolute;
-  top: calc(var(--row) * var(--hour));
+  top: calc(var(--row) / var(--hours) * 100%);
   right: 10px;
   transform: translateY(-50%);
   font-size: 11px;
@@ -1051,10 +1044,17 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 .cal-col {
   border-left: 1px solid var(--line);
+  /* Volle Stunde kräftig, halbe Stunde dezent */
   background-image:
-    repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px var(--hour)),
-    repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px var(--hour));
-  background-position: 0 0, 0 calc(var(--hour) / 2);
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px),
+    linear-gradient(
+      to bottom,
+      transparent calc(50% - 0.5px),
+      rgba(255, 255, 255, 0.03) calc(50% - 0.5px),
+      rgba(255, 255, 255, 0.03) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+  background-size: 100% calc(100% / var(--hours));
 }
 
 .cal-col.is-today {
@@ -1067,7 +1067,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 .cal-now {
   position: absolute;
-  top: calc(var(--at) * var(--hour));
+  top: calc(var(--at) / var(--hours) * 100%);
   left: 0;
   right: 0;
   z-index: 3;
@@ -1090,11 +1090,11 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 /* Termine: Farbe = Mannschaft, Streifen unten = Platz */
 .cal-slot {
   position: absolute;
-  top: calc(var(--start) * var(--hour) + 2px);
+  top: calc(var(--start) / var(--hours) * 100% + 2px);
   left: calc(100% * var(--col) / var(--cols) + 3px);
   width: calc(100% / var(--cols) - 6px);
-  height: calc(var(--len) * var(--hour) - 4px);
-  container-type: inline-size;
+  height: calc(var(--len) / var(--hours) * 100% - 4px);
+  container-type: size;
 }
 
 .cal-ev {
@@ -1122,8 +1122,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 /* Platzstreifen über die ganze Breite unten */
 .cal-ev::after,
-.cal-pill::after,
-.cal-row::after {
+.cal-pill::after {
   content: "";
   position: absolute;
   left: 0;
@@ -1219,8 +1218,36 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 }
 
 .cal--mobile .cal-ev {
-  gap: 2px;
-  padding: 8px 10px 12px;
+  gap: 1px;
+  padding: 5px 10px 12px;
+}
+
+/* Kurze Termine (rund eine Stunde): Zeit und Name in einer Zeile */
+@container (max-height: 48px) and (min-width: 77px) {
+  .cal-ev {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    column-gap: 8px;
+    padding-top: 4px;
+    padding-bottom: 10px;
+  }
+
+  .cal-ev__rest,
+  .cal-ev__meta {
+    display: none;
+  }
+
+  .cal-ev__time {
+    flex: none;
+    margin-right: 6px;
+  }
+
+  .cal-ev__team {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .cal--mobile .cal-ev__team {
@@ -1256,11 +1283,6 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
-}
-
-.cal--mobile .cal-month__head span {
-  padding: 10px 0 6px;
-  text-align: center;
 }
 
 .cal-mcell {
@@ -1374,129 +1396,6 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   color: var(--yellow);
 }
 
-/* Monat mobil: Tage mit Punkten, Liste darunter */
-.cal--mobile .cal-month__grid {
-  row-gap: 2px;
-  padding: 4px 4px 8px;
-}
-
-.cal-mday {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  min-height: 48px;
-  padding: 4px 0;
-  border: 0;
-  border-radius: 12px;
-  background: transparent;
-  color: #fff;
-  font: inherit;
-  cursor: pointer;
-}
-
-.cal-mday.is-other {
-  opacity: 0.3;
-}
-
-.cal-mday.is-past {
-  opacity: 0.55;
-}
-
-.cal-mday__num {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 15px;
-  font-weight: 800;
-}
-
-.cal-mday.is-today .cal-mday__num {
-  background: var(--yellow);
-  color: var(--ink-dark);
-}
-
-.cal-mday.is-selected {
-  background: rgba(244, 208, 71, 0.14);
-}
-
-.cal-mday.is-selected:not(.is-today) .cal-mday__num {
-  box-shadow: inset 0 0 0 2px var(--yellow);
-  color: var(--yellow);
-}
-
-.cal-daylist {
-  display: grid;
-  gap: 8px;
-}
-
-.cal-daylist__title {
-  margin: 6px 0 2px;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.cal-daylist__free {
-  margin: 0;
-  padding: 18px;
-  border: 1px dashed rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  text-align: center;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.cal-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 14px 15px;
-  overflow: hidden;
-  border: 0;
-  border-left: 4px solid var(--team);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--team) 20%, #0a1838);
-  color: #fff;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.cal-row.is-match {
-  border-left-color: #fff;
-  background:
-    repeating-linear-gradient(135deg, transparent 0 10px, rgba(255, 255, 255, 0.16) 10px 20px),
-    var(--team);
-  color: var(--ink);
-}
-
-.cal-row__time,
-.cal-row__text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.cal-row__time {
-  min-width: 48px;
-  font-variant-numeric: tabular-nums;
-}
-
-.cal-row__time strong,
-.cal-row__text strong {
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.cal-row__time span,
-.cal-row__text span {
-  font-size: 13px;
-  opacity: 0.75;
-}
-
 /* Legende */
 .cal-legend {
   display: flex;
@@ -1504,6 +1403,23 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   gap: 14px 40px;
   font-size: 0.85rem;
   font-weight: 600;
+}
+
+.cal--mobile .cal-legend {
+  gap: 6px 20px;
+  font-size: 12px;
+}
+
+.cal--mobile .cal-legend__group {
+  gap: 4px;
+}
+
+.cal--mobile .cal-legend ul {
+  gap: 3px 12px;
+}
+
+.cal--mobile .cal-legend__title {
+  font-size: 10px;
 }
 
 .cal-legend__group {
