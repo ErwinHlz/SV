@@ -1,16 +1,16 @@
 ﻿[
   {
     "id": "focus",
-    "eyebrow": "Jugend im Fokus",
-    "title": "Jugend im Fokus",
-    "lead": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fussball. Wir fördern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spass.",
+    "eyebrow": "Unser Weg",
+    "title": "Eigene Jugend, eigener Weg",
+    "lead": "Seit der Saison 2026/27 ist der SV Ottweiler 1919 wieder eigenständig – mit eigener Jugendabteilung. Unser Ziel: Talente aus Ottweiler bis in die 1. und 2. Mannschaft begleiten.",
     "counterpart": "Ausbildung",
     "imageSrc": "/galerie/galerie_6.jpeg",
     "imageAlt": "Spielszene mit Spielern in roten und gelben Trikots",
     "points": [
-      "sicherer Einstieg in den Fussball für alle Altersklassen",
-      "Förderung von Technik, Spielintelligenz und Teamgeist",
-      "altersgerechtes Training mit viel Freude am Spiel"
+      "eigene Jugendabteilung seit der Saison 2026/27",
+      "Weg aus der Jugend in die 1. und 2. Mannschaft",
+      "Probetraining in jeder Altersklasse möglich"
     ]
   },
   {
@@ -21,27 +21,27 @@
     "imageSrc": "/galerie/galerie_3.jpeg",
     "imageAlt": "Gemeinsamer Abend auf dem Fußballplatz",
     "points": [
-      "6 Jugendteams im Spielbetrieb",
-      "Trainingsort: Sportplatz Ottweiler",
-      "Probetraining jederzeit nach Absprache möglich",
-      "klare Werte: Technik, Spielfreude und Teamgeist"
+      "7 Mannschaften von der G- bis zur A-Jugend",
+      "Spielbetrieb im Kreis Nordsaar",
+      "Training im Stadion Im Alten Weiher, in Steinbach und in Fürth",
+      "A-Jugend in der JSG St. Wendel (Landesliga Nord/Ost)"
     ]
   },
   {
     "id": "teams",
     "eyebrow": "Jugendteams",
     "title": "Unsere Jugendteams",
-    "lead": "Von den Kleinsten bis zur A-Jugend: jede Mannschaft hat ihren eigenen Charakter und klare Schwerpunkte.",
+    "lead": "Jahrgänge und Ligen der Saison 2026/27.",
     "counterpart": "Jahrgänge",
     "imageSrc": "/galerie/galerie_4.jpeg",
     "imageAlt": "Mannschaft feiert gemeinsam auf dem Sportplatz",
     "points": [
-      "G-Jugend (U7): Jahrgänge 2020/2021 · Kreisturnier",
-      "F-Jugend (U9): Jahrgänge 2018/2019 · Kreisturnier",
-      "E-Jugend (U11): Jahrgänge 2016/2017 · Kreisliga",
-      "D-Jugend (U13): Jahrgänge 2014/2015 · Kreisliga",
-      "B-Jugend (U17): Jahrgänge 2010/2011/2012 · Kreisliga",
-      "A-Jugend (U19): Spielgemeinschaft mit dem FC Blau-Weiß St. Wendel"
+      "G-Jugend (U7): Jahrgänge 2020/2021 · Spieltage Nordsaar",
+      "F-Jugend (U9): Jahrgänge 2018/2019 · Kreisturnier, 2 Mannschaften",
+      "E-Jugend (U11): Jahrgänge 2016/2017 · Kreisliga Nordsaar",
+      "D-Jugend (U13): Jahrgänge 2014/2015 · Kreisliga Nordsaar",
+      "B-Jugend (U17): Jahrgänge 2010/2011/2012 · Kreisliga Nordsaar",
+      "A-Jugend (U19): Jahrgänge 2008/2009 · JSG St. Wendel, Landesliga Nord/Ost"
     ]
   },
   {
@@ -52,24 +52,24 @@
     "imageSrc": "/galerie/galerie_22.webp",
     "imageAlt": "Mannschaftsfoto aus dem Vereinsleben",
     "points": [
-      "13 Trainer und Betreuer im Jugendbereich",
-      "enge Begleitung der Mannschaften über alle Altersklassen hinweg",
-      "Ansprechpartner für Training, Entwicklung und Probetraining"
+      "14 Trainer im Jugendbereich",
+      "Jugendleiter: Benjamin Hollemeyer, Stellvertreter: Zedan Acer",
+      "feste Ansprechpartner für jede Mannschaft"
     ]
   },
   {
     "id": "contact",
     "eyebrow": "Kontakt",
     "title": "Kontakt Jugendleitung",
-    "lead": "Interesse am Probetraining oder Fragen zu einem Team? Melde dich gerne.",
+    "lead": "Interesse an einem Probetraining oder Fragen zu einer Mannschaft? Schreib uns – wir melden uns.",
     "counterpart": "Einstieg",
     "imageSrc": "/galerie/galerie_10.jpeg",
     "imageAlt": "Spieler im weißen Trikot am Ball",
     "points": [
-      "Ansprechpartner: Jugendleitung FSG",
-      "Funktion: Koordination Jugend",
-      "E-Mail: jugend@fsg-ottweiler-steinbach.de",
-      "schneller Einstieg über Probetraining oder direkte Anfrage"
+      "Jugendleiter: Benjamin Hollemeyer",
+      "Stellvertreter: Zedan Acer",
+      "E-Mail: info@svottweiler.de",
+      "Probetraining nach kurzer Absprache"
     ]
   }
 ]

@@ -13,18 +13,14 @@
     <PageHero
       :title="hero.title"
       :lead="hero.lead"
-      kicker="Jugendfussball"
+      kicker="Jugendfußball"
     />
 
     <section class="youth-intro" aria-label="Einleitung zur Jugendabteilung">
       <div class="youth-intro__shell">
         <p class="youth-intro__kicker">Nachwuchs</p>
-        <h2 class="youth-intro__title">Ausbildung, Teamgeist und Freude am Spiel</h2>
-        <p class="youth-intro__lead">
-          Die Jugendabteilung der FSG fuehrt vom ersten Ballkontakt bis zum
-          Uebergang in den Aktivenbereich. Im Mittelpunkt stehen altersgerechte
-          Entwicklung, klare Werte und ein starkes Miteinander.
-        </p>
+        <h2 class="youth-intro__title">{{ intro.title }}</h2>
+        <p class="youth-intro__lead">{{ intro.text }}</p>
         <aside class="youth-intro__notice" aria-label="Hinweis zum Schutz der Kinder">
           <strong>Der Schutz unserer Kinder steht an erster Stelle.</strong>
           <p>
@@ -153,15 +149,17 @@
                   rel="noopener noreferrer"
                   class="youth-link youth-link--secondary"
                 >
-                  Spielstaette
+                  Spielstätte
                 </a>
                 <a
-                  :href="team.tableUrl"
+                  v-for="link in team.links"
+                  :key="link.url"
+                  :href="link.url"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="youth-link youth-link--primary"
                 >
-                  Tabelle
+                  {{ link.label }}
                 </a>
               </div>
             </div>
@@ -209,7 +207,7 @@
             class="youth-teams__control"
             @click="goToNextTeamPage"
             :disabled="activeDesktopTeamPage >= teamDesktopPageCount - 1"
-            aria-label="Naechste Teamseite"
+            aria-label="Nächste Teamseite"
           >
             <ChevronRight :size="18" :stroke-width="2.4" />
           </button>
@@ -293,7 +291,7 @@
             class="youth-coaches__control"
             @click="goToNextCoachPage"
             :disabled="activeDesktopCoachPage >= coachDesktopPageCount - 1"
-            aria-label="Naechste Trainerseite"
+            aria-label="Nächste Trainerseite"
           >
             <ChevronRight :size="18" :stroke-width="2.4" />
           </button>
@@ -311,7 +309,7 @@
           <div class="youth-contact__details">
             <p><strong>{{ contact.labels.name }}:</strong> {{ contact.name }}</p>
             <p><strong>{{ contact.labels.role }}:</strong> {{ contact.role }}</p>
-            <p><strong>{{ contact.labels.phone }}:</strong> {{ contact.phone }}</p>
+            <p v-if="contact.phone"><strong>{{ contact.labels.phone }}:</strong> {{ contact.phone }}</p>
             <p><strong>{{ contact.labels.email }}:</strong> {{ contact.email }}</p>
             <p>{{ contact.note }}</p>
           </div>
@@ -336,7 +334,7 @@
               v-model="contactForm.message"
               rows="6"
               required
-              placeholder="Hallo, ich interessiere mich fuer ein Probetraining ..."
+              placeholder="Hallo, ich interessiere mich für ein Probetraining …"
             />
           </label>
           <button type="submit" class="youth-contact__submit">Anfrage senden</button>
@@ -391,7 +389,7 @@ type YouthTeam = {
   description: string;
   image: string;
   imageAlt: string;
-  tableUrl?: string;
+  links?: Array<{ label: string; url: string }>;
   training?: YouthTraining[];
 };
 
@@ -452,7 +450,7 @@ type TimelineEntry = {
 
 const isMobile = useIsMobile();
 const youthContent = rawYouthContent as YouthContent;
-const { hero, teamsSection, coachSection, contact } = youthContent;
+const { hero, intro, teamsSection, coachSection, contact } = youthContent;
 
 const teamImageMap: Record<string, string> = {
   youthGalleryFallback: getGalleryPlaceholder("youth:team-fallback"),
@@ -475,7 +473,10 @@ const isCoachPortraitImage = (image?: string) =>
 const teamCards = youthContent.teams.map((team) => ({
   ...team,
   image: team.image ? (teamImageMap[team.image] ?? team.image) : "",
-  tableUrl: team.tableUrl?.trim() || externalLinks.fussballde.homepageUrl,
+  // Ohne eigene Teamseite wenigstens auf fussball.de verweisen.
+  links: team.links?.length
+    ? team.links
+    : [{ label: "fussball.de", url: externalLinks.fussballde.homepageUrl }],
 }));
 
 const teamsGridRef = ref<HTMLElement | null>(null);

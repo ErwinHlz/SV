@@ -1,18 +1,18 @@
 {
   "hero": {
     "title": "Jugendmannschaften",
-    "lead": "Unsere Nachwuchsteams stehen für Spaß am Fußball, Teamgeist und eine nachhaltige Ausbildung."
+    "lead": "Von der G-Jugend bis zur A-Jugend: der Nachwuchs des SV Ottweiler."
   },
   "intro": {
-    "title": "Jugend im Fokus",
-    "text": "Unsere Jugendabteilung bietet allen Altersklassen einen sicheren Einstieg in den Fußball. Wir fördern Technik, Spielintelligenz und Teamgeist - immer altersgerecht und mit viel Spaß."
+    "title": "Unsere Jugend, unser Weg",
+    "text": "Seit der Saison 2026/27 ist der SV Ottweiler 1919 wieder eigenständig – mit eigener Jugendabteilung von der G- bis zur B-Jugend und einer A-Jugend in der JSG St. Wendel. Trainiert wird im Stadion Im Alten Weiher sowie in Steinbach und Fürth. Unser Ziel: Talente aus der eigenen Jugend bis in die 1. und 2. Mannschaft begleiten."
   },
   "teamsSection": {
     "title": "Unsere Jugendteams",
-    "lead": "Von den Kleinsten bis zur A-Jugend: jede Mannschaft hat ihren eigenen Charakter und klare Schwerpunkte."
+    "lead": "Alle Mannschaften mit Jahrgängen, Liga und Trainingszeiten. Spielplan und Tabelle findest du jeweils auf fussball.de."
   },
   "trainingLocation": {
-    "name": "Sportplatz Ottweiler",
+    "name": "Stadion Im Alten Weiher",
     "address": "Im Alten Weiher, 66564 Ottweiler",
     "mapsUrl": "https://maps.app.goo.gl/3seUPN6Vy1aXfFoE7"
   },
@@ -21,8 +21,8 @@
       "id": "u7",
       "name": "G-Jugend (U7)",
       "ageGroup": "Jahrgänge 2020/2021",
-      "league": "Kreisturnier",
-      "description": "Unsere jüngsten im Verein entdecken den Ball spielerisch und sammeln erste Team-Erfahrungen.",
+      "league": "G-Jugend-Spieltage Nordsaar",
+      "description": "Die Jüngsten im Verein. Gespielt wird ohne Tabelle bei den Spieltagen im Kreis Nordsaar – im Mittelpunkt stehen Ballkontakte und Spaß am Spiel.",
       "training": [
         {
           "day": "Dienstag",
@@ -30,12 +30,12 @@
           "location": "Ottweiler"
         }
       ],
-      "widget": {
-        "title": "Spielplan & Ergebnisse",
-        "id": "",
-        "type": "team-matches"
-      },
-      "tableUrl": "https://next.fussball.de/",
+      "links": [
+        {
+          "label": "fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-1-sv-ottweiler-saarland/-/saison/2627/team-id/02B589DPRK000000VS5489B1VULH2T74"
+        }
+      ],
       "image": "youthTeamG",
       "imageAlt": "Mannschaftsfoto der G-Jugend"
     },
@@ -43,8 +43,8 @@
       "id": "u9",
       "name": "F-Jugend (U9)",
       "ageGroup": "Jahrgänge 2018/2019",
-      "league": "Kreisturnier",
-      "description": "Hier wachsen die Kinder in die Fußballfamilie hinein und lernen mutiges Dribbling sowie fairen Wettbewerb.",
+      "league": "Kreisturnier · 2 Mannschaften",
+      "description": "Mit zwei Mannschaften im Kreisturnier gemeldet. Hier lernen die Kinder das Zusammenspiel und die ersten Regeln im Spielbetrieb.",
       "training": [
         {
           "day": "Montag",
@@ -57,11 +57,16 @@
           "location": "Ottweiler"
         }
       ],
-      "widget": {
-        "title": "Tabelle",
-        "id": ""
-      },
-      "tableUrl": "https://next.fussball.de/",
+      "links": [
+        {
+          "label": "F1 auf fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-1-sv-ottweiler-saarland/-/saison/2627/team-id/01OTBU2NS0000000VV0AG811VSQ2DN07"
+        },
+        {
+          "label": "F2 auf fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/02JD22E2OK000000VS5489B2VU644FQC"
+        }
+      ],
       "image": "youthTeamF",
       "imageAlt": "Mannschaftsfoto der F-Jugend"
     },
@@ -69,8 +74,8 @@
       "id": "u11",
       "name": "E-Jugend (U11)",
       "ageGroup": "Jahrgänge 2016/2017",
-      "league": "Kreisliga",
-      "description": "Unsere E-Jugend vertieft Technik und Teamplay und sammelt erste taktische Erfahrungen.",
+      "league": "Kreisliga Nordsaar · Gruppe 2",
+      "description": "Erste Saison mit Tabelle: Die E-Jugend spielt in der Kreisliga Nordsaar und trainiert montags in Steinbach und mittwochs im Alten Weiher.",
       "training": [
         {
           "day": "Montag",
@@ -83,11 +88,12 @@
           "location": "Ottweiler"
         }
       ],
-      "widget": {
-        "title": "Tabelle",
-        "id": "acdd744c-fe54-436a-a405-1a43a2b3c12b"
-      },
-      "tableUrl": "https://next.fussball.de/",
+      "links": [
+        {
+          "label": "fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-1-sv-ottweiler-saarland/-/saison/2627/team-id/01A4R0GAMO000000VV0AG80NVV866B7J"
+        }
+      ],
       "image": "youthTeamE",
       "imageAlt": "Mannschaftsfoto der E-Jugend"
     },
@@ -95,8 +101,8 @@
       "id": "u13",
       "name": "D-Jugend (U13)",
       "ageGroup": "Jahrgänge 2014/2015",
-      "league": "Kreisliga",
-      "description": "In der D-Jugend geht es um Positionsspiel, Tempo und Entscheidungen unter Druck.",
+      "league": "Kreisliga Nordsaar · Gruppe 2",
+      "description": "Die D-Jugend spielt in der Kreisliga Nordsaar und trainiert zweimal pro Woche auf dem Rasen im Stadion Im Alten Weiher.",
       "training": [
         {
           "day": "Dienstag",
@@ -109,11 +115,12 @@
           "location": "Ottweiler Rasenplatz"
         }
       ],
-      "widget": {
-        "title": "Tabelle",
-        "id": "63e08376-eba7-4dbd-9af0-51f372dc4dfe"
-      },
-      "tableUrl": "https://next.fussball.de/",
+      "links": [
+        {
+          "label": "fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-1-sv-ottweiler-saarland/-/saison/2627/team-id/01A4R0OCEO000000VV0AG80NVV866B7J"
+        }
+      ],
       "image": "youthTeamD",
       "imageAlt": "Mannschaftsfoto der D-Jugend"
     },
@@ -121,8 +128,8 @@
       "id": "u17",
       "name": "B-Jugend (U17)",
       "ageGroup": "Jahrgänge 2010/2011/2012",
-      "league": "Kreisliga",
-      "description": "Unsere B-Jugend arbeitet an Spielaufbau, Pressing und der athletischen Entwicklung.",
+      "league": "Kreisliga Nordsaar",
+      "description": "Unsere älteste eigene Jugendmannschaft. Die B-Jugend spielt in der Kreisliga Nordsaar und ist der nächste Schritt Richtung Aktivenbereich.",
       "training": [
         {
           "day": "Montag",
@@ -135,11 +142,12 @@
           "location": "Ottweiler"
         }
       ],
-      "widget": {
-        "title": "Tabelle",
-        "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2"
-      },
-      "tableUrl": "https://next.fussball.de/mannschaft/-/02TET5EQ9S000000VS5489BSVTA87VEB/tabelle",
+      "links": [
+        {
+          "label": "fussball.de",
+          "url": "https://www.fussball.de/mannschaft/sv-ottweiler-1-sv-ottweiler-saarland/-/saison/2627/team-id/031EVA5TIS000000VS5489BSVU7CJV8J"
+        }
+      ],
       "image": "youthTeamB",
       "imageAlt": "Mannschaftsfoto der B-Jugend"
     },
@@ -147,13 +155,14 @@
       "id": "u19",
       "name": "A-Jugend (U19)",
       "ageGroup": "Jahrgänge 2008/2009",
-      "league": "Spielgemeinschaft",
-      "description": "Unsere A-Jugend spielt in einer Spielgemeinschaft mit dem FC Blau-Weiß St. Wendel. Trainingszeiten und Ansprechpartner gibt es beim FC Blau-Weiß St. Wendel.",
-      "widget": {
-        "title": "Tabelle",
-        "id": "db8a345c-91e9-47ef-8197-1a6922273d73"
-      },
-      "tableUrl": "https://next.fussball.de/",
+      "league": "Landesliga Nord/Ost · JSG St. Wendel",
+      "description": "Unsere A-Jugend spielt in der Jugendspielgemeinschaft JSG St. Wendel mit dem FC Blau-Weiß St. Wendel. Trainingszeiten und Ansprechpartner gibt es beim FC Blau-Weiß St. Wendel.",
+      "links": [
+        {
+          "label": "JSG St. Wendel auf fussball.de",
+          "url": "https://www.fussball.de/mannschaft/jsg-stwendel-fc-blau-weiss-st-wendel-saarland/-/saison/2627/team-id/023MSM8H08000000VS548984VVA56K3S"
+        }
+      ],
       "image": "youthTeamA",
       "imageAlt": "Mannschaftsfoto der A-Jugend"
     }
@@ -164,12 +173,12 @@
   },
   "contact": {
     "title": "Kontakt Jugendleitung",
-    "lead": "Interesse am Probetraining oder Fragen zu einem Team? Melde dich gerne.",
-    "name": "Jugendleitung FSG",
-    "role": "Koordination Jugend",
-    "phone": "0170 1234567",
-    "email": "jugend@fsg-ottweiler-steinbach.de",
-    "note": "Probetraining jederzeit nach Absprache möglich.",
+    "lead": "Interesse an einem Probetraining oder Fragen zu einer Mannschaft? Schreib uns – wir melden uns.",
+    "name": "Benjamin Hollemeyer",
+    "role": "Jugendleiter · Stellvertreter: Zedan Acer",
+    "phone": "",
+    "email": "info@svottweiler.de",
+    "note": "Probetraining ist in jeder Altersklasse nach kurzer Absprache möglich.",
     "labels": {
       "name": "Name",
       "role": "Funktion",

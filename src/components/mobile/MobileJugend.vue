@@ -12,7 +12,7 @@ type Team = {
   description: string;
   image: string;
   imageAlt: string;
-  tableUrl?: string;
+  links?: Array<{ label: string; url: string }>;
   training?: Array<{ day: string; time: string; location: string }>;
 };
 
@@ -115,8 +115,14 @@ const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
             </ul>
 
             <div class="youth-team__links">
-              <a v-if="team.tableUrl" :href="team.tableUrl" target="_blank" rel="noopener noreferrer" class="m-text-link">
-                Tabelle <ArrowUpRight :size="16" :stroke-width="2" />
+              <a
+                v-for="link in team.links"
+                :key="link.url"
+                :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="m-text-link">
+                {{ link.label }} <ArrowUpRight :size="16" :stroke-width="2" />
               </a>
               <a v-if="mapsHref" :href="mapsHref" target="_blank" rel="noopener noreferrer" class="m-text-link">
                 <MapPin :size="16" :stroke-width="2" /> Spielstätte

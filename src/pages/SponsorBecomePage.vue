@@ -1,41 +1,49 @@
 <template>
   <main class="sponsor-become-page">
-    <PageHero
-      title="Sponsor werden"
-      lead="Gemeinsam stärken wir den Verein und den Fußball vor Ort."
-      kicker="Partner werden" />
+    <PageHero :title="hero.title" :lead="hero.lead" kicker="Partner werden">
+      <a :href="downloadHref" class="sponsor-download-button" download>
+        <Download :size="18" :stroke-width="2.2" aria-hidden="true" />
+        {{ download.label }}
+      </a>
+    </PageHero>
 
-    <section class="sponsor-intro" aria-label="Warum Sponsor werden">
+    <section class="sponsor-intro" aria-labelledby="sponsor-intro-title">
       <div class="sponsor-intro__shell">
-        <p class="sponsor-intro__kicker">Warum Sponsor werden</p>
-        <h2 class="sponsor-intro__title">
-          Sichtbarkeit, Nähe zum Verein und eine partnerschaftliche
-          Zusammenarbeit
-        </h2>
+        <p class="sponsor-intro__kicker">{{ intro.kicker }}</p>
+        <h2 id="sponsor-intro-title" class="sponsor-intro__title">{{ intro.title }}</h2>
+        <p class="sponsor-intro__text">{{ intro.text }}</p>
       </div>
 
-      <div class="sponsor-intro__columns">
-        <div class="sponsor-intro__column">
-          <p class="sponsor-intro__column-title">Was wir bieten</p>
-          <ul class="sponsor-intro__points">
-            <li v-for="item in offerPoints" :key="item">
-              <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
-              <span>{{ item }}</span>
-            </li>
-          </ul>
-        </div>
+      <ul class="sponsor-reach" aria-label="Der Verein in Zahlen">
+        <li v-for="item in reach" :key="item.label" class="sponsor-reach__item">
+          <span class="sponsor-reach__value">{{ item.value }}</span>
+          <span class="sponsor-reach__label">{{ item.label }}</span>
+        </li>
+      </ul>
 
-        <div class="sponsor-intro__column">
-          <p class="sponsor-intro__column-title">Was wir suchen</p>
-          <ul class="sponsor-intro__points">
-            <li v-for="item in searchPoints" :key="item">
-              <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
-              <span>{{ item }}</span>
-            </li>
-          </ul>
-        </div>
+      <div class="sponsor-channels">
+        <article v-for="channel in channels" :key="channel.title" class="sponsor-channel">
+          <h3 class="sponsor-channel__title">{{ channel.title }}</h3>
+          <p class="sponsor-channel__text">{{ channel.text }}</p>
+        </article>
+      </div>
+
+      <div class="sponsor-benefits">
+        <p class="sponsor-intro__column-title">Was du davon hast</p>
+        <ul class="sponsor-intro__points">
+          <li v-for="item in benefits" :key="item">
+            <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
+            <span>{{ item }}</span>
+          </li>
+        </ul>
       </div>
     </section>
+
+    <header class="sponsor-section-head">
+      <p class="sponsor-intro__kicker">{{ packagesIntro.kicker }}</p>
+      <h2 class="sponsor-intro__title">{{ packagesIntro.title }}</h2>
+      <p class="sponsor-intro__text">{{ packagesIntro.text }}</p>
+    </header>
 
     <section
       ref="timelineRef"
@@ -50,17 +58,26 @@
 
       <div class="sponsor-timeline__list">
         <article
-          v-for="(pkg, index) in sponsorPackages"
-          :key="pkg.title"
+          v-for="(pkg, index) in packages"
+          :key="pkg.id"
           class="sponsor-timeline__item"
           :class="
             index % 2 === 0
               ? 'sponsor-timeline__item--left'
               : 'sponsor-timeline__item--right'
           ">
-          <div class="sponsor-timeline__side sponsor-timeline__side--left">
-            <div v-if="index % 2 === 0" class="sponsor-timeline__content">
-              <p class="sponsor-timeline__eyebrow">{{ pkg.label }}</p>
+          <div
+            v-for="side in ['left', 'right']"
+            :key="side"
+            class="sponsor-timeline__side"
+            :class="`sponsor-timeline__side--${side}`">
+            <div
+              v-if="(side === 'left') === (index % 2 === 0)"
+              class="sponsor-timeline__content">
+              <p class="sponsor-timeline__eyebrow">
+                Baustein {{ String(index + 1).padStart(2, "0") }}
+                <span v-if="pkg.highlight" class="sponsor-timeline__badge">{{ pkg.highlight }}</span>
+              </p>
               <h3 class="sponsor-timeline__title">{{ pkg.title }}</h3>
               <p v-if="pkg.lead" class="sponsor-timeline__lead">{{ pkg.lead }}</p>
               <ul class="sponsor-timeline__points">
@@ -71,9 +88,7 @@
                   <span
                     class="sponsor-timeline__point-dot"
                     aria-hidden="true"></span>
-                  <span class="sponsor-timeline__point-detail">{{
-                    point
-                  }}</span>
+                  <span class="sponsor-timeline__point-detail">{{ point }}</span>
                 </li>
                 <li v-if="pkg.link" class="sponsor-timeline__point">
                   <span
@@ -94,52 +109,57 @@
               String(index + 1).padStart(2, "0")
             }}</span>
           </div>
-
-          <div class="sponsor-timeline__side sponsor-timeline__side--right">
-            <div v-if="index % 2 === 1" class="sponsor-timeline__content">
-              <p class="sponsor-timeline__eyebrow">{{ pkg.label }}</p>
-              <h3 class="sponsor-timeline__title">{{ pkg.title }}</h3>
-              <p v-if="pkg.lead" class="sponsor-timeline__lead">{{ pkg.lead }}</p>
-              <ul class="sponsor-timeline__points">
-                <li
-                  v-for="point in pkg.points"
-                  :key="point"
-                  class="sponsor-timeline__point">
-                  <span
-                    class="sponsor-timeline__point-dot"
-                    aria-hidden="true"></span>
-                  <span class="sponsor-timeline__point-detail">{{
-                    point
-                  }}</span>
-                </li>
-                <li v-if="pkg.link" class="sponsor-timeline__point">
-                  <span
-                    class="sponsor-timeline__point-dot"
-                    aria-hidden="true"></span>
-                  <a
-                    :href="pkg.link.href"
-                    class="sponsor-timeline__point-detail sponsor-timeline__link"
-                    target="_blank"
-                    rel="noopener noreferrer">{{ pkg.link.label }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
         </article>
       </div>
+    </section>
+
+    <section class="sponsor-steps" aria-labelledby="sponsor-steps-title">
+      <p class="sponsor-intro__kicker">{{ steps.kicker }}</p>
+      <h2 id="sponsor-steps-title" class="sponsor-intro__title">{{ steps.title }}</h2>
+      <ol class="sponsor-steps__list">
+        <li v-for="(step, index) in steps.items" :key="step.title" class="sponsor-step">
+          <span class="sponsor-step__number" aria-hidden="true">{{ index + 1 }}</span>
+          <h3 class="sponsor-step__title">{{ step.title }}</h3>
+          <p class="sponsor-step__text">{{ step.text }}</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="sponsor-download" aria-labelledby="sponsor-download-title">
+      <div class="sponsor-download__text">
+        <FileText :size="34" :stroke-width="1.8" aria-hidden="true" />
+        <div>
+          <h2 id="sponsor-download-title" class="sponsor-download__title">{{ download.title }}</h2>
+          <p>{{ download.text }}</p>
+        </div>
+      </div>
+      <a :href="downloadHref" class="sponsor-download-button" download>
+        <Download :size="18" :stroke-width="2.2" aria-hidden="true" />
+        {{ download.label }}
+      </a>
     </section>
 
     <section
       class="sponsor-contact"
       aria-labelledby="sponsor-contact-title">
       <div class="sponsor-contact__shell">
-        <p class="sponsor-contact__kicker">Kontakt</p>
+        <p class="sponsor-contact__kicker">{{ contact.kicker }}</p>
         <h2 id="sponsor-contact-title" class="sponsor-contact__title">
-          Schreib uns deine Anfrage
+          {{ contact.title }}
         </h2>
-        <p class="sponsor-contact__text">
-          Wir gehen auf jede individuelle Anfrage ein.
-        </p>
+        <p class="sponsor-contact__text">{{ contact.text }}</p>
+        <ul class="sponsor-contact__details">
+          <li><strong>{{ contact.person }}</strong> · {{ contact.role }}</li>
+          <li>
+            <a :href="`mailto:${contact.email}`"><Mail :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.email }}</a>
+          </li>
+          <li>
+            <a :href="`tel:${contact.phone.replace(/[^\d+]/g, '')}`"><Phone :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.phone }}</a>
+          </li>
+          <li>
+            <a :href="instagramUrl" target="_blank" rel="noopener noreferrer"><AtSign :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.instagram }}</a>
+          </li>
+        </ul>
 
         <form class="sponsor-contact-form" @submit.prevent="handleSponsorSubmit">
           <div class="sponsor-form-row">
@@ -180,7 +200,11 @@
                 v-model="sponsorForm.interest"
                 type="text"
                 name="interest"
-                placeholder="z. B. Jugend" />
+                list="sponsor-interest-options"
+                placeholder="z. B. Jugend, Trikots, Instagram" />
+              <datalist id="sponsor-interest-options">
+                <option v-for="pkg in packages" :key="pkg.id" :value="pkg.title"></option>
+              </datalist>
             </label>
           </div>
 
@@ -203,86 +227,29 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import { AtSign, Download, FileText, Mail, Phone } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
+import rawSponsoring from "@/content/sponsoring.json";
+import externalLinks from "@/content/external-links.json";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
 
-const offerPoints = [
-  "Sichtbarkeit auf Website, Social Media und im Stadion",
-  "Individuelle Platzierung passend zu deinem Unternehmen",
-  "Eine direkte Verbindung zur Region und zu unseren Teams",
-];
+type SponsorPackage = {
+  id: string;
+  title: string;
+  lead?: string;
+  highlight?: string;
+  points: string[];
+  link?: { href: string; label: string };
+};
 
-const searchPoints = [
-  "Lokale Unternehmen und engagierte Unterstützer",
-  "Sach- und Geldspenden für Vereinsleben und Ausstattung",
-  "Partnerschaften, die langfristig zu uns passen",
-];
+const { hero, intro, reach, channels, benefits, packagesIntro, steps, download, contact } = rawSponsoring;
+const packages = rawSponsoring.packages as SponsorPackage[];
 
-const sponsorPackages = [
-  {
-    label: "Möglichkeit 01",
-    title: "Ballspende",
-    lead: "Direkt im Trainings- und Spielalltag sichtbar helfen.",
-    points: [
-      "Unterstützt die Teams bei Training und Spielbetrieb",
-      "Einfacher Einstieg in ein lokales Sponsoring",
-      "Ideal für eine konkrete, direkte Hilfe",
-    ],
-  },
-  {
-    label: "Möglichkeit 02",
-    title: "Vereinskleidung",
-    lead: "Ausstattung für Trainer, Jugend oder Mannschaften ermöglichen.",
-    points: [
-      "Unterstützung für Jacken, Shirts oder Trainingsmaterial",
-      "Präsenz im direkten Vereinsumfeld",
-      "Besonders passend für sichtbare Sachspenden",
-    ],
-  },
-  {
-    label: "Möglichkeit 03",
-    title: "Eventunterstützung",
-    lead: "Gemeinsam Veranstaltungen, Turniere und Vereinsmomente tragen.",
-    points: [
-      "Unterstützung für Feste, Aktionen oder Heimspieltage",
-      "Sichtbarkeit bei Veranstaltungen vor Ort",
-      "Perfekt für regionale Partner mit Community-Bezug",
-    ],
-  },
-  {
-    label: "Möglichkeit 04",
-    title: "Jugendunterstützung",
-    lead: "Nachwuchsarbeit gezielt und nachhaltig stärken.",
-    points: [
-      "Hilfe für Trainingsmaterial, Fahrten oder gemeinsame Aktionen",
-      "Direkte Unterstützung für Kinder- und Jugendbereiche",
-      "Besonders wertvoll für langfristige Vereinsentwicklung",
-    ],
-  },
-  {
-    label: "Möglichkeit 05",
-    title: "Individuelle Spende",
-    lead: "Flexible Hilfe genau dort, wo sie gerade gebraucht wird.",
-    points: [
-      "Frei anpassbar an deinen Wunschbetrag oder Anlass",
-      "Sinnvoll für spontane oder projektbezogene Unterstützung",
-      "Gemeinsam stimmen wir den Einsatz transparent ab",
-    ],
-  },
-  {
-    label: "Möglichkeit 06",
-    title: "Mannschaftskasse unterstützen",
-    points: [
-      "Direkte Hilfe für gemeinsame Teamaktivitäten",
-    ],
-    link: {
-      href: "https://paypal.me/FSGOTW",
-      label: "Per PayPal einzahlen: paypal.me/FSGOTW",
-    },
-  },
-];
+// Die Mappe liegt unter public/ und wird mit dem Script src/scripts/sponsoring-pdf.mjs erzeugt.
+const downloadHref = `${import.meta.env.BASE_URL}${download.file}`;
+const instagramUrl = externalLinks.social.instagram.url;
 
-const sponsorContactEmail = "info@svottweiler.de";
+const sponsorContactEmail = contact.email;
 
 const sponsorForm = ref({
   name: "",
@@ -672,8 +639,247 @@ onBeforeUnmount(() => {
   transform: translateY(-2px);
 }
 
+/* Beide Seiten stehen im Markup hintereinander, die Mitte gehört dazwischen. */
+.sponsor-timeline__side--left {
+  order: 1;
+}
+
+.sponsor-timeline__center {
+  order: 2;
+}
+
+.sponsor-timeline__side--right {
+  order: 3;
+}
+
+.sponsor-timeline__badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(242, 208, 82, 0.16);
+  color: #f2d052;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  vertical-align: 1px;
+}
+
+.sponsor-intro__text {
+  width: min(760px, 100%);
+  margin: 18px auto 0;
+  line-height: 1.7;
+  color: rgba(245, 247, 252, 0.8);
+}
+
+.sponsor-reach {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sponsor-reach__item {
+  display: grid;
+  gap: 6px;
+  padding: 22px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: center;
+}
+
+.sponsor-reach__value {
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-weight: 850;
+  line-height: 1;
+  color: var(--sv-secondary-color);
+}
+
+.sponsor-reach__label {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgba(245, 247, 252, 0.72);
+}
+
+.sponsor-channels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.sponsor-channel {
+  padding: 22px 24px;
+  border-left: 4px solid var(--sv-secondary-color);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sponsor-channel__title {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+
+.sponsor-channel__text {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(245, 247, 252, 0.72);
+}
+
+.sponsor-benefits {
+  width: min(760px, 100%);
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+}
+
+.sponsor-section-head,
+.sponsor-steps,
+.sponsor-download {
+  width: min(1240px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.sponsor-section-head {
+  margin-bottom: clamp(24px, 4vw, 40px);
+  text-align: center;
+}
+
+.sponsor-steps {
+  margin-top: clamp(52px, 8vw, 96px);
+  text-align: center;
+}
+
+.sponsor-steps__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: clamp(1.6rem, 4vw, 2.6rem) 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.sponsor-step {
+  padding: 22px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sponsor-step__number {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--sv-secondary-color);
+  color: #171a1f;
+  font-weight: 850;
+}
+
+.sponsor-step__title {
+  margin: 14px 0 6px;
+  font-size: 1.1rem;
+}
+
+.sponsor-step__text {
+  margin: 0;
+  line-height: 1.55;
+  color: rgba(245, 247, 252, 0.72);
+}
+
+.sponsor-download {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid rgba(242, 208, 82, 0.35);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(242, 208, 82, 0.12), rgba(45, 127, 249, 0.08));
+}
+
+.sponsor-download__text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--sv-secondary-color);
+}
+
+.sponsor-download__text p {
+  margin: 4px 0 0;
+  color: rgba(245, 247, 252, 0.78);
+}
+
+.sponsor-download__title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+.sponsor-download-button {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  background: var(--sv-secondary-color);
+  color: #171a1f;
+  font-weight: 850;
+  text-decoration: none;
+  transition: transform 0.22s ease;
+}
+
+.sponsor-download .sponsor-download-button {
+  margin-top: 0;
+}
+
+.sponsor-download-button:hover,
+.sponsor-download-button:focus-visible {
+  color: #171a1f;
+  transform: translateY(-2px);
+}
+
+.sponsor-contact__details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 24px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(245, 247, 252, 0.88);
+}
+
+.sponsor-contact__details a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--sv-secondary-color);
+  text-decoration: none;
+}
+
+.sponsor-contact__details a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .sponsor-intro__columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-reach,
+  .sponsor-steps__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sponsor-channels {
     grid-template-columns: 1fr;
   }
 
@@ -731,8 +937,21 @@ onBeforeUnmount(() => {
 @media (max-width: 640px) {
   .sponsor-intro,
   .sponsor-timeline,
-  .sponsor-contact {
+  .sponsor-contact,
+  .sponsor-section-head,
+  .sponsor-steps,
+  .sponsor-download {
     width: calc(100% - 24px);
+  }
+
+  .sponsor-steps__list {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsor-download-button {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
   }
 
   .sponsor-timeline__list {

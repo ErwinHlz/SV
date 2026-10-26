@@ -8,14 +8,11 @@ import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 
 type Slide = { id: string; image: string; imageAlt: string; caption?: string };
 type Person = { id: string; name: string; role: string; image?: string; imageAlt: string };
-type Fact = { label: string; value: string; link?: string };
 
 const props = defineProps<{
-  lead: string;
   slides: Slide[];
   people: Person[];
   peopleTitle: string;
-  facts: Fact[];
   planTitle: string;
   mapTitle: string;
   mapEmbedUrl?: string;
@@ -36,8 +33,6 @@ const onRailScroll = () => {
   activeSlide.value = Math.min(props.slides.length - 1, Math.round(rail.scrollLeft / step));
 };
 
-// Adresse steht schon im Anfahrt-Block.
-const infoFacts = props.facts.filter((fact) => fact.label !== "Adresse");
 // Bei jedem Seitenaufruf ein anderes Bild aus der Galerie.
 const heroImage = getGalleryPlaceholder("hero:stadion");
 </script>
@@ -54,16 +49,9 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
       <div class="stadion-hero__content m-fadeout">
         <p class="m-kicker">Unser Stadion</p>
         <h1 class="m-display stadion-hero__title">Im Alten<br />Weiher.</h1>
-        <p class="stadion-hero__lead">{{ lead }}</p>
       </div>
     </section>
 
-    <section class="stadion-facts" aria-label="Auf einen Blick">
-      <div v-for="fact in infoFacts" :key="fact.label" class="stadion-facts__item m-rv">
-        <span class="stadion-facts__label">{{ fact.label }}</span>
-        <span class="stadion-facts__value">{{ fact.value }}</span>
-      </div>
-    </section>
 
     <section class="stadion-plan" :aria-label="planTitle">
       <div class="m-section-head m-rv">
@@ -203,47 +191,11 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
   font-size: 64px;
 }
 
-.stadion-hero__lead {
-  margin: 0;
-  max-width: 330px;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--m-text-2);
-}
 
-.stadion-facts {
-  margin: 8px var(--m-gutter) 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
 
-.stadion-facts__item {
-  padding: 14px;
-  border: 1px solid var(--m-line);
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
 
-.stadion-facts__item:first-child:nth-last-child(odd) {
-  grid-column: 1 / -1;
-}
 
-.stadion-facts__label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--m-yellow);
-}
 
-.stadion-facts__value {
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1.3;
-}
 
 .stadion-gallery,
 .stadion-plan,

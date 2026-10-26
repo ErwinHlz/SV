@@ -1,0 +1,179 @@
+{
+  "hero": {
+    "title": "Sponsor werden",
+    "lead": "Werde Partner des SV Ottweiler 1919 – sichtbar auf dem Platz, online und mitten in der Region."
+  },
+  "intro": {
+    "kicker": "Warum der SV Ottweiler",
+    "title": "Seit 1919 Fußball in Ottweiler – und ab jetzt mit dir",
+    "text": "Seit der Saison 2026/27 geht der SV Ottweiler wieder seinen eigenen Weg: mit zwei Herrenmannschaften und einer kompletten Jugendabteilung von den Kleinsten bis zur A-Jugend. Hinter all dem stehen Ehrenamtliche, die Woche für Woche Training, Spieltage und Vereinsleben auf die Beine stellen. Mit deiner Unterstützung wird daraus mehr – und dein Unternehmen ist überall dort sichtbar, wo der Verein lebt."
+  },
+  "reach": [
+    { "value": "1919", "label": "Tradition seit über 100 Jahren" },
+    { "value": "2", "label": "Herrenteams in Bezirksliga Blies/Nahe und Kreisliga A Blies" },
+    { "value": "7", "label": "Jugendmannschaften von der G- bis zur A-Jugend" },
+    { "value": "fast täglich", "label": "neue Posts und Stories auf Instagram" }
+  ],
+  "channels": [
+    {
+      "title": "Vereinswebsite",
+      "text": "Spielpläne, Ergebnisse, News, Belegungsplan und Jugendinfos: Spieler, Eltern und Fans schauen regelmäßig vorbei – dein Logo ist mit dabei."
+    },
+    {
+      "title": "Instagram @sv_ottweiler1919",
+      "text": "Gut gepflegt und fast täglich mit neuen Posts und Stories: Spieltage, Ergebnisse, Neuzugänge und Vereinsleben – mit großer Reichweite in Ottweiler und Umgebung."
+    },
+    {
+      "title": "Stadion Im Alten Weiher",
+      "text": "Heimspiele der 1. und 2. Mannschaft, Jugendspieltage und Vereinsfeste: Hier treffen sich Woche für Woche Zuschauer, Familien und Sportler aus der Region."
+    },
+    {
+      "title": "Vereinskleidung",
+      "text": "Trikots, Trainingsanzüge und Jacken werden bei Spielen, im Training, auf Fotos und im Alltag getragen – deine Marke ist dauerhaft unterwegs."
+    }
+  ],
+  "benefits": [
+    "Regionale Sichtbarkeit bei Familien, Sportlern und Fans aus Ottweiler und Umgebung",
+    "Positives Image durch Engagement für Jugend, Ehrenamt und Sport vor Ort",
+    "Persönliche Betreuung und feste Ansprechpartner im Verein",
+    "Transparenz: Wir zeigen, wofür deine Unterstützung eingesetzt wurde"
+  ],
+  "packagesIntro": {
+    "kicker": "Unsere Bausteine",
+    "title": "Wofür du uns unterstützen kannst",
+    "text": "Jeder Baustein funktioniert für sich – oder du kombinierst mehrere zu deinem eigenen Paket. Umfang, Laufzeit und Budget stimmen wir gemeinsam ab."
+  },
+  "packages": [
+    {
+      "id": "website",
+      "title": "Website-Partner",
+      "lead": "Dein Logo dort, wo Spieler, Eltern und Fans regelmäßig vorbeischauen.",
+      "points": [
+        "Logo mit Link in unserer Sponsorenübersicht",
+        "Platzierung in der Sponsorenleiste auf vielen Seiten der Website",
+        "Partner-Anzeige zwischen den Inhalten, z. B. bei Spielberichten und News",
+        "Erwähnung in passenden Beiträgen rund um deine Partnerschaft"
+      ]
+    },
+    {
+      "id": "instagram",
+      "title": "Instagram-Partner",
+      "lead": "Fast täglich neue Posts und Stories – mit deinem Unternehmen mittendrin.",
+      "points": [
+        "Vorstellungs-Post zum Start der Partnerschaft",
+        "Logo auf Spieltags- und Ergebnisgrafiken („präsentiert von …“)",
+        "Story-Erwähnungen und Verlinkungen deines Accounts",
+        "Gemeinsame Aktionen oder Gewinnspiele mit unserer Community"
+      ]
+    },
+    {
+      "id": "kleidung",
+      "title": "Vereinskleidung",
+      "lead": "Trikots, Trainingsanzüge, Jacken – dein Logo auf dem Platz und im Alltag.",
+      "highlight": "Besonders gewünscht",
+      "points": [
+        "Trikotsätze für die 1. oder 2. Mannschaft oder ein Jugendteam",
+        "Trainings- und Aufwärmkleidung, Regenjacken für Trainer und Betreuer",
+        "Logo-Platzierung auf Brust, Ärmel oder Rücken nach Absprache",
+        "Dauerhafte Sichtbarkeit bei Spielen, im Training, auf Fotos und Social Media"
+      ]
+    },
+    {
+      "id": "jugend",
+      "title": "Jugendförderung",
+      "lead": "Unsere Jüngsten sind die Zukunft des SV Ottweiler – hilf ihnen beim Wachsen.",
+      "highlight": "Besonders gewünscht",
+      "points": [
+        "Patenschaft für eine Jugendmannschaft von der G- bis zur B-Jugend",
+        "Trikotsatz oder Trainingsanzüge für ein Jugendteam",
+        "Unterstützung bei Turnierfahrten, Ausflügen und Saisonabschluss",
+        "Partner bei Jugendturnieren und Ferienaktionen",
+        "Zum Schutz der Kinder zeigen wir keine Kinderfotos – wir bedanken uns mit eigenen Grafiken und Beiträgen"
+      ]
+    },
+    {
+      "id": "training",
+      "title": "Trainingsmaterial",
+      "lead": "Gute Trainingsarbeit braucht gutes Material – in allen Altersklassen.",
+      "highlight": "Besonders gewünscht",
+      "points": [
+        "Trainings- und Spielbälle",
+        "Hütchen, Stangen, Koordinationsleitern und Minitore",
+        "Leibchen, Torwarthandschuhe, Ballnetze und Taschen",
+        "Erste-Hilfe- und Physiomaterial",
+        "Auf Wunsch mit deinem Logo auf Ballnetzen oder Materialtaschen"
+      ]
+    },
+    {
+      "id": "events",
+      "title": "Heimspiel & Events",
+      "lead": "Mittendrin am Spieltag und bei unseren Vereinsveranstaltungen.",
+      "points": [
+        "„Heimspiel präsentiert von …“ auf Instagram und der Website",
+        "Banner am Platz im Stadion Im Alten Weiher (nach Absprache)",
+        "Partner bei Vereinsfesten wie dem Oktoberfest oder dem 7-Meter-Cup",
+        "Spieltagsball oder „Spieler des Spiels“ mit deinem Namen"
+      ]
+    },
+    {
+      "id": "individuell",
+      "title": "Deine eigene Idee",
+      "lead": "Du hast eine eigene Vorstellung? Erzähl sie uns – wir setzen sie gemeinsam um.",
+      "points": [
+        "Projektbezogene Unterstützung, z. B. Anschaffungen für Platz oder Vereinsheim",
+        "Mehrere Bausteine zu einem persönlichen Paket kombinieren",
+        "Sachleistungen oder Dienstleistungen statt Geldbetrag",
+        "Laufzeit und Umfang ganz nach deinen Möglichkeiten"
+      ]
+    },
+    {
+      "id": "mannschaftskasse",
+      "title": "Mannschaftskasse unterstützen",
+      "lead": "Ein kleiner Beitrag für gemeinsame Teamaktivitäten.",
+      "points": ["Direkte Hilfe für gemeinsame Teamaktivitäten"],
+      "link": {
+        "href": "https://paypal.me/FSGOTW",
+        "label": "Per PayPal einzahlen: paypal.me/FSGOTW"
+      },
+      "pdf": false
+    }
+  ],
+  "steps": {
+    "kicker": "So einfach geht's",
+    "title": "In vier Schritten zur Partnerschaft",
+    "items": [
+      {
+        "title": "Anfrage stellen",
+        "text": "Per Formular, E-Mail oder Nachricht auf Instagram – ganz unverbindlich."
+      },
+      {
+        "title": "Kennenlernen",
+        "text": "Wir sprechen über deine Ziele, Wünsche und dein Budget."
+      },
+      {
+        "title": "Paket schnüren",
+        "text": "Gemeinsam stellen wir die passenden Bausteine zusammen."
+      },
+      {
+        "title": "Sichtbar werden",
+        "text": "Wir setzen alles um und halten dich auf dem Laufenden, was mit deiner Unterstützung passiert."
+      }
+    ]
+  },
+  "download": {
+    "title": "Alle Infos als PDF",
+    "text": "Unsere Sponsoring-Mappe zum Herunterladen, Weiterleiten und Ausdrucken.",
+    "label": "Sponsoring-Mappe herunterladen",
+    "file": "downloads/sponsoring-sv-ottweiler.pdf"
+  },
+  "contact": {
+    "kicker": "Kontakt",
+    "title": "Lass uns sprechen",
+    "text": "Ob fester Baustein oder eigene Idee: Wir gehen auf jede Anfrage ein und melden uns schnell bei dir.",
+    "person": "Sascha Gutheil",
+    "role": "1. Vorsitzender",
+    "email": "info@svottweiler.de",
+    "phone": "06824 1499",
+    "instagram": "@sv_ottweiler1919"
+  }
+}

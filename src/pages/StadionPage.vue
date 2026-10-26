@@ -1,11 +1,9 @@
 <template>
   <MobileStadion
     v-if="isMobile"
-    :lead="hero.lead"
     :slides="galleryItems"
     :people="personCards"
     :people-title="people.title"
-    :facts="facts.items"
     :plan-title="belegungsplan.title"
     :map-title="map.title"
     :map-embed-url="map.embedUrl"
@@ -14,8 +12,7 @@
   <template v-else>
   <PageHero
     class="stadion-page-hero"
-    :title="hero.title"
-    :lead="hero.lead" />
+    :title="hero.title" />
 
   <section class="stadion-section" :aria-label="belegungsplan.title">
     <header class="section-header">
@@ -199,7 +196,6 @@ type StadionPerson = {
 type StadionContent = {
   hero: {
     title: string;
-    lead: string;
   };
   facts: {
     title: string;

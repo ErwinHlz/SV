@@ -30,7 +30,7 @@
     <div class="page-hero-content" :data-compact="compact ? 'true' : 'false'">
       <p class="page-hero-kicker">{{ kicker }}</p>
       <h1 class="page-hero-title">{{ title }}</h1>
-      <p class="page-hero-lead">{{ lead }}</p>
+      <p v-if="lead" class="page-hero-lead">{{ lead }}</p>
       <slot />
     </div>
   </section>
@@ -44,7 +44,7 @@ import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
 const props = withDefaults(
   defineProps<{
     title: string;
-    lead: string;
+    lead?: string;
     kicker?: string;
     compact?: boolean;
     image?: string;

@@ -1,7 +1,6 @@
 {
   "hero": {
-    "title": "Unser Stadion",
-    "lead": "Der Sportplatz Ottweiler ist unsere Heimat für Spieltage, Training und Vereinsleben."
+    "title": "Unser Stadion"
   },
   "intro": {
     "title": "Sportplatz Ottweiler",
@@ -15,18 +14,6 @@
         "label": "Adresse",
         "value": "Im Alten Weiher, 66564 Ottweiler",
         "link": "https://www.google.com/maps/search/?api=1&query=Im%20Alten%20Weiher,%2066564%20Ottweiler"
-      },
-      {
-        "label": "Heimat",
-        "value": "FSG Ottweiler-Steinbach"
-      },
-      {
-        "label": "Belag",
-        "value": "Rasenplatz mit Flutlicht"
-      },
-      {
-        "label": "Parken",
-        "value": "Parkplätze direkt am Sportplatz"
       }
     ]
   },
