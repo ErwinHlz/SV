@@ -1805,7 +1805,7 @@ onBeforeUnmount(() => {
 .cal-modal--mobile .cal-dialog {
   width: 100%;
   max-height: 88%;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
   border-radius: 22px 22px 0 0;
   border-bottom: 0;
 }
