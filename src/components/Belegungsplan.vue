@@ -43,7 +43,7 @@
           :class="{ 'is-selected': index === selectedDay, 'is-today': day.isToday }"
           :aria-selected="index === selectedDay"
           :aria-label="`${day.name}, ${formatLong(day.date)}`"
-          @click="selectedDay = index">
+          @click="selectDay(index)">
           <span class="cal-strip__name">{{ day.short }}</span>
           <span class="cal-strip__num">{{ day.date.getDate() }}</span>
           <span class="cal-strip__dots" aria-hidden="true">
@@ -53,7 +53,13 @@
       </div>
 
       <!-- Mobil: nach links/rechts wischen wechselt den Tag. -->
-      <div class="cal-frame" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
+      <div
+        ref="frameRef"
+        class="cal-frame"
+        @touchstart.passive="onTouchStart"
+        @touchmove.passive="onTouchMove"
+        @touchend.passive="onTouchEnd"
+        @touchcancel.passive="onTouchEnd">
         <div v-if="!mobile" class="cal-head">
           <span></span>
           <div v-for="day in days" :key="day.iso" class="cal-head__day" :class="{ 'is-today': day.isToday }">
@@ -74,6 +80,7 @@
             :key="day.iso"
             class="cal-col"
             :class="{ 'is-today': day.isToday }"
+            :style="colStyle"
             :aria-label="`${day.name}, ${formatLong(day.date)}`"
             role="list">
             <div
@@ -570,44 +577,127 @@ const canStep = (direction: number) => {
 const step = (direction: number) => {
   if (!canStep(direction)) return;
   if (activeView.value === "week") {
-    weekOffset.value += direction;
-    selectedDay.value = weekOffset.value === 0 ? todayIndex() : 0;
+    const change = () => {
+      weekOffset.value += direction;
+      selectedDay.value = weekOffset.value === 0 ? todayIndex() : 0;
+    };
+    if (props.mobile) slideTo(direction, change);
+    else change();
   } else {
     monthOffset.value += direction;
   }
 };
 
 // Mobil: einen Tag vor oder zurück, am Wochenende weiter in die nächste Woche.
+const canStepDay = (direction: number) => {
+  const next = selectedDay.value + direction;
+  if (next >= 0 && next <= 6) return true;
+  const week = weekOffset.value + direction;
+  return week >= weekLimits.min && week <= weekLimits.max;
+};
+
 const stepDay = (direction: number) => {
   const next = selectedDay.value + direction;
   if (next >= 0 && next <= 6) {
     selectedDay.value = next;
     return;
   }
-  const week = weekOffset.value + direction;
-  if (week < weekLimits.min || week > weekLimits.max) return;
-  weekOffset.value = week;
+  weekOffset.value += direction;
   selectedDay.value = direction > 0 ? 0 : 6;
 };
 
-const swipeThreshold = 50;
-let touchStart: { x: number; y: number } | null = null;
+// Wisch-Effekt: der Tag folgt dem Finger, gleitet hinaus und der neue von der Gegenseite herein.
+const frameRef = ref<HTMLElement | null>(null);
+const dragX = ref(0);
+const dragging = ref(false);
+const instant = ref(false);
+let animating = false;
+let lastSwipeAt = 0;
+const swipeThreshold = 60;
+const slideOut = 180;
+const slideIn = 240;
+
+const colStyle = computed(() => {
+  if (!props.mobile) return undefined;
+  const width = frameRef.value?.clientWidth || 1;
+  return {
+    transform: `translateX(${dragX.value}px)`,
+    opacity: String(1 - Math.min(Math.abs(dragX.value) / width, 1) * 0.7),
+    transition:
+      dragging.value || instant.value
+        ? "none"
+        : `transform ${slideIn}ms cubic-bezier(0.2, 0.7, 0.3, 1), opacity ${slideIn}ms ease`,
+  };
+});
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const slideTo = async (direction: number, change: () => void) => {
+  if (animating) return;
+  const width = frameRef.value?.clientWidth ?? 0;
+  animating = true;
+  dragging.value = false;
+  dragX.value = -direction * width;
+  await wait(slideOut);
+  change();
+  // Neuen Tag ohne Übergang auf die Gegenseite setzen, Layout erzwingen, dann hereingleiten.
+  instant.value = true;
+  dragX.value = direction * width * 0.4;
+  await nextTick();
+  void frameRef.value?.offsetWidth;
+  instant.value = false;
+  dragX.value = 0;
+  await wait(slideIn);
+  animating = false;
+};
+
+const selectDay = (index: number) => {
+  if (index === selectedDay.value) return;
+  if (!props.mobile) {
+    selectedDay.value = index;
+    return;
+  }
+  slideTo(index > selectedDay.value ? 1 : -1, () => (selectedDay.value = index));
+};
+
+let gesture: { x: number; y: number; axis: "x" | "y" | null } | null = null;
 
 const onTouchStart = (event: TouchEvent) => {
-  if (!props.mobile) return;
-  const touch = event.changedTouches[0];
-  touchStart = touch ? { x: touch.clientX, y: touch.clientY } : null;
+  const touch = event.touches[0];
+  if (!props.mobile || animating || !touch || event.touches.length > 1) return;
+  gesture = { x: touch.clientX, y: touch.clientY, axis: null };
+};
+
+const onTouchMove = (event: TouchEvent) => {
+  const touch = event.touches[0];
+  if (!gesture || !touch) return;
+  const dx = touch.clientX - gesture.x;
+  const dy = touch.clientY - gesture.y;
+  // Richtung erst nach ein paar Pixeln festlegen: senkrecht scrollt die Seite, waagerecht wechselt den Tag.
+  if (!gesture.axis) {
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+    gesture.axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? "x" : "y";
+  }
+  if (gesture.axis !== "x") return;
+  dragging.value = true;
+  // Am Ende des Zeitraums gibt der Tag nur noch federnd nach.
+  dragX.value = canStepDay(dx < 0 ? 1 : -1) ? dx : dx * 0.25;
 };
 
 const onTouchEnd = (event: TouchEvent) => {
+  const current = gesture;
+  gesture = null;
+  if (!current || current.axis !== "x") return;
   const touch = event.changedTouches[0];
-  if (!props.mobile || !touchStart || !touch) return;
-  const dx = touch.clientX - touchStart.x;
-  const dy = touch.clientY - touchStart.y;
-  touchStart = null;
-  // Nur klar waagerechte Gesten zählen, damit Scrollen nicht den Tag wechselt.
-  if (Math.abs(dx) < swipeThreshold || Math.abs(dx) <= Math.abs(dy) * 1.5) return;
-  stepDay(dx < 0 ? 1 : -1);
+  const dx = touch ? touch.clientX - current.x : dragX.value;
+  const direction = dx < 0 ? 1 : -1;
+  lastSwipeAt = Date.now();
+  if (Math.abs(dx) >= swipeThreshold && canStepDay(direction)) {
+    slideTo(direction, () => stepDay(direction));
+  } else {
+    dragging.value = false;
+    dragX.value = 0;
+  }
 };
 
 const goToday = () => {
@@ -732,6 +822,8 @@ const onKeydown = (event: KeyboardEvent) => {
 };
 
 const openDetail = async (entry: Entry, event: Event) => {
+  // Nach einem Wischen löst der Browser noch einen Klick aus: den ignorieren.
+  if (Date.now() - lastSwipeAt < 400) return;
   lastFocus = event.currentTarget as HTMLElement;
   detail.value = entry;
   document.addEventListener("keydown", onKeydown);
@@ -914,6 +1006,16 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   color: inherit;
   font: inherit;
   cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+
+.cal-strip__day:active {
+  transform: scale(0.94);
+}
+
+.cal-strip__day .cal-strip__name,
+.cal-strip__day .cal-strip__num {
+  transition: color 0.25s ease;
 }
 
 .cal-strip__name {
@@ -1134,13 +1236,23 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   box-shadow: 0 -2px 0 #000611;
 }
 
-.cal-ev:hover,
+/* Anheben nur mit Maus, auf Touch-Geräten bliebe der Effekt sonst hängen. */
+@media (hover: hover) {
+  .cal-ev:hover {
+    z-index: 2;
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--team) 70%, transparent),
+      0 8px 18px rgba(0, 0, 0, 0.35);
+  }
+}
+
 .cal-ev:focus-visible {
   z-index: 2;
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--team) 70%, transparent),
-    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+.cal-ev:active {
+  filter: brightness(1.15);
 }
 
 .cal-ev:focus-visible {
