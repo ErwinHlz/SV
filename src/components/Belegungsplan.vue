@@ -1,5 +1,5 @@
 <template>
-  <div class="cal" :class="{ 'cal--mobile': mobile }" :style="{ '--hours': hours.length }">
+  <div class="cal" :class="{ 'cal--mobile': mobile }" :style="rootStyle">
     <div class="cal-toolbar">
       <div class="cal-toolbar__title">
         <span class="cal-toolbar__kicker">{{ activeView === "week" ? weekKicker : "Monat" }}</span>
@@ -50,6 +50,7 @@
             <i v-for="color in day.colors" :key="color" :style="{ background: color }"></i>
           </span>
         </button>
+        <span class="cal-strip__indicator" :style="{ '--i': selectedDay }" aria-hidden="true"></span>
       </div>
 
       <!-- Mobil: nach links/rechts wischen wechselt den Tag. -->
@@ -546,11 +547,31 @@ const formatFull = (date: Date) =>
 
 const now = ref(new Date());
 let clock: ReturnType<typeof setInterval> | null = null;
+
+// Mobil feste Höhe in Pixeln: Handy-Browser ändern beim Scrollen die Viewport-Höhe
+// (Adressleiste), der Kalender soll dabei nicht gestaucht werden. Neu gemessen wird
+// nur, wenn sich die Breite ändert, also beim Drehen des Geräts.
+const viewportHeight = ref<number | null>(null);
+let viewportWidth = 0;
+const measureViewport = () => {
+  if (window.innerWidth === viewportWidth && viewportHeight.value !== null) return;
+  viewportWidth = window.innerWidth;
+  viewportHeight.value = window.innerHeight;
+};
+
+const rootStyle = computed(() => ({
+  "--hours": hours.length,
+  ...(viewportHeight.value ? { "--cal-vh": `${viewportHeight.value}px` } : {}),
+}));
+
 onMounted(() => {
   clock = setInterval(() => (now.value = new Date()), 60_000);
+  measureViewport();
+  window.addEventListener("resize", measureViewport);
 });
 onBeforeUnmount(() => {
   if (clock) clearInterval(clock);
+  window.removeEventListener("resize", measureViewport);
 });
 
 const today = computed(() => startOfDay(now.value));
@@ -857,7 +878,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 .cal--mobile {
   --axis: 44px;
   gap: 10px;
-  height: calc(100svh - var(--m-header, 60px) - 24px);
+  height: calc(var(--cal-vh, 100svh) - var(--m-header, 60px) - 24px);
   min-height: 520px;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
 }
@@ -987,35 +1008,31 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   cursor: not-allowed;
 }
 
-/* Mobile Tagesleiste */
+/* Mobile Tagesleiste: flache Zeile, die Markierung gleitet zum gewählten Tag */
 .cal-strip {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
 }
 
 .cal-strip__day {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 8px 0 7px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.03);
+  gap: 4px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
   color: inherit;
   font: inherit;
   cursor: pointer;
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .cal-strip__day:active {
-  transform: scale(0.94);
-}
-
-.cal-strip__day .cal-strip__name,
-.cal-strip__day .cal-strip__num {
-  transition: color 0.25s ease;
+  transform: scale(0.92);
 }
 
 .cal-strip__name {
@@ -1024,25 +1041,32 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+  transition: color 0.25s ease;
 }
 
 .cal-strip__num {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   font-family: var(--m-display, inherit);
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
   line-height: 1;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .cal-strip__dots {
   display: flex;
   justify-content: center;
   gap: 3px;
-  height: 6px;
+  height: 5px;
 }
 
 .cal-strip__dots i {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
 }
 
@@ -1050,18 +1074,34 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   color: var(--yellow);
 }
 
-.cal-strip__day.is-selected {
-  border-color: var(--yellow);
-  background: var(--yellow);
+.cal-strip__day.is-selected .cal-strip__name {
+  color: #fff;
 }
 
-.cal-strip__day.is-selected .cal-strip__name,
 .cal-strip__day.is-selected .cal-strip__num {
+  background: var(--yellow);
   color: var(--ink-dark);
 }
 
-.cal-strip__day.is-selected .cal-strip__dots i {
-  box-shadow: 0 0 0 1.5px var(--ink-dark);
+.cal-strip__indicator {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  display: flex;
+  justify-content: center;
+  width: calc(100% / 7);
+  height: 3px;
+  transform: translateX(calc(var(--i) * 100%));
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+  pointer-events: none;
+}
+
+.cal-strip__indicator::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--yellow);
 }
 
 /* Kalenderraster */
@@ -1805,5 +1845,47 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   color: #0a1530;
   font-weight: 800;
   text-decoration: none;
+}
+/* Mobil ohne Kästen: randloses Raster, flache Termine */
+.cal--mobile .cal-frame {
+  margin: 0 calc(-1 * var(--m-gutter, 16px));
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.cal--mobile .cal-body {
+  padding: 8px var(--m-gutter, 16px) 8px 0;
+}
+
+.cal--mobile .cal-col {
+  border-left-color: rgba(255, 255, 255, 0.12);
+}
+
+.cal--mobile .cal-ev {
+  border-left-width: 3px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--team) 16%, transparent);
+  box-shadow: none;
+}
+
+.cal--mobile .cal-ev::after {
+  height: 4px;
+  box-shadow: none;
+}
+
+.cal--mobile .cal-ev.is-match {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 10px, rgba(255, 255, 255, 0.16) 10px 20px),
+    var(--team);
+}
+
+.cal--mobile .cal-ev__time {
+  color: color-mix(in srgb, var(--team) 80%, #fff);
+}
+
+.cal--mobile .cal-free {
+  font-size: 15px;
 }
 </style>
