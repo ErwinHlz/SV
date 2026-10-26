@@ -109,7 +109,7 @@ const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
                 <Clock :size="16" :stroke-width="2" aria-hidden="true" />
                 <span>
                   <strong>{{ slot.day }}</strong> · {{ slot.time }}
-                  <span class="youth-team__place">{{ slot.location }}</span>
+                  <span v-if="slot.location" class="youth-team__place">{{ slot.location }}</span>
                 </span>
               </li>
             </ul>

@@ -1,0 +1,38 @@
+{
+  "teams": [
+    {
+      "id": "team-one",
+      "name": "1. Mannschaft",
+      "short": "SVO 1",
+      "training": [
+        {
+          "day": "Dienstag",
+          "time": "19:00-20:30",
+          "location": "Ottweiler"
+        },
+        {
+          "day": "Freitag",
+          "time": "19:00-20:30",
+          "location": "Ottweiler"
+        }
+      ]
+    },
+    {
+      "id": "team-two",
+      "name": "2. Mannschaft",
+      "short": "SVO 2",
+      "training": [
+        {
+          "day": "Dienstag",
+          "time": "19:00-20:30",
+          "location": "Ottweiler"
+        },
+        {
+          "day": "Freitag",
+          "time": "19:00-20:30",
+          "location": "Ottweiler"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ArrowUpRight, MapPin, Navigation } from "@lucide/vue";
+import Belegungsplan from "@/components/Belegungsplan.vue";
 import DummySilhouette from "@/components/DummySilhouette.vue";
 import { openCookieSettings, useCookieConsent } from "@/composables/useCookieConsent";
 import { getGalleryPlaceholder } from "@/utils/galleryPlaceholders";
@@ -15,6 +16,8 @@ const props = defineProps<{
   people: Person[];
   peopleTitle: string;
   facts: Fact[];
+  planTitle: string;
+  planLead: string;
   mapTitle: string;
   mapEmbedUrl?: string;
   addressLabel: string;
@@ -60,6 +63,19 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
       <div v-for="fact in infoFacts" :key="fact.label" class="stadion-facts__item m-rv">
         <span class="stadion-facts__label">{{ fact.label }}</span>
         <span class="stadion-facts__value">{{ fact.value }}</span>
+      </div>
+    </section>
+
+    <section class="stadion-plan" :aria-label="planTitle">
+      <div class="m-section-head m-rv">
+        <div>
+          <p class="m-kicker">Plätze</p>
+          <h2 class="m-section-title">{{ planTitle }}</h2>
+        </div>
+      </div>
+      <div class="stadion-plan__body">
+        <p class="stadion-plan__lead">{{ planLead }}</p>
+        <Belegungsplan mobile />
       </div>
     </section>
 
@@ -232,9 +248,21 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
 }
 
 .stadion-gallery,
+.stadion-plan,
 .stadion-people,
 .stadion-map {
   padding-top: 52px;
+}
+
+.stadion-plan__body {
+  padding: 0 var(--m-gutter);
+}
+
+.stadion-plan__lead {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--m-text-2);
 }
 
 .stadion-gallery__count {

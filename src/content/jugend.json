@@ -20,14 +20,14 @@
     {
       "id": "u7",
       "name": "G-Jugend (U7)",
-      "ageGroup": "Jahrgänge 2018/2019",
+      "ageGroup": "Jahrgänge 2020/2021",
       "league": "Kreisturnier",
       "description": "Unsere jüngsten im Verein entdecken den Ball spielerisch und sammeln erste Team-Erfahrungen.",
       "training": [
         {
-          "day": "Mittwoch",
+          "day": "Dienstag",
           "time": "16:30-17:30",
-          "location": "Sportplatz Ottweiler"
+          "location": "Ottweiler"
         }
       ],
       "widget": {
@@ -42,19 +42,19 @@
     {
       "id": "u9",
       "name": "F-Jugend (U9)",
-      "ageGroup": "Jahrgänge 2016/2017",
+      "ageGroup": "Jahrgänge 2018/2019",
       "league": "Kreisturnier",
       "description": "Hier wachsen die Kinder in die Fußballfamilie hinein und lernen mutiges Dribbling sowie fairen Wettbewerb.",
       "training": [
         {
-          "day": "Dienstag",
-          "time": "17:00-18:30",
-          "location": "Sportplatz Ottweiler"
+          "day": "Montag",
+          "time": "16:30-18:00",
+          "location": "Steinbach"
         },
         {
-          "day": "Donnerstag",
-          "time": "17:00-18:30",
-          "location": "Sportplatz Ottweiler"
+          "day": "Mittwoch",
+          "time": "16:30-18:00",
+          "location": "Ottweiler"
         }
       ],
       "widget": {
@@ -68,19 +68,19 @@
     {
       "id": "u11",
       "name": "E-Jugend (U11)",
-      "ageGroup": "Jahrgänge 2014/2015",
+      "ageGroup": "Jahrgänge 2016/2017",
       "league": "Kreisliga",
       "description": "Unsere E-Jugend vertieft Technik und Teamplay und sammelt erste taktische Erfahrungen.",
       "training": [
         {
           "day": "Montag",
-          "time": "17:30-19:00",
-          "location": "Sportplatz Ottweiler"
+          "time": "16:30-18:00",
+          "location": "Steinbach"
         },
         {
           "day": "Mittwoch",
-          "time": "17:30-19:00",
-          "location": "Sportplatz Ottweiler"
+          "time": "16:30-18:00",
+          "location": "Ottweiler"
         }
       ],
       "widget": {
@@ -94,19 +94,19 @@
     {
       "id": "u13",
       "name": "D-Jugend (U13)",
-      "ageGroup": "Jahrgänge 2012/2013",
+      "ageGroup": "Jahrgänge 2014/2015",
       "league": "Kreisliga",
       "description": "In der D-Jugend geht es um Positionsspiel, Tempo und Entscheidungen unter Druck.",
       "training": [
         {
           "day": "Dienstag",
-          "time": "18:00-19:30",
-          "location": "Sportplatz Ottweiler"
+          "time": "16:30-18:00",
+          "location": "Ottweiler Rasenplatz"
         },
         {
-          "day": "Freitag",
-          "time": "18:00-19:30",
-          "location": "Sportplatz Ottweiler"
+          "day": "Donnerstag",
+          "time": "16:30-18:00",
+          "location": "Ottweiler Rasenplatz"
         }
       ],
       "widget": {
@@ -118,21 +118,21 @@
       "imageAlt": "Mannschaftsfoto der D-Jugend"
     },
     {
-      "id": "u15",
-      "name": "C-Jugend (U15)",
-      "ageGroup": "Jahrgänge 2010/2011",
+      "id": "u17",
+      "name": "B-Jugend (U17)",
+      "ageGroup": "Jahrgänge 2010/2011/2012",
       "league": "Kreisliga",
-      "description": "Unsere C-Jugend arbeitet an Spielaufbau, Pressing und der athletischen Entwicklung.",
+      "description": "Unsere B-Jugend arbeitet an Spielaufbau, Pressing und der athletischen Entwicklung.",
       "training": [
         {
           "day": "Montag",
-          "time": "18:30-20:00",
-          "location": "Sportplatz Ottweiler"
+          "time": "17:00-18:30",
+          "location": "Fürth"
         },
         {
-          "day": "Donnerstag",
-          "time": "18:30-20:00",
-          "location": "Sportplatz Ottweiler"
+          "day": "Mittwoch",
+          "time": "18:00-19:30",
+          "location": "Ottweiler"
         }
       ],
       "widget": {
@@ -140,27 +140,15 @@
         "id": "bf84c29b-7520-4802-b880-5e15c79b2ed2"
       },
       "tableUrl": "https://next.fussball.de/mannschaft/-/02TET5EQ9S000000VS5489BSVTA87VEB/tabelle",
-      "image": "youthGalleryFallback",
-      "imageAlt": "Spielszene aus der Vereinsgalerie"
+      "image": "youthTeamB",
+      "imageAlt": "Mannschaftsfoto der B-Jugend"
     },
     {
       "id": "u19",
       "name": "A-Jugend (U19)",
-      "ageGroup": "Jahrgänge 2007/2008",
-      "league": "Kreisliga",
-      "description": "In der A-Jugend stehen Leistung, Verantwortung und der Uebergang in den Aktivenbereich im Fokus.",
-      "training": [
-        {
-          "day": "Dienstag",
-          "time": "19:00-20:30",
-          "location": "Sportplatz Ottweiler"
-        },
-        {
-          "day": "Donnerstag",
-          "time": "19:00-20:30",
-          "location": "Sportplatz Ottweiler"
-        }
-      ],
+      "ageGroup": "Jahrgänge 2008/2009",
+      "league": "Spielgemeinschaft",
+      "description": "Unsere A-Jugend spielt in einer Spielgemeinschaft mit dem FC Blau-Weiß St. Wendel. Trainingszeiten und Ansprechpartner gibt es beim FC Blau-Weiß St. Wendel.",
       "widget": {
         "title": "Tabelle",
         "id": "db8a345c-91e9-47ef-8197-1a6922273d73"

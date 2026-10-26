@@ -71,6 +71,66 @@
       }
     ]
   },
+  "belegungsplan": {
+    "title": "Belegungsplan",
+    "lead": "Wer trainiert und spielt wann auf welchem Platz? Heimspiele der 1. und 2. Mannschaft werden automatisch eingetragen.",
+    "startHour": 12,
+    "endHour": 22,
+    "places": [
+      {
+        "id": "ottweiler",
+        "name": "Ottweiler",
+        "code": "OTW",
+        "color": "#ffd400",
+        "aliases": [
+          "Ottweiler",
+          "Ottweiler Rasenplatz",
+          "Sportplatz Ottweiler",
+          "Stadion Im Alten Weiher"
+        ]
+      },
+      {
+        "id": "steinbach",
+        "name": "Steinbach",
+        "code": "STB",
+        "color": "#ffffff",
+        "aliases": [
+          "Steinbach"
+        ]
+      },
+      {
+        "id": "fuerth",
+        "name": "Fürth",
+        "code": "FÜR",
+        "color": "#ff2e4d",
+        "aliases": [
+          "Fürth"
+        ]
+      }
+    ],
+    "teamColors": {
+      "1. Mannschaft": "#3b82f6",
+      "2. Mannschaft": "#93c5fd",
+      "A-Jugend": "#e879f9",
+      "B-Jugend": "#f472b6",
+      "D-Jugend": "#a78bfa",
+      "E-Jugend": "#10b981",
+      "F-Jugend": "#a3e635",
+      "G-Jugend": "#22d3ee"
+    },
+    "homeTeams": [
+      {
+        "match": "Ottweiler",
+        "label": "1. Mannschaft",
+        "short": "SVO 1"
+      },
+      {
+        "match": "Ottweiler II",
+        "label": "2. Mannschaft",
+        "short": "SVO 2"
+      }
+    ]
+  },
   "map": {
     "title": "Anfahrt & Parken",
     "embedUrl": "https://www.google.com/maps?q=Im%20Alten%20Weiher,%2066564%20Ottweiler&output=embed",

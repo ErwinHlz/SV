@@ -13,6 +13,7 @@
 			mobile-photo
 		/>
 		<TeamOneNav base-path="/teams/two" team-label="2. Mannschaft" />
+		<TeamTraining team-id="team-two" />
 		<ConsentControlledWidget
 			provider="fupa"
 			:widget-id="externalLinks.fupa.widgets.teamTwo.kader.desktop"
@@ -41,6 +42,7 @@
 	import PageHero from "@/components/PageHero.vue";
 	import ConsentControlledWidget from "@/components/ConsentControlledWidget.vue";
 	import TeamOneNav from "@/components/TeamOneNav.vue";
+	import TeamTraining from "@/components/TeamTraining.vue";
 	import externalLinks from "@/content/external-links.json";
 	import { useTeamViewSwipe } from "@/composables/useTeamViewSwipe";
 	import teamTwoPhoto from "@/assets/Kader/team-2-kader.jpg";

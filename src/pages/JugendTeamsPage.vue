@@ -141,7 +141,7 @@
                   v-for="slot in team.training"
                   :key="`${team.id}-${slot.day}-${slot.time}-${slot.location}`"
                 >
-                  {{ slot.day }} · {{ slot.time }} · {{ slot.location }}
+                  {{ [slot.day, slot.time, slot.location].filter(Boolean).join(" · ") }}
                 </li>
               </ul>
 
@@ -362,6 +362,7 @@ import youthTeamG from "@/assets/Jugend/g_jugend.png";
 import youthTeamF from "@/assets/Jugend/f_jugend.png";
 import youthTeamE from "@/assets/Jugend/e_jugend.png";
 import youthTeamD from "@/assets/Jugend/d_jugend.png";
+import youthTeamB from "@/assets/Jugend/b_jugend.png";
 import youthTeamA from "@/assets/Jugend/a_jugend.png";
 import rawJugendtrainer from "@/content/jugendtrainer.json";
 import rawTimelineEntries from "@/content/jugend-timeline.json";
@@ -460,6 +461,7 @@ const teamImageMap: Record<string, string> = {
   youthTeamF,
   youthTeamE,
   youthTeamD,
+  youthTeamB,
   youthTeamA,
 };
 
