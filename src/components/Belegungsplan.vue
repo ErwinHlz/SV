@@ -1,7 +1,11 @@
 <template>
   <div
     class="cal"
-    :class="{ 'cal--mobile': mobile, 'cal--mobile-week': mobile && mobileView === 'week' }"
+    :class="{
+      'cal--mobile': mobile,
+      'cal--mobile-week': mobile && mobileView === 'week',
+      'cal--mobile-month': mobile && mobileView === 'month',
+    }"
     :style="rootStyle">
     <div class="cal-toolbar">
       <div class="cal-toolbar__title">
@@ -12,6 +16,7 @@
         <div v-if="mobile" class="cal-switch" role="group" aria-label="Ansicht">
           <button type="button" :aria-pressed="mobileView === 'day'" @click="mobileView = 'day'">Tag</button>
           <button type="button" :aria-pressed="mobileView === 'week'" @click="mobileView = 'week'">Woche</button>
+          <button type="button" :aria-pressed="mobileView === 'month'" @click="mobileView = 'month'">Monat</button>
         </div>
         <div v-else class="cal-switch" role="group" aria-label="Ansicht">
           <button type="button" :aria-pressed="view === 'week'" @click="view = 'week'">Woche</button>
@@ -146,15 +151,41 @@
       </div>
     </template>
 
-    <!-- Monatsansicht (nur Desktop) -->
+    <!-- Monatsansicht -->
     <template v-else>
-      <div class="cal-frame cal-month">
+      <div
+        ref="frameRef"
+        class="cal-frame cal-month"
+        @touchstart.passive="onTouchStart"
+        @touchmove.passive="onTouchMove"
+        @touchend.passive="onTouchEnd"
+        @touchcancel.passive="onTouchEnd">
         <div class="cal-month__head">
-          <span v-for="name in weekdays" :key="name">{{ name }}</span>
+          <span v-for="name in weekdays" :key="name">{{ mobile ? name.slice(0, 2) : name }}</span>
         </div>
-        <div class="cal-month__grid">
+        <div class="cal-month__grid" :style="colStyle">
           <template v-for="cell in monthCells" :key="cell.iso">
+            <!-- Mobil: Tag mit Punkten antippen, die Zeiten stehen darunter. -->
+            <button
+              v-if="mobile"
+              type="button"
+              class="cal-mday"
+              :class="{
+                'is-other': !cell.inMonth,
+                'is-past': cell.isPast,
+                'is-today': cell.isToday,
+                'is-selected': cell.iso === selectedIso,
+              }"
+              :aria-pressed="cell.iso === selectedIso"
+              :aria-label="formatLong(cell.date)"
+              @click="selectedIso = cell.iso">
+              <span class="cal-mday__num">{{ cell.date.getDate() }}</span>
+              <span class="cal-strip__dots" aria-hidden="true">
+                <i v-for="color in cell.colors.slice(0, 4)" :key="color" :style="{ background: color }"></i>
+              </span>
+            </button>
             <div
+              v-else
               class="cal-mcell"
               :class="{ 'is-other': !cell.inMonth, 'is-past': cell.isPast, 'is-today': cell.isToday }">
               <span class="cal-mcell__num">{{ cell.date.getDate() }}</span>
@@ -183,6 +214,26 @@
         </div>
       </div>
 
+      <div v-if="mobile" class="cal-daylist" aria-live="polite">
+        <h3 class="cal-daylist__title">{{ selectedTitle }}</h3>
+        <p v-if="!selectedEntries.length" class="cal-daylist__free">Keine Belegung an diesem Tag</p>
+        <button
+          v-for="entry in selectedEntries"
+          :key="entry.key"
+          type="button"
+          class="cal-row"
+          :class="{ 'is-match': entry.isMatch }"
+          :style="entryStyle(entry)"
+          :aria-label="`${entry.label}. Details anzeigen`"
+          @click="openDetail(entry, $event)">
+          <span class="cal-row__time">{{ entry.isMatch ? entry.timeStart : `${entry.timeStart}–${entry.timeEnd}` }}</span>
+          <span class="cal-row__team">
+            <Trophy v-if="entry.isMatch" :size="13" :stroke-width="2.6" aria-hidden="true" />
+            {{ entry.team }}
+          </span>
+          <span class="cal-row__place">{{ entry.isMatch ? entry.detail : entry.place.name }}</span>
+        </button>
+      </div>
     </template>
 
     <div class="cal-legend">
@@ -209,6 +260,7 @@
 
     <!-- Detailansicht eines Termins -->
     <Teleport to="body">
+      <Transition name="cal-modal" :duration="260">
       <div v-if="detail" class="cal-modal" :class="{ 'cal-modal--mobile': mobile }" @click.self="closeDetail">
         <div
           class="cal-dialog"
@@ -276,6 +328,7 @@
           </a>
         </div>
       </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -603,14 +656,16 @@ onBeforeUnmount(() => {
 const today = computed(() => startOfDay(now.value));
 
 const view = ref<"week" | "month">("week");
-// Mobil gibt es nur die Woche (Tag für Tag), der Monat ist dort zu klein.
-const activeView = computed(() => (props.mobile ? "week" : view.value));
-// Mobil: ein Tag im Detail oder die ganze Woche auf einen Blick.
-const mobileView = ref<"day" | "week">("day");
+// Mobil: ein Tag im Detail, die ganze Woche auf einen Blick oder der Monat mit Tagesliste.
+const mobileView = ref<"day" | "week" | "month">("day");
+const activeView = computed(() =>
+  props.mobile ? (mobileView.value === "month" ? "month" : "week") : view.value,
+);
 const weekOffset = ref(0);
 const monthOffset = ref(0);
 const todayIndex = () => (new Date().getDay() + 6) % 7;
 const selectedDay = ref(todayIndex());
+const selectedIso = ref(toIsoDate(new Date()));
 
 const isCurrentPeriod = computed(() => (activeView.value === "week" ? weekOffset.value === 0 : monthOffset.value === 0));
 
@@ -633,7 +688,13 @@ const step = (direction: number) => {
     if (props.mobile) slideTo(direction, change);
     else change();
   } else {
-    monthOffset.value += direction;
+    const change = () => {
+      monthOffset.value += direction;
+      const first = new Date(today.value.getFullYear(), today.value.getMonth() + monthOffset.value, 1);
+      selectedIso.value = toIsoDate(monthOffset.value === 0 ? today.value : first);
+    };
+    if (props.mobile) slideTo(direction, change);
+    else change();
   }
 };
 
@@ -736,7 +797,7 @@ const onTouchMove = (event: TouchEvent) => {
   dragging.value = true;
   // Am Ende des Zeitraums gibt der Tag nur noch federnd nach.
   const direction = dx < 0 ? 1 : -1;
-  const canMove = mobileView.value === "week" ? canStep(direction) : canStepDay(direction);
+  const canMove = mobileView.value === "day" ? canStepDay(direction) : canStep(direction);
   dragX.value = canMove ? dx : dx * 0.25;
 };
 
@@ -748,7 +809,7 @@ const onTouchEnd = (event: TouchEvent) => {
   const dx = touch ? touch.clientX - current.x : dragX.value;
   const direction = dx < 0 ? 1 : -1;
   lastSwipeAt = Date.now();
-  if (mobileView.value === "week" && Math.abs(dx) >= swipeThreshold && canStep(direction)) {
+  if (mobileView.value !== "day" && Math.abs(dx) >= swipeThreshold && canStep(direction)) {
     step(direction);
   } else if (mobileView.value === "day" && Math.abs(dx) >= swipeThreshold && canStepDay(direction)) {
     slideTo(direction, () => stepDay(direction));
@@ -762,6 +823,7 @@ const goToday = () => {
   weekOffset.value = 0;
   monthOffset.value = 0;
   selectedDay.value = todayIndex();
+  selectedIso.value = toIsoDate(today.value);
 };
 
 // "+ x weitere" im Monat springt in die passende Woche.
@@ -835,10 +897,20 @@ const monthCells = computed(() => {
       isToday: date.getTime() === today.value.getTime(),
       isPast: date < today.value,
       entries,
+      colors: [...new Set(entries.map((entry) => entry.color))],
     });
     cursor.setDate(cursor.getDate() + 1);
   }
   return cells;
+});
+
+const selectedCell = computed(() => monthCells.value.find((cell) => cell.iso === selectedIso.value));
+const selectedEntries = computed(() => selectedCell.value?.entries ?? []);
+const selectedTitle = computed(() => {
+  const cell = selectedCell.value;
+  if (!cell) return "";
+  const label = cell.date.toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" });
+  return cell.isToday ? `${label} · Heute` : label;
 });
 
 const hours = Array.from({ length: endHour - startHour }, (_, index) => startHour + index);
@@ -879,11 +951,28 @@ const onKeydown = (event: KeyboardEvent) => {
   if (event.key === "Escape") closeDetail();
 };
 
+// Solange das Popup offen ist, scrollt die Seite dahinter nicht mit.
+let savedOverflow: { html: string; body: string } | null = null;
+const lockScroll = () => {
+  if (savedOverflow) return;
+  const html = document.documentElement;
+  savedOverflow = { html: html.style.overflow, body: document.body.style.overflow };
+  html.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
+};
+const unlockScroll = () => {
+  if (!savedOverflow) return;
+  document.documentElement.style.overflow = savedOverflow.html;
+  document.body.style.overflow = savedOverflow.body;
+  savedOverflow = null;
+};
+
 const openDetail = async (entry: Entry, event: Event) => {
   // Nach einem Wischen löst der Browser noch einen Klick aus: den ignorieren.
   if (Date.now() - lastSwipeAt < 400) return;
   lastFocus = event.currentTarget as HTMLElement;
   detail.value = entry;
+  lockScroll();
   document.addEventListener("keydown", onKeydown);
   await nextTick();
   closeRef.value?.focus();
@@ -891,11 +980,15 @@ const openDetail = async (entry: Entry, event: Event) => {
 
 const closeDetail = () => {
   detail.value = null;
+  unlockScroll();
   document.removeEventListener("keydown", onKeydown);
   lastFocus?.focus();
 };
 
-onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeydown);
+  unlockScroll();
+});
 </script>
 
 <style scoped>
@@ -1685,13 +1778,16 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   padding: 24px;
   background: rgba(0, 6, 17, 0.72);
   backdrop-filter: blur(4px);
+  overscroll-behavior: contain;
 }
 
 .cal-dialog {
   position: relative;
   width: min(440px, 100%);
-  max-height: calc(100dvh - 48px);
+  max-height: calc(100% - 48px);
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
   background: #07122c;
@@ -1708,8 +1804,45 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 
 .cal-modal--mobile .cal-dialog {
   width: 100%;
-  max-height: 85dvh;
+  max-height: 88%;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   border-radius: 22px 22px 0 0;
+  border-bottom: 0;
+}
+
+.cal-modal--mobile .cal-dialog::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin: 8px auto -12px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.cal-modal-enter-active,
+.cal-modal-leave-active {
+  transition: opacity 0.26s ease;
+}
+
+.cal-modal-enter-active .cal-dialog,
+.cal-modal-leave-active .cal-dialog {
+  transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.cal-modal-enter-from,
+.cal-modal-leave-to {
+  opacity: 0;
+}
+
+.cal-modal-enter-from .cal-dialog,
+.cal-modal-leave-to .cal-dialog {
+  transform: translateY(24px);
+}
+
+.cal-modal--mobile.cal-modal-enter-from .cal-dialog,
+.cal-modal--mobile.cal-modal-leave-to .cal-dialog {
+  transform: translateY(100%);
 }
 
 .cal-dialog__head {
@@ -1896,6 +2029,168 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   font-weight: 800;
   text-decoration: none;
 }
+/* Mobil (Monat): kompaktes Raster mit Punkten, darunter die Zeiten des Tages */
+.cal--mobile-month {
+  height: auto;
+  min-height: 0;
+  grid-template-rows: none;
+}
+
+.cal--mobile .cal-month__head span {
+  padding: 8px 0 6px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.cal--mobile .cal-month__grid {
+  row-gap: 2px;
+  padding: 4px var(--m-gutter, 16px) 8px;
+}
+
+.cal--mobile .cal-month__head {
+  padding: 0 var(--m-gutter, 16px);
+}
+
+.cal-mday {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-height: 48px;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.cal-mday:active {
+  transform: scale(0.92);
+}
+
+.cal-mday.is-other {
+  opacity: 0.3;
+}
+
+.cal-mday.is-past {
+  opacity: 0.55;
+}
+
+.cal-mday__num {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-family: var(--m-display, inherit);
+  font-size: 17px;
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cal-mday.is-today .cal-mday__num {
+  color: var(--yellow);
+}
+
+.cal-mday.is-selected .cal-mday__num {
+  background: var(--yellow);
+  color: var(--ink-dark);
+}
+
+.cal-mday.is-selected {
+  opacity: 1;
+}
+
+.cal-daylist {
+  display: grid;
+  gap: 6px;
+}
+
+.cal-daylist__title {
+  margin: 4px 0 2px;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.cal-daylist__free {
+  margin: 0;
+  padding: 14px 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Flache Zeile: Zeit, Mannschaft, Platz – Farbleiste links, Platzstreifen unten */
+.cal-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-areas:
+    "time team"
+    "time place";
+  align-items: center;
+  column-gap: 12px;
+  padding: 9px 12px 12px;
+  overflow: hidden;
+  border: 0;
+  border-left: 3px solid var(--team);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--team) 16%, transparent);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cal-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--place);
+}
+
+.cal-row:active {
+  filter: brightness(1.15);
+}
+
+.cal-row.is-match {
+  border-left-color: #fff;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 10px, rgba(255, 255, 255, 0.16) 10px 20px),
+    var(--team);
+  color: var(--ink);
+}
+
+.cal-row__time {
+  grid-area: time;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-row__team {
+  grid-area: team;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.cal-row__place {
+  grid-area: place;
+  overflow: hidden;
+  font-size: 12px;
+  opacity: 0.75;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 /* Mobil ohne Kästen: randloses Raster, flache Termine */
 .cal--mobile .cal-frame {
   margin: 0 calc(-1 * var(--m-gutter, 16px));
