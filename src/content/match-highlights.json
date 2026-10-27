@@ -11,8 +11,7 @@
       "uhrzeit": "13:00",
       "match_url": "https://www.fupa.net/match/stv-urweiler-m1-sv-ottweiler-m1-261018"
     },
-    "live": null,
-    "next": {
+    "live": {
       "heimmannschaft": "Peterberg",
       "gastmannschaft": "Ottweiler",
       "ergebnis": "-:-",
@@ -22,24 +21,24 @@
       "datum": "2026-10-27",
       "uhrzeit": "18:15",
       "match_url": "https://www.fupa.net/match/sg-peterberg-m1-sv-ottweiler-m1-261027"
+    },
+    "next": {
+      "heimmannschaft": "Ottweiler",
+      "gastmannschaft": "Niederkirch.",
+      "ergebnis": "-:-",
+      "bild_heim": "/images/sv_logo_farbe.svg",
+      "bild_gast": "/team-logos/niederkirch.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-10-31",
+      "uhrzeit": "14:30",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031"
     }
   },
   "teamTwo": {
     "last": {
-      "heimmannschaft": "Urweiler II",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "0:3",
-      "bild_heim": "/team-logos/urweiler-2.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Bosenbergstadion Urweiler",
-      "datum": "2026-10-18",
-      "uhrzeit": "11:15",
-      "match_url": "https://www.fupa.net/match/stv-urweiler-m2-sv-ottweiler-m2-261018"
-    },
-    "live": {
       "heimmannschaft": "Oberlinxw.",
       "gastmannschaft": "Ottweiler II",
-      "ergebnis": "-:-",
+      "ergebnis": "2:2",
       "bild_heim": "/team-logos/oberlinxw.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Naturrasenplatz SV Oberlinxweiler",
@@ -47,7 +46,7 @@
       "uhrzeit": "14:00",
       "match_url": "https://www.fupa.net/match/sv-oberlinxweiler-m1-sv-ottweiler-m2-261025"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Baltersw. II",
       "ergebnis": "-:-",
@@ -57,6 +56,17 @@
       "datum": "2026-10-30",
       "uhrzeit": "18:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-baltersweiler-m2-261030"
+    },
+    "next": {
+      "heimmannschaft": "Remmesw.",
+      "gastmannschaft": "Ottweiler II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/remmesw.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "Sportplatz Remmesweiler",
+      "datum": "2026-11-07",
+      "uhrzeit": "15:00",
+      "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
     }
   }
 }

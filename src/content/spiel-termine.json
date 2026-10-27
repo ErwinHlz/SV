@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Auswärtsspiel gegen Oberlinxw.",
-    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-10-25",
-    "time": "15:00",
-    "location": "Auswärts bei Oberlinxw.",
-    "content": "Anpfiff ist um 15:00 Uhr. Oberlinxw. spielt gegen Ottweiler II. Spielort: Auswärts bei Oberlinxw..",
-    "image": "matchTemplate",
-    "imageAlt": "Oberlinxw. gegen Ottweiler II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "13. Spieltag",
-    "homeTeam": "Oberlinxw.",
-    "awayTeam": "Ottweiler II",
-    "externalUrl": "https://www.fupa.net/match/sv-oberlinxweiler-m1-sv-ottweiler-m2-261025",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Auswärtsspiel gegen Peterberg",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-27",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Heimspiel gegen Baltersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-30",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Heimspiel gegen Niederkirch.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-31",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Auswärtsspiel gegen Remmesw.",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-07",
@@ -85,7 +68,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 5,
     "title": "Auswärtsspiel gegen Alsweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-08",
@@ -99,6 +82,23 @@
     "homeTeam": "Alsweiler",
     "awayTeam": "Ottweiler",
     "externalUrl": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Heimspiel gegen Leitersw. II",
+    "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-11-21",
+    "time": "15:00",
+    "location": "Stadion Im Alten Weiher",
+    "content": "Anpfiff ist um 15:00 Uhr. Ottweiler II spielt gegen Leitersw. II. Spielort: Stadion Im Alten Weiher.",
+    "image": "matchTemplate",
+    "imageAlt": "Ottweiler II gegen Leitersw. II",
+    "competition": "Kreisliga A Blies",
+    "matchday": "17. Spieltag",
+    "homeTeam": "Ottweiler II",
+    "awayTeam": "Leitersw. II",
+    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121",
     "mapsUrl": ""
   }
 ]
