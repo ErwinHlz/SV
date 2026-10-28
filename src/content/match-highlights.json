@@ -1,20 +1,9 @@
 {
   "teamOne": {
     "last": {
-      "heimmannschaft": "Urweiler",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "2:1",
-      "bild_heim": "/team-logos/urweiler.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Bosenbergstadion Urweiler",
-      "datum": "2026-10-18",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/stv-urweiler-m1-sv-ottweiler-m1-261018"
-    },
-    "live": {
       "heimmannschaft": "Peterberg",
       "gastmannschaft": "Ottweiler",
-      "ergebnis": "-:-",
+      "ergebnis": "2:5",
       "bild_heim": "/team-logos/peterberg.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Rasenplatz Braunshausen",
@@ -22,7 +11,7 @@
       "uhrzeit": "18:15",
       "match_url": "https://www.fupa.net/match/sg-peterberg-m1-sv-ottweiler-m1-261027"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "Ottweiler",
       "gastmannschaft": "Niederkirch.",
       "ergebnis": "-:-",
@@ -32,6 +21,17 @@
       "datum": "2026-10-31",
       "uhrzeit": "14:30",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031"
+    },
+    "next": {
+      "heimmannschaft": "Alsweiler",
+      "gastmannschaft": "Ottweiler",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/alsweiler.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "Auf der Lehn",
+      "datum": "2026-11-08",
+      "uhrzeit": "13:30",
+      "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108"
     }
   },
   "teamTwo": {
