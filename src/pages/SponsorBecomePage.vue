@@ -1,5 +1,6 @@
 <template>
-  <main class="sponsor-become-page">
+  <MobileSponsorWerden v-if="isMobile" />
+  <main v-else class="sponsor-become-page">
     <PageHero :title="hero.title" :lead="hero.lead" kicker="Partner werden">
       <a :href="downloadHref" class="sponsor-download-button" download>
         <Download :size="18" :stroke-width="2.2" aria-hidden="true" />
@@ -217,9 +218,12 @@
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { AtSign, Download, FileText, Mail } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
+import MobileSponsorWerden from "@/components/mobile/MobileSponsorWerden.vue";
+import { useIsMobile } from "@/composables/useIsMobile";
 import rawSponsoring from "@/content/sponsoring.json";
 import externalLinks from "@/content/external-links.json";
 import { resolveScrollContainer } from "@/utils/scrollContainer";
+import { buildSponsorMailto } from "@/utils/sponsorMail";
 
 type SponsorPackage = {
   id: string;
@@ -232,6 +236,8 @@ type SponsorPackage = {
 
 const { hero, intro, channelsTitle, channels, benefits, packagesIntro, steps, download, contact } = rawSponsoring;
 const packages = rawSponsoring.packages as SponsorPackage[];
+
+const isMobile = useIsMobile();
 
 // Die Mappe liegt unter public/ und wird mit dem Script src/scripts/sponsoring-pdf.mjs erzeugt.
 const downloadHref = `${import.meta.env.BASE_URL}${download.file}`;
@@ -248,20 +254,7 @@ const sponsorForm = ref({
 });
 
 const handleSponsorSubmit = () => {
-  const subject = `Sponsoring-Anfrage${sponsorForm.value.interest ? ` - ${sponsorForm.value.interest}` : ""}`;
-  const body = [
-    `Name: ${sponsorForm.value.name}`,
-    `E-Mail: ${sponsorForm.value.email}`,
-    `Unternehmen: ${sponsorForm.value.company || "-"}`,
-    `Interesse: ${sponsorForm.value.interest || "-"}`,
-    "",
-    "Nachricht:",
-    sponsorForm.value.message,
-  ].join("\n");
-
-  window.location.href = `mailto:${sponsorContactEmail}?subject=${encodeURIComponent(
-    subject,
-  )}&body=${encodeURIComponent(body)}`;
+  window.location.href = buildSponsorMailto(sponsorContactEmail, sponsorForm.value);
 };
 
 const timelineRef = ref<HTMLElement | null>(null);
@@ -858,36 +851,4 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 640px) {
-  .sponsor-intro,
-  .sponsor-timeline,
-  .sponsor-contact,
-  .sponsor-section-head,
-  .sponsor-steps,
-  .sponsor-download {
-    width: calc(100% - 24px);
-  }
-
-  .sponsor-steps__list {
-    grid-template-columns: 1fr;
-  }
-
-  .sponsor-download-button {
-    width: 100%;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-
-  .sponsor-timeline__list {
-    gap: 20px;
-  }
-
-  .sponsor-form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .sponsor-submit {
-    width: 100%;
-  }
-}
 </style>
