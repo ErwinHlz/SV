@@ -34,7 +34,6 @@
     "imageSrc": "/timeline/placeholder-photo.svg",
     "imageAlt": "Platzhalterbild für das Vereinsleben",
     "points": [
-      { "label": "Training & Besprechungen", "detail": "Regelmässige Treffen als fester Teil des Alltags" },
       { "label": "Spieltage & Events", "detail": "Vereinsaktionen machen den SVO abseits des Platzes lebendig" },
       { "label": "Jugendförderung", "detail": "Junge Spieler mit Teamgeist und Verantwortung entwickeln" },
       { "label": "Vereinsprojekte", "detail": "Platzpflege, Organisation und gemeinsame Aktionen" }

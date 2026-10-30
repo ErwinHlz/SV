@@ -92,8 +92,85 @@
         "aliases": [
           "Fürth"
         ]
+      },
+      {
+        "id": "halle-weiher",
+        "name": "Halle Im Alten Weiher",
+        "code": "HAW",
+        "color": "#f97316",
+        "aliases": [
+          "Halle Im Alten Weiher"
+        ]
+      },
+      {
+        "id": "halle-steinbach",
+        "name": "Halle Steinbach",
+        "code": "HST",
+        "color": "#2dd4bf",
+        "aliases": [
+          "Halle Steinbach"
+        ]
+      },
+      {
+        "id": "halle-neumuenster",
+        "name": "Halle Neumünster",
+        "code": "HNM",
+        "color": "#22c55e",
+        "aliases": [
+          "Halle Neumünster"
+        ]
+      },
+      {
+        "id": "seminar-klein",
+        "name": "Seminar kleine Halle",
+        "code": "SKL",
+        "color": "#38bdf8",
+        "aliases": [
+          "Seminar kleine Halle"
+        ]
+      },
+      {
+        "id": "seminar-gross",
+        "name": "Seminar große Halle",
+        "code": "SGR",
+        "color": "#c084fc",
+        "aliases": [
+          "Seminar große Halle"
+        ]
       }
     ],
+    "hallSeason": {
+      "from": "2026-11-01",
+      "training": {
+        "G-Jugend": [
+          { "day": "Dienstag", "time": "16:00-17:00", "location": "Halle Im Alten Weiher" },
+          { "day": "Donnerstag", "time": "16:00-17:00", "location": "Halle Im Alten Weiher" }
+        ],
+        "F-Jugend": [
+          { "day": "Montag", "time": "16:00-17:00", "location": "Halle Neumünster" },
+          { "day": "Mittwoch", "time": "16:00-17:00", "location": "Seminar kleine Halle" }
+        ],
+        "E-Jugend": [
+          { "day": "Montag", "time": "16:00-17:30", "location": "Seminar große Halle" },
+          { "day": "Freitag", "time": "16:30-17:30", "location": "Halle Steinbach" }
+        ],
+        "D-Jugend": [
+          { "day": "Dienstag", "time": "17:30-19:00", "location": "Halle Steinbach" },
+          { "day": "Mittwoch", "time": "16:00-17:30", "location": "Halle Steinbach" },
+          { "day": "Samstag", "time": "14:30-17:00", "location": "Halle Steinbach" }
+        ],
+        "B-Jugend": [
+          { "day": "Mittwoch", "time": "16:30-17:30", "location": "Seminar große Halle" }
+        ]
+      },
+      "free": [
+        { "day": "Dienstag", "time": "18:30-22:00", "location": "Halle Im Alten Weiher", "from": "2026-12-01", "to": "2027-02-28" },
+        { "day": "Samstag", "time": "14:30-17:00", "location": "Halle Steinbach", "note": "Absprache mit D-Jugend" },
+        { "day": "Dienstag", "time": "16:00-17:30", "location": "Halle Steinbach" },
+        { "day": "Mittwoch", "time": "20:00-22:00", "location": "Halle Neumünster", "from": "2026-12-01", "to": "2027-02-28" },
+        { "day": "Donnerstag", "time": "20:00-22:00", "location": "Halle Im Alten Weiher" }
+      ]
+    },
     "teamColors": {
       "1. Mannschaft": "#3b82f6",
       "2. Mannschaft": "#93c5fd",
@@ -102,7 +179,8 @@
       "D-Jugend": "#a78bfa",
       "E-Jugend": "#10b981",
       "F-Jugend": "#a3e635",
-      "G-Jugend": "#22d3ee"
+      "G-Jugend": "#22d3ee",
+      "Frei nutzbar": "#94a3b8"
     },
     "homeTeams": [
       {
