@@ -8,7 +8,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Rasenplatz Braunshausen",
       "datum": "2026-10-27",
-      "uhrzeit": "18:15",
+      "uhrzeit": "19:15",
       "match_url": "https://www.fupa.net/match/sg-peterberg-m1-sv-ottweiler-m1-261027"
     },
     "live": {
@@ -19,7 +19,7 @@
       "bild_gast": "/team-logos/niederkirch.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-10-31",
-      "uhrzeit": "14:30",
+      "uhrzeit": "15:30",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031"
     },
     "next": {
@@ -30,7 +30,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Auf der Lehn",
       "datum": "2026-11-08",
-      "uhrzeit": "13:30",
+      "uhrzeit": "14:30",
       "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108"
     }
   },
@@ -43,7 +43,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Naturrasenplatz SV Oberlinxweiler",
       "datum": "2026-10-25",
-      "uhrzeit": "14:00",
+      "uhrzeit": "15:00",
       "match_url": "https://www.fupa.net/match/sv-oberlinxweiler-m1-sv-ottweiler-m2-261025"
     },
     "live": {
@@ -54,7 +54,7 @@
       "bild_gast": "/team-logos/baltersw-2.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-10-30",
-      "uhrzeit": "18:00",
+      "uhrzeit": "19:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-baltersweiler-m2-261030"
     },
     "next": {
@@ -65,7 +65,7 @@
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Sportplatz Remmesweiler",
       "datum": "2026-11-07",
-      "uhrzeit": "15:00",
+      "uhrzeit": "16:00",
       "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
     }
   }
