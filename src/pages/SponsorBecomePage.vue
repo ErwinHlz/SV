@@ -14,35 +14,28 @@
         <p class="sponsor-intro__text">{{ intro.text }}</p>
       </div>
 
-      <ul class="sponsor-reach" aria-label="Der Verein in Zahlen">
-        <li v-for="item in reach" :key="item.label" class="sponsor-reach__item">
-          <span class="sponsor-reach__value">{{ item.value }}</span>
-          <span class="sponsor-reach__label">{{ item.label }}</span>
-        </li>
-      </ul>
+      <h3 class="sponsor-channels__heading">{{ channelsTitle }}</h3>
 
       <div class="sponsor-channels">
         <article v-for="channel in channels" :key="channel.title" class="sponsor-channel">
-          <h3 class="sponsor-channel__title">{{ channel.title }}</h3>
+          <h4 class="sponsor-channel__title">{{ channel.title }}</h4>
           <p class="sponsor-channel__text">{{ channel.text }}</p>
         </article>
       </div>
 
-      <div class="sponsor-benefits">
-        <p class="sponsor-intro__column-title">Was du davon hast</p>
-        <ul class="sponsor-intro__points">
-          <li v-for="item in benefits" :key="item">
-            <span class="sponsor-intro__point-dot" aria-hidden="true"></span>
-            <span>{{ item }}</span>
-          </li>
-        </ul>
+      <h3 class="sponsor-channels__heading">Was du davon hast</h3>
+
+      <div class="sponsor-channels">
+        <article v-for="item in benefits" :key="item.title" class="sponsor-channel">
+          <h4 class="sponsor-channel__title">{{ item.title }}</h4>
+          <p class="sponsor-channel__text">{{ item.text }}</p>
+        </article>
       </div>
     </section>
 
     <header class="sponsor-section-head">
       <p class="sponsor-intro__kicker">{{ packagesIntro.kicker }}</p>
       <h2 class="sponsor-intro__title">{{ packagesIntro.title }}</h2>
-      <p class="sponsor-intro__text">{{ packagesIntro.text }}</p>
     </header>
 
     <section
@@ -74,9 +67,8 @@
             <div
               v-if="(side === 'left') === (index % 2 === 0)"
               class="sponsor-timeline__content">
-              <p class="sponsor-timeline__eyebrow">
-                Baustein {{ String(index + 1).padStart(2, "0") }}
-                <span v-if="pkg.highlight" class="sponsor-timeline__badge">{{ pkg.highlight }}</span>
+              <p v-if="pkg.highlight" class="sponsor-timeline__eyebrow">
+                <span class="sponsor-timeline__badge">{{ pkg.highlight }}</span>
               </p>
               <h3 class="sponsor-timeline__title">{{ pkg.title }}</h3>
               <p v-if="pkg.lead" class="sponsor-timeline__lead">{{ pkg.lead }}</p>
@@ -149,12 +141,8 @@
         </h2>
         <p class="sponsor-contact__text">{{ contact.text }}</p>
         <ul class="sponsor-contact__details">
-          <li><strong>{{ contact.person }}</strong> · {{ contact.role }}</li>
           <li>
             <a :href="`mailto:${contact.email}`"><Mail :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.email }}</a>
-          </li>
-          <li>
-            <a :href="`tel:${contact.phone.replace(/[^\d+]/g, '')}`"><Phone :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.phone }}</a>
           </li>
           <li>
             <a :href="instagramUrl" target="_blank" rel="noopener noreferrer"><AtSign :size="16" :stroke-width="2" aria-hidden="true" /> {{ contact.instagram }}</a>
@@ -227,7 +215,7 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import { AtSign, Download, FileText, Mail, Phone } from "@lucide/vue";
+import { AtSign, Download, FileText, Mail } from "@lucide/vue";
 import PageHero from "@/components/PageHero.vue";
 import rawSponsoring from "@/content/sponsoring.json";
 import externalLinks from "@/content/external-links.json";
@@ -242,7 +230,7 @@ type SponsorPackage = {
   link?: { href: string; label: string };
 };
 
-const { hero, intro, reach, channels, benefits, packagesIntro, steps, download, contact } = rawSponsoring;
+const { hero, intro, channelsTitle, channels, benefits, packagesIntro, steps, download, contact } = rawSponsoring;
 const packages = rawSponsoring.packages as SponsorPackage[];
 
 // Die Mappe liegt unter public/ und wird mit dem Script src/scripts/sponsoring-pdf.mjs erzeugt.
@@ -381,38 +369,6 @@ onBeforeUnmount(() => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.5rem, 4vw, 3rem);
   margin-top: clamp(2rem, 5vw, 3.5rem);
-}
-
-.sponsor-intro__column-title {
-  margin: 0 0 0.9rem;
-  font-weight: 800;
-  font-size: 1.05rem;
-  color: rgba(245, 247, 252, 0.95);
-}
-
-.sponsor-intro__points {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.7rem;
-}
-
-.sponsor-intro__points li {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  color: rgba(245, 247, 252, 0.72);
-  line-height: 1.5;
-}
-
-.sponsor-intro__point-dot {
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(242, 208, 82, 0.85);
-  margin-top: 8px;
 }
 
 .sponsor-timeline {
@@ -654,7 +610,6 @@ onBeforeUnmount(() => {
 
 .sponsor-timeline__badge {
   display: inline-block;
-  margin-left: 8px;
   padding: 2px 8px;
   border-radius: 999px;
   background: rgba(242, 208, 82, 0.16);
@@ -671,43 +626,18 @@ onBeforeUnmount(() => {
   color: rgba(245, 247, 252, 0.8);
 }
 
-.sponsor-reach {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+.sponsor-channels__heading {
   margin: clamp(2rem, 5vw, 3.5rem) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sponsor-reach__item {
-  display: grid;
-  gap: 6px;
-  padding: 22px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.1;
   text-align: center;
-}
-
-.sponsor-reach__value {
-  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
-  font-weight: 850;
-  line-height: 1;
-  color: var(--sv-secondary-color);
-}
-
-.sponsor-reach__label {
-  font-size: 0.86rem;
-  line-height: 1.45;
-  color: rgba(245, 247, 252, 0.72);
 }
 
 .sponsor-channels {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
-  margin-top: 14px;
+  margin-top: 20px;
 }
 
 .sponsor-channel {
@@ -726,11 +656,6 @@ onBeforeUnmount(() => {
   margin: 0;
   line-height: 1.6;
   color: rgba(245, 247, 252, 0.72);
-}
-
-.sponsor-benefits {
-  width: min(760px, 100%);
-  margin: clamp(2rem, 4vw, 3rem) auto 0;
 }
 
 .sponsor-section-head,
@@ -874,7 +799,6 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 
-  .sponsor-reach,
   .sponsor-steps__list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

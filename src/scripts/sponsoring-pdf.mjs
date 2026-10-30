@@ -48,14 +48,11 @@ const morePackages = packages.slice(4);
 
 // Eine allein stehende letzte Karte läuft über die volle Breite, das spart Höhe.
 const packageCard = (pkg, index, wide = false) => `
-  <article class="card${pkg.highlight ? " card--hot" : ""}${wide ? " card--wide" : ""}">
-    <div class="card__head">
-      <span class="card__num">${String(index + 1).padStart(2, "0")}</span>
-      ${pkg.highlight ? `<span class="badge">${escape(pkg.highlight)}</span>` : ""}
-    </div>
+  <article class="card${wide ? " card--wide" : ""}">
+    <span class="card__num">${String(index + 1).padStart(2, "0")}</span>
     <h3>${escape(pkg.title)}</h3>
-    <p class="card__lead">${escape(pkg.lead)}</p>
-    <ul>${pkg.points.map((point) => `<li>${escape(point)}</li>`).join("")}</ul>
+    ${pkg.lead ? `<p class="card__lead">${escape(pkg.lead)}</p>` : ""}
+    ${pkg.points.length ? `<ul>${pkg.points.map((point) => `<li>${escape(point)}</li>`).join("")}</ul>` : ""}
   </article>`;
 
 const footer = (page) => `
@@ -134,13 +131,8 @@ const html = `<!doctype html>
   /* Über uns */
   h2.title { margin-top: 3mm; font-size: 30pt; line-height: 0.98; color: #021b4d; }
   .intro { margin-top: 6mm; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin-top: 9mm; }
-  .stat {
-    padding: 5mm 4mm; border-radius: 4mm; background: #021b4d; color: #fff; text-align: center;
-  }
-  .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 22pt; line-height: 1; color: #f4d047; }
-  .stat span { display: block; margin-top: 2mm; font-size: 8.5pt; line-height: 1.35; color: #d7e0f3; }
-  .channels { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 8mm; }
+  .subhead { margin-top: 9mm; font-size: 13pt; color: #021b4d; }
+  .channels { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 3mm; }
   .channel { padding: 4.5mm 5mm; border-left: 1.4mm solid #f4d047; border-radius: 2.5mm; background: #f3f5fa; }
   .channel h3 { font-size: 12pt; color: #021b4d; }
   .channel p { margin: 1.5mm 0 0; font-size: 9.5pt; line-height: 1.5; color: #33405c; }
@@ -153,20 +145,14 @@ const html = `<!doctype html>
     border-radius: 50%; background: #f4d047; box-shadow: inset 0 0 0 1mm #021b4d;
   }
 
-  /* Bausteine */
+  /* Partner-Varianten */
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-top: 8mm; }
   .card {
     padding: 5mm 5.5mm; border: 0.6pt solid #d9deea; border-radius: 4mm; background: #fff;
   }
-  .card--hot { border-color: #f4d047; box-shadow: inset 0 0 0 0.6pt #f4d047; background: #fffbea; }
-  .card__head { display: flex; align-items: center; justify-content: space-between; }
   .card__num {
     display: inline-grid; place-items: center; width: 9mm; height: 9mm; border-radius: 50%;
     background: #021b4d; color: #f4d047; font-weight: 800; font-size: 9.5pt;
-  }
-  .badge {
-    padding: 1mm 2.6mm; border-radius: 10mm; background: #f4d047; color: #021b4d;
-    font-size: 7.5pt; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
   }
   .card h3 { margin-top: 3mm; font-size: 15pt; color: #021b4d; }
   .card__lead { margin: 1.5mm 0 0; font-size: 9.8pt; line-height: 1.45; font-weight: 600; color: #33405c; }
@@ -213,7 +199,6 @@ const html = `<!doctype html>
     <div class="cover__bar"></div>
   </div>
   <div class="cover__contact">
-    <div><strong>${escape(contact.person)}</strong>${escape(contact.role)}</div>
     <div><strong>E-Mail</strong>${escape(contact.email)}</div>
     <div><strong>Instagram</strong>${escape(contact.instagram)}</div>
   </div>
@@ -223,15 +208,13 @@ const html = `<!doctype html>
   <p class="kicker">${escape(content.intro.kicker)}</p>
   <h2 class="title display">${escape(content.intro.title)}</h2>
   <p class="lead intro">${escape(content.intro.text)}</p>
-  <div class="stats">
-    ${content.reach.map((item) => `<div class="stat"><b>${escape(item.value)}</b><span>${escape(item.label)}</span></div>`).join("")}
-  </div>
+  <h3 class="subhead">${escape(content.channelsTitle)}</h3>
   <div class="channels">
     ${content.channels.map((channel) => `<div class="channel"><h3>${escape(channel.title)}</h3><p>${escape(channel.text)}</p></div>`).join("")}
   </div>
   <div class="benefits">
     <h3>Was du davon hast</h3>
-    <ul class="checks">${content.benefits.map((item) => `<li>${escape(item)}</li>`).join("")}</ul>
+    <ul class="checks">${content.benefits.map((item) => `<li><strong>${escape(item.title)}:</strong> ${escape(item.text)}</li>`).join("")}</ul>
   </div>
   ${footer(2)}
 </section>
@@ -239,7 +222,6 @@ const html = `<!doctype html>
 <section class="page">
   <p class="kicker">${escape(content.packagesIntro.kicker)}</p>
   <h2 class="title display">${escape(content.packagesIntro.title)}</h2>
-  <p class="lead intro">${escape(content.packagesIntro.text)}</p>
   <div class="cards">${firstPackages.map((pkg, index) => packageCard(pkg, index)).join("")}</div>
   ${footer(3)}
 </section>
@@ -268,11 +250,9 @@ const html = `<!doctype html>
   <div class="closing__body">
     <p class="kicker">${escape(contact.kicker)}</p>
     <h2 class="display">${escape(contact.title)}</h2>
-    <p class="closing__text">${escape(contact.text)} Gerne stellen wir dir ein Paket zusammen, das genau zu deinem Unternehmen passt.</p>
+    <p class="closing__text">${escape(contact.text)}</p>
     <div class="contact-grid">
-      <div class="contact-item"><span>Ansprechpartner</span><strong>${escape(contact.person)}</strong>${escape(contact.role)}</div>
       <div class="contact-item"><span>E-Mail</span><strong>${escape(contact.email)}</strong></div>
-      <div class="contact-item"><span>Telefon</span><strong>${escape(contact.phone)}</strong></div>
       <div class="contact-item"><span>Instagram</span><strong>${escape(contact.instagram)}</strong></div>
     </div>
   </div>
