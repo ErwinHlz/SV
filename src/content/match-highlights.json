@@ -35,21 +35,11 @@
     }
   },
   "teamTwo": {
-    "last": {
-      "heimmannschaft": "Oberlinxw.",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "2:2",
-      "bild_heim": "/team-logos/oberlinxw.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Naturrasenplatz SV Oberlinxweiler",
-      "datum": "2026-10-25",
-      "uhrzeit": "15:00",
-      "match_url": "https://www.fupa.net/match/sv-oberlinxweiler-m1-sv-ottweiler-m2-261025"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Baltersw. II",
-      "ergebnis": "-:-",
+      "ergebnis": "3:0",
       "bild_heim": "/images/sv_logo_farbe.svg",
       "bild_gast": "/team-logos/baltersw-2.png",
       "ort": "Stadion Im Alten Weiher",

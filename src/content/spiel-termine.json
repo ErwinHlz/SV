@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Heimspiel gegen Baltersw. II",
-    "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-10-30",
-    "time": "19:00",
-    "location": "Stadion Im Alten Weiher",
-    "content": "Anpfiff ist um 19:00 Uhr. Ottweiler II spielt gegen Baltersw. II. Spielort: Stadion Im Alten Weiher.",
-    "image": "matchTemplate",
-    "imageAlt": "Ottweiler II gegen Baltersw. II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "14. Spieltag",
-    "homeTeam": "Ottweiler II",
-    "awayTeam": "Baltersw. II",
-    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sv-baltersweiler-m2-261030",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Heimspiel gegen Niederkirch.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-10-31",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Auswärtsspiel gegen Remmesw.",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-07",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Auswärtsspiel gegen Alsweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-08",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Auswärtsspiel gegen Dörrenbach",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-15",
@@ -85,7 +68,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 5,
     "title": "Heimspiel gegen Leitersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -99,6 +82,23 @@
     "homeTeam": "Ottweiler II",
     "awayTeam": "Leitersw. II",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Auswärtsspiel gegen SG Oberkirchen-Grügelb. II",
+    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-02-28",
+    "time": "14:30",
+    "location": "Auswärts bei SG Oberkirchen-Grügelb. II",
+    "content": "Anpfiff ist um 14:30 Uhr. SG Oberkirchen-Grügelb. II spielt gegen Ottweiler II. Spielort: Auswärts bei SG Oberkirchen-Grügelb. II.",
+    "image": "matchTemplate",
+    "imageAlt": "SG Oberkirchen-Grügelb. II gegen Ottweiler II",
+    "competition": "Kreisliga A Blies",
+    "matchday": "18. Spieltag",
+    "homeTeam": "SG Oberkirchen-Grügelb. II",
+    "awayTeam": "Ottweiler II",
+    "externalUrl": "https://www.fupa.net/match/fc-oberkirchen-m2-sv-ottweiler-m2-270228",
     "mapsUrl": ""
   }
 ]
