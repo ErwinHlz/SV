@@ -1,20 +1,10 @@
 {
   "teamOne": {
-    "last": {
-      "heimmannschaft": "Peterberg",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "2:5",
-      "bild_heim": "/team-logos/peterberg.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Rasenplatz Braunshausen",
-      "datum": "2026-10-27",
-      "uhrzeit": "19:15",
-      "match_url": "https://www.fupa.net/match/sg-peterberg-m1-sv-ottweiler-m1-261027"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "Ottweiler",
       "gastmannschaft": "Niederkirch.",
-      "ergebnis": "-:-",
+      "ergebnis": "4:2",
       "bild_heim": "/images/sv_logo_farbe.svg",
       "bild_gast": "/team-logos/niederkirch.png",
       "ort": "Stadion Im Alten Weiher",

@@ -1,11 +1,55 @@
 {
-  "generated_at": "2026-10-31T04:57:29.108Z",
+  "generated_at": "2026-11-01T05:25:46.434Z",
   "sources": [
     "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
     "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
   ],
   "count": 11,
   "reports": [
+    {
+      "id": "032IGKIHTS000000VS5489BVVT0GJGMV",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-10-31",
+      "datum_de": "31.10.2026",
+      "uhrzeit": "",
+      "titel": "Gutheil schießt SV Ottweiler zum Heimsieg",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SV Ottweiler",
+        "gastmannschaft": "1. FC Niederkirchen",
+        "ergebnis": "4:2",
+        "halbzeit": "3:0",
+        "ort": "Ottweiler"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SV Ottweiler – 1. FC Niederkirchen, 4:2 (3:0), Ottweiler Das Auswärtsspiel des 1. FC Niederkirchen endete erfolglos. Gegen SV Ottweiler gab es nichts zu holen. Das Heimteam gewann die Partie mit 4...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032IGKIHTS000000VS5489BVVT0GJGMV",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BMJG000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 31.10.2026 um 18:04 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SV Ottweiler – 1. FC Niederkirchen, 4:2 (3:0), Ottweiler\n\nDas Auswärtsspiel des 1. FC Niederkirchen endete erfolglos. Gegen SV Ottweiler gab es nichts zu holen. Das Heimteam gewann die Partie mit 4:2. SV Ottweiler erledigte die Hausaufgaben sorgfältig und verbuchte gegen den Underdog einen Dreier.\n\nFinn Gutheil schoss in der 23. Minute vom Elfmeterpunkt das erste Tor des Spiels für das Team von Trainer Stephan Horst Schock. Eloy Michel Campos Alcantara erhöhte für SV Ottweiler auf 2:0 (27.). In der 33. Minute legte Gutheil zum 3:0 zugunsten von SV Ottweiler nach. Der 1. FC Niederkirchen ließ zumindest bis zur Pause kein weiteres Tor zu und so blieb es bis zum Halbzeitpfiff beim deutlichen Vorsprung von SV Ottweiler. Stephan Horst Schock setzte auf neues Personal und brachte per Doppelwechsel Giuseppe Sardo und Marc Haupert auf den Platz (60.). Ahmed Aderghal schoss die Kugel zum 1:3 für den 1. FC Niederkirchen über die Linie (65.). Max Theobald verkürzte für die Gäste später in der 74. Minute auf 2:3. Mit dem 4:2 sicherte Gutheil SV Ottweiler nicht nur den Sieg, sondern erzielte auch seinen dritten Tagestreffer (76.). Letzten Endes schlug SV Ottweiler im 14. Saisonspiel den 1. FC Niederkirchen souverän mit 4:2 vor heimischer Kulisse.\n\nSV Ottweiler machte im Klassement Boden gut und steht nun auf Rang sechs. Mit dem Sieg knüpfte SV Ottweiler an die bisherigen Saisonerfolge an. Insgesamt reklamiert SV Ottweiler acht Siege und ein Remis für sich, während es nur fünf Niederlagen setzte.\n\nDie Abwehrprobleme des 1. FC Niederkirchen bleiben akut, sodass die Mannschaft von Coach Patrick Eisenhauer weiter in der unteren Tabellenregion herumkrebst. In dieser Saison sammelte der 1. FC Niederkirchen bisher fünf Siege und kassierte neun Niederlagen. Die Bilanz der letzten fünf Begegnungen ist bei 1. FC Niederkirchen noch ausbaufähig. Nur drei von möglichen 15 Zählern beanspruchte man für sich.\n\nAls Nächstes steht für SV Ottweiler eine Auswärtsaufgabe an. Am Sonntag (14:30 Uhr) geht es gegen die SC Alsweiler . Der 1. FC Niederkirchen empfängt parallel die SG Peterberg ."
+    },
+    {
+      "id": "032IF6PN20000000VS5489BVVT0GJGMV",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-10-31",
+      "datum_de": "31.10.2026",
+      "uhrzeit": "",
+      "titel": "SG Peterberg verliert nach sieben Spielen wieder",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SG Peterberg",
+        "gastmannschaft": "SV Ottweiler",
+        "ergebnis": "2:5",
+        "halbzeit": "1:2",
+        "ort": "Nonnweiler"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SG Peterberg – SV Ottweiler, 2:5 (1:2), Nonnweiler Mit einem deutlichen 5:2-Sieg im Gepäck trat SV Ottweiler am Dienstag die Heimreise aus Nonnweiler an. In Minute 21 traf SV Ottweiler zum ersten...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032IF6PN20000000VS5489BVVT0GJGMV",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BMQ4000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 31.10.2026 um 14:44 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SG Peterberg – SV Ottweiler, 2:5 (1:2), Nonnweiler\n\nMit einem deutlichen 5:2-Sieg im Gepäck trat SV Ottweiler am Dienstag die Heimreise aus Nonnweiler an.\n\nIn Minute 21 traf SV Ottweiler zum ersten Mal ins Schwarze. In der 29. Minute verwandelte Finn Gutheil einen Elfmeter zum 2:0 für SV Ottweiler. Durch einen Elfmeter von Julien Thome kam die SG Peterberg noch einmal ran (32.). SV Ottweiler stellte in der Pause personell um: Floris Koppies ersetzte Dominik Forster eins zu eins. Zum Abpfiff der ersten Halbzeit hatte SV Ottweiler einen knappen Vorsprung herausgespielt. Die Freude der SG Peterberg über den Anschlusstreffer währte allerdings nicht lange. Eloy Michel Campos Alcantara (51.), Gutheil (59.) und Giuseppe Damiano Zaffino (67.) ließen an der Dominanz von SV Ottweiler keinen Zweifel aufkommen. In der 61. Minute änderte Kay Hamm das Personal und brachte Elias Löffler und Mathis Wittig mit einem Doppelwechsel für Jan Niklas Nonnweiler und Isa Alptekin auf den Platz. Mit dem Treffer zum 2:5 in der 83. Minute machte Thome zwar seinen Doppelpack perfekt – der Rückstand zu SV Ottweiler war jedoch weiterhin gewaltig. Am Ende verbuchte SV Ottweiler gegen die SG Peterberg die maximale Punkteausbeute.\n\nTrotz der Schlappe behält die SG Peterberg den achten Tabellenplatz bei. Sechs Siege, zwei Remis und fünf Niederlagen hat das Heimteam momentan auf dem Konto. Die SG Peterberg baut die Mini-Serie von drei Siegen nicht aus.\n\nGroße Sorgen wird sich Stephan Horst Schock um die Defensive machen. Schon 31 Gegentore kassierte SV Ottweiler. Mehr als zwei pro Spiel – definitiv zu viel. Die drei Punkte brachten für SV Ottweiler keinerlei Veränderung hinsichtlich der Tabellenposition. Die Saison von SV Ottweiler verläuft weiterhin vielversprechend. Insgesamt hat SV Ottweiler nun schon sieben Siege und ein Remis auf dem Konto, während es erst fünf Niederlagen setzte.\n\nBeide Mannschaften erwartet nur eine kurze Pause. Schon am Samstag empfängt die SG Peterberg SV Victoria St. Wendel , während SV Ottweiler am selben Tag gegen den 1. FC Niederkirchen Heimrecht hat."
+    },
     {
       "id": "032GU982M4000000VS5489BVVT0GJGMV",
       "team": "FSG Ottweiler/Steinbach 2",
@@ -159,50 +203,6 @@
       "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316CE640K000000VS5489BTVU7GTVLE",
       "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 20.09.2026 um 19:44 Uhr automatisch generiert)",
       "text": "Kreisliga A Blies: SV Hofeld – SV Ottweiler 2, 3:2 (2:2), Namborn\n\nNichts zu holen gab es für SV Ottweiler 2 bei SV Hofeld . Das Team von Coach Thorsten Kunz erfreute seine Fans mit einem 3:2. Auf dem Papier hatte sich ein enges Match bereits abgezeichnet. Beim Blick auf das knappe Endergebnis wurde diese Erwartung letztlich bestätigt.\n\nFelix Benjamin Geis brachte den SV Hofeld in der vierten Minute ins Hintertreffen. SV Ottweiler 2 musste den Treffer von Christoph Baltes zum 1:1 hinnehmen (11.). Simon Fehr stellte die Weichen für den SV Hofeld auf Sieg, als er in Minute 16 mit dem 2:1 zur Stelle war. Joshua Collmar schoss für SV Ottweiler 2 in der 31. Minute das zweite Tor. In Durchgang zwei lief Julian Krämer anstelle von Jonas Pascal Paul für die Elf von Christian Stefan Eckstein auf. Der Schiedsrichter schickte schließlich beide Mannschaften ohne weitere Änderung am Spielstand in die Kabinen. Marius Loch brachte dem SV Hofeld nach 84 Minuten die 3:2-Führung. Als der Unparteiische Andreas Kaleja die Begegnung beim Stand von 3:2 letztlich abpfiff, hatte das Heimteam die drei Zähler unter Dach und Fach.\n\nIm Tableau hatte der Sieg des SV Hofeld keine Auswirkungen, es bleibt bei Platz fünf. In dieser Saison sammelte der SV Hofeld bisher drei Siege und kassierte vier Niederlagen.\n\nSV Ottweiler 2 nimmt mit acht Punkten den achten Tabellenplatz ein. Der Gast bleibt weiterhin ohne Niederlage. Bisher hat SV Ottweiler 2 zwei Siege und zwei Unentschieden auf dem Konto.\n\nNach dem dritten Fehlschlag am Stück ist der SV Hofeld weiter in Bedrängnis geraten. Gegen SV Ottweiler 2 war am Ende kein Kraut gewachsen.\n\nDer SV Hofeld ist am Sonntag (13:15 Uhr) bei SV Baltersweiler 2 zu Gast. Für SV Ottweiler 2 geht es am Dienstag zu Hause gegen SG Hoof/Osterbrücken 2 weiter."
-    },
-    {
-      "id": "031V7NGLEG000000VS5489BVVS9PGJMA",
-      "team": "FSG Ottweiler/Steinbach",
-      "typ": "Spielbericht",
-      "datum": "2026-09-14",
-      "datum_de": "14.09.2026",
-      "uhrzeit": "",
-      "titel": "Erfolgsserie von SV Ottweiler setzt sich gegen FC Blau-Weiß St. Wendel 2 fort",
-      "wettbewerb": "Bezirksliga Blies/Nahe",
-      "spiel": {
-        "heimmannschaft": "SV Ottweiler",
-        "gastmannschaft": "FC Blau-Weiß St. Wendel 2",
-        "ergebnis": "4:1",
-        "halbzeit": "1:0",
-        "ort": "Ottweiler"
-      },
-      "kurztext": "Bezirksliga Blies/Nahe: SV Ottweiler – FC Blau-Weiß St. Wendel 2, 4:1 (1:0), Ottweiler SV Ottweiler erreichte einen deutlichen 4:1-Erfolg gegen FC Blau-Weiß St. Wendel 2 . SV Ottweiler ließ keine Zweifel an der Ausgangsl...",
-      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/031V7NGLEG000000VS5489BVVS9PGJMA",
-      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BPM8000000VS5489BTVU7GTVLE",
-      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 14.09.2026 um 19:34 Uhr automatisch generiert)",
-      "text": "Bezirksliga Blies/Nahe: SV Ottweiler – FC Blau-Weiß St. Wendel 2, 4:1 (1:0), Ottweiler\n\nSV Ottweiler erreichte einen deutlichen 4:1-Erfolg gegen FC Blau-Weiß St. Wendel 2 . SV Ottweiler ließ keine Zweifel an der Ausgangslage aufkommen und feierte gegen FC Blau-Weiß St. Wendel 2 einen klaren Erfolg.\n\nEloy Michel Campos Alcantara war es, der in der 29. Minute den Ball im Gehäuse von FC Blau-Weiß St. Wendel 2 unterbrachte. Björn Moseler von den Gästen nahm zum Wiederanpfiff einen Wechsel vor: René Dippel blieb in der Kabine, für ihn kam Christoph Klos . Nennenswerte Szenen blieben bis zum Seitenwechsel aus, sodass das Zwischenergebnis auch zu Beginn des zweiten Durchgangs Bestand hatte. Giuseppe Damiano Zaffino versenkte die Kugel zum 2:0 für SV Ottweiler (49.). Mit dem 3:0 von Campos Alcantara für die Gastgeber war das Spiel eigentlich schon entschieden (51.). Der bisherige Spielverlauf lief nach dem Geschmack von Stephan Horst Schock, sodass die Situation es hergab, einen Doppelwechsel vorzunehmen: Björn Wagner und Joshua Keip kamen für Philipp Jan Pfeiffer und Finn Gutheil ins Spiel (56.). Mit Luca Mario Ruppenthal und Giuseppe Sardo nahm Stephan Horst Schock in der 70. Minute gleich zwei Spieler aus der Startformation vom Feld. Ersetzt wurden sie von Alessio Santalucia und Andreas Heilemann . In der 75. Minute brachte Tim Frank Hoffmann das Netz für FC Blau-Weiß St. Wendel 2 zum Zappeln. Wagner besorgte in der Schlussphase schließlich den vierten Treffer für SV Ottweiler (76.). Am Schluss fuhr SV Ottweiler gegen FC Blau-Weiß St. Wendel 2 auf eigenem Platz einen 4:1-Sieg ein.\n\nMit dem Erfolg in der Tasche rutschte SV Ottweiler im Klassement nach vorne und belegt jetzt den zweiten Tabellenplatz. Die Offensivabteilung von SV Ottweiler funktioniert bislang zuverlässig wie ein Schweizer Uhrwerk und schlug bereits 32-mal zu. Vier Siege und eine Niederlage schmücken die aktuelle Bilanz von SV Ottweiler.\n\nWann findet FC Blau-Weiß St. Wendel 2 die Lösung für die eigene Abwehrmisere? Im Spiel gegen SV Ottweiler setzte es eine neuerliche Pleite, womit FC Blau-Weiß St. Wendel 2 im Klassement weiter abrutschte. 7:19 – das Torverhältnis von FC Blau-Weiß St. Wendel 2 spricht eine mehr als deutliche Sprache.\n\nFC Blau-Weiß St. Wendel 2 ist nach vier sieglosen Begegnungen am Stück weiter auf der Erfolgssuche, während SV Ottweiler mit insgesamt zwölf Punkten in angenehmeren Gefilden heimisch ist.\n\nBeide Mannschaften erwartet nur eine kurze Pause. Schon am Sonntag empfängt SV Ottweiler SV Victoria St. Wendel , während FC Blau-Weiß St. Wendel 2 am selben Tag gegen den 1. FC Niederkirchen Heimrecht hat."
-    },
-    {
-      "id": "03233AJ6KO000000VS5489C0VVBGHJ8R",
-      "team": "FSG Ottweiler/Steinbach",
-      "typ": "Spielbericht",
-      "datum": "2026-09-14",
-      "datum_de": "14.09.2026",
-      "uhrzeit": "",
-      "titel": "Keip bestraft VfR Otzenhausen in der Schlussphase",
-      "wettbewerb": "Bezirksliga Blies/Nahe",
-      "spiel": {
-        "heimmannschaft": "SV Ottweiler",
-        "gastmannschaft": "VfR Otzenhausen",
-        "ergebnis": "4:2",
-        "halbzeit": "1:1",
-        "ort": "Ottweiler"
-      },
-      "kurztext": "Bezirksliga Blies/Nahe: SV Ottweiler – VfR Otzenhausen, 4:2 (1:1), Ottweiler Für den VfR Otzenhausen endete das Auswärtsspiel gegen SV Ottweiler erfolglos. Der Gastgeber gewann 4:2. Wem die Favoritenrolle bei diesem Matc...",
-      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/03233AJ6KO000000VS5489C0VVBGHJ8R",
-      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BOR4000000VS5489BTVU7GTVLE",
-      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 14.09.2026 um 19:34 Uhr automatisch generiert)",
-      "text": "Bezirksliga Blies/Nahe: SV Ottweiler – VfR Otzenhausen, 4:2 (1:1), Ottweiler\n\nFür den VfR Otzenhausen endete das Auswärtsspiel gegen SV Ottweiler erfolglos. Der Gastgeber gewann 4:2. Wem die Favoritenrolle bei diesem Match zusteht, war vorab klar. SV Ottweiler enttäuschte die Erwartungen nicht.\n\nKaum war das Spiel angepfiffen, lag der VfR Otzenhausen bereits in Front. Jannik Görtz markierte in der fünften Minute die Führung. Wer glaubte, die Mannschaft von Coach Stephan Horst Schock sei geschockt, irrte. Sie machte unmittelbar nach dem Rückschlag den Ausgleich perfekt (11.). Eine Aussage darüber, wer am Ende die Nase vorn haben würde, war nach dem Abpfiff der ersten Halbzeit noch nicht zu treffen. Es ging mit einem Gleichstand in die Kabinen. Mit einem Wechsel – Andreas Heilemann kam für Finn Eckstein – startete SV Ottweiler in Durchgang zwei. Mit einem Doppelwechsel wollte SV Ottweiler frischen Wind in das Spiel bringen und so schickte Stephan Horst Schock Alessio Santalucia und Joshua Keip für Luca Mario Ruppenthal und Finn Gutheil auf den Platz (60.). Mauro Coccimiglio brachte dem VfR Otzenhausen nach 66 Minuten die 2:1-Führung. Die passende Antwort hatte Eloy Michel Campos Alcantara parat, als er in der 68. Minute zum Ausgleich traf. Keip schoss für SV Ottweiler in der 88. Minute das dritte Tor. Ehe der Abpfiff ertönte, war es Giuseppe Sardo , der das 4:2 aus Sicht von SV Ottweiler perfekt machte (90.). Am Schluss fuhr SV Ottweiler gegen den VfR Otzenhausen auf eigenem Platz einen Sieg ein.\n\nTrotz des Sieges fiel SV Ottweiler in der Tabelle auf Platz fünf. Die Angriffsreihe von SV Ottweiler lehrte ihre Gegner in aller Regelmäßigkeit das Fürchten, was die 37 geschossenen Tore eindrucksvoll unter Beweis stellen. Fünf Siege und zwei Niederlagen schmücken die aktuelle Bilanz von SV Ottweiler.\n\nWann findet der VfR Otzenhausen die Lösung für die eigene Abwehrmisere? Im Spiel gegen SV Ottweiler setzte es eine neuerliche Pleite, womit der VfR Otzenhausen im Klassement weiter abrutschte. Die Defensive des VfR Otzenhausen muss bis dato zu viele Gegentreffer verschmerzen – bereits 40-mal war dies der Fall.\n\nAm nächsten Sonntag reist SV Ottweiler zu SG Nahe , zeitgleich empfängt der VfR Otzenhausen den 1. FC Niederkirchen ."
     },
     {
       "id": "03230MBT8C000000VS5489C0VVBGHJ8R",

@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Heimspiel gegen Niederkirch.",
-    "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-10-31",
-    "time": "15:30",
-    "location": "Stadion Im Alten Weiher",
-    "content": "Anpfiff ist um 15:30 Uhr. Ottweiler spielt gegen Niederkirch.. Spielort: Stadion Im Alten Weiher.",
-    "image": "matchTemplate",
-    "imageAlt": "Ottweiler gegen Niederkirch.",
-    "competition": "Bezirksliga Blies/Nah",
-    "matchday": "14. Spieltag",
-    "homeTeam": "Ottweiler",
-    "awayTeam": "Niederkirch.",
-    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Auswärtsspiel gegen Remmesw.",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-07",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Auswärtsspiel gegen Alsweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-08",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Auswärtsspiel gegen Dörrenbach",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-15",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Heimspiel gegen Leitersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -82,6 +65,23 @@
     "homeTeam": "Ottweiler II",
     "awayTeam": "Leitersw. II",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121",
+    "mapsUrl": ""
+  },
+  {
+    "id": 5,
+    "title": "Heimspiel gegen Leitersw.",
+    "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
+    "date": "2026-11-21",
+    "time": "17:00",
+    "location": "Stadion Im Alten Weiher",
+    "content": "Anpfiff ist um 17:00 Uhr. Ottweiler spielt gegen Leitersw.. Spielort: Stadion Im Alten Weiher.",
+    "image": "matchTemplate",
+    "imageAlt": "Ottweiler gegen Leitersw.",
+    "competition": "Bezirksliga Blies/Nah",
+    "matchday": "17. Spieltag",
+    "homeTeam": "Ottweiler",
+    "awayTeam": "Leitersw.",
+    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121",
     "mapsUrl": ""
   },
   {
