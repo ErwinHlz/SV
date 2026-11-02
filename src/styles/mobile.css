@@ -306,15 +306,19 @@
       animation-timeline: view();
       animation-range: exit 0% exit 100%;
     }
+  }
 
-    .m-marquee {
-      animation: m-marquee linear both;
-      animation-timeline: view();
-    }
+  /* Laufband: zwei identische Kopien nebeneinander, Verschiebung um 50 %
+   * ergibt eine nahtlose Endlosschleife. */
+  .m-marquee {
+    display: flex;
+    width: max-content;
+    animation: m-marquee 28s linear infinite;
+  }
 
-    .m-marquee--reverse {
-      animation-name: m-marquee-reverse;
-    }
+  .m-marquee--reverse {
+    animation-direction: reverse;
+    animation-duration: 34s;
   }
 
   .m-pulse {
@@ -452,19 +456,10 @@
 
 @keyframes m-marquee {
   from {
-    transform: translateX(4%);
+    transform: translateX(0);
   }
   to {
-    transform: translateX(-52%);
-  }
-}
-
-@keyframes m-marquee-reverse {
-  from {
-    transform: translateX(-52%);
-  }
-  to {
-    transform: translateX(4%);
+    transform: translateX(-50%);
   }
 }
 

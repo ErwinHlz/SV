@@ -43,11 +43,15 @@ const scrollToMatches = () => {
     <MobileMatchCenter />
 
     <div class="home-marquee" aria-hidden="true">
-      <div class="home-marquee__line home-marquee__line--outline m-marquee">
-        Blau-Gelb · seit 1919 · Blau-Gelb · seit 1919 ·
+      <div class="home-marquee__line home-marquee__line--outline">
+        <div class="m-marquee">
+          <span v-for="n in 2" :key="n">Blau-Gelb · seit 1919 · Blau-Gelb · seit 1919 ·</span>
+        </div>
       </div>
-      <div class="home-marquee__line m-marquee m-marquee--reverse">
-        Ottweiler · Im Alten Weiher · Ottweiler ·
+      <div class="home-marquee__line">
+        <div class="m-marquee m-marquee--reverse">
+          <span v-for="n in 2" :key="n">Ottweiler · Im Alten Weiher · Ottweiler · Im Alten Weiher ·</span>
+        </div>
       </div>
     </div>
 
@@ -177,6 +181,10 @@ const scrollToMatches = () => {
   line-height: 0.9;
   text-transform: uppercase;
   color: var(--m-yellow);
+}
+
+.home-marquee__line span {
+  padding-right: 0.25em;
 }
 
 .home-marquee__line--outline {
