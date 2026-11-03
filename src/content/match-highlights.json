@@ -1,62 +1,72 @@
 {
   "teamOne": {
     "last": {
-      "heimmannschaft": "Urweiler",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "2:1",
-      "bild_heim": "/team-logos/urweiler.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Bosenbergstadion Urweiler",
-      "datum": "2026-10-18",
-      "uhrzeit": "13:00",
-      "match_url": "https://www.fupa.net/match/stv-urweiler-m1-sv-ottweiler-m1-261018"
+      "heimmannschaft": "Ottweiler",
+      "gastmannschaft": "Niederkirch.",
+      "ergebnis": "4:2",
+      "bild_heim": "/images/sv_logo_farbe.svg",
+      "bild_gast": "/team-logos/niederkirch.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-10-31",
+      "uhrzeit": "15:30",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031"
     },
-    "live": null,
-    "next": {
-      "heimmannschaft": "Peterberg",
+    "live": {
+      "heimmannschaft": "Alsweiler",
       "gastmannschaft": "Ottweiler",
       "ergebnis": "-:-",
-      "bild_heim": "/team-logos/peterberg.png",
+      "bild_heim": "/team-logos/alsweiler.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Rasenplatz Braunshausen",
-      "datum": "2026-10-27",
-      "uhrzeit": "18:15",
-      "match_url": "https://www.fupa.net/match/sg-peterberg-m1-sv-ottweiler-m1-261027"
+      "ort": "Auf der Lehn",
+      "datum": "2026-11-08",
+      "uhrzeit": "14:30",
+      "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108"
+    },
+    "next": {
+      "heimmannschaft": "Dörrenbach",
+      "gastmannschaft": "Ottweiler",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/dorrenbach.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "SF Doerrenbach",
+      "datum": "2026-11-15",
+      "uhrzeit": "14:30",
+      "match_url": "https://www.fupa.net/match/sf-doerrenbach-m1-sv-ottweiler-m1-261115"
     }
   },
   "teamTwo": {
     "last": {
-      "heimmannschaft": "Urweiler II",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "0:3",
-      "bild_heim": "/team-logos/urweiler-2.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Bosenbergstadion Urweiler",
-      "datum": "2026-10-18",
-      "uhrzeit": "11:15",
-      "match_url": "https://www.fupa.net/match/stv-urweiler-m2-sv-ottweiler-m2-261018"
-    },
-    "live": {
-      "heimmannschaft": "Oberlinxw.",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "-:-",
-      "bild_heim": "/team-logos/oberlinxw.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Naturrasenplatz SV Oberlinxweiler",
-      "datum": "2026-10-25",
-      "uhrzeit": "14:00",
-      "match_url": "https://www.fupa.net/match/sv-oberlinxweiler-m1-sv-ottweiler-m2-261025"
-    },
-    "next": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Baltersw. II",
-      "ergebnis": "-:-",
+      "ergebnis": "3:0",
       "bild_heim": "/images/sv_logo_farbe.svg",
       "bild_gast": "/team-logos/baltersw-2.png",
       "ort": "Stadion Im Alten Weiher",
       "datum": "2026-10-30",
-      "uhrzeit": "18:00",
+      "uhrzeit": "19:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-baltersweiler-m2-261030"
+    },
+    "live": {
+      "heimmannschaft": "Remmesw.",
+      "gastmannschaft": "Ottweiler II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/remmesw.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "Sportplatz Remmesweiler",
+      "datum": "2026-11-07",
+      "uhrzeit": "16:00",
+      "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
+    },
+    "next": {
+      "heimmannschaft": "Ottweiler II",
+      "gastmannschaft": "Leitersw. II",
+      "ergebnis": "-:-",
+      "bild_heim": "/images/sv_logo_farbe.svg",
+      "bild_gast": "/team-logos/leitersw-2.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-11-21",
+      "uhrzeit": "15:00",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121"
     }
   }
 }

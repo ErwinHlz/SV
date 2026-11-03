@@ -38,6 +38,11 @@ const CONFIG = {
   },
 };
 
+// GitHub Actions läuft in UTC. Damit "2026-10-31T15:30:00" in matchDateTime()
+// als deutsche Ortszeit gilt, auch in Node mit Europe/Berlin rechnen - inkl.
+// automatischer Sommer-/Winterzeit.
+process.env.TZ = CONFIG.timezone;
+
 function slugifyTeam(name) {
   return name
     .toLowerCase()
@@ -410,7 +415,10 @@ async function main() {
     headless: true,
   });
 
+  // FuPa rendert Anstoßzeiten in der Zeitzone des Browsers - ohne timezoneId
+  // stünden hier UTC-Zeiten (1 Stunde im Winter, 2 im Sommer zu früh).
   const page = await browser.newPage({
+    timezoneId: CONFIG.timezone,
     userAgent:
       "Mozilla/5.0 FSG-Ottweiler-Steinbach-WebsiteBot/1.0; contact=webmaster@example.com",
   });

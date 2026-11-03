@@ -109,6 +109,17 @@ async function fetchInstagramPosts() {
   return json.data || [];
 }
 
+function getBerlinDate(timestamp) {
+  // Instagram liefert UTC-Zeitstempel - das Datum muss zur deutschen Ortszeit
+  // passen, sonst rutschen Posts kurz nach Mitternacht auf den Vortag.
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(timestamp)); // YYYY-MM-DD
+}
+
 const rawPosts = await fetchInstagramPosts();
 
 const posts = rawPosts.map((post) => {
@@ -126,7 +137,7 @@ const posts = rawPosts.map((post) => {
     media_type: post.media_type || "",
     media_product_type: post.media_product_type || "",
 
-    datum: post.timestamp?.slice(0, 10) || "",
+    datum: post.timestamp ? getBerlinDate(post.timestamp) : "",
     timestamp: post.timestamp || "",
 
     // Beschreibung unter dem Post

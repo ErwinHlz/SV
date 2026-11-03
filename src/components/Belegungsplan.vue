@@ -243,15 +243,18 @@
           <li v-for="team in legendTeams" :key="team.name" :style="{ '--team': team.color }">
             <span class="cal-legend__swatch" aria-hidden="true"></span>{{ team.name }}
           </li>
+          <li v-if="hasFreeTimes" :style="{ '--team': teamColor(freeLabel) }">
+            <span class="cal-legend__swatch" aria-hidden="true"></span>{{ freeLabel }}
+          </li>
           <li :style="{ '--team': '#9fb0d0' }">
             <span class="cal-legend__swatch cal-legend__swatch--match" aria-hidden="true"></span>Heimspiel
           </li>
         </ul>
       </div>
       <div class="cal-legend__group">
-        <span class="cal-legend__title">Plätze · Streifen unten im Termin</span>
-        <ul aria-label="Farben der Plätze">
-          <li v-for="place in places" :key="place.id" :style="{ '--place': place.color }">
+        <span class="cal-legend__title">Plätze &amp; Hallen · Streifen unten im Termin</span>
+        <ul aria-label="Farben der Plätze und Hallen">
+          <li v-for="place in legendPlaces" :key="place.id" :style="{ '--place': place.color }">
             <span class="cal-legend__stripe" aria-hidden="true"></span>{{ place.name }}
           </li>
         </ul>
@@ -271,10 +274,10 @@
           <header class="cal-dialog__head" :class="{ 'is-match': detail.isMatch }">
             <span class="cal-dialog__kicker">
               <Trophy v-if="detail.isMatch" :size="14" :stroke-width="2.4" aria-hidden="true" />
-              {{ detail.isMatch ? "Heimspiel" : "Training" }}
+              {{ detail.isMatch ? "Heimspiel" : detail.isFree ? "Hallenzeit" : "Training" }}
             </span>
             <h3 id="cal-dialog-title" class="cal-dialog__title">{{ detail.team }}</h3>
-            <p v-if="detail.isMatch" class="cal-dialog__sub">{{ detail.detail }}</p>
+            <p v-if="detail.detail" class="cal-dialog__sub">{{ detail.detail }}</p>
             <button ref="closeRef" type="button" class="cal-dialog__close" aria-label="Schließen" @click="closeDetail">
               <X :size="20" :stroke-width="2.4" aria-hidden="true" />
             </button>
@@ -375,12 +378,20 @@ type Entry = {
   url?: string;
   place: Pick<Place, "name" | "code" | "color">;
   isMatch: boolean;
+  isFree?: boolean;
   label: string;
 };
 type PlacedEntry = Entry & { col: number; cols: number };
+type FreeSlot = Slot & { from?: string; to?: string; note?: string };
 
-const { places, teamColors, homeTeams, startHour, endHour } = rawStadion.belegungsplan as {
+const { places, hallSeason, teamColors, homeTeams, startHour, endHour } = rawStadion.belegungsplan as {
   places: Place[];
+  hallSeason: {
+    from: string;
+    to?: string;
+    training: Record<string, Slot[]>;
+    free: FreeSlot[];
+  };
   teamColors: Record<string, string>;
   homeTeams: Array<{ match: string; label: string; short: string }>;
   startHour: number;
@@ -397,6 +408,7 @@ const monthLimits = { min: -2, max: 2 };
 // Für Spiele gibt es nur die Anstoßzeit, belegt ist der Platz rund zwei Stunden.
 const matchDuration = 120;
 const dayMs = 24 * 60 * 60 * 1000;
+const freeLabel = "Frei nutzbar";
 
 // Unbekannte Orte bekommen eine neutrale Farbe, damit sie trotzdem auftauchen.
 const resolvePlace = (location: string) =>
@@ -436,18 +448,42 @@ const parseSlot = (slot: Slot) => {
   return from && to ? { start: toMinutes(from), end: toMinutes(to) } : null;
 };
 
-const trainingByDay = weekdays.map((weekday) =>
-  teams.flatMap((team) =>
-    (team.training ?? [])
-      .filter((slot) => slot.day === weekday)
-      .flatMap((slot) => {
-        const time = parseSlot(slot);
-        if (!time) return [];
-        const teamName = longName(team.name);
-        return [{ team, teamName, slot, ...time, place: resolvePlace(slot.location) }];
-      }),
-  ),
-);
+// In der Hallensaison ersetzen die Hallenzeiten die Feldzeiten, Teams ohne Hallenzeiten bleiben auf dem Platz.
+const isHallDate = (iso: string) => iso >= hallSeason.from && (!hallSeason.to || iso <= hallSeason.to);
+const hallSlots = (team: Team) => hallSeason.training[longName(team.name)] ?? team.training;
+
+const buildTrainingByDay = (slotsOf: (team: Team) => Slot[] | undefined) =>
+  weekdays.map((weekday) =>
+    teams.flatMap((team) =>
+      (slotsOf(team) ?? [])
+        .filter((slot) => slot.day === weekday)
+        .flatMap((slot) => {
+          const time = parseSlot(slot);
+          if (!time) return [];
+          const teamName = longName(team.name);
+          return [{ team, teamName, slot, ...time, place: resolvePlace(slot.location) }];
+        }),
+    ),
+  );
+
+const trainingByDay = buildTrainingByDay((team) => team.training);
+const hallTrainingByDay = buildTrainingByDay(hallSlots);
+
+const scheduleOf = (slots: Slot[] = []) =>
+  slots.flatMap((slot) => {
+    const time = parseSlot(slot);
+    if (!time) return [];
+    const place = resolvePlace(slot.location);
+    return [
+      {
+        key: `${slot.day}-${slot.time}`,
+        day: slot.day,
+        time: `${formatTime(time.start)}–${formatTime(time.end)}`,
+        place: place.name,
+        color: place.color,
+      },
+    ];
+  });
 
 // Zusatzinfos für die Detailansicht: Jahrgang, Trainer und alle Trainingszeiten.
 const teamInfo = new Map(
@@ -460,20 +496,8 @@ const teamInfo = new Map(
         coaches: (rawJugendtrainer as Array<{ name: string; role: string }>)
           .filter((coach) => coach.role === name)
           .map((coach) => coach.name),
-        schedule: (team.training ?? []).flatMap((slot) => {
-          const time = parseSlot(slot);
-          if (!time) return [];
-          const place = resolvePlace(slot.location);
-          return [
-            {
-              key: `${slot.day}-${slot.time}`,
-              day: slot.day,
-              time: `${formatTime(time.start)}–${formatTime(time.end)}`,
-              place: place.name,
-              color: place.color,
-            },
-          ];
-        }),
+        schedule: scheduleOf(team.training),
+        hallSchedule: scheduleOf(hallSlots(team)),
       },
     ];
   }),
@@ -542,7 +566,9 @@ const entriesForDate = (date: Date): Entry[] => {
       };
     });
 
-  const trainings = (trainingByDay[weekday] ?? []).map<Entry>((training) => {
+  const hall = isHallDate(iso);
+
+  const trainings = ((hall ? hallTrainingByDay : trainingByDay)[weekday] ?? []).map<Entry>((training) => {
     const color = teamColor(training.teamName);
     return {
       key: `${iso}-${training.team.name}-${training.slot.time}`,
@@ -563,8 +589,42 @@ const entriesForDate = (date: Date): Entry[] => {
     };
   });
 
+  // Hallenzeiten ohne feste Mannschaft, teils nur in einem Teil der Saison.
+  const freeTimes = (hall ? hallSeason.free : [])
+    .filter(
+      (slot) =>
+        slot.day === weekdays[weekday] && (!slot.from || iso >= slot.from) && (!slot.to || iso <= slot.to),
+    )
+    .flatMap<Entry>((slot) => {
+      const time = parseSlot(slot);
+      if (!time) return [];
+      const place = resolvePlace(slot.location);
+      const color = teamColor(freeLabel);
+      return [
+        {
+          key: `${iso}-frei-${slot.location}-${slot.time}`,
+          date,
+          start: time.start,
+          end: time.end,
+          timeStart: formatTime(time.start),
+          timeEnd: formatTime(time.end),
+          timeRest: `–${formatTime(time.end)}`,
+          team: freeLabel,
+          short: "Frei",
+          tag: "–",
+          color,
+          ink: inkFor(color),
+          detail: slot.note,
+          place,
+          isMatch: false,
+          isFree: true,
+          label: `${freeLabel}, ${formatTime(time.start)} bis ${formatTime(time.end)} Uhr, ${place.name}`,
+        },
+      ];
+    });
+
   // Ein Heimspiel hat Vorrang: Training auf demselben Platz zur selben Zeit entfällt.
-  const remaining = trainings.filter(
+  const remaining = [...trainings, ...freeTimes].filter(
     (training) =>
       !matches.some(
         (match) =>
@@ -904,6 +964,16 @@ const monthCells = computed(() => {
   return cells;
 });
 
+// Die Legende zeigt nur Orte, die im angezeigten Zeitraum vorkommen.
+const shownEntries = computed(() =>
+  (activeView.value === "week" ? days.value : monthCells.value).flatMap((day) => day.entries),
+);
+const legendPlaces = computed(() => {
+  const used = new Set(shownEntries.value.map((entry) => entry.place.name));
+  return places.filter((place) => used.has(place.name));
+});
+const hasFreeTimes = computed(() => shownEntries.value.some((entry) => entry.isFree));
+
 const selectedCell = computed(() => monthCells.value.find((cell) => cell.iso === selectedIso.value));
 const selectedEntries = computed(() => selectedCell.value?.entries ?? []);
 const selectedTitle = computed(() => {
@@ -943,7 +1013,12 @@ const weekRange = computed(() => {
 
 // Detailansicht
 const detail = ref<Entry | null>(null);
-const detailInfo = computed(() => (detail.value ? teamInfo.get(detail.value.team) : undefined));
+const detailInfo = computed(() => {
+  const entry = detail.value;
+  const info = entry ? teamInfo.get(entry.team) : undefined;
+  if (!entry || !info) return undefined;
+  return { ...info, schedule: isHallDate(toIsoDate(entry.date)) ? info.hallSchedule : info.schedule };
+});
 const closeRef = ref<HTMLButtonElement | null>(null);
 let lastFocus: HTMLElement | null = null;
 
