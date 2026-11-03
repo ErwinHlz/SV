@@ -78,7 +78,6 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
       <div ref="railRef" class="stadion-gallery__rail" @scroll.passive="onRailScroll">
         <figure v-for="slide in slides" :key="slide.id" class="stadion-gallery__slide">
           <img :src="slide.image" :alt="slide.imageAlt" loading="lazy" />
-          <figcaption v-if="slide.caption">{{ slide.caption }}</figcaption>
         </figure>
       </div>
     </section>
@@ -243,13 +242,6 @@ const heroImage = getGalleryPlaceholder("hero:stadion");
   aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: 20px;
-}
-
-.stadion-gallery__slide figcaption {
-  padding-top: 10px;
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--m-text-2);
 }
 
 .stadion-people__list {
