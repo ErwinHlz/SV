@@ -1466,7 +1466,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   border: 0;
   border-left: 4px solid var(--team);
-  border-radius: 10px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--team) 24%, #0a1838);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--team) 38%, transparent);
   color: #fff;
@@ -1710,7 +1710,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   border: 0;
   border-left: 3px solid var(--team);
-  border-radius: 6px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--team) 20%, #0a1838);
   color: #fff;
   font: inherit;
@@ -2211,7 +2211,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   border: 0;
   border-left: 3px solid var(--team);
-  border-radius: 4px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--team) 16%, transparent);
   color: #fff;
   font: inherit;
@@ -2285,7 +2285,7 @@ onBeforeUnmount(() => {
 
 .cal--mobile .cal-ev {
   border-left-width: 3px;
-  border-radius: 4px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--team) 16%, transparent);
   box-shadow: none;
 }
