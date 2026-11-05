@@ -243,9 +243,6 @@
           <li v-for="team in legendTeams" :key="team.name" :style="{ '--team': team.color }">
             <span class="cal-legend__swatch" aria-hidden="true"></span>{{ team.name }}
           </li>
-          <li v-if="hasFreeTimes" :style="{ '--team': teamColor(freeLabel) }">
-            <span class="cal-legend__swatch" aria-hidden="true"></span>{{ freeLabel }}
-          </li>
           <li :style="{ '--team': '#9fb0d0' }">
             <span class="cal-legend__swatch cal-legend__swatch--match" aria-hidden="true"></span>Heimspiel
           </li>
@@ -274,7 +271,7 @@
           <header class="cal-dialog__head" :class="{ 'is-match': detail.isMatch }">
             <span class="cal-dialog__kicker">
               <Trophy v-if="detail.isMatch" :size="14" :stroke-width="2.4" aria-hidden="true" />
-              {{ detail.isMatch ? "Heimspiel" : detail.isFree ? "Hallenzeit" : "Training" }}
+              {{ detail.isMatch ? "Heimspiel" : "Training" }}
             </span>
             <h3 id="cal-dialog-title" class="cal-dialog__title">{{ detail.team }}</h3>
             <p v-if="detail.detail" class="cal-dialog__sub">{{ detail.detail }}</p>
@@ -378,11 +375,11 @@ type Entry = {
   url?: string;
   place: Pick<Place, "name" | "code" | "color">;
   isMatch: boolean;
-  isFree?: boolean;
   label: string;
 };
 type PlacedEntry = Entry & { col: number; cols: number };
-type FreeSlot = Slot & { from?: string; to?: string; note?: string };
+// Hallenzeiten von Mannschaften ohne eigene Teamseite (z. B. AH), teils nur in einem Teil der Saison.
+type ExtraSlot = Slot & { team: string; from?: string; to?: string; note?: string };
 
 const { places, hallSeason, teamColors, homeTeams, startHour, endHour } = rawStadion.belegungsplan as {
   places: Place[];
@@ -390,7 +387,7 @@ const { places, hallSeason, teamColors, homeTeams, startHour, endHour } = rawSta
     from: string;
     to?: string;
     training: Record<string, Slot[]>;
-    free: FreeSlot[];
+    extra?: ExtraSlot[];
   };
   teamColors: Record<string, string>;
   homeTeams: Array<{ match: string; label: string; short: string }>;
@@ -408,7 +405,7 @@ const monthLimits = { min: -2, max: 2 };
 // Für Spiele gibt es nur die Anstoßzeit, belegt ist der Platz rund zwei Stunden.
 const matchDuration = 120;
 const dayMs = 24 * 60 * 60 * 1000;
-const freeLabel = "Frei nutzbar";
+const extraSlots = hallSeason.extra ?? [];
 
 // Unbekannte Orte bekommen eine neutrale Farbe, damit sie trotzdem auftauchen.
 const resolvePlace = (location: string) =>
@@ -589,8 +586,8 @@ const entriesForDate = (date: Date): Entry[] => {
     };
   });
 
-  // Hallenzeiten ohne feste Mannschaft, teils nur in einem Teil der Saison.
-  const freeTimes = (hall ? hallSeason.free : [])
+  // Hallenzeiten von Mannschaften ohne Teamseite (z. B. AH).
+  const extraTimes = (hall ? extraSlots : [])
     .filter(
       (slot) =>
         slot.day === weekdays[weekday] && (!slot.from || iso >= slot.from) && (!slot.to || iso <= slot.to),
@@ -599,32 +596,31 @@ const entriesForDate = (date: Date): Entry[] => {
       const time = parseSlot(slot);
       if (!time) return [];
       const place = resolvePlace(slot.location);
-      const color = teamColor(freeLabel);
+      const color = teamColor(slot.team);
       return [
         {
-          key: `${iso}-frei-${slot.location}-${slot.time}`,
+          key: `${iso}-${slot.team}-${slot.location}-${slot.time}`,
           date,
           start: time.start,
           end: time.end,
           timeStart: formatTime(time.start),
           timeEnd: formatTime(time.end),
           timeRest: `–${formatTime(time.end)}`,
-          team: freeLabel,
-          short: "Frei",
-          tag: "–",
+          team: slot.team,
+          short: slot.team,
+          tag: slot.team.charAt(0),
           color,
           ink: inkFor(color),
           detail: slot.note,
           place,
           isMatch: false,
-          isFree: true,
-          label: `${freeLabel}, ${formatTime(time.start)} bis ${formatTime(time.end)} Uhr, ${place.name}`,
+          label: `${slot.team}, Training ${formatTime(time.start)} bis ${formatTime(time.end)} Uhr, ${place.name}`,
         },
       ];
     });
 
   // Ein Heimspiel hat Vorrang: Training auf demselben Platz zur selben Zeit entfällt.
-  const remaining = [...trainings, ...freeTimes].filter(
+  const remaining = [...trainings, ...extraTimes].filter(
     (training) =>
       !matches.some(
         (match) =>
@@ -671,6 +667,7 @@ const legendTeams = [
   ...new Set([
     ...homeTeams.map((team) => team.label),
     ...teams.filter((team) => team.training?.length).map((team) => longName(team.name)),
+    ...extraSlots.map((slot) => slot.team),
   ]),
 ].map((name) => ({ name, color: teamColor(name) }));
 
@@ -972,7 +969,6 @@ const legendPlaces = computed(() => {
   const used = new Set(shownEntries.value.map((entry) => entry.place.name));
   return places.filter((place) => used.has(place.name));
 });
-const hasFreeTimes = computed(() => shownEntries.value.some((entry) => entry.isFree));
 
 const selectedCell = computed(() => monthCells.value.find((cell) => cell.iso === selectedIso.value));
 const selectedEntries = computed(() => selectedCell.value?.entries ?? []);

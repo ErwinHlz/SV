@@ -163,12 +163,8 @@
           { "day": "Mittwoch", "time": "16:30-17:30", "location": "Seminar große Halle" }
         ]
       },
-      "free": [
-        { "day": "Dienstag", "time": "18:30-22:00", "location": "Halle Im Alten Weiher", "from": "2026-12-01", "to": "2027-02-28" },
-        { "day": "Samstag", "time": "14:30-17:00", "location": "Halle Steinbach", "note": "Absprache mit D-Jugend" },
-        { "day": "Dienstag", "time": "16:00-17:30", "location": "Halle Steinbach" },
-        { "day": "Mittwoch", "time": "20:00-22:00", "location": "Halle Neumünster", "from": "2026-12-01", "to": "2027-02-28" },
-        { "day": "Donnerstag", "time": "20:00-22:00", "location": "Halle Im Alten Weiher" }
+      "extra": [
+        { "team": "AH", "day": "Donnerstag", "time": "20:00-22:00", "location": "Halle Im Alten Weiher" }
       ]
     },
     "teamColors": {
@@ -180,7 +176,7 @@
       "E-Jugend": "#10b981",
       "F-Jugend": "#a3e635",
       "G-Jugend": "#22d3ee",
-      "Frei nutzbar": "#94a3b8"
+      "AH": "#fbbf24"
     },
     "homeTeams": [
       {
