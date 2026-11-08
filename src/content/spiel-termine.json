@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Auswärtsspiel gegen Remmesw.",
-    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-11-07",
-    "time": "16:00",
-    "location": "Auswärts bei Remmesw.",
-    "content": "Anpfiff ist um 16:00 Uhr. Remmesw. spielt gegen Ottweiler II. Spielort: Auswärts bei Remmesw..",
-    "image": "matchTemplate",
-    "imageAlt": "Remmesw. gegen Ottweiler II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "15. Spieltag",
-    "homeTeam": "Remmesw.",
-    "awayTeam": "Ottweiler II",
-    "externalUrl": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Auswärtsspiel gegen Alsweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-08",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Auswärtsspiel gegen Dörrenbach",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-15",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Heimspiel gegen Leitersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Heimspiel gegen Leitersw.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -85,7 +68,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 5,
     "title": "Auswärtsspiel gegen SG Oberkirchen-Grügelb. II",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2027-02-28",
@@ -99,6 +82,23 @@
     "homeTeam": "SG Oberkirchen-Grügelb. II",
     "awayTeam": "Ottweiler II",
     "externalUrl": "https://www.fupa.net/match/fc-oberkirchen-m2-sv-ottweiler-m2-270228",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Heimspiel gegen Niederlinxw.",
+    "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-03-07",
+    "time": "13:15",
+    "location": "Stadion Im Alten Weiher",
+    "content": "Anpfiff ist um 13:15 Uhr. Ottweiler II spielt gegen Niederlinxw.. Spielort: Stadion Im Alten Weiher.",
+    "image": "matchTemplate",
+    "imageAlt": "Ottweiler II gegen Niederlinxw.",
+    "competition": "Kreisliga A Blies",
+    "matchday": "19. Spieltag",
+    "homeTeam": "Ottweiler II",
+    "awayTeam": "Niederlinxw.",
+    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-fc-niederlinxweiler-m1-270307",
     "mapsUrl": ""
   }
 ]
