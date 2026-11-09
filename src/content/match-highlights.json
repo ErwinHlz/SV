@@ -1,20 +1,9 @@
 {
   "teamOne": {
     "last": {
-      "heimmannschaft": "Ottweiler",
-      "gastmannschaft": "Niederkirch.",
-      "ergebnis": "4:2",
-      "bild_heim": "/images/sv_logo_farbe.svg",
-      "bild_gast": "/team-logos/niederkirch.png",
-      "ort": "Stadion Im Alten Weiher",
-      "datum": "2026-10-31",
-      "uhrzeit": "15:30",
-      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-1-fc-niederkirchen-m1-261031"
-    },
-    "live": {
       "heimmannschaft": "Alsweiler",
       "gastmannschaft": "Ottweiler",
-      "ergebnis": "-:-",
+      "ergebnis": "1:3",
       "bild_heim": "/team-logos/alsweiler.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "Auf der Lehn",
@@ -22,7 +11,7 @@
       "uhrzeit": "14:30",
       "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "Dörrenbach",
       "gastmannschaft": "Ottweiler",
       "ergebnis": "-:-",
@@ -32,21 +21,21 @@
       "datum": "2026-11-15",
       "uhrzeit": "14:30",
       "match_url": "https://www.fupa.net/match/sf-doerrenbach-m1-sv-ottweiler-m1-261115"
+    },
+    "next": {
+      "heimmannschaft": "Ottweiler",
+      "gastmannschaft": "Leitersw.",
+      "ergebnis": "-:-",
+      "bild_heim": "/images/sv_logo_farbe.svg",
+      "bild_gast": "/team-logos/leitersw.png",
+      "ort": "Stadion Im Alten Weiher",
+      "datum": "2026-11-21",
+      "uhrzeit": "17:00",
+      "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121"
     }
   },
   "teamTwo": {
     "last": {
-      "heimmannschaft": "Ottweiler II",
-      "gastmannschaft": "Baltersw. II",
-      "ergebnis": "3:0",
-      "bild_heim": "/images/sv_logo_farbe.svg",
-      "bild_gast": "/team-logos/baltersw-2.png",
-      "ort": "Stadion Im Alten Weiher",
-      "datum": "2026-10-30",
-      "uhrzeit": "19:00",
-      "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-baltersweiler-m2-261030"
-    },
-    "live": {
       "heimmannschaft": "Remmesw.",
       "gastmannschaft": "Ottweiler II",
       "ergebnis": "2:0",
@@ -57,6 +46,7 @@
       "uhrzeit": "16:00",
       "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
     },
+    "live": null,
     "next": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Leitersw. II",

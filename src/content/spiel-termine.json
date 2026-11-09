@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Auswärtsspiel gegen Alsweiler",
-    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-11-08",
-    "time": "14:30",
-    "location": "Auswärts bei Alsweiler",
-    "content": "Anpfiff ist um 14:30 Uhr. Alsweiler spielt gegen Ottweiler. Spielort: Auswärts bei Alsweiler.",
-    "image": "matchTemplate",
-    "imageAlt": "Alsweiler gegen Ottweiler",
-    "competition": "Bezirksliga Blies/Nah",
-    "matchday": "15. Spieltag",
-    "homeTeam": "Alsweiler",
-    "awayTeam": "Ottweiler",
-    "externalUrl": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Auswärtsspiel gegen Dörrenbach",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-15",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Heimspiel gegen Leitersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Heimspiel gegen Leitersw.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -65,6 +48,23 @@
     "homeTeam": "Ottweiler",
     "awayTeam": "Leitersw.",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121",
+    "mapsUrl": ""
+  },
+  {
+    "id": 4,
+    "title": "Auswärtsspiel gegen Asweiler",
+    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-02-28",
+    "time": "14:30",
+    "location": "Auswärts bei Asweiler",
+    "content": "Anpfiff ist um 14:30 Uhr. Asweiler spielt gegen Ottweiler. Spielort: Auswärts bei Asweiler.",
+    "image": "matchTemplate",
+    "imageAlt": "Asweiler gegen Ottweiler",
+    "competition": "Bezirksliga Blies/Nah",
+    "matchday": "18. Spieltag",
+    "homeTeam": "Asweiler",
+    "awayTeam": "Ottweiler",
+    "externalUrl": "https://www.fupa.net/match/sv-asweiler-eitzweiler-m1-sv-ottweiler-m1-270228",
     "mapsUrl": ""
   },
   {
