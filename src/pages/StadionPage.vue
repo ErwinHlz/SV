@@ -125,7 +125,7 @@
       <ExternalContentPlaceholder
         v-else-if="map.embedUrl"
         title="Google Maps"
-        description="Die eingebettete Karte wird erst geladen, wenn du externe Inhalte im Cookie-Popup zulässt."
+        description="Die eingebettete Karte wird erst geladen, wenn du externe Inhalte in den Datenschutz-Einstellungen zulässt."
         :fallback-url="addressLink ?? undefined" />
       <p v-else class="map-placeholder">Keine Karte hinterlegt.</p>
     </div>

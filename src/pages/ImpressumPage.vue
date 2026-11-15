@@ -3,31 +3,22 @@
     <div class="legal-content">
       <h1>Impressum</h1>
       <p class="legal-intro">
-        Angaben gemäß Paragraf 5 DDG sowie weitere rechtliche Hinweise zu
-        diesem Webauftritt.
+        Angaben gemäß § 5 DDG sowie weitere rechtliche Hinweise zu diesem
+        Webauftritt.
       </p>
 
       <section class="legal-section">
         <h2>1. Anbieter</h2>
         <p>
-          SV Ottweiler 1919 e. V.<br />
+          Sportverein Ottweiler 1919 e. V.<br />
           Im Alten Weiher 13<br />
           66564 Ottweiler
-        
         </p>
-       
       </section>
 
       <section class="legal-section">
         <h2>2. Vertreten durch</h2>
-        <p>
-          Der Verein wird gesetzlich vertreten durch den Vorstand bzw. die
-          vertretungsberechtigten Personen gemäß Satzung.
-        </p>
-        <p>
-          Sascha Gutheil<br />
-
-        </p>
+        <p>Sascha Gutheil (1. Vorsitzender)</p>
       </section>
 
       <section class="legal-section">
@@ -35,27 +26,32 @@
         <p>
           Telefon: 06824 1499<br />
           E-Mail:
-          <a href="mailto:info@svottweiler.de">
-            info@svottweiler.de
-          </a>
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>
+        </p>
+      </section>
+
+      <section v-if="vereinsregister.nummer" class="legal-section">
+        <h2>4. Registereintrag</h2>
+        <p>
+          Eingetragen im Vereinsregister.<br />
+          Registergericht: {{ vereinsregister.gericht }}<br />
+          Registernummer: {{ vereinsregister.nummer }}
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>4. Verantwortlich für den Inhalt</h2>
-        <p>
-          Verantwortlich für die redaktionellen Inhalte nach Paragraf 18 Abs. 2
-          MStV:
-        </p>
+        <h2>{{ n(5) }}. Verantwortlich für den Inhalt</h2>
+        <p>Verantwortlich für die redaktionellen Inhalte nach § 18 Abs. 2 MStV:</p>
         <p>
           Erwin Holzhauser<br />
-          Kiefernweg 51<br />
-          66557 Illingen
+          c/o SV Ottweiler 1919 e. V.<br />
+          Im Alten Weiher 13<br />
+          66564 Ottweiler
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>5. Haftung für Inhalte</h2>
+        <h2>{{ n(6) }}. Haftung für Inhalte</h2>
         <p>
           Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt
           erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der
@@ -66,12 +62,14 @@
           nach den allgemeinen Gesetzen verantwortlich. Wir sind jedoch nicht
           verpflichtet, übermittelte oder gespeicherte fremde Informationen zu
           überwachen oder nach Umständen zu forschen, die auf eine
-          rechtswidrige Tätigkeit hinweisen.
+          rechtswidrige Tätigkeit hinweisen. Sobald uns eine konkrete
+          Rechtsverletzung bekannt wird, entfernen wir die betreffenden Inhalte
+          umgehend.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>6. Haftung für Links</h2>
+        <h2>{{ n(7) }}. Haftung für Links</h2>
         <p>
           Diese Website enthält Links zu externen Websites Dritter. Auf deren
           Inhalte haben wir keinen Einfluss. Deshalb können wir für diese
@@ -82,27 +80,35 @@
       </section>
 
       <section class="legal-section">
-        <h2>7. Urheberrecht</h2>
+        <h2>{{ n(8) }}. Urheberrecht und Bildrechte</h2>
         <p>
-          Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen
-          dem deutschen Urheberrecht. Jede Verwertung ausserhalb der Grenzen des
-          Urheberrechts bedarf der vorherigen schriftlichen Zustimmung des
-          jeweiligen Rechteinhabers, soweit gesetzlich nichts anderes erlaubt
-          ist.
+          Die auf dieser Website veröffentlichten Inhalte, Texte und Fotos
+          unterliegen dem deutschen Urheberrecht. Jede Verwertung außerhalb der
+          Grenzen des Urheberrechts bedarf der vorherigen schriftlichen
+          Zustimmung des jeweiligen Rechteinhabers, soweit gesetzlich nichts
+          anderes erlaubt ist.
         </p>
-      </section>
-
-      <section class="legal-section">
-        <h2>8. Hinweis</h2>
         <p>
-          Sobald das Registergericht und die Registernummer des Vereins
-          bekannt sind, muss ein Abschnitt "Vereinsregister" mit diesen
-          Angaben ergänzt werden.
+          Wenn Sie auf einem Foto zu sehen sind und dessen Entfernung wünschen,
+          genügt eine kurze Nachricht an
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>.
         </p>
       </section>
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+// Registernummer eintragen, sobald bekannt (z. B. "VR 1234").
+// Solange sie leer ist, wird der Abschnitt "Registereintrag" nicht angezeigt.
+const vereinsregister = {
+  gericht: "Amtsgericht Ottweiler",
+  nummer: "VR 398",
+};
+
+// Abschnittsnummern verschieben sich, je nachdem ob der Registereintrag sichtbar ist.
+const n = (num: number) => (vereinsregister.nummer ? num : num - 1);
+</script>
 
 <style scoped>
 .legal-page {

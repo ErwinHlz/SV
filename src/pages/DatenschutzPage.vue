@@ -11,20 +11,20 @@
         <h2>1. Verantwortliche Stelle</h2>
         <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
         <p>
-          Erwin Holzhauser<br />
-          Kiefernweg 51<br />
-          66557 Illingen
+          Sportverein Ottweiler 1919 e. V.<br />
+          vertreten durch Sascha Gutheil (1. Vorsitzender)<br />
+          Im Alten Weiher 13<br />
+          66564 Ottweiler
         </p>
         <p>
+          Telefon: 06824 1499<br />
           E-Mail:
-          <a href="mailto:info@svottweiler.de">
-            info@svottweiler.de
-          </a>
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>
         </p>
         <p>
-          Verantwortliche Stelle ist die natürliche oder juristische Person,
-          die allein oder gemeinsam mit anderen über die Zwecke und Mittel der
-          Verarbeitung personenbezogener Daten entscheidet.
+          Ansprechpartner für die Website und Fragen zum Datenschutz auf dieser
+          Website ist Erwin Holzhauser, erreichbar unter derselben Anschrift
+          und E-Mail-Adresse.
         </p>
       </section>
 
@@ -32,9 +32,9 @@
         <h2>2. Hosting und technische Bereitstellung</h2>
         <p>
           Diese Website wird über GitHub Pages bereitgestellt. Beim Aufruf der
-          Website können technisch erforderliche Verbindungsdaten verarbeitet
-          werden, insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs,
-          Browsertyp, Betriebssystem, Referrer und aufgerufene Dateien.
+          Website werden technisch erforderliche Verbindungsdaten verarbeitet,
+          insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, Browsertyp,
+          Betriebssystem, Referrer und aufgerufene Dateien.
         </p>
         <p>
           Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f
@@ -42,9 +42,9 @@
           technisch fehlerfreien Bereitstellung des Webangebots.
         </p>
         <p>
-          Anbieter:
-          GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107,
-          USA
+          Anbieter: GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco,
+          CA 94107, USA. Die Übermittlung in die USA erfolgt auf Grundlage des
+          EU-US Data Privacy Frameworks bzw. von Standardvertragsklauseln.
         </p>
         <p>
           Datenschutzerklärung:
@@ -62,7 +62,8 @@
         <p>
           Personenbezogene Daten werden auf dieser Website nur verarbeitet,
           soweit dies zur Bereitstellung der Inhalte, zur Bearbeitung von
-          Anfragen oder zur Einbindung externer Inhalte erforderlich ist.
+          Anfragen oder – nach Ihrer Einwilligung – zur Einbindung externer
+          Inhalte erforderlich ist.
         </p>
         <p>
           Soweit in dieser Datenschutzerklärung keine speziellere Speicherdauer
@@ -70,77 +71,125 @@
           wie der jeweilige Verarbeitungszweck besteht oder gesetzliche
           Aufbewahrungspflichten dies erfordern.
         </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>4. Schriftarten</h2>
         <p>
-          Sofern Daten in Drittstaaten, insbesondere die USA, übermittelt
-          werden, erfolgt dies auf Grundlage der jeweils vom Anbieter genannten
-          Garantien, etwa des EU-US Data Privacy Frameworks oder anderer
-          geeigneter Garantien.
+          Die auf dieser Website verwendeten Schriftarten werden lokal von
+          unserem eigenen Webspace ausgeliefert. Eine Verbindung zu Servern von
+          Google oder anderen Schriftanbietern findet dabei nicht statt.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>4. Lokale Speicherung auf dem Endgerät</h2>
-        <h3>Cookie-Einstellungen</h3>
+        <h2>5. Lokale Speicherung auf dem Endgerät</h2>
         <p>
-          Diese Website speichert die von Ihnen getroffene Auswahl im
-          Cookie-Popup in der lokalen Speicherung Ihres Browsers
-          (`localStorage`). Dabei wird gespeichert, ob und in welchem Umfang Sie
-          optionale Inhalte zugelassen haben.
-        </p>
-        <p>
-          Die Speicherung erfolgt, um Ihre Auswahl bei späteren Besuchen
-          berücksichtigen zu können. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f
-          DSGVO sowie, soweit einschlägig, Paragraf 25 Abs. 2 TDDDG.
+          Diese Website setzt keine Tracking-Cookies. Für einzelne Funktionen
+          werden jedoch Informationen in der lokalen Speicherung Ihres Browsers
+          abgelegt. Diese Daten verlassen Ihr Endgerät nicht.
         </p>
 
-        <h3>Session- und Komfortfunktionen</h3>
+        <h3>Datenschutz-Einstellungen</h3>
         <p>
-          Für Komfortfunktionen speichert die Website auf einzelnen Seiten
-          vorübergehend Informationen im `sessionStorage`, zum Beispiel
-          Scrollpositionen innerhalb bestimmter Inhaltsseiten. Diese Daten
-          dienen ausschliesslich der Darstellung und Nutzung der Website und
-          werden nicht für Profile oder Analysen verwendet.
+          Ihre Auswahl in den Datenschutz-Einstellungen (ob externe Inhalte geladen werden
+          dürfen) wird im <code>localStorage</code> Ihres Browsers gespeichert,
+          damit sie bei späteren Besuchen berücksichtigt wird. Die Speicherung
+          ist für diese Funktion unbedingt erforderlich (§ 25 Abs. 2 Nr. 2
+          TDDDG, Art. 6 Abs. 1 lit. c und f DSGVO).
+        </p>
+
+        <h3>Komfortfunktionen</h3>
+        <p>
+          Im <code>sessionStorage</code> werden vorübergehend Scrollpositionen
+          auf einzelnen Übersichtsseiten sowie ein Zähler gespeichert, wie oft
+          während des aktuellen Besuchs eine Sponsoren-Einblendung angezeigt
+          wurde. Diese Daten werden beim Schließen des Browser-Tabs automatisch
+          gelöscht und nicht für Profile oder Analysen verwendet (§ 25 Abs. 2
+          Nr. 2 TDDDG).
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>5. Kontaktaufnahme</h2>
+        <h2>6. Kontaktaufnahme und Anfrageformulare</h2>
         <p>
-          Wenn Sie uns per E-Mail kontaktieren, verarbeiten wir die von Ihnen
-          übermittelten Daten zur Bearbeitung Ihrer Anfrage. Dies betrifft
-          insbesondere Ihren Namen, Ihre E-Mail-Adresse und den Inhalt Ihrer
-          Nachricht.
+          Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir
+          die von Ihnen übermittelten Daten (z. B. Name, E-Mail-Adresse,
+          Telefonnummer und Inhalt der Nachricht) zur Bearbeitung Ihrer
+          Anfrage.
         </p>
         <p>
-          Die Verarbeitung erfolgt je nach Inhalt der Anfrage auf Grundlage von
-          Art. 6 Abs. 1 lit. b DSGVO oder Art. 6 Abs. 1 lit. f DSGVO.
+          Die Website stellt außerdem Formulare für Kontakt-, Sponsoring- und
+          Jugendanfragen bereit. Diese Formulare speichern oder versenden
+          nichts selbst: Beim Absenden wird aus Ihren Eingaben eine E-Mail
+          vorbereitet und an Ihr E-Mail-Programm übergeben
+          (<code>mailto</code>-Funktion). Sie entscheiden selbst, ob Sie diese
+          E-Mail absenden.
         </p>
-
-        <h3>Anfrageformulare auf der Website</h3>
         <p>
-          Auf einzelnen Seiten stellt die Website Formulare für Anfragen bereit,
-          insbesondere für Sponsoring- und Jugendanfragen. Nach dem Absenden
-          werden die eingegebenen Daten derzeit nicht über einen eigenen Server
-          verarbeitet, sondern an Ihr lokal eingerichtetes E-Mail-Programm
-          übergeben (`mailto`-Funktion). Dabei bestimmen Sie selbst, ob und mit
-          welchen Daten Sie die vorbereitete E-Mail tatsächlich absenden.
+          Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage
+          auf einen Vertrag oder eine Mitgliedschaft gerichtet ist, und im
+          Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+          Beantwortung von Anfragen). Die Daten werden gelöscht, sobald die
+          Anfrage abschließend bearbeitet ist und keine
+          Aufbewahrungspflichten entgegenstehen.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>6. Eingebundene Widgets und externe Inhalte</h2>
+        <h2>7. Mitgliedsantrag</h2>
+        <p>
+          Auf der Seite „Mitglied werden“ können Sie den Aufnahmeantrag online
+          ausfüllen. Dabei werden insbesondere Name, Anschrift, Geburtsdatum,
+          Kontaktdaten, gegebenenfalls Angaben zu weiteren
+          Familienmitgliedern sowie für das SEPA-Lastschriftmandat
+          Kontoinhaber und IBAN abgefragt.
+        </p>
+        <p>
+          Die Eingaben werden ausschließlich in Ihrem Browser verarbeitet und
+          nicht auf einem Server dieser Website gespeichert. Sie können den
+          ausgefüllten Antrag ausdrucken oder als vorbereitete E-Mail an
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>
+          übergeben.
+        </p>
+        <p>
+          Sobald uns Ihr Antrag erreicht, verarbeiten wir die Daten zur
+          Begründung und Verwaltung Ihrer Mitgliedschaft sowie zum Einzug der
+          Mitgliedsbeiträge (Art. 6 Abs. 1 lit. b DSGVO). Die Daten werden für
+          die Dauer der Mitgliedschaft gespeichert und nach dem Austritt
+          gelöscht, soweit keine gesetzlichen Aufbewahrungsfristen
+          (insbesondere steuerrechtliche Fristen von bis zu zehn Jahren für
+          beitragsbezogene Unterlagen) entgegenstehen.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>8. Externe Inhalte (nur mit Einwilligung)</h2>
+        <p>
+          Einige Inhalte dieser Website stammen von externen Anbietern. Diese
+          werden erst geladen, wenn Sie in den Datenschutz-Einstellungen „Externe Inhalte“
+          zulassen. Vorher wird an ihrer Stelle ein Platzhalter angezeigt und
+          es findet keine Verbindung zu den Anbietern statt.
+        </p>
+        <p>
+          Nach Ihrer Einwilligung baut Ihr Browser eine Verbindung zu den
+          Servern des jeweiligen Anbieters auf. Dabei werden insbesondere Ihre
+          IP-Adresse, Browserinformationen und die aufgerufene Seite an den
+          Anbieter übermittelt. Rechtsgrundlage ist Ihre Einwilligung nach
+          Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+        </p>
+        <p>
+          Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft
+          widerrufen:
+          <button type="button" class="legal-link-button" @click="openCookieSettings">
+            Datenschutz-Einstellungen öffnen
+          </button>
+        </p>
+
         <h3>fussball.de</h3>
         <p>
-          Diese Website bindet Inhalte und Widgets von fussball.de ein. Bereits
-          beim Laden der Website oder beim Aufruf der jeweiligen Seiten kann Ihr
-          Browser eine Verbindung zu Servern von fussball.de aufbauen. Dabei
-          können insbesondere IP-Adresse, Browserinformationen und technische
-          Nutzungsdaten an den Anbieter übermittelt werden.
-        </p>
-        <p>
-          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
-          Interesse liegt in der Darstellung von Tabellen, Spielinformationen
-          und Vereinsinhalten.
+          Für Tabellen, Spielpläne und Mannschaftsinformationen binden wir
+          Widgets von fussball.de ein.
         </p>
         <p>
           Datenschutzerklärung von fussball.de:
@@ -154,14 +203,8 @@
 
         <h3>FuPa</h3>
         <p>
-          Diese Website bindet ausserdem Widgets und Inhalte von FuPa
-          (`fupa.net`) ein. Auch hierbei kann es beim Laden der Seite zu einer
-          Übermittlung technischer Daten an den Anbieter kommen.
-        </p>
-        <p>
-          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
-          Interesse liegt in der Darstellung von Mannschafts-, Spiel- und
-          Vereinsinformationen.
+          Für Kader-, Spiel- und Tabelleninformationen binden wir Widgets von
+          FuPa (fupa.net) ein.
         </p>
         <p>
           Datenschutzerklärung von FuPa:
@@ -173,23 +216,14 @@
           </a>
         </p>
 
-        <h3>Instagram-Medien</h3>
+        <h3>Instagram</h3>
         <p>
-          Auf der Website werden Inhalte, Vorschaubilder und Mediendateien
-          angezeigt, die aus Daten eines Instagram-Profils stammen oder über
-          externe Instagram-CDN-Adressen geladen werden. Beim Laden solcher
-          Inhalte kann Ihr Browser eine Verbindung zu Servern von Meta Platforms
-          bzw. Instagram aufbauen.
-        </p>
-        <p>
-          Dabei können insbesondere IP-Adresse, Browserinformationen und
-          Informationen über den Abruf der jeweiligen Mediendatei verarbeitet
-          werden.
-        </p>
-        <p>
-          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
-          Interesse liegt in der Darstellung vereinsbezogener Inhalte aus
-          sozialen Medien.
+          In den News zeigen wir Beiträge aus unserem Instagram-Profil. Die
+          zugehörigen Bilder und Videos werden direkt von Servern von Instagram
+          geladen. Anbieter ist Meta Platforms Ireland Limited, Dublin, Irland.
+          Dabei kann es zu einer Übermittlung von Daten an Meta Platforms, Inc.
+          in den USA kommen; diese erfolgt auf Grundlage des EU-US Data Privacy
+          Frameworks.
         </p>
         <p>
           Datenschutzerklärung von Meta bzw. Instagram:
@@ -200,37 +234,18 @@
             {{ externalLinks.privacyReferences.facebookPrivacyUrl }}
           </a>
         </p>
-      </section>
 
-      <section class="legal-section">
-        <h2>7. Google Fonts</h2>
+        <h3>Google Maps</h3>
         <p>
-          Diese Website nutzt Google Fonts zur einheitlichen Darstellung von
-          Schriftarten. Beim Aufruf einer Seite kann Ihr Browser die benötigten
-          Schriftdateien direkt von Google laden. Dabei kann Google Kenntnis von
-          Ihrer IP-Adresse und davon erhalten, dass über diese IP-Adresse diese
-          Website aufgerufen wurde.
+          Auf der Seite „Stadion“ binden wir eine Karte von Google Maps ein,
+          damit Sie unser Sportgelände leichter finden. Anbieter ist Google
+          Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Dabei
+          kann es zu einer Übermittlung von Daten an Google LLC in den USA
+          kommen; diese erfolgt auf Grundlage des EU-US Data Privacy
+          Frameworks.
         </p>
         <p>
-          Anbieter ist Google Ireland Limited, Gordon House, Barrow Street,
-          Dublin 4, Irland.
-        </p>
-        <p>
-          Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO,
-          sofern keine Einwilligung eingeholt wird, und andernfalls auf
-          Grundlage von Art. 6 Abs. 1 lit. a DSGVO sowie, soweit einschlägig,
-          Paragraf 25 Abs. 1 TDDDG.
-        </p>
-        <p>
-          Weitere Informationen:
-          <a
-            :href="externalLinks.privacyReferences.googleFontsFaqUrl"
-            target="_blank"
-            rel="noopener noreferrer">
-            {{ externalLinks.privacyReferences.googleFontsFaqUrl }}
-          </a>
-          <br />
-          Datenschutzerklärung:
+          Datenschutzerklärung von Google:
           <a
             :href="externalLinks.privacyReferences.googlePrivacyUrl"
             target="_blank"
@@ -241,59 +256,46 @@
       </section>
 
       <section class="legal-section">
-        <h2>8. Google Maps</h2>
+        <h2>9. Fotos auf dieser Website</h2>
         <p>
-          Diese Website kann Google Maps zur Darstellung von Karten und zur
-          leichteren Auffindbarkeit von Orten einbinden. Beim Laden von Google
-          Maps kann eine Verbindung zu Servern von Google hergestellt werden.
-          Dabei können insbesondere IP-Adresse und technische Nutzungsdaten
-          verarbeitet werden.
+          Auf dieser Website veröffentlichen wir Fotos aus dem Vereinsleben,
+          zum Beispiel Mannschaftsfotos, Spielszenen und Bilder von
+          Veranstaltungen. Die Veröffentlichung dient der Darstellung des
+          Vereins und erfolgt auf Grundlage unseres berechtigten Interesses
+          (Art. 6 Abs. 1 lit. f DSGVO) bzw. einer erteilten Einwilligung
+          (Art. 6 Abs. 1 lit. a DSGVO).
         </p>
         <p>
-          Anbieter ist Google Ireland Limited, Gordon House, Barrow Street,
-          Dublin 4, Irland.
-        </p>
-        <p>
-          Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO,
-          sofern keine Einwilligung eingeholt wird, und andernfalls auf
-          Grundlage von Art. 6 Abs. 1 lit. a DSGVO sowie, soweit einschlägig,
-          Paragraf 25 Abs. 1 TDDDG.
-        </p>
-        <p>
-          Weitere Informationen:
-          <a
-            :href="externalLinks.privacyReferences.googlePrivacyUrl"
-            target="_blank"
-            rel="noopener noreferrer">
-            {{ externalLinks.privacyReferences.googlePrivacyUrl }}
-          </a>
+          Wenn Sie auf einem Foto zu sehen sind und dessen Entfernung wünschen,
+          genügt eine kurze Nachricht an
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>9. Externe Links und Social-Media-Präsenzen</h2>
+        <h2>10. Externe Links und Social-Media-Präsenzen</h2>
         <p>
           Diese Website enthält Links zu externen Websites und sozialen
-          Netzwerken, insbesondere zu Instagram, Facebook, Google Maps und
-          weiteren verlinkten Angeboten. Beim Anklicken eines solchen Links
-          verlassen Sie diese Website. Für die anschliessende Verarbeitung
-          personenbezogener Daten ist der jeweilige externe Anbieter
-          verantwortlich.
+          Netzwerken, insbesondere zu Instagram, Facebook, FuPa, fussball.de,
+          Google Maps und Websites unserer Sponsoren. Beim Anklicken eines
+          solchen Links verlassen Sie diese Website. Für die anschließende
+          Verarbeitung personenbezogener Daten ist der jeweilige externe
+          Anbieter verantwortlich.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>10. Keine eigene Reichweitenanalyse</h2>
+        <h2>11. Keine Reichweitenanalyse</h2>
         <p>
-          Nach dem derzeitigen Stand setzt diese Website keine eigene
-          Reichweitenanalyse, kein Google Analytics und keine vergleichbaren
-          Tracking- oder Marketingdienste ein. Sofern dies künftig geändert
-          wird, wird diese Datenschutzerklärung entsprechend angepasst.
+          Diese Website setzt keine Reichweitenanalyse, kein Google Analytics
+          und keine vergleichbaren Tracking- oder Marketingdienste ein. Sofern
+          sich dies ändert, wird diese Datenschutzerklärung entsprechend
+          angepasst.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>11. Ihre Rechte</h2>
+        <h2>12. Ihre Rechte</h2>
         <p>
           Sie haben im Rahmen der gesetzlichen Vorgaben insbesondere folgende
           Rechte:
@@ -304,23 +306,41 @@
           <li>Recht auf Löschung nach Art. 17 DSGVO</li>
           <li>Recht auf Einschränkung der Verarbeitung nach Art. 18 DSGVO</li>
           <li>Recht auf Datenübertragbarkeit nach Art. 20 DSGVO</li>
-          <li>Widerspruchsrecht nach Art. 21 DSGVO</li>
-          <li>Recht auf Widerruf erteilter Einwilligungen mit Wirkung für die Zukunft</li>
-          <li>Beschwerderecht bei einer Datenschutzaufsichtsbehörde</li>
+          <li>Recht auf Widerruf erteilter Einwilligungen mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
         </ul>
-      </section>
-
-      <section class="legal-section">
-        <h2>12. Beschwerderecht</h2>
+        <h3>Widerspruchsrecht</h3>
         <p>
-          Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde über
-          die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.
+          Soweit wir Daten auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO
+          verarbeiten, können Sie dieser Verarbeitung aus Gründen, die sich aus
+          Ihrer besonderen Situation ergeben, jederzeit widersprechen
+          (Art. 21 DSGVO).
+        </p>
+        <p>
+          Zur Ausübung Ihrer Rechte genügt eine Nachricht an
+          <a href="mailto:info@svottweiler.de">info@svottweiler.de</a>.
         </p>
       </section>
 
       <section class="legal-section">
-        <h2>13. Stand</h2>
-        <p>Stand: Mai 2026</p>
+        <h2>13. Beschwerderecht bei der Aufsichtsbehörde</h2>
+        <p>
+          Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde über
+          die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.
+          Zuständig für uns ist:
+        </p>
+        <p>
+          Unabhängiges Datenschutzzentrum Saarland<br />
+          Fritz-Dobisch-Straße 12<br />
+          66111 Saarbrücken<br />
+          <a href="https://www.datenschutz.saarland.de" target="_blank" rel="noopener noreferrer">
+            www.datenschutz.saarland.de
+          </a>
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>14. Stand</h2>
+        <p>Stand: November 2026</p>
       </section>
     </div>
   </section>
@@ -328,6 +348,7 @@
 
 <script setup lang="ts">
 import externalLinks from "@/content/external-links.json";
+import { openCookieSettings } from "@/composables/useCookieConsent";
 </script>
 
 <style scoped>
@@ -387,6 +408,20 @@ import externalLinks from "@/content/external-links.json";
 
 .legal-section a {
   color: var(--sv-secondary-color);
+}
+
+.legal-link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sv-secondary-color);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.legal-section code {
+  font-size: 0.92em;
 }
 
 @media (max-width: 700px) {

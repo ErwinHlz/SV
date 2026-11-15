@@ -3,16 +3,17 @@
     <aside
       v-if="isVisible"
       class="cookie-popup"
-      aria-label="Cookie-Einstellungen"
+      aria-label="Datenschutz-Einstellungen"
       role="dialog"
       aria-modal="false">
       <div class="cookie-popup__panel">
-        <p class="cookie-popup__eyebrow">Cookie-Einstellungen</p>
+        <p class="cookie-popup__eyebrow">Datenschutz-Einstellungen</p>
         <h2 class="cookie-popup__title">Deine Privatsphäre</h2>
         <p class="cookie-popup__copy">
-          Wir verwenden notwendige Cookies für die Grundfunktionen der Website.
-          Optionale Cookies helfen uns, eingebundene Inhalte und externe Dienste
-          besser bereitzustellen.
+          Wir setzen kein Tracking ein. Tabellen, Spielpläne, Instagram-Bilder
+          und die Stadionkarte stammen jedoch von externen Anbietern und werden
+          nur geladen, wenn du zustimmst. Dabei wird deine IP-Adresse an den
+          jeweiligen Anbieter übertragen.
         </p>
 
         <button
@@ -26,7 +27,7 @@
           <label class="cookie-option">
             <span class="cookie-option__text">
               <strong>Notwendig</strong>
-              <small>Immer aktiv für Navigation und Grundfunktionen.</small>
+              <small>Immer aktiv. Speichert nur deine Auswahl lokal in deinem Browser.</small>
             </span>
             <input type="checkbox" checked disabled />
           </label>
@@ -34,7 +35,7 @@
           <label class="cookie-option">
             <span class="cookie-option__text">
               <strong>Externe Inhalte</strong>
-              <small>Zum Beispiel eingebettete Widgets und externe Dienste.</small>
+              <small>fussball.de und FuPa (Tabellen, Spielpläne, Kader), Instagram (Bilder und Videos in den News), Google Maps (Karte auf der Stadionseite).</small>
             </span>
             <input v-model="externalMedia" type="checkbox" />
           </label>
@@ -43,15 +44,16 @@
         <div class="cookie-popup__actions">
           <button
             type="button"
-            class="cookie-popup__button cookie-popup__button--ghost"
+            class="cookie-popup__button cookie-popup__button--secondary"
             @click="acceptNecessaryOnly">
             Nur notwendige
           </button>
           <button
+            v-if="showSettings"
             type="button"
-            class="cookie-popup__button cookie-popup__button--secondary"
+            class="cookie-popup__button cookie-popup__button--ghost"
             @click="saveCurrentSelection">
-            Speichern
+            Auswahl speichern
           </button>
           <button
             type="button"
@@ -62,7 +64,8 @@
         </div>
 
         <p class="cookie-popup__legal">
-          Mehr Informationen findest du in unserer
+          Du kannst deine Auswahl jederzeit unten auf der Seite unter
+          „Datenschutz-Einstellungen“ ändern. Mehr dazu in unserer
           <RouterLink to="/datenschutz">Datenschutzerklärung</RouterLink>.
         </p>
       </div>
@@ -87,9 +90,16 @@ const openSettings = () => {
 };
 
 const persistConsent = (consent: CookieConsentState) => {
+  const wasAllowed = readCookieConsent()?.externalMedia === true;
   writeCookieConsent(consent);
   isVisible.value = false;
   showSettings.value = false;
+
+  // Beim Widerruf neu laden, damit bereits geladene Skripte von
+  // fussball.de, FuPa und Instagram nicht weiter im Speicher laufen.
+  if (wasAllowed && !consent.externalMedia && typeof window !== "undefined") {
+    window.location.reload();
+  }
 };
 
 const acceptNecessaryOnly = () => {
@@ -123,6 +133,11 @@ onMounted(() => {
     return;
   }
 
+  // Listener immer registrieren: Sonst funktionieren "Datenschutz-Einstellungen"
+  // im Footer und die Freigabe-Buttons der Platzhalter beim ersten Besuch erst
+  // nach einem Neuladen der Seite.
+  window.addEventListener("sv-open-cookie-settings", openSettings);
+
   const storedConsent = readCookieConsent();
   if (!storedConsent) {
     isVisible.value = true;
@@ -130,7 +145,6 @@ onMounted(() => {
   }
 
   externalMedia.value = storedConsent.externalMedia;
-  window.addEventListener("sv-open-cookie-settings", openSettings);
 });
 
 onBeforeUnmount(() => {
