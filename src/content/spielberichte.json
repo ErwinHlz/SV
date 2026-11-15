@@ -1,19 +1,63 @@
 {
-  "generated_at": "2026-11-05T06:00:21.067Z",
+  "generated_at": "2026-11-15T05:48:20.221Z",
   "sources": [
     "https://www.fussball.de/mannschaft/sv-ottweiler-sv-ottweiler-saarland/-/saison/2627/team-id/030V8BH4AG000000VS5489BRVV9R0K3A#!/",
     "https://www.fussball.de/mannschaft/sv-ottweiler-2-sv-ottweiler-saarland/-/saison/2627/team-id/030V8DIHO4000000VS5489BRVV9R0K3A#!/"
   ],
-  "count": 11,
+  "count": 12,
   "reports": [
+    {
+      "id": "032LD8J7JO000000VS5489BVVSI0HJHE",
+      "team": "FSG Ottweiler/Steinbach 2",
+      "typ": "Spielbericht",
+      "datum": "2026-11-09",
+      "datum_de": "09.11.2026",
+      "uhrzeit": "",
+      "titel": "SV Remmesweiler entscheidet Topduell für sich",
+      "wettbewerb": "Kreisliga A Blies",
+      "spiel": {
+        "heimmannschaft": "SV Remmesweiler",
+        "gastmannschaft": "SV Ottweiler 2",
+        "ergebnis": "2:0",
+        "halbzeit": "1:0",
+        "ort": "St. Wendel"
+      },
+      "kurztext": "Kreisliga A Blies: SV Remmesweiler – SV Ottweiler 2, 2:0 (1:0), St. Wendel Durch ein 2:0 holte sich der SV Remmesweiler in der Partie gegen SV Ottweiler 2 drei Punkte. Der SV Remmesweiler hatte schon im Vorfeld Rückenwin...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032LD8J7JO000000VS5489BVVSI0HJHE",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316CE61S0000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 09.11.2026 um 17:54 Uhr automatisch generiert)",
+      "text": "Kreisliga A Blies: SV Remmesweiler – SV Ottweiler 2, 2:0 (1:0), St. Wendel\n\nDurch ein 2:0 holte sich der SV Remmesweiler in der Partie gegen SV Ottweiler 2 drei Punkte. Der SV Remmesweiler hatte schon im Vorfeld Rückenwind. Da war es nur ein Leichtes, das Ding sicher nach Hause zu bringen.\n\nAusgerechnet zum psychologisch ungünstigen Zeitpunkt vor der Halbzeit traf Christopher Kemper für den Tabellenprimus zur Führung (42.). Die Mannschaft von Timo Kontz führte zur Halbzeit knapp mit einem Tor Vorsprung. Holzhauser Erwin von SV Ottweiler 2 nahm zum Wiederanpfiff einen Wechsel vor: Joshua Keip blieb in der Kabine, für ihn kam Felix Hans . Kevin Tobias Weisgerber war es, der in der 70. Minute den Ball im Gehäuse der Gäste unterbrachte. Als Schiedsrichter Thomas Haab die Begegnung beim Stand von 2:0 letztlich abpfiff, hatte der SV Remmesweiler die drei Zähler unter Dach und Fach.\n\nDer Zu-null-Sieg lässt den Gastgebern passable Chancen im Kampf um die besten Plätze. An SV Remmesweiler gab es kaum ein Vorbeikommen, sodass die Hintermannschaft erst elfmal überwunden wurde – bis dato der Bestwert der Kreisliga A Blies. Die Saison des SV Remmesweiler verläuft weiterhin positiv, was die Gesamtbilanz von elf Siegen, einem Remis und nur einer Niederlage klar belegt. Den bitteren Geschmack einer Niederlage erlebte der SV Remmesweiler seit einiger Zeit nicht mehr. Exakt fünf Spiele ist es her.\n\nTrotz der Niederlage belegt SV Ottweiler 2 weiterhin den fünften Tabellenplatz. Sechs Siege, vier Remis und drei Niederlagen hat SV Ottweiler 2 derzeit auf dem Konto.\n\nDer SV Remmesweiler hat am Sonntag Heimrecht und begrüßt SV Baltersweiler 2 . SV Ottweiler 2 erwartet in zwei Wochen, am 21.11.2026, SV Leitersweiler 2 auf eigener Anlage."
+    },
+    {
+      "id": "032L38CK68000000VS5489C0VTSKVGB0",
+      "team": "FSG Ottweiler/Steinbach",
+      "typ": "Spielbericht",
+      "datum": "2026-11-08",
+      "datum_de": "08.11.2026",
+      "uhrzeit": "",
+      "titel": "SV Ottweiler siegt in Marpingen",
+      "wettbewerb": "Bezirksliga Blies/Nahe",
+      "spiel": {
+        "heimmannschaft": "SC Alsweiler",
+        "gastmannschaft": "SV Ottweiler",
+        "ergebnis": "1:3",
+        "halbzeit": "0:2",
+        "ort": "Marpingen"
+      },
+      "kurztext": "Bezirksliga Blies/Nahe: SC Alsweiler – SV Ottweiler, 1:3 (0:2), Marpingen Erfolgreich brachte SV Ottweiler den Auswärtstermin bei der SC Alsweiler über die Bühne und gewann das Match mit 3:1. Eloy Michel Campos Alcantara...",
+      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032L38CK68000000VS5489C0VTSKVGB0",
+      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BMGG000000VS5489BTVU7GTVLE",
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 08.11.2026 um 18:35 Uhr automatisch generiert)",
+      "text": "Bezirksliga Blies/Nahe: SC Alsweiler – SV Ottweiler, 1:3 (0:2), Marpingen\n\nErfolgreich brachte SV Ottweiler den Auswärtstermin bei der SC Alsweiler über die Bühne und gewann das Match mit 3:1.\n\nEloy Michel Campos Alcantara brachte SV Ottweiler in der elften Spielminute in Führung. Giuseppe Damiano Zaffino versenkte die Kugel zum 2:0 für die Elf von Trainer Stephan Horst Schock (21.). Bis zum Abpfiff des ersten Durchgangs wurden keine Tore mehr geschossen und so traten die Mannschaften den Gang in die Kabinen an. Gleich drei Wechsel nahm die SC Alsweiler in der 65. Minute vor. Leon Schmidt , Steffen Theobald und Jan Recktenwald verließen das Feld für Simon Müller , Lukas Gehres und Jan Luca Valela . Für das 3:0 von SV Ottweiler sorgte Finn Gutheil , der in Minute 73 zur Stelle war. Für das 1:3 der SC Alsweiler zeichnete Dario Peri verantwortlich (80.). Schlussendlich reklamierte SV Ottweiler einen Sieg in der Fremde für sich und wies das Team von Sven Borgard mit 3:1 in die Schranken.\n\nDurch diese Niederlage fällt die SC Alsweiler in der Tabelle auf Platz sechs zurück. Die Gastgeber verbuchten insgesamt acht Siege, zwei Remis und fünf Niederlagen.\n\nSV Ottweiler schraubte das Punktekonto zum Ende der Hinrunde auf 28 Zähler in die Höhe und rangiert nun auf Platz fünf. Mit dem Sieg baute SV Ottweiler die erfolgreiche Saisonbilanz aus. Bislang holten die Gäste neun Siege, ein Remis und kassierten erst fünf Niederlagen.\n\nMit insgesamt 28 Zählern befindet sich SV Ottweiler voll in der Spur. Die Formkurve der SC Alsweiler dagegen zeigt nach unten.\n\nWährend die SC Alsweiler am kommenden Sonntag den 1. FC Niederkirchen empfängt, bekommt es SV Ottweiler am selben Tag mit der SF Dörrenbach zu tun."
+    },
     {
       "id": "032JBLO220000000VS5489C0VTNN4J5U",
       "team": "FSG Ottweiler/Steinbach 2",
       "typ": "Spielbericht",
-      "datum": "2026-11-03",
-      "datum_de": "03.11.2026",
+      "datum": "2026-11-05",
+      "datum_de": "05.11.2026",
       "uhrzeit": "",
-      "titel": "Klare Sache für SV Ottweiler 2",
+      "titel": "SV Baltersweiler 2 kassiert 0:3-Pleite in Ottweiler",
       "wettbewerb": "Kreisliga A Blies",
       "spiel": {
         "heimmannschaft": "SV Ottweiler 2",
@@ -22,11 +66,11 @@
         "halbzeit": "2:0",
         "ort": "Ottweiler"
       },
-      "kurztext": "Kreisliga A Blies: SV Ottweiler 2 – SV Baltersweiler 2, 3:0 (2:0), Ottweiler Bei SV Ottweiler 2 holte sich SV Baltersweiler 2 eine 0:3-Schlappe ab. Ausgangslage? Vorab klar zugunsten von SV Ottweiler 2. Und nach den 90 M...",
+      "kurztext": "Kreisliga A Blies: SV Ottweiler 2 – SV Baltersweiler 2, 3:0 (2:0), Ottweiler Erfolglos ging der Auswärtstermin von SV Baltersweiler 2 bei SV Ottweiler 2 über die Bühne. SV Baltersweiler 2 verlor das Match mit 0:3. Die Be...",
       "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/032JBLO220000000VS5489C0VTNN4J5U",
       "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316CE62C0000000VS5489BTVU7GTVLE",
-      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 03.11.2026 um 09:04 Uhr automatisch generiert)",
-      "text": "Kreisliga A Blies: SV Ottweiler 2 – SV Baltersweiler 2, 3:0 (2:0), Ottweiler\n\nBei SV Ottweiler 2 holte sich SV Baltersweiler 2 eine 0:3-Schlappe ab. Ausgangslage? Vorab klar zugunsten von SV Ottweiler 2. Und nach den 90 Minuten? Hat sich die Sichtweise bekräftigt.\n\nWenig später kamen Lucca Haßdenteufel und Roman Trapp per Doppelwechsel für Niklas Bender und Jannis Heinrich auf Seiten von SV Baltersweiler 2 ins Match (31.). Für das erste Tor sorgte Finn Speicher . In der 35. Minute traf der Spieler von SV Ottweiler 2 ins Schwarze. Tim Maurice Burger erhöhte den Vorsprung des Teams von Trainer Holzhauser Erwin nach 36 Minuten auf 2:0. Mit der Führung für den Gastgeber ging es in die Halbzeitpause. Bei SV Baltersweiler 2 kam zu Beginn der zweiten Hälfte Andreas Schröder für Fabian Walter Djezzar in die Partie. SV Ottweiler 2 konnte mit dem ersten Durchgang sehr zufrieden sein. Trotzdem gab es Veränderungen bei SV Ottweiler 2. Fabrice Fuchs ersetzte Max Harig , der nun schon vorzeitig Feierabend machte. Mit Jonas Pascal Paul und Speicher nahm Holzhauser Erwin in der 58. Minute gleich zwei Spieler aus der Startformation vom Feld. Ersetzt wurden sie von Calogero Lauricella und Joshua Collmar . Benjamin Eckert wollte SV Baltersweiler 2 zu einem Ruck bewegen und so sollten Maurice White und Joshua Haßdenteufel eingewechselt für Niklas Zangerle und Farouq Bencheikh neue Impulse setzen (77.). Für ruhige Verhältnisse sorgte Collmar, als er das 3:0 für SV Ottweiler 2 besorgte (84.). Am Schluss schlug SV Ottweiler 2 SV Baltersweiler 2 vor eigenem Publikum und rief dabei eine souveräne Leistung ab.\n\nNach zwölf Spieltagen und nur zwei Niederlagen stehen für SV Ottweiler 2 22 Zähler zu Buche. SV Ottweiler 2 erfüllte zuletzt die Erwartungen und verbuchte aus den jüngsten fünf Partien acht Zähler.\n\nWann findet SV Baltersweiler 2 die Lösung für die Abwehrmisere? Im Spiel gegen SV Ottweiler 2 setzte es eine neuerliche Pleite, womit man im Klassement weiter abrutschte. SV Baltersweiler 2 kassiert weiterhin fleißig Niederlagen, deren Zahl sich mittlerweile auf sieben summiert. Ansonsten stehen noch zwei Siege und drei Unentschieden in der Bilanz. Für den Gast sprangen in den letzten fünf Spielen nur zwei Punkte heraus.\n\nNächster Prüfstein für SV Ottweiler 2 ist auf gegnerischer Anlage der SV Remmesweiler (Samstag, 16:00 Uhr). Einen Tag später misst sich SV Baltersweiler 2 mit SV Oberlinxweiler ."
+      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 05.11.2026 um 14:14 Uhr automatisch generiert)",
+      "text": "Kreisliga A Blies: SV Ottweiler 2 – SV Baltersweiler 2, 3:0 (2:0), Ottweiler\n\nErfolglos ging der Auswärtstermin von SV Baltersweiler 2 bei SV Ottweiler 2 über die Bühne. SV Baltersweiler 2 verlor das Match mit 0:3. Die Beobachter waren sich einig, dass SV Baltersweiler 2 als Außenseiter in das Spiel gegangen war, weshalb der Ausgang niemanden verwunderte.\n\nMit einem Doppelwechsel wollten die Gäste frischen Wind in das Spiel bringen und so schickte Benjamin Eckert Lucca Haßdenteufel und Roman Trapp für Niklas Bender und Jannis Heinrich auf den Platz (31.). Finn Speicher brachte SV Ottweiler 2 in der 35. Minute nach vorn. In der 36. Minute brachte Tim Maurice Burger das Netz für das Team von Holzhauser Erwin zum Zappeln. Mit der Führung für den Gastgeber ging es in die Halbzeitpause. Bei SV Baltersweiler 2 kam zu Beginn der zweiten Hälfte Andreas Schröder für Fabian Walter Djezzar in die Partie. SV Ottweiler 2 konnte mit dem ersten Durchgang sehr zufrieden sein. Trotzdem gab es Veränderungen bei SV Ottweiler 2. Fabrice Fuchs ersetzte Max Harig , der nun schon vorzeitig Feierabend machte. Mit Jonas Pascal Paul und Speicher nahm Holzhauser Erwin in der 58. Minute gleich zwei Spieler aus der Startformation vom Feld. Ersetzt wurden sie von Calogero Lauricella und Joshua Collmar . Benjamin Eckert wollte SV Baltersweiler 2 zu einem Ruck bewegen und so sollten Maurice White und Joshua Haßdenteufel eingewechselt für Niklas Zangerle und Farouq Bencheikh neue Impulse setzen (77.). Collmar brachte SV Ottweiler 2 in ruhiges Fahrwasser, indem er das 3:0 erzielte (84.). Nach abgeklärter Leistung blickte SV Ottweiler 2 auf einen klaren Heimerfolg über SV Baltersweiler 2.\n\nDer Sieg über SV Baltersweiler 2, bei dem man ohne Gegentreffer blieb, lässt SV Ottweiler 2 von Höherem träumen. SV Ottweiler 2 verbuchte insgesamt sechs Siege, vier Remis und zwei Niederlagen. SV Ottweiler 2 ist seit drei Spielen unbezwungen.\n\nSV Baltersweiler 2 muss sich ohne Zweifel um die eigene Abwehr kümmern. Im Schnitt kassierte das Team mehr als drei Gegentreffer pro Spiel. Die deutliche Niederlage verschärft die Situation von SV Baltersweiler 2 immens. Nun musste sich SV Baltersweiler 2 schon siebenmal in dieser Spielzeit geschlagen geben. Die zwei Siege und drei Unentschieden auf der Habenseite zeigen, dass die Aussichten nicht besonders beruhigend sind. Für SV Baltersweiler 2 sprangen in den letzten fünf Spielen nur zwei Punkte heraus.\n\nKommende Woche tritt SV Ottweiler 2 bei SV Remmesweiler an (Samstag, 16:00 Uhr), einen Tag später genießt SV Baltersweiler 2 Heimrecht gegen SV Oberlinxweiler ."
     },
     {
       "id": "032IGKIHTS000000VS5489BVVT0GJGMV",
@@ -225,28 +269,6 @@
       "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BO40000000VS5489BTVU7GTVLE",
       "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 22.10.2026 um 20:04 Uhr automatisch generiert)",
       "text": "Bezirksliga Blies/Nahe: SV Ottweiler – FC Freisen 2, 1:1 (0:1), Ottweiler\n\nDas Spiel zwischen SV Ottweiler und FC Freisen 2 endete 1:1. FC Freisen 2 zog sich gegen SV Ottweiler achtbar aus der Affäre und erzielte gegen den Favoriten einen Punktgewinn.\n\nEin frühes Ende hatte das Spiel für Eloy Michel Campos Alcantara von SV Ottweiler, der in der achten Minute vom Platz musste und von Luca Mario Ruppenthal ersetzt wurde. Auf die vermeintliche Siegerstraße brachte Giovanni Staudt sein Team in der 29. Minute. Nach nur 30 Minuten verließ Finn Eckstein von SV Ottweiler das Feld, Marc Haupert kam in die Partie. Mit der knappen Führung von FC Freisen 2 pfiff der Schiedsrichter zur Halbzeit. Für frischen Wind sollte Einwechselmann Giuseppe Sardo sorgen, dem Stephan Horst Schock das Vertrauen schenkte (59.). Das 1:1 von SV Ottweiler stellte Giuseppe Sardo sicher (60.). In der 69. Minute stellte Dietmar Korn um und schickte in einem Doppelwechsel Jonas Werle und Maximilian Schmitt für Luis Santiago Diaz Dimoftache und Marlon Böhme auf den Rasen. Letzten Endes wurde im Aufeinandertreffen von SV Ottweiler mit FC Freisen 2 kein Sieger ermittelt.\n\nSV Ottweiler bleibt mit diesem Remis weiterhin auf Platz sieben. Fünf Siege, ein Remis und drei Niederlagen haben die Gastgeber momentan auf dem Konto.\n\nFC Freisen 2 muss sich ohne Zweifel um die eigene Abwehr kümmern. Im Schnitt kassierte das Team mehr als fünf Gegentreffer pro Spiel. Nach zehn absolvierten Begegnungen nimmt der Gast den zwölften Platz in der Tabelle ein. 15:50 – das Torverhältnis von FC Freisen 2 spricht eine mehr als deutliche Sprache. FC Freisen 2 verbuchte insgesamt zwei Siege, ein Remis und sieben Niederlagen. In den letzten fünf Partien ließ FC Freisen 2 zu viele Punkte liegen. Von 15 möglichen Zählern holte man lediglich vier.\n\nAm Sonntag, den 04.10.2026 (15:00 Uhr) reist SV Ottweiler nach St. Wendel, FC Freisen 2 empfängt einen Tag vorher (17:00 Uhr) den 1. FC Niederkirchen ."
-    },
-    {
-      "id": "0329QB0LOS000000VS5489C0VUKAOO5J",
-      "team": "FSG Ottweiler/Steinbach",
-      "typ": "Spielbericht",
-      "datum": "2026-10-22",
-      "datum_de": "22.10.2026",
-      "uhrzeit": "",
-      "titel": "SV Ottweiler triumphiert bei SG Bliesen-Winterbach",
-      "wettbewerb": "Bezirksliga Blies/Nahe",
-      "spiel": {
-        "heimmannschaft": "SG Bliesen-Winterbach",
-        "gastmannschaft": "SV Ottweiler",
-        "ergebnis": "3:4",
-        "halbzeit": "2:2",
-        "ort": "St. Wendel"
-      },
-      "kurztext": "Bezirksliga Blies/Nahe: SG Bliesen-Winterbach – SV Ottweiler, 3:4 (2:2), St. Wendel SG Bliesen-Winterbach und SV Ottweiler boten den Zuschauern zahlreiche Tore und trennten sich zum Schluss mit 3:4. Die Ausgangslage spra...",
-      "url": "https://www.fussball.de/mgc.newsdetail/-/article-uuid/0329QB0LOS000000VS5489C0VUKAOO5J",
-      "spiel_url": "https://www.fussball.de/spiel/-/spiel/0316C8BNTG000000VS5489BTVU7GTVLE",
-      "autor": "FUSSBALL.DE (Dieser Text wurde auf Basis der dem DFB vorliegenden offiziellen Spieldaten am 22.10.2026 um 20:04 Uhr automatisch generiert)",
-      "text": "Bezirksliga Blies/Nahe: SG Bliesen-Winterbach – SV Ottweiler, 3:4 (2:2), St. Wendel\n\nSG Bliesen-Winterbach und SV Ottweiler boten den Zuschauern zahlreiche Tore und trennten sich zum Schluss mit 3:4. Die Ausgangslage sprach für SV Ottweiler, was sich mit einem knappen Sieg auch bestätigte.\n\nFür das erste Tor sorgte Finn Gutheil . In der zweiten Minute traf der Spieler des Gasts ins Schwarze. Nach nur 21 Minuten verließ Finn Gutheil von der Elf von Stephan Horst Schock das Feld, Marc Haupert kam in die Partie. Das 1:1 von SG Bliesen-Winterbach bejubelte Leon Pfeiffer (33.). Jonas Hans ließ sich in der 35. Minute nicht zweimal bitten und verwertete zum 2:1 für SV Ottweiler. Den Freudenjubel von SV Ottweiler machte Maximilian Hoffmann zunichte, als er kurz darauf den Ausgleich besorgte (36.). Mit einem Wechsel – Jason Buschlinger kam für Finn Eckstein – startete SV Ottweiler in Durchgang zwei. Der Schiedsrichter schickte schließlich beide Mannschaften ohne weitere Änderung am Spielstand in die Kabinen. Johannes Rauber erzielte die Führung, nur traf er ins falsche Tor und schenkte SV Ottweiler durch einen Selbsttreffer das 3:2 (48.). In der 65. Minute erhöhte Alessio Santalucia auf 4:2 für SV Ottweiler. Christian Spengler setzte auf neues Personal und brachte per Doppelwechsel Joshua Sonnhalter und Luca Leon Beyer auf den Platz (73.). Mit dem 3:4 gelang Hoffmann ein Doppelpack – an der Niederlage änderte dies jedoch auch nichts mehr (85.). Die 3:4-Heimniederlage von SG Bliesen-Winterbach war Realität, als der Unparteiische Andreas Kaleja die Partie letztendlich abpfiff.\n\nTrotz der Schlappe behält das Heimteam den zehnten Tabellenplatz bei. SG Bliesen-Winterbach verbuchte insgesamt drei Siege, ein Remis und sechs Niederlagen. SG Bliesen-Winterbach klebt das Pech weiter an den Füßen. Die Niederlage gegen SV Ottweiler war bereits die dritte am Stück in der Liga.\n\nSV Ottweiler bleibt mit diesem Erfolg weiterhin auf dem siebten Platz. SV Ottweiler knüpft mit dem Sieg an die guten Auftritte in der bisherigen Saison an. Insgesamt sammelte SV Ottweiler sechs Siege, ein Unentschieden und kassierte nur vier Niederlagen.\n\nSG Bliesen-Winterbach tritt kommenden Sonntag, um 15:00 Uhr, bei 1. FC Niederkirchen an. Bereits einen Tag vorher reist SV Ottweiler zu SG Eintracht Ostertal ."
     }
   ]
 }
