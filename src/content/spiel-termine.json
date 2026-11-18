@@ -1,23 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Auswärtsspiel gegen Dörrenbach",
-    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-11-15",
-    "time": "14:30",
-    "location": "Auswärts bei Dörrenbach",
-    "content": "Anpfiff ist um 14:30 Uhr. Dörrenbach spielt gegen Ottweiler. Spielort: Auswärts bei Dörrenbach.",
-    "image": "matchTemplate",
-    "imageAlt": "Dörrenbach gegen Ottweiler",
-    "competition": "Bezirksliga Blies/Nah",
-    "matchday": "16. Spieltag",
-    "homeTeam": "Dörrenbach",
-    "awayTeam": "Ottweiler",
-    "externalUrl": "https://www.fupa.net/match/sf-doerrenbach-m1-sv-ottweiler-m1-261115",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
     "title": "Heimspiel gegen Leitersw. II",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -34,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Heimspiel gegen Leitersw.",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2026-11-21",
@@ -51,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Auswärtsspiel gegen Asweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2027-02-28",
@@ -68,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 4,
     "title": "Auswärtsspiel gegen SG Oberkirchen-Grügelb. II",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2027-02-28",
@@ -85,7 +68,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 5,
     "title": "Heimspiel gegen Niederlinxw.",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2027-03-07",
@@ -99,6 +82,23 @@
     "homeTeam": "Ottweiler II",
     "awayTeam": "Niederlinxw.",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-fc-niederlinxweiler-m1-270307",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Heimspiel gegen SG Nohfelden-Wolfersw. II",
+    "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-03-07",
+    "time": "15:00",
+    "location": "Stadion Im Alten Weiher",
+    "content": "Anpfiff ist um 15:00 Uhr. Ottweiler spielt gegen SG Nohfelden-Wolfersw. II. Spielort: Stadion Im Alten Weiher.",
+    "image": "matchTemplate",
+    "imageAlt": "Ottweiler gegen SG Nohfelden-Wolfersw. II",
+    "competition": "Bezirksliga Blies/Nah",
+    "matchday": "19. Spieltag",
+    "homeTeam": "Ottweiler",
+    "awayTeam": "SG Nohfelden-Wolfersw. II",
+    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-sv-wolfersw-m2-270307",
     "mapsUrl": ""
   }
 ]

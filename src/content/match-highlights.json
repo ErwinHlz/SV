@@ -1,20 +1,9 @@
 {
   "teamOne": {
     "last": {
-      "heimmannschaft": "Alsweiler",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "1:3",
-      "bild_heim": "/team-logos/alsweiler.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Auf der Lehn",
-      "datum": "2026-11-08",
-      "uhrzeit": "14:30",
-      "match_url": "https://www.fupa.net/match/sc-alsweiler-m1-sv-ottweiler-m1-261108"
-    },
-    "live": {
       "heimmannschaft": "Dörrenbach",
       "gastmannschaft": "Ottweiler",
-      "ergebnis": "-:-",
+      "ergebnis": "2:3",
       "bild_heim": "/team-logos/dorrenbach.png",
       "bild_gast": "/images/sv_logo_farbe.svg",
       "ort": "SF Doerrenbach",
@@ -22,7 +11,7 @@
       "uhrzeit": "14:30",
       "match_url": "https://www.fupa.net/match/sf-doerrenbach-m1-sv-ottweiler-m1-261115"
     },
-    "next": {
+    "live": {
       "heimmannschaft": "Ottweiler",
       "gastmannschaft": "Leitersw.",
       "ergebnis": "-:-",
@@ -32,6 +21,17 @@
       "datum": "2026-11-21",
       "uhrzeit": "17:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121"
+    },
+    "next": {
+      "heimmannschaft": "Asweiler",
+      "gastmannschaft": "Ottweiler",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/asweiler.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "SV Asweiler-Eitzweiler",
+      "datum": "2027-02-28",
+      "uhrzeit": "14:30",
+      "match_url": "https://www.fupa.net/match/sv-asweiler-eitzweiler-m1-sv-ottweiler-m1-270228"
     }
   },
   "teamTwo": {
@@ -46,8 +46,7 @@
       "uhrzeit": "16:00",
       "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
     },
-    "live": null,
-    "next": {
+    "live": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Leitersw. II",
       "ergebnis": "-:-",
@@ -57,6 +56,17 @@
       "datum": "2026-11-21",
       "uhrzeit": "15:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121"
+    },
+    "next": {
+      "heimmannschaft": "SG Oberkirchen-Grügelb. II",
+      "gastmannschaft": "Ottweiler II",
+      "ergebnis": "-:-",
+      "bild_heim": "/team-logos/sg-oberkirchen-grugelb-2.png",
+      "bild_gast": "/images/sv_logo_farbe.svg",
+      "ort": "",
+      "datum": "2027-02-28",
+      "uhrzeit": "14:30",
+      "match_url": "https://www.fupa.net/match/fc-oberkirchen-m2-sv-ottweiler-m2-270228"
     }
   }
 }
