@@ -1,40 +1,6 @@
 [
   {
     "id": 1,
-    "title": "Heimspiel gegen Leitersw. II",
-    "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-11-21",
-    "time": "15:00",
-    "location": "Stadion Im Alten Weiher",
-    "content": "Anpfiff ist um 15:00 Uhr. Ottweiler II spielt gegen Leitersw. II. Spielort: Stadion Im Alten Weiher.",
-    "image": "matchTemplate",
-    "imageAlt": "Ottweiler II gegen Leitersw. II",
-    "competition": "Kreisliga A Blies",
-    "matchday": "17. Spieltag",
-    "homeTeam": "Ottweiler II",
-    "awayTeam": "Leitersw. II",
-    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121",
-    "mapsUrl": ""
-  },
-  {
-    "id": 2,
-    "title": "Heimspiel gegen Leitersw.",
-    "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
-    "date": "2026-11-21",
-    "time": "17:00",
-    "location": "Stadion Im Alten Weiher",
-    "content": "Anpfiff ist um 17:00 Uhr. Ottweiler spielt gegen Leitersw.. Spielort: Stadion Im Alten Weiher.",
-    "image": "matchTemplate",
-    "imageAlt": "Ottweiler gegen Leitersw.",
-    "competition": "Bezirksliga Blies/Nah",
-    "matchday": "17. Spieltag",
-    "homeTeam": "Ottweiler",
-    "awayTeam": "Leitersw.",
-    "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121",
-    "mapsUrl": ""
-  },
-  {
-    "id": 3,
     "title": "Auswärtsspiel gegen Asweiler",
     "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2027-02-28",
@@ -51,7 +17,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 4,
+    "id": 2,
     "title": "Auswärtsspiel gegen SG Oberkirchen-Grügelb. II",
     "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2027-02-28",
@@ -68,7 +34,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 5,
+    "id": 3,
     "title": "Heimspiel gegen Niederlinxw.",
     "excerpt": "Heimspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
     "date": "2027-03-07",
@@ -85,7 +51,7 @@
     "mapsUrl": ""
   },
   {
-    "id": 6,
+    "id": 4,
     "title": "Heimspiel gegen SG Nohfelden-Wolfersw. II",
     "excerpt": "Heimspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
     "date": "2027-03-07",
@@ -99,6 +65,40 @@
     "homeTeam": "Ottweiler",
     "awayTeam": "SG Nohfelden-Wolfersw. II",
     "externalUrl": "https://www.fupa.net/match/sv-ottweiler-m1-sv-wolfersw-m2-270307",
+    "mapsUrl": ""
+  },
+  {
+    "id": 5,
+    "title": "Auswärtsspiel gegen St. Wendel II",
+    "excerpt": "Auswärtsspiel des SV Ottweiler. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-03-14",
+    "time": "15:00",
+    "location": "Auswärts bei St. Wendel II",
+    "content": "Anpfiff ist um 15:00 Uhr. St. Wendel II spielt gegen Ottweiler. Spielort: Auswärts bei St. Wendel II.",
+    "image": "matchTemplate",
+    "imageAlt": "St. Wendel II gegen Ottweiler",
+    "competition": "Bezirksliga Blies/Nah",
+    "matchday": "20. Spieltag",
+    "homeTeam": "St. Wendel II",
+    "awayTeam": "Ottweiler",
+    "externalUrl": "https://www.fupa.net/match/fc-blau-weiss-st-wendel-m2-sv-ottweiler-m1-270314",
+    "mapsUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Auswärtsspiel gegen Hoof-Osterbr II",
+    "excerpt": "Auswärtsspiel des SV Ottweiler II. Kommt vorbei und unterstützt das Team.",
+    "date": "2027-03-21",
+    "time": "15:00",
+    "location": "Auswärts bei Hoof-Osterbr II",
+    "content": "Anpfiff ist um 15:00 Uhr. Hoof-Osterbr II spielt gegen Ottweiler II. Spielort: Auswärts bei Hoof-Osterbr II.",
+    "image": "matchTemplate",
+    "imageAlt": "Hoof-Osterbr II gegen Ottweiler II",
+    "competition": "Kreisliga A Blies",
+    "matchday": "21. Spieltag",
+    "homeTeam": "Hoof-Osterbr II",
+    "awayTeam": "Ottweiler II",
+    "externalUrl": "https://www.fupa.net/match/sg-hoof-osterbruecken-m2-sv-ottweiler-m2-270321",
     "mapsUrl": ""
   }
 ]

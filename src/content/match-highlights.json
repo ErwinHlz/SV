@@ -1,20 +1,10 @@
 {
   "teamOne": {
-    "last": {
-      "heimmannschaft": "Dörrenbach",
-      "gastmannschaft": "Ottweiler",
-      "ergebnis": "2:3",
-      "bild_heim": "/team-logos/dorrenbach.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "SF Doerrenbach",
-      "datum": "2026-11-15",
-      "uhrzeit": "14:30",
-      "match_url": "https://www.fupa.net/match/sf-doerrenbach-m1-sv-ottweiler-m1-261115"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "Ottweiler",
       "gastmannschaft": "Leitersw.",
-      "ergebnis": "-:-",
+      "ergebnis": "7:0",
       "bild_heim": "/images/sv_logo_farbe.svg",
       "bild_gast": "/team-logos/leitersw.png",
       "ort": "Stadion Im Alten Weiher",
@@ -35,21 +25,11 @@
     }
   },
   "teamTwo": {
-    "last": {
-      "heimmannschaft": "Remmesw.",
-      "gastmannschaft": "Ottweiler II",
-      "ergebnis": "2:0",
-      "bild_heim": "/team-logos/remmesw.png",
-      "bild_gast": "/images/sv_logo_farbe.svg",
-      "ort": "Sportplatz Remmesweiler",
-      "datum": "2026-11-07",
-      "uhrzeit": "16:00",
-      "match_url": "https://www.fupa.net/match/sv-remmesweiler-m1-sv-ottweiler-m2-261107"
-    },
+    "last": null,
     "live": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Leitersw. II",
-      "ergebnis": "-:-",
+      "ergebnis": "5:0",
       "bild_heim": "/images/sv_logo_farbe.svg",
       "bild_gast": "/team-logos/leitersw-2.png",
       "ort": "Stadion Im Alten Weiher",
