@@ -1,7 +1,6 @@
 {
   "teamOne": {
-    "last": null,
-    "live": {
+    "last": {
       "heimmannschaft": "Ottweiler",
       "gastmannschaft": "Leitersw.",
       "ergebnis": "7:0",
@@ -12,6 +11,7 @@
       "uhrzeit": "17:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m1-sv-leitersweiler-m1-261121"
     },
+    "live": null,
     "next": {
       "heimmannschaft": "Asweiler",
       "gastmannschaft": "Ottweiler",
@@ -25,8 +25,7 @@
     }
   },
   "teamTwo": {
-    "last": null,
-    "live": {
+    "last": {
       "heimmannschaft": "Ottweiler II",
       "gastmannschaft": "Leitersw. II",
       "ergebnis": "5:0",
@@ -37,6 +36,7 @@
       "uhrzeit": "15:00",
       "match_url": "https://www.fupa.net/match/sv-ottweiler-m2-sv-leitersweiler-m2-261121"
     },
+    "live": null,
     "next": {
       "heimmannschaft": "SG Oberkirchen-Grügelb. II",
       "gastmannschaft": "Ottweiler II",
