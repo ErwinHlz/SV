@@ -4,7 +4,7 @@
 	<PageHero
 		v-if="terminItem"
 		:title="terminItem.title"
-		:lead="`${formatDate(terminItem.date)} | ${terminItem.time} | ${terminItem.location}`"
+		:lead="[formatDate(terminItem.date), terminItem.time, terminItem.location].filter(Boolean).join(' | ')"
 		kicker="Termin"
 		compact
 	/>

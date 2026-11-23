@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" role="img" aria-label="SV Ottweiler auf dem Adventsmarkt in der Altstadt Ottweiler, 27. bis 29. November">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#011a4d"/>
+      <stop offset="1" stop-color="#022b79"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f4d047" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#f4d047" stop-opacity="0"/>
+    </radialGradient>
+    <g id="flake" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
+      <path d="M0 -12V12M-10.4 -6L10.4 6M-10.4 6L10.4 -6"/>
+    </g>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#sky)"/>
+
+  <!-- Schneeflocken -->
+  <g opacity="0.75">
+    <use href="#flake" x="110" y="120"/><use href="#flake" x="960" y="90"/>
+    <use href="#flake" x="90" y="300"/><use href="#flake" x="990" y="250"/>
+    <use href="#flake" x="70" y="520"/><use href="#flake" x="1010" y="470"/>
+    <use href="#flake" x="180" y="760"/><use href="#flake" x="930" y="720"/>
+  </g>
+  <g fill="#ffffff" opacity="0.5">
+    <circle cx="380" cy="80" r="4"/><circle cx="760" cy="60" r="5"/><circle cx="520" cy="230" r="3"/>
+    <circle cx="150" cy="420" r="4"/><circle cx="960" cy="360" r="3"/><circle cx="60" cy="660" r="5"/>
+    <circle cx="1020" cy="610" r="4"/><circle cx="320" cy="180" r="3"/><circle cx="880" cy="560" r="3"/>
+  </g>
+
+  <!-- Titel -->
+  <text x="540" y="150" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" letter-spacing="10" fill="#f4d047">SV OTTWEILER</text>
+  <text x="540" y="250" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="96" font-weight="700" fill="#ffffff">Adventsmarkt</text>
+  <text x="540" y="310" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="4" fill="#ffffff" opacity="0.85">ALTSTADT OTTWEILER</text>
+
+  <!-- Lichterkette -->
+  <path d="M60 380 Q 300 440 540 380 T 1020 380" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3"/>
+  <g fill="#f4d047">
+    <circle cx="140" cy="402" r="9"/><circle cx="240" cy="418" r="9"/><circle cx="340" cy="417" r="9"/>
+    <circle cx="440" cy="402" r="9"/><circle cx="640" cy="358" r="9"/><circle cx="740" cy="343" r="9"/>
+    <circle cx="840" cy="342" r="9"/><circle cx="940" cy="358" r="9"/>
+  </g>
+
+  <!-- Marktstand -->
+  <circle cx="540" cy="760" r="330" fill="url(#glow)"/>
+  <g transform="translate(540 0)">
+    <!-- Dach -->
+    <path d="M-290 560 L0 440 L290 560 Z" fill="#7a4a24"/>
+    <path d="M-290 560 L0 440 L290 560" fill="none" stroke="#ffffff" stroke-width="22" stroke-linejoin="round"/>
+    <path d="M-250 548 Q -220 570 -190 548 Q -160 570 -130 548 Q -100 570 -70 548 Q -40 570 -10 548 Q 20 570 50 548 Q 80 570 110 548 Q 140 570 170 548 Q 200 570 230 548" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+    <!-- Markise in Vereinsfarben -->
+    <g>
+      <rect x="-260" y="570" width="520" height="70" fill="#f4d047"/>
+      <rect x="-260" y="570" width="65" height="70" fill="#022b79"/>
+      <rect x="-130" y="570" width="65" height="70" fill="#022b79"/>
+      <rect x="0" y="570" width="65" height="70" fill="#022b79"/>
+      <rect x="130" y="570" width="65" height="70" fill="#022b79"/>
+      <path d="M-260 640 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 q32.5 30 65 0 Z" fill="#f4d047"/>
+      <path d="M-260 640 q32.5 30 65 0 M-130 640 q32.5 30 65 0 M0 640 q32.5 30 65 0 M130 640 q32.5 30 65 0" fill="#022b79"/>
+    </g>
+    <!-- Schild -->
+    <rect x="-150" y="490" width="300" height="56" rx="10" fill="#022b79" stroke="#f4d047" stroke-width="4"/>
+    <text x="0" y="530" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#ffffff">SV OTTWEILER</text>
+    <!-- Pfosten & Rückwand -->
+    <rect x="-250" y="660" width="20" height="300" fill="#5b3519"/>
+    <rect x="230" y="660" width="20" height="300" fill="#5b3519"/>
+    <rect x="-230" y="660" width="460" height="190" fill="#3b2412" opacity="0.55"/>
+    <!-- Lichter im Stand -->
+    <g fill="#f4d047">
+      <circle cx="-180" cy="690" r="7"/><circle cx="-100" cy="700" r="7"/><circle cx="-20" cy="690" r="7"/>
+      <circle cx="60" cy="700" r="7"/><circle cx="140" cy="690" r="7"/>
+    </g>
+    <!-- Glühweintassen -->
+    <g>
+      <rect x="-170" y="760" width="56" height="62" rx="8" fill="#c0392b"/>
+      <path d="M-114 772 q24 0 24 18 q0 18 -24 18" fill="none" stroke="#c0392b" stroke-width="8"/>
+      <path d="M-155 745 q-8 -14 0 -26 M-135 745 q-8 -14 0 -26" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+      <rect x="-60" y="760" width="56" height="62" rx="8" fill="#ffffff"/>
+      <path d="M-4 772 q24 0 24 18 q0 18 -24 18" fill="none" stroke="#ffffff" stroke-width="8"/>
+      <path d="M-45 745 q-8 -14 0 -26 M-25 745 q-8 -14 0 -26" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    </g>
+    <!-- Tannenbäumchen -->
+    <g transform="translate(130 0)">
+      <path d="M0 720 L45 790 L-45 790 Z M0 750 L55 830 L-55 830 Z" fill="#2e7d4f"/>
+      <rect x="-8" y="830" width="16" height="22" fill="#5b3519"/>
+      <circle cx="0" cy="716" r="9" fill="#f4d047"/>
+      <circle cx="-18" cy="800" r="6" fill="#c0392b"/><circle cx="20" cy="780" r="6" fill="#f4d047"/><circle cx="12" cy="815" r="6" fill="#ffffff"/>
+    </g>
+    <!-- Theke -->
+    <rect x="-270" y="850" width="540" height="40" rx="6" fill="#8b5a2b"/>
+    <rect x="-250" y="890" width="500" height="110" fill="#6b4220"/>
+    <path d="M-250 920 H250 M-250 960 H250" stroke="#5b3519" stroke-width="4"/>
+  </g>
+
+  <!-- Schnee am Boden -->
+  <path d="M0 1010 Q 270 975 540 1005 T 1080 995 V1350 H0 Z" fill="#ffffff" opacity="0.12"/>
+
+  <!-- Datum -->
+  <rect x="140" y="1060" width="800" height="130" rx="65" fill="#f4d047"/>
+  <text x="540" y="1148" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" fill="#022b79">27. – 29. NOVEMBER</text>
+  <text x="540" y="1260" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#ffffff">Besucht uns an unserem Stand!</text>
+</svg>
