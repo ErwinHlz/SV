@@ -1,6 +1,8 @@
 <script setup lang="ts">
 	import { openCookieSettings } from "@/composables/useCookieConsent";
 	import externalLinks from "@/content/external-links.json";
+
+	const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -48,14 +50,20 @@
 					Datenschutz-Einstellungen
 				</button>
 			</nav>
-			<a
-				class="footer-credit"
-				:href="externalLinks.developer.url"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				{{ externalLinks.developer.label }}
-			</a>
+			<div class="footer-bottom">
+				<p class="footer-copyright">
+					© {{ currentYear }} SV Ottweiler 1919 e.V.
+				</p>
+				<span class="footer-separator" aria-hidden="true">|</span>
+				<a
+					class="footer-credit"
+					:href="externalLinks.developer.url"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{{ externalLinks.developer.label }}
+				</a>
+			</div>
 		</div>
 	</footer>
 </template>
@@ -78,7 +86,26 @@
 		opacity: 0.8;
 	}
 
+	/* Desktop: children join the footer grid — credit top right, copyright centered in its own bottom row */
+	.footer-bottom {
+		display: contents;
+	}
+
+	.footer-copyright {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		justify-self: center;
+		margin: 0;
+		color: var(--sv-text-color);
+	}
+
+	.footer-separator {
+		display: none;
+	}
+
 	.footer-credit {
+		grid-column: 3;
+		grid-row: 1;
 		justify-self: end;
 		color: var(--sv-text-color);
 		text-decoration: none;
@@ -174,8 +201,17 @@
 			justify-self: center;
 		}
 
-		.footer-credit {
-			justify-self: center;
+		.footer-bottom {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 6px;
+			font-size: 11px;
+			white-space: nowrap;
+		}
+
+		.footer-separator {
+			display: inline;
 		}
 	}
 </style>

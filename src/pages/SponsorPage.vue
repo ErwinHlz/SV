@@ -33,7 +33,10 @@
 			rel="noopener"
 			:aria-label="sponsor.name"
 		>
-			<div class="sponsor-logo">
+			<div
+				class="sponsor-logo"
+				:class="{ 'sponsor-logo--light': sponsor.lightBackground }"
+			>
 				<img
 					:src="sponsor.image"
 					:alt="sponsor.imageAlt ?? sponsor.name"
@@ -186,6 +189,11 @@
 		border-radius: 14px;
 
 		overflow: hidden;
+	}
+
+	/* For logos that need a light backdrop (dark/colored artwork or opaque white PNGs) */
+	.sponsor-logo--light {
+		background: #fff;
 	}
 
 	.sponsor-logo img {

@@ -6,6 +6,8 @@ type RawSponsor = {
   url: string;
   image: string;
   imageAlt?: string;
+  /** Show the logo on a white tile (desktop sponsor page) — for logos unreadable on the dark page */
+  lightBackground?: boolean;
 };
 
 export type SponsorEntry = RawSponsor & {

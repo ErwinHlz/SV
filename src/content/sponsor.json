@@ -19,5 +19,21 @@
     "url": "https://www.nr-mode.de",
     "image": "modehaus-neufang-rennwald.png",
     "imageAlt": "Modehaus Neufang-Rennwald Logo"
+  },
+  {
+    "id": 4,
+    "name": "Schloss-Apotheke Ottweiler",
+    "url": "https://www.schlossapo.de",
+    "image": "schlossapotheke-ottweiler.svg",
+    "imageAlt": "Schloss-Apotheke Ottweiler Logo",
+    "lightBackground": true
+  },
+  {
+    "id": 5,
+    "name": "Krankengymnastik am Schloss",
+    "url": "https://kg-am-schloss.de",
+    "image": "krankengymnastik-am-schloss.png",
+    "imageAlt": "Krankengymnastik am Schloss Logo",
+    "lightBackground": true
   }
 ]
